@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." name="XmlAStRrd" default="all">
+
+    <import file="build.ivy.xml"/>
+    <!--
+    Tasks
+    -->
+    <!-- run all tasks sequentially -->
+    <target name="all" depends="ast,html"/>
+    <!-- convert misc formats to XML AST -->
+    <target name="ast">
+        <sqlxmlast grammar="antlr4" extension=".ast.xml"
+                   basedir="src/main/antlr4/nl/xs4all/home/ei/parsers/antlr"
+                   destdir="target/doc">
+            <include name="*.g4"/>
+        </sqlxmlast>
+    </target>
+    <target name="html">
+        <xslt basedir="target/doc" destdir="doc"
+              style="src/main/stylesheets/sqlxmlast-railroad.xsl"
+              extension=".html">
+            <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+            <classpath refid="saxon.cp"/>
+            <include name="*.ast.xml"/>
+        </xslt>
+    </target>
+    <target name="css">
+        <copy todir="doc">
+            <fileset dir="src/main/css">
+                <include name="*.css"/>
+            </fileset>
+        </copy>
+    </target>
+</project>
