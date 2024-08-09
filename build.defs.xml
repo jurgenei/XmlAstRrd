@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="defs">
+
+    <target name="web.exists">
+        <available property="web.exists" file="target/web"/>
+    </target>
+
+    <property name="sqlxmlast.projectroot" value="../SqlXmlAst"/>
+    <property name="grammars.projectroot" value="../grammars-v4"/>
+    
+
+    <!-- where to find maven build dependecies
+         only needed durign prep-ant
+         lib/jars are commited to repo for now
+         so only if you are changing SqlXmlAst you need to rerun this
+    -->
+    <!-- paths -->
+
+    <path id="sqlxmlast.cp">
+        <fileset dir="${sqlxmlast.projectroot}/target">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="target/lib">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+
+    <!-- task definitions -->
+    <!-- define sqlxmlast task -->
+    <taskdef name="sqlxmlast" classname="nl.xs4all.home.ei.parsers.antlr.SqlXmlAstAntTask">
+        <classpath refid="sqlxmlast.cp"/>
+    </taskdef>
+
+
+</project>

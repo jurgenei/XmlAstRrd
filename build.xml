@@ -2,6 +2,7 @@
 <project basedir="." name="XmlAStRrd" default="all">
 
     <import file="build.ivy.xml"/>
+    <import file="build.defs.xml"/>
     <!--
     Tasks
     -->
@@ -10,20 +11,36 @@
     <!-- convert misc formats to XML AST -->
     <target name="ast">
         <sqlxmlast grammar="antlr4" extension=".ast.xml"
-                   basedir="src/main/antlr4/nl/xs4all/home/ei/parsers/antlr"
-                   destdir="target/doc">
-            <include name="*.g4"/>
+                   basedir="${grammars.projectroot}"
+                   destdir="target/ast" 
+                   failOnTransformationError="false">
+            <include name="**/*.g4"/>
         </sqlxmlast>
     </target>
     <target name="html">
-        <xslt basedir="target/doc" destdir="doc"
-              style="src/main/stylesheets/sqlxmlast-railroad.xsl"
-              extension=".html">
+        <makeurl property="home-uri" file="."/>
+        <xslt basedir="target/ast" destdir="doc"
+              style="src/main/xsl/sqlxmlast-railroad.xsl"
+              extension=".html"
+              filenameparameter="filename"
+              filedirparameter="filedir">
             <factory name="net.sf.saxon.TransformerFactoryImpl"/>
-            <classpath refid="saxon.cp"/>
-            <include name="*.ast.xml"/>
+            <classpath refid="sqlxmlast.cp"/>
+            <param name="home-uri" expression="${home-uri}"/>
+            <include name="**/*.xml"/>
         </xslt>
     </target>
+    <target name="index">
+        <makeurl property="ast-uri" file="target/ast"/>
+        <xslt out="doc/index.html"
+              in="src/main/xml/dummy.xml"
+              style="src/main/xsl/sqlxmlast-index.xsl">
+            <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+            <classpath refid="sqlxmlast.cp"/>
+            <param name="ast-uri" expression="${ast-uri}"/>
+        </xslt>
+    </target>
+
     <target name="css">
         <copy todir="doc">
             <fileset dir="src/main/css">
@@ -31,4 +48,5 @@
             </fileset>
         </copy>
     </target>
+
 </project>

@@ -20,25 +20,40 @@
                 xmlns:g="urn:xmlast:grammar"
                 xmlns:t="urn:xmlast:token"
                 xmlns:c="urn:xmlast:comment"
+                xmlns:f="urn:xmlast:function"
                 exclude-result-prefixes="xs"
                 expand-text="yes">
     <!--
     <xsl:mode on-no-match="shallow-copy"/>
-    -->
+    -->    
+    <xsl:param name="filename"></xsl:param>
+    <xsl:param name="filedir">.</xsl:param>
+    
+
     <xsl:output method="html" indent="yes"/>
     <xsl:strip-space elements="*"/>
+
+    <xsl:function name="f:path">
+       <xsl:param name="in"/>
+       <xsl:analyze-string select="$in" regex="[^/]*/(.*)">
+         <xsl:matching-substring>../{f:path(regex-group(1))}</xsl:matching-substring>
+         <xsl:non-matching-substring>..</xsl:non-matching-substring>
+       </xsl:analyze-string>
+    </xsl:function>
+
+    <xsl:variable name="root" select="f:path($filedir)"/>
 
     <xsl:template match="g:ast">
         <html class="rr-root">
         <head>
             <meta charset="utf-8" />
-            <link rel="stylesheet" type="text/css" href="railroad.css" />
+            <link rel="stylesheet" type="text/css" href="{$root}/railroad.css" />
             <!--
             <link rel="stylesheet" type="text/css" href="ast.css" />
             -->
         </head>
         <body>
-            <h1>Railroad { document-uri() }</h1>
+            <h1><a href="{$root}/index.html">Railroad</a> {$filedir}/{$filename}</h1>      
             <xsl:apply-templates/>
         </body>
         </html>
@@ -59,7 +74,9 @@
     </xsl:template>
 
     <xsl:template match="g:ruleSpec/g:lexerRuleSpec">
-        <h2 id="{g:tokenDef}">{g:tokenDef}</h2>
+    
+    <xsl:variable name="name" select="(g:tokenDef,t:TOKEN_REF)[1]"/>
+        <h2 id="{$name}">{$name}</h2>
         <p>
             <rr-rr>
                 <xsl:apply-templates/>
@@ -68,7 +85,8 @@
     </xsl:template>
 
     <xsl:template match="g:ruleSpec/g:parserRuleSpec">
-        <h2 id="{g:ruleDef}">{g:ruleDef}</h2>
+        <xsl:variable name="name" select="(g:ruleDef,t:RULE_REF)[1]"/>
+        <h2 id="{$name}">{$name}</h2>
         <p>
             <rr-rr>
                 <xsl:apply-templates/>
