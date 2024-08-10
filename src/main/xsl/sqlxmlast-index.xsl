@@ -32,7 +32,12 @@
 
 
     <xsl:variable name="uri">{$ast-uri}?recurse=yes;select=*.xml;stable=yes</xsl:variable>
-    <xsl:variable name="docs" select="collection($uri)"/>
+    <xsl:variable name="doc-collecion" select="collection($uri)"/>
+    <xsl:variable name="doc-refs">
+            <xsl:for-each select="$doc-collecion">
+                 <a href="{replace(replace(document-uri(.),$ast-uri,''),'\.xml$','.html')}"/>
+            </xsl:for-each>
+    </xsl:variable>
 
 	<xsl:template match="/">
 
@@ -44,10 +49,13 @@
         <body>
             <h1>Rail Road Languages Index</h1>
             <p>
-            <xsl:for-each select="$docs">
-                 <xsl:variable name="short" select="replace(replace(document-uri(.),$ast-uri,''),'\.xml$','.html')"/>
-                 <a href="{$short}">{$short}</a>
-                 {' '}
+            <xsl:for-each select="$doc-refs/a">
+                 <xsl:variable name="href" select="@href"/>
+                 <xsl:copy>
+                    <xsl:copy-of select="@*"/>
+                    <xsl:value-of select="replace(replace($href,'.*/',''),'.ast.html','')"/>
+                  </xsl:copy>
+                  <xsl:value-of select="' '"/>
             </xsl:for-each>
             </p>
         </body>
