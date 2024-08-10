@@ -5,13 +5,14 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1><a href="../index.html">Railroad</a> pest/PestParser.ast.xml</h1>
+      <h1>Railroad pest/PestParser.ast.xml</h1>
       <h1>Rules</h1>
       <h2 id="grammar_rules">grammar_rules</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#grammar_rule">grammar_rule</a></rr-a>
+               <rr-a><a href="#grammar_rule">grammar_rule</a><rr-t>EOF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -19,7 +20,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#modifier">modifier</a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>ASSIGNMENT_OPERATOR</rr-t><a href="#modifier">modifier</a><rr-t>OPENING_BRACE</rr-t><a href="#expression">expression</a><rr-t>CLOSING_BRACE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -32,25 +36,33 @@
       <h2 id="silent_modifier">silent_modifier</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'_'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="atomic_modifier">atomic_modifier</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'@'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="compound_atomic_modifier">compound_atomic_modifier</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'$'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="non_atomic_modifier">non_atomic_modifier</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'!'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="expression">expression</h2>
@@ -78,13 +90,19 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a><a href="#terminal">terminal</a></rr-o>
+               <rr-a>
+                  <rr-t>OPENING_PAREN</rr-t><a href="#expression">expression</a><rr-t>CLOSING_PAREN</rr-t>
+               </rr-a><a href="#terminal">terminal</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="terminal">terminal</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#push">push</a><a href="#peek_slice">peek_slice</a></rr-o>
+            <rr-o><a href="#push">push</a><a href="#peek_slice">peek_slice</a><rr-t>IDENTIFIER</rr-t>
+               <rr-t>STRING</rr-t>
+               <rr-t>INSENSITIVE_STRING</rr-t>
+               <rr-t>RANGE</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="prefix_operator">prefix_operator</h2>
@@ -108,50 +126,68 @@
       <h2 id="positive_predicate_operator">positive_predicate_operator</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'&amp;'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="negative_predicate_operator">negative_predicate_operator</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'!'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="sequence_operator">sequence_operator</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'~'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="choice_operator">choice_operator</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'|'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="optional_operator">optional_operator</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'?'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="repeat_operator">repeat_operator</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'*'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="repeat_once_operator">repeat_once_operator</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'+'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="repeat_exact">repeat_exact</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>OPENING_BRACE</rr-t>
+                  <rr-t>NUMBER</rr-t>
+                  <rr-t>CLOSING_BRACE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -159,7 +195,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>OPENING_BRACE</rr-t>
+                  <rr-t>NUMBER</rr-t>
+                  <rr-t>COMMA</rr-t>
+                  <rr-t>CLOSING_BRACE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -167,7 +208,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>OPENING_BRACE</rr-t>
+                  <rr-t>COMMA</rr-t>
+                  <rr-t>NUMBER</rr-t>
+                  <rr-t>CLOSING_BRACE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -175,7 +221,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>OPENING_BRACE</rr-t>
+                  <rr-t>NUMBER</rr-t>
+                  <rr-t>COMMA</rr-t>
+                  <rr-t>NUMBER</rr-t>
+                  <rr-t>CLOSING_BRACE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -183,7 +235,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'PUSH'</rr-t>
+                  <rr-t>OPENING_PAREN</rr-t><a href="#expression">expression</a><rr-t>CLOSING_PAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -191,7 +246,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'PEEK'</rr-t>
+                  <rr-t>OPENING_BRACK</rr-t>
+                  <rr-t>INTEGER</rr-t>
+                  <rr-t>RANGE_OPERATOR</rr-t>
+                  <rr-t>INTEGER</rr-t>
+                  <rr-t>CLOSING_BRACK</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>

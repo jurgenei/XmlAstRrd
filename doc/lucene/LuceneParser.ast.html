@@ -5,13 +5,43 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1><a href="../index.html">Railroad</a> lucene/LuceneParser.ast.xml</h1>
+      <h1>Railroad lucene/LuceneParser.ast.xml</h1>
+      <pre>/*
+ * Copyright (c) 2022 by Bart Kiers
+ *
+ * The MIT license.
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * Project      : An ANTLR 4 grammar for Lucene
+ * Developed by : Bart Kiers, bart@big-o.nl
+ */</pre>
       <h1>Rules</h1>
       <h2 id="topLevelQuery">topLevelQuery</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#query">query</a></rr-a>
+               <rr-a><a href="#query">query</a><rr-t>EOF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -27,7 +57,8 @@
             <rr-o>
                <rr-a><a href="#conjQuery">conjQuery</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#conjQuery">conjQuery</a></rr-a>
+                        <rr-a>
+                           <rr-t>OR</rr-t><a href="#conjQuery">conjQuery</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -40,7 +71,8 @@
             <rr-o>
                <rr-a><a href="#modClause">modClause</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#modClause">modClause</a></rr-a>
+                        <rr-a>
+                           <rr-t>AND</rr-t><a href="#modClause">modClause</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -58,7 +90,11 @@
       <h2 id="modifier">modifier</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>PLUS</rr-t>
+               <rr-t>MINUS</rr-t>
+               <rr-t>NOT</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="clause">clause</h2>
@@ -68,7 +104,10 @@
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a><a href="#fieldName">fieldName</a><rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>OP_COLON</rr-t>
+                                 <rr-t>OP_EQUAL</rr-t>
+                              </rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
@@ -85,10 +124,19 @@
          <rr-rr>
             <rr-o>
                <rr-a><a href="#fieldName">fieldName</a><rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>OP_LESSTHAN</rr-t>
+                        <rr-t>OP_MORETHAN</rr-t>
+                        <rr-t>OP_LESSTHANEQ</rr-t>
+                        <rr-t>OP_MORETHANEQ</rr-t>
+                     </rr-o>
                   </rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>TERM</rr-t>
+                        <rr-t>QUOTED</rr-t>
+                        <rr-t>NUMBER</rr-t>
+                     </rr-o>
                   </rr-a>
                </rr-a>
             </rr-o>
@@ -100,40 +148,61 @@
             <rr-o>
                <rr-a><a href="#term">term</a><a href="#fuzzy">fuzzy</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>CARAT</rr-t>
+                           <rr-t>NUMBER</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
                <rr-a>
+                  <rr-t>REGEXPTERM</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>CARAT</rr-t>
+                           <rr-t>NUMBER</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
                <rr-a><a href="#termRangeExpr">termRangeExpr</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>CARAT</rr-t>
+                           <rr-t>NUMBER</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
                <rr-a><a href="#quotedTerm">quotedTerm</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>CARAT</rr-t>
+                           <rr-t>NUMBER</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
                <rr-a>
+                  <rr-t>NUMBER</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>CARAT</rr-t>
+                           <rr-t>NUMBER</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
                <rr-a>
+                  <rr-t>TERM</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>CARAT</rr-t>
+                           <rr-t>NUMBER</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -144,9 +213,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#query">query</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#query">query</a><rr-t>RPAREN</rr-t>
+                  <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>CARAT</rr-t>
+                           <rr-t>NUMBER</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -156,7 +230,9 @@
       <h2 id="fieldName">fieldName</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TERM</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="termRangeExpr">termRangeExpr</h2>
@@ -165,16 +241,31 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>RANGEIN_START</rr-t>
+                        <rr-t>RANGEEX_START</rr-t>
+                     </rr-o>
                   </rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>RANGE_GOOP</rr-t>
+                        <rr-t>RANGE_QUOTED</rr-t>
+                        <rr-t>RANGE_TO</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>RANGE_TO</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>RANGE_GOOP</rr-t>
+                        <rr-t>RANGE_QUOTED</rr-t>
+                        <rr-t>RANGE_TO</rr-t>
+                     </rr-o>
                   </rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
-                  </rr-a>
-                  <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>RANGEIN_END</rr-t>
+                        <rr-t>RANGEEX_END</rr-t>
+                     </rr-o>
                   </rr-a>
                </rr-a>
             </rr-o>
@@ -185,9 +276,13 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>QUOTED</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>CARAT</rr-t>
+                           <rr-t>NUMBER</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -198,7 +293,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>TILDE</rr-t>
+                  <rr-t>NUMBER</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>

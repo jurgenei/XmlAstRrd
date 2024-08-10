@@ -5,13 +5,30 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1><a href="../index.html">Railroad</a> wkt-crs-v1/wktcrsv1.ast.xml</h1>
+      <h1>Railroad wkt-crs-v1/wktcrsv1.ast.xml</h1>
+      <pre>/*
+ [The "BSD licence"] Copyright (c) 2023 Nikolay Fiykov All rights reserved.
+ 
+ Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met: 1. Redistributions of source code must retain the above
+ copyright notice, this list of conditions and the following disclaimer. 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following
+ disclaimer in the documentation and/or other materials provided with the distribution. 3. The name of the author may not be used to endorse or promote products derived from this software without
+ specific prior written permission.
+ 
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+ GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */</pre>
+      <pre>/*
+ * For parsing propeties file (like GeoTools epsg.properties), use starting rule "propsFile". For parsing single WKT CRS definition, use starting rule "wkt".
+ */</pre>
       <h1>Rules</h1>
       <h2 id="propsFile">propsFile</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#propRow">propRow</a></rr-a>
+               <rr-a><a href="#propRow">propRow</a><rr-t>EOF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -24,14 +41,16 @@
       <h2 id="commentLine">commentLine</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>COMMENT_LINE</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="epsgDefLine">epsgDefLine</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#epsgCode">epsgCode</a><a href="#wkt">wkt</a></rr-a>
+               <rr-a><a href="#epsgCode">epsgCode</a><rr-t>EQ</rr-t><a href="#wkt">wkt</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -45,9 +64,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a><rr-a>
+               <rr-a>
+                  <rr-t>'COMPD_CS'</rr-t>
+                  <rr-t>LPAR</rr-t><a href="#name">name</a><rr-t>COMMA</rr-t>
+                  <rr-a>
                      <rr-o><a href="#projcs">projcs</a><a href="#geogcs">geogcs</a></rr-o>
-                  </rr-a><a href="#vertcs">vertcs</a><a href="#authority">authority</a></rr-a>
+                  </rr-a>
+                  <rr-t>COMMA</rr-t><a href="#vertcs">vertcs</a><rr-t>COMMA</rr-t><a href="#authority">authority</a><rr-t>RPAR</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -55,15 +79,22 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a><a href="#geogcs">geogcs</a><a href="#projection">projection</a><rr-a data-min="1" data-max="inf">
+               <rr-a>
+                  <rr-t>'PROJCS'</rr-t>
+                  <rr-t>LPAR</rr-t><a href="#name">name</a><rr-t>COMMA</rr-t><a href="#geogcs">geogcs</a><rr-t>COMMA</rr-t><a href="#projection">projection</a><rr-t>COMMA</rr-t>
+                  <rr-a data-min="1" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#parameter">parameter</a></rr-a>
+                        <rr-a><a href="#parameter">parameter</a><rr-t>COMMA</rr-t>
+                        </rr-a>
                      </rr-o>
-                  </rr-a><a href="#unit">unit</a><rr-a data-min="0" data-max="inf">
+                  </rr-a><a href="#unit">unit</a><rr-t>COMMA</rr-t>
+                  <rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#axis">axis</a></rr-a>
+                        <rr-a><a href="#axis">axis</a><rr-t>COMMA</rr-t>
+                        </rr-a>
                      </rr-o>
-                  </rr-a><a href="#authority">authority</a></rr-a>
+                  </rr-a><a href="#authority">authority</a><rr-t>RPAR</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -71,11 +102,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a><a href="#datum">datum</a><a href="#primem">primem</a><a href="#unit">unit</a><rr-a data-min="1" data-max="inf">
+               <rr-a>
+                  <rr-t>'GEOCCS'</rr-t>
+                  <rr-t>LPAR</rr-t><a href="#name">name</a><rr-t>COMMA</rr-t><a href="#datum">datum</a><rr-t>COMMA</rr-t><a href="#primem">primem</a><rr-t>COMMA</rr-t><a href="#unit">unit</a><rr-t>COMMA</rr-t>
+                  <rr-a data-min="1" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#axis">axis</a></rr-a>
+                        <rr-a><a href="#axis">axis</a><rr-t>COMMA</rr-t>
+                        </rr-a>
                      </rr-o>
-                  </rr-a><a href="#authority">authority</a></rr-a>
+                  </rr-a><a href="#authority">authority</a><rr-t>RPAR</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -83,16 +119,21 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a><a href="#datum">datum</a><a href="#primem">primem</a><a href="#unit">unit</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>'GEOGCS'</rr-t>
+                  <rr-t>LPAR</rr-t><a href="#name">name</a><rr-t>COMMA</rr-t><a href="#datum">datum</a><rr-t>COMMA</rr-t><a href="#primem">primem</a><rr-t>COMMA</rr-t><a href="#unit">unit</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#axis">axis</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#axis">axis</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#authority">authority</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#authority">authority</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>RPAR</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -101,7 +142,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a><a href="#vertdatum">vertdatum</a><a href="#unit">unit</a><a href="#axis">axis</a><a href="#authority">authority</a></rr-a>
+               <rr-a>
+                  <rr-t>'VERT_CS'</rr-t>
+                  <rr-t>LPAR</rr-t><a href="#name">name</a><rr-t>COMMA</rr-t><a href="#vertdatum">vertdatum</a><rr-t>COMMA</rr-t><a href="#unit">unit</a><rr-t>COMMA</rr-t><a href="#axis">axis</a><rr-t>COMMA</rr-t><a href="#authority">authority</a><rr-t>RPAR</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -109,11 +153,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a><a href="#localdatum">localdatum</a><a href="#unit">unit</a><rr-a data-min="1" data-max="inf">
+               <rr-a>
+                  <rr-t>'LOCAL_CS'</rr-t>
+                  <rr-t>LPAR</rr-t><a href="#name">name</a><rr-t>COMMA</rr-t><a href="#localdatum">localdatum</a><rr-t>COMMA</rr-t><a href="#unit">unit</a><rr-t>COMMA</rr-t>
+                  <rr-a data-min="1" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#axis">axis</a></rr-a>
+                        <rr-a><a href="#axis">axis</a><rr-t>COMMA</rr-t>
+                        </rr-a>
                      </rr-o>
-                  </rr-a><a href="#authority">authority</a></rr-a>
+                  </rr-a><a href="#authority">authority</a><rr-t>RPAR</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -121,16 +170,21 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a><a href="#spheroid">spheroid</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>'DATUM'</rr-t>
+                  <rr-t>LPAR</rr-t><a href="#name">name</a><rr-t>COMMA</rr-t><a href="#spheroid">spheroid</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#towgs84">towgs84</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#towgs84">towgs84</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#authority">authority</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#authority">authority</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>RPAR</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -139,7 +193,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a><a href="#type">type</a><a href="#authority">authority</a></rr-a>
+               <rr-a>
+                  <rr-t>'VERT_DATUM'</rr-t>
+                  <rr-t>LPAR</rr-t><a href="#name">name</a><rr-t>COMMA</rr-t><a href="#type">type</a><rr-t>COMMA</rr-t><a href="#authority">authority</a><rr-t>RPAR</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -147,11 +204,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a><a href="#type">type</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>'LOCAL_DATUM'</rr-t>
+                  <rr-t>LPAR</rr-t><a href="#name">name</a><rr-t>COMMA</rr-t><a href="#type">type</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#authority">authority</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#authority">authority</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>RPAR</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -160,11 +221,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a><a href="#semiMajorAxis">semiMajorAxis</a><a href="#inverseFlattening">inverseFlattening</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>'SPHEROID'</rr-t>
+                  <rr-t>LPAR</rr-t><a href="#name">name</a><rr-t>COMMA</rr-t><a href="#semiMajorAxis">semiMajorAxis</a><rr-t>COMMA</rr-t><a href="#inverseFlattening">inverseFlattening</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#authority">authority</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#authority">authority</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>RPAR</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -173,16 +238,21 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#dx">dx</a><a href="#dy">dy</a><a href="#dz">dz</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>'TOWGS84'</rr-t>
+                  <rr-t>LPAR</rr-t><a href="#dx">dx</a><rr-t>COMMA</rr-t><a href="#dy">dy</a><rr-t>COMMA</rr-t><a href="#dz">dz</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#ex">ex</a><a href="#ey">ey</a><a href="#ez">ez</a><rr-a data-min="0" data-max="1">
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#ex">ex</a><rr-t>COMMA</rr-t><a href="#ey">ey</a><rr-t>COMMA</rr-t><a href="#ez">ez</a><rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a><a href="#ppm">ppm</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#ppm">ppm</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>RPAR</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -191,7 +261,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#authorityName">authorityName</a><a href="#code">code</a></rr-a>
+               <rr-a>
+                  <rr-t>'AUTHORITY'</rr-t>
+                  <rr-t>LPAR</rr-t><a href="#authorityName">authorityName</a><rr-t>COMMA</rr-t><a href="#code">code</a><rr-t>RPAR</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -199,11 +272,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a><a href="#longitude">longitude</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>'PRIMEM'</rr-t>
+                  <rr-t>LPAR</rr-t><a href="#name">name</a><rr-t>COMMA</rr-t><a href="#longitude">longitude</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#authority">authority</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#authority">authority</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>RPAR</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -212,11 +289,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a><a href="#conversionFactor">conversionFactor</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>'UNIT'</rr-t>
+                  <rr-t>LPAR</rr-t><a href="#name">name</a><rr-t>COMMA</rr-t><a href="#conversionFactor">conversionFactor</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#authority">authority</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#authority">authority</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>RPAR</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -225,7 +306,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a><a href="#axisOrient">axisOrient</a></rr-a>
+               <rr-a>
+                  <rr-t>'AXIS'</rr-t>
+                  <rr-t>LPAR</rr-t><a href="#name">name</a><rr-t>COMMA</rr-t><a href="#axisOrient">axisOrient</a><rr-t>RPAR</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -233,11 +317,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>'PROJECTION'</rr-t>
+                  <rr-t>LPAR</rr-t><a href="#name">name</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#authority">authority</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#authority">authority</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>RPAR</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -246,122 +334,174 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a><a href="#value">value</a></rr-a>
+               <rr-a>
+                  <rr-t>'PARAMETER'</rr-t>
+                  <rr-t>LPAR</rr-t><a href="#name">name</a><rr-t>COMMA</rr-t><a href="#value">value</a><rr-t>RPAR</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="authorityName">authorityName</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'"EPSG"'</rr-t>
+               <rr-t>'"ESRI"'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="axisOrient">axisOrient</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#name">name</a></rr-o>
+            <rr-o>
+               <rr-t>'EAST'</rr-t>
+               <rr-t>'WEST'</rr-t>
+               <rr-t>'NORTH'</rr-t>
+               <rr-t>'SOUTH'</rr-t>
+               <rr-t>'NORTH_EAST'</rr-t>
+               <rr-t>'NORTH_WEST'</rr-t>
+               <rr-t>'UP'</rr-t>
+               <rr-t>'DOWN'</rr-t>
+               <rr-t>'GEOCENTRIC_X'</rr-t>
+               <rr-t>'GEOCENTRIC_Y'</rr-t>
+               <rr-t>'GEOCENTRIC_Z'</rr-t><a href="#name">name</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="epsgCode">epsgCode</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>PKEY</rr-t>
+               <rr-t>NUMBER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="name">name</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TEXT</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="number">number</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="type">type</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="semiMajorAxis">semiMajorAxis</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="inverseFlattening">inverseFlattening</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="dx">dx</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="dy">dy</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="dz">dz</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="ex">ex</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="ey">ey</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="ez">ez</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="ppm">ppm</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="code">code</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TEXT</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="longitude">longitude</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="conversionFactor">conversionFactor</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="value">value</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="NUMBER">NUMBER</h2>
@@ -369,9 +509,15 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>PM</rr-t>
+                  <rr-t>INT</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'.'</rr-t>
+                        <rr-t>INT</rr-t>
+                     </rr-a>
                   </rr-o>
+                  <rr-t>EXP</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -381,10 +527,14 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'"'</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'""'</rr-t>
+                     </rr-a>
                      <rr-a></rr-a>
                   </rr-o>
+                  <rr-t>'"'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -394,8 +544,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[A-Z]</rr-c>
-                  <rr-c>[0-9A-Z]</rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -404,7 +554,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'#'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -413,7 +565,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[ \r\n\t]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -422,7 +574,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>','</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -430,8 +584,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -439,8 +597,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -448,7 +610,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'='</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -457,7 +621,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[0-9]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -467,7 +631,9 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[Ee]</rr-c>
+                  <rr-c></rr-c>
+                  <rr-t>PM</rr-t>
+                  <rr-t>INT</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -476,8 +642,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'+'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'-'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>

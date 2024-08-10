@@ -5,13 +5,52 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1><a href="../index.html">Railroad</a> bnf/bnfParser.ast.xml</h1>
+      <h1>Railroad bnf/bnfParser.ast.xml</h1>
+      <pre>/*
+
+"Switching" BNF grammar -- parses a variety of BNF formats (but not EBNF).
+
+MIT License
+
+Author: Ken Domino
+
+
+BNF has a long and twisted history, and there are slight variations on the metasyntax.
+A grammar for each of these types results in a lot of needless grammars.
+This grammar is for a number of the more popular BNF styles, but not all.
+
+BNF was first described by [Backus 1959], and later
+used in [Backus et al 1963]. The term "Backus Naur Form" was coined by
+[Knuth 1964]. BNF as defined in the Algol 60 report could not describe itself.
+[Rohl 1968] notes that by reversing the use of the angle brackets, one can then
+describe BNF using BNF.
+
+Replacing angle-brackets with quotes, restricting the non-terminal names to not
+include spaces, and dropping the explicit concatenation operator, we arrive
+at the "modern" form of BNF.
+
+Backus, J.W. (1959). "The Syntax and Semantics of the Proposed International
+Algebraic Language of Zurich ACM-GAMM Conference". Proceedings of the 
+International Conference on Information Processing. UNESCO. pp. 125132.
+
+Backus, John W., et al. "Revised report on the algorithm language ALGOL 60."
+Communications of the ACM 6.1 (1963): 1-17.
+
+Knuth, Donald E. "Backus Normal Form vs. Backus Naur Form." Communications
+of the ACM 7.12 (1964): 735-736.
+
+Rohl, Jeffrey S. "A note on Backus Naur form." The Computer Journal 10.4 (1968): 336-337.
+
+October 2023
+
+*/</pre>
       <h1>Rules</h1>
       <h2 id="start_">start_</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#prods">prods</a><a href="#ws">ws</a></rr-a>
+               <rr-a><a href="#prods">prods</a><a href="#ws">ws</a><rr-t>EOF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -21,7 +60,9 @@
             <rr-o>
                <rr-a><a href="#prod">prod</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#prod">prod</a></rr-a>
+                        <rr-a>
+                           <rr-t>WS</rr-t>
+                           <rr-t>NL</rr-t><a href="#prod">prod</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -42,12 +83,15 @@
             <rr-o>
                <rr-a><a href="#ws">ws</a><rr-a>
                      <rr-o>
+                        <rr-t>ID</rr-t>
                         <rr-a>
+                           <rr-t>'&lt;'</rr-t>
                            <rr-a>
                               <rr-o>
                                  <rr-a></rr-a>
                               </rr-o>
                            </rr-a>
+                           <rr-t>'&gt;'</rr-t>
                         </rr-a>
                      </rr-o>
                   </rr-a>
@@ -80,9 +124,18 @@
             <rr-o>
                <rr-a><a href="#ws">ws</a><rr-a>
                      <rr-o>
-                        <rr-a></rr-a>
-                        <rr-a></rr-a>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>'"'</rr-t>
+                           <rr-t>'"'</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>'\''</rr-t>
+                           <rr-t>'\''</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>'&lt;'</rr-t>
+                           <rr-t>'&gt;'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -94,7 +147,12 @@
          <rr-rr>
             <rr-o>
                <rr-a><a href="#ws">ws</a><rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>ASSIGN1</rr-t>
+                        <rr-t>ASSIGN2</rr-t>
+                        <rr-t>ASSIGN3</rr-t>
+                        <rr-t>ASSIGN4</rr-t>
+                     </rr-o>
                   </rr-a>
                </rr-a>
             </rr-o>
@@ -105,7 +163,11 @@
          <rr-rr>
             <rr-o>
                <rr-a><a href="#ws">ws</a><rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>OR1</rr-t>
+                        <rr-t>OR2</rr-t>
+                        <rr-t>OR3</rr-t>
+                     </rr-o>
                   </rr-a>
                </rr-a>
             </rr-o>
@@ -114,7 +176,10 @@
       <h2 id="ws">ws</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>WS</rr-t>
+               <rr-t>NL</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
    </body>

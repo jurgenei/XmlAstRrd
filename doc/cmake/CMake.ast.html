@@ -5,13 +5,23 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1><a href="../index.html">Railroad</a> cmake/CMake.ast.xml</h1>
+      <h1>Railroad cmake/CMake.ast.xml</h1>
+      <pre>/*
+Copyright (c) 2018  zbq.
+
+License for use and distribution: Eclipse Public License
+
+CMake language grammar reference:
+https://cmake.org/cmake/help/v3.12/manual/cmake-language.7.html
+
+*/</pre>
       <h1>Rules</h1>
       <h2 id="file_">file_</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#command_invocation">command_invocation</a></rr-a>
+               <rr-a><a href="#command_invocation">command_invocation</a><rr-t>EOF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -20,9 +30,12 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>Identifier</rr-t>
+                  <rr-t>'('</rr-t>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o><a href="#single_argument">single_argument</a><a href="#compound_argument">compound_argument</a></rr-o>
                   </rr-a>
+                  <rr-t>')'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -30,7 +43,12 @@
       <h2 id="single_argument">single_argument</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>Identifier</rr-t>
+               <rr-t>Unquoted_argument</rr-t>
+               <rr-t>Bracket_argument</rr-t>
+               <rr-t>Quoted_argument</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="compound_argument">compound_argument</h2>
@@ -38,9 +56,11 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'('</rr-t>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o><a href="#single_argument">single_argument</a><a href="#compound_argument">compound_argument</a></rr-o>
                   </rr-a>
+                  <rr-t>')'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -50,8 +70,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[A-Za-z_]</rr-c>
-                  <rr-c>[A-Za-z0-9_]</rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -63,7 +83,9 @@
                <rr-a>
                   <rr-o>
                      <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>Escape_sequence</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -73,9 +95,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>Escape_identity</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>Escape_encoded</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>Escape_semicolon</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -83,7 +111,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'\\'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -91,9 +121,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'\\t'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'\\r'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'\\n'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -101,7 +137,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'\\;'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -110,11 +148,17 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'"'</rr-t>
                   <rr-o>
                      <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>Escape_sequence</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>Quoted_cont</rr-t>
+                     </rr-a>
                   </rr-o>
+                  <rr-t>'"'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -124,9 +168,15 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'\\'</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'\r'</rr-t>
+                        <rr-t>'\n'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'\n'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -136,7 +186,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t>
+                  <rr-t>Bracket_arg_nested</rr-t>
+                  <rr-t>']'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -144,9 +198,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
                <rr-a>
-                  <rr-c>.</rr-c>
+                  <rr-t>'='</rr-t>
+                  <rr-t>Bracket_arg_nested</rr-t>
+                  <rr-t>'='</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t>
+                  <rr-c></rr-c>
+                  <rr-t>']'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -155,7 +215,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'#['</rr-t>
+                  <rr-t>Bracket_arg_nested</rr-t>
+                  <rr-t>']'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -164,16 +228,30 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'#'</rr-t>
                   <rr-o>
                      <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'['</rr-t>
+                        <rr-t>'='</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'['</rr-t>
+                        <rr-t>'='</rr-t>
+                     </rr-a>
                      <rr-a></rr-a>
                   </rr-o>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'\r'</rr-t>
+                        <rr-t>'\n'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'\n'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>EOF</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -185,8 +263,13 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'\r'</rr-t>
+                        <rr-t>'\n'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'\n'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -197,7 +280,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[ \t]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>

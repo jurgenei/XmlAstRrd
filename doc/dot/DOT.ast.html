@@ -5,16 +5,49 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1><a href="../index.html">Railroad</a> dot/DOT.ast.xml</h1>
+      <h1>Railroad dot/DOT.ast.xml</h1>
+      <pre>/*
+ [The "BSD licence"]
+ Copyright (c) 2013 Terence Parr
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+ 3. The name of the author may not be used to endorse or promote products
+    derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
       <h1>Rules</h1>
       <h2 id="graph">graph</h2>
       <p>
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>STRICT</rr-t>
                   <rr-a>
-                     <rr-o></rr-o>
-                  </rr-a><a href="#id_">id_</a><a href="#stmt_list">stmt_list</a></rr-a>
+                     <rr-o>
+                        <rr-t>GRAPH</rr-t>
+                        <rr-t>DIGRAPH</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#id_">id_</a><rr-t>'{'</rr-t><a href="#stmt_list">stmt_list</a><rr-t>'}'</rr-t>
+                  <rr-t>EOF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -24,7 +57,8 @@
             <rr-o>
                <rr-a data-min="0" data-max="inf">
                   <rr-o>
-                     <rr-a><a href="#stmt">stmt</a></rr-a>
+                     <rr-a><a href="#stmt">stmt</a><rr-t>';'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -33,7 +67,7 @@
       <h2 id="stmt">stmt</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#node_stmt">node_stmt</a><a href="#edge_stmt">edge_stmt</a><a href="#attr_stmt">attr_stmt</a><rr-a><a href="#id_">id_</a><a href="#id_">id_</a></rr-a><a href="#subgraph">subgraph</a></rr-o>
+            <rr-o><a href="#node_stmt">node_stmt</a><a href="#edge_stmt">edge_stmt</a><a href="#attr_stmt">attr_stmt</a><rr-a><a href="#id_">id_</a><rr-t>'='</rr-t><a href="#id_">id_</a></rr-a><a href="#subgraph">subgraph</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="attr_stmt">attr_stmt</h2>
@@ -42,7 +76,11 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>GRAPH</rr-t>
+                        <rr-t>NODE</rr-t>
+                        <rr-t>EDGE</rr-t>
+                     </rr-o>
                   </rr-a><a href="#attr_list">attr_list</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -53,7 +91,9 @@
             <rr-o>
                <rr-a data-min="1" data-max="inf">
                   <rr-o>
-                     <rr-a><a href="#a_list">a_list</a></rr-a>
+                     <rr-a>
+                        <rr-t>'['</rr-t><a href="#a_list">a_list</a><rr-t>']'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -67,9 +107,11 @@
                   <rr-o>
                      <rr-a><a href="#id_">id_</a><rr-a data-min="0" data-max="1">
                            <rr-o>
-                              <rr-a><a href="#id_">id_</a></rr-a>
+                              <rr-a>
+                                 <rr-t>'='</rr-t><a href="#id_">id_</a></rr-a>
                            </rr-o>
                         </rr-a>
+                        <rr-t>','</rr-t>
                      </rr-a>
                   </rr-o>
                </rr-a>
@@ -105,7 +147,10 @@
       <h2 id="edgeop">edgeop</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'-&gt;'</rr-t>
+               <rr-t>'--'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="node_stmt">node_stmt</h2>
@@ -128,9 +173,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#id_">id_</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>':'</rr-t><a href="#id_">id_</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#id_">id_</a></rr-a>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#id_">id_</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -144,16 +191,24 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#id_">id_</a></rr-a>
+                        <rr-a>
+                           <rr-t>SUBGRAPH</rr-t><a href="#id_">id_</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#stmt_list">stmt_list</a></rr-a>
+                  </rr-a>
+                  <rr-t>'{'</rr-t><a href="#stmt_list">stmt_list</a><rr-t>'}'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="id_">id_</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>ID</rr-t>
+               <rr-t>STRING</rr-t>
+               <rr-t>HTML_STRING</rr-t>
+               <rr-t>NUMBER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="STRICT">STRICT</h2>
@@ -161,12 +216,12 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[Ss]</rr-c>
-                  <rr-c>[Tt]</rr-c>
-                  <rr-c>[Rr]</rr-c>
-                  <rr-c>[Ii]</rr-c>
-                  <rr-c>[Cc]</rr-c>
-                  <rr-c>[Tt]</rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -176,11 +231,11 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[Gg]</rr-c>
-                  <rr-c>[Rr]</rr-c>
-                  <rr-c>[Aa]</rr-c>
-                  <rr-c>[Pp]</rr-c>
-                  <rr-c>[Hh]</rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -190,13 +245,13 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[Dd]</rr-c>
-                  <rr-c>[Ii]</rr-c>
-                  <rr-c>[Gg]</rr-c>
-                  <rr-c>[Rr]</rr-c>
-                  <rr-c>[Aa]</rr-c>
-                  <rr-c>[Pp]</rr-c>
-                  <rr-c>[Hh]</rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -206,10 +261,10 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[Nn]</rr-c>
-                  <rr-c>[Oo]</rr-c>
-                  <rr-c>[Dd]</rr-c>
-                  <rr-c>[Ee]</rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -219,10 +274,10 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[Ee]</rr-c>
-                  <rr-c>[Dd]</rr-c>
-                  <rr-c>[Gg]</rr-c>
-                  <rr-c>[Ee]</rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -232,14 +287,14 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[Ss]</rr-c>
-                  <rr-c>[Uu]</rr-c>
-                  <rr-c>[Bb]</rr-c>
-                  <rr-c>[Gg]</rr-c>
-                  <rr-c>[Rr]</rr-c>
-                  <rr-c>[Aa]</rr-c>
-                  <rr-c>[Pp]</rr-c>
-                  <rr-c>[Hh]</rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -249,11 +304,19 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'-'</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
                      <rr-a>
+                        <rr-t>'.'</rr-t>
+                        <rr-t>DIGIT</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>DIGIT</rr-t>
                         <rr-o>
-                           <rr-a></rr-a>
+                           <rr-a>
+                              <rr-t>'.'</rr-t>
+                              <rr-t>DIGIT</rr-t>
+                           </rr-a>
                         </rr-o>
                      </rr-a>
                   </rr-o>
@@ -266,7 +329,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[0-9]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -276,12 +339,16 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'"'</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
                      <rr-a>
-                        <rr-c>.</rr-c>
+                        <rr-t>'\\"'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-c></rr-c>
                      </rr-a>
                   </rr-o>
+                  <rr-t>'"'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -291,9 +358,14 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>LETTER</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>LETTER</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>DIGIT</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -304,7 +376,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[a-zA-Z\u0080-\u00FF_]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -314,10 +386,14 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'&lt;'</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>TAG</rr-t>
+                     </rr-a>
                      <rr-a></rr-a>
                   </rr-o>
+                  <rr-t>'&gt;'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -327,7 +403,9 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>.</rr-c>
+                  <rr-t>'&lt;'</rr-t>
+                  <rr-c></rr-c>
+                  <rr-t>'&gt;'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -337,7 +415,9 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>.</rr-c>
+                  <rr-t>'/*'</rr-t>
+                  <rr-c></rr-c>
+                  <rr-t>'*/'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -347,7 +427,10 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>.</rr-c>
+                  <rr-t>'//'</rr-t>
+                  <rr-c></rr-c>
+                  <rr-t>'\r'</rr-t>
+                  <rr-t>'\n'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -356,7 +439,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'#'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -365,7 +450,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[ \t\n\r]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>

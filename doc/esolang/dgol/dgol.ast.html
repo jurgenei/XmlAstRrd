@@ -5,7 +5,38 @@
       <link rel="stylesheet" type="text/css" href="../../railroad.css">
    </head>
    <body>
-      <h1><a href="../../index.html">Railroad</a> esolang/dgol/dgol.ast.xml</h1>
+      <h1>Railroad esolang/dgol/dgol.ast.xml</h1>
+      <pre>/*
+BSD License
+
+Copyright (c) 2020, Tom Everett
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. Neither the name of Tom Everett nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
       <h1>Rules</h1>
       <h2 id="module">module</h2>
       <p>
@@ -13,14 +44,18 @@
             <rr-o>
                <rr-a>
                   <rr-a data-min="0" data-max="inf">
-                     <rr-o><a href="#usedeclaration">usedeclaration</a></rr-o>
+                     <rr-o><a href="#usedeclaration">usedeclaration</a><rr-t>NL</rr-t>
+                     </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="inf">
-                     <rr-o><a href="#subroutinedefinition">subroutinedefinition</a></rr-o>
+                     <rr-o><a href="#subroutinedefinition">subroutinedefinition</a><rr-t>NL</rr-t>
+                     </rr-o>
                   </rr-a>
                   <rr-a>
                      <rr-o><a href="#programdefinition">programdefinition</a><a href="#librarydefinition">librarydefinition</a></rr-o>
                   </rr-a>
+                  <rr-t>NL</rr-t>
+                  <rr-t>EOF</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -29,7 +64,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'USE'</rr-t>
+                  <rr-t>IDENTIFER</rr-t>
+                  <rr-t>NL</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -38,17 +77,29 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'SUBROUTINE'</rr-t>
+                  <rr-t>IDENTIFER</rr-t>
+                  <rr-t>'('</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
+                           <rr-t>IDENTIFER</rr-t>
                            <rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a></rr-a>
+                                 <rr-a>
+                                    <rr-t>','</rr-t>
+                                    <rr-t>IDENTIFER</rr-t>
+                                 </rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
-                  </rr-a><a href="#statements">statements</a></rr-a>
+                  </rr-a>
+                  <rr-t>')'</rr-t>
+                  <rr-t>NL</rr-t><a href="#statements">statements</a><rr-t>'END'</rr-t>
+                  <rr-t>IDENTIFER</rr-t>
+                  <rr-t>NL</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -56,7 +107,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#statements">statements</a></rr-a>
+               <rr-a>
+                  <rr-t>'PROGRAM'</rr-t>
+                  <rr-t>IDENTIFER</rr-t>
+                  <rr-t>NL</rr-t><a href="#statements">statements</a><rr-t>'END'</rr-t>
+                  <rr-t>IDENTIFER</rr-t>
+                  <rr-t>NL</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -65,9 +122,15 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'LIBRARY'</rr-t>
+                  <rr-t>IDENTIFER</rr-t>
                   <rr-a data-min="0" data-max="inf">
-                     <rr-o><a href="#subroutinedeclaration">subroutinedeclaration</a></rr-o>
+                     <rr-o><a href="#subroutinedeclaration">subroutinedeclaration</a><rr-t>NL</rr-t>
+                     </rr-o>
                   </rr-a>
+                  <rr-t>'END'</rr-t>
+                  <rr-t>IDENTIFER</rr-t>
+                  <rr-t>NL</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -76,7 +139,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SUBROUTINE'</rr-t>
+                  <rr-t>IDENTIFER</rr-t>
+                  <rr-t>NL</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -86,7 +153,8 @@
             <rr-o>
                <rr-a data-min="0" data-max="inf">
                   <rr-o>
-                     <rr-a><a href="#statement">statement</a></rr-a>
+                     <rr-a><a href="#statement">statement</a><rr-t>NL</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -101,7 +169,10 @@
       <h2 id="identifierorzero">identifierorzero</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>IDENTIFER</rr-t>
+               <rr-t>'0'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="letstatement">letstatement</h2>
@@ -109,11 +180,18 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'LET'</rr-t>
+                  <rr-t>IDENTIFER</rr-t>
                   <rr-a>
                      <rr-o>
-                        <rr-a><a href="#identifierorzero">identifierorzero</a></rr-a>
-                        <rr-a></rr-a>
-                        <rr-a><a href="#identifierorzero">identifierorzero</a></rr-a>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#identifierorzero">identifierorzero</a></rr-a>
+                        <rr-a>
+                           <rr-t>'&lt;'</rr-t>
+                           <rr-t>IDENTIFER</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>'&gt;'</rr-t><a href="#identifierorzero">identifierorzero</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -126,14 +204,19 @@
             <rr-o>
                <rr-a><a href="#ifhead">ifhead</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#ifhead">ifhead</a></rr-a>
+                        <rr-a>
+                           <rr-t>'ELSE'</rr-t><a href="#ifhead">ifhead</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#statements">statements</a></rr-a>
+                        <rr-a>
+                           <rr-t>'ELSE'</rr-t>
+                           <rr-t>NL</rr-t><a href="#statements">statements</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>'END'</rr-t>
+                  <rr-t>'IF'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -143,9 +226,16 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'IF'</rr-t>
+                  <rr-t>IDENTIFER</rr-t>
                   <rr-a>
-                     <rr-o></rr-o>
-                  </rr-a><a href="#statements">statements</a></rr-a>
+                     <rr-o>
+                        <rr-t>'='</rr-t>
+                        <rr-t>'&gt;'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>IDENTIFER</rr-t>
+                  <rr-t>NL</rr-t><a href="#statements">statements</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -154,11 +244,19 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'DO'</rr-t>
+                  <rr-t>IDENTIFER</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>'&lt;'</rr-t>
+                           <rr-t>IDENTIFER</rr-t>
+                        </rr-a>
                      </rr-o>
-                  </rr-a><a href="#statements">statements</a></rr-a>
+                  </rr-a>
+                  <rr-t>NL</rr-t><a href="#statements">statements</a><rr-t>'END'</rr-t>
+                  <rr-t>'DO'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -167,21 +265,29 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'CALL'</rr-t>
+                  <rr-t>IDENTIFER</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>'.'</rr-t>
+                           <rr-t>IDENTIFER</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>'('</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a><a href="#identifierorzero">identifierorzero</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#identifierorzero">identifierorzero</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>','</rr-t><a href="#identifierorzero">identifierorzero</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>')'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -189,14 +295,19 @@
       <h2 id="returnstatement">returnstatement</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'RETURN'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="exitstatement">exitstatement</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'EXIT'</rr-t>
+                  <rr-t>IDENTIFER</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -205,8 +316,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[a-zA-Z]</rr-c>
-                  <rr-c>[a-zA-Z0-9]</rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -216,7 +327,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[\r\n]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -226,7 +337,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[ \t\r\n]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>

@@ -5,13 +5,45 @@
       <link rel="stylesheet" type="text/css" href="../../railroad.css">
    </head>
    <body>
-      <h1><a href="../../index.html">Railroad</a> asm/asm6502/asm6502.ast.xml</h1>
+      <h1>Railroad asm/asm6502/asm6502.ast.xml</h1>
+      <pre>/*
+BSD License
+
+Copyright (c) 2013, Tom Everett
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. Neither the name of Tom Everett nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
       <h1>Rules</h1>
       <h2 id="prog">prog</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#line">line</a></rr-a>
+               <rr-a><a href="#line">line</a><rr-t>EOF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -23,6 +55,7 @@
                   <rr-a data-min="0" data-max="1">
                      <rr-o><a href="#instruction">instruction</a><a href="#assemblerinstruction">assemblerinstruction</a><a href="#lbl">lbl</a></rr-o>
                   </rr-a>
+                  <rr-t>EOL</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -46,14 +79,17 @@
       <h2 id="assembleropcode">assembleropcode</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>ASSEMBLER_INSTRUCTION</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="lbl">lbl</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#label">label</a></rr-a>
+               <rr-a><a href="#label">label</a><rr-t>':'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -63,7 +99,8 @@
             <rr-o>
                <rr-a><a href="#argument">argument</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#argumentlist">argumentlist</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#argumentlist">argumentlist</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -81,69 +118,162 @@
          <rr-rr>
             <rr-o>
                <rr-a><a href="#prefix_">prefix_</a><rr-a>
-                     <rr-o><a href="#number">number</a><a href="#name">name</a><a href="#string_">string_</a></rr-o>
+                     <rr-o><a href="#number">number</a><a href="#name">name</a><a href="#string_">string_</a><rr-t>'*'</rr-t>
+                     </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>'+'</rr-t>
+                                 <rr-t>'-'</rr-t>
+                              </rr-o>
                            </rr-a><a href="#number">number</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a><a href="#argument">argument</a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#argument">argument</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="prefix_">prefix_</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'#'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="string_">string_</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="name">name</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NAME</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="number">number</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="opcode">opcode</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>ADC</rr-t>
+               <rr-t>AND</rr-t>
+               <rr-t>ASL</rr-t>
+               <rr-t>BCC</rr-t>
+               <rr-t>BCS</rr-t>
+               <rr-t>BEQ</rr-t>
+               <rr-t>BIT</rr-t>
+               <rr-t>BMI</rr-t>
+               <rr-t>BNE</rr-t>
+               <rr-t>BPL</rr-t>
+               <rr-t>BRA</rr-t>
+               <rr-t>BRK</rr-t>
+               <rr-t>BVC</rr-t>
+               <rr-t>BVS</rr-t>
+               <rr-t>CLC</rr-t>
+               <rr-t>CLD</rr-t>
+               <rr-t>CLI</rr-t>
+               <rr-t>CLV</rr-t>
+               <rr-t>CMP</rr-t>
+               <rr-t>CPX</rr-t>
+               <rr-t>CPY</rr-t>
+               <rr-t>DEC</rr-t>
+               <rr-t>DEX</rr-t>
+               <rr-t>DEY</rr-t>
+               <rr-t>EOR</rr-t>
+               <rr-t>INC</rr-t>
+               <rr-t>INX</rr-t>
+               <rr-t>INY</rr-t>
+               <rr-t>JMP</rr-t>
+               <rr-t>JSR</rr-t>
+               <rr-t>LDA</rr-t>
+               <rr-t>LDY</rr-t>
+               <rr-t>LDX</rr-t>
+               <rr-t>LSR</rr-t>
+               <rr-t>NOP</rr-t>
+               <rr-t>ORA</rr-t>
+               <rr-t>PHA</rr-t>
+               <rr-t>PHX</rr-t>
+               <rr-t>PHY</rr-t>
+               <rr-t>PHP</rr-t>
+               <rr-t>PLA</rr-t>
+               <rr-t>PLP</rr-t>
+               <rr-t>PLY</rr-t>
+               <rr-t>ROL</rr-t>
+               <rr-t>ROR</rr-t>
+               <rr-t>RTI</rr-t>
+               <rr-t>RTS</rr-t>
+               <rr-t>SBC</rr-t>
+               <rr-t>SEC</rr-t>
+               <rr-t>SED</rr-t>
+               <rr-t>SEI</rr-t>
+               <rr-t>STA</rr-t>
+               <rr-t>STX</rr-t>
+               <rr-t>STY</rr-t>
+               <rr-t>STZ</rr-t>
+               <rr-t>TAX</rr-t>
+               <rr-t>TAY</rr-t>
+               <rr-t>TSX</rr-t>
+               <rr-t>TXA</rr-t>
+               <rr-t>TXS</rr-t>
+               <rr-t>TYA</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="ASSEMBLER_INSTRUCTION">ASSEMBLER_INSTRUCTION</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ORG'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'EQU'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'ASC'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'DS'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'DFC'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'='</rr-t>
+               </rr-a>
             </rr-o>
+            <pre>/*
+* opcodes
+*/</pre>
          </rr-rr>
       </p>
       <h2 id="ADC">ADC</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ADC'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -151,7 +281,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'AND'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -159,7 +291,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ASL'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -167,7 +301,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'BCC'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -175,7 +311,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'BCS'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -183,7 +321,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'BEQ'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -191,7 +331,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'BIT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -199,7 +341,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'BMI'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -207,7 +351,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'BNE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -215,7 +361,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'BPL'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -223,7 +371,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'BRA'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -231,7 +381,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'BRK'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -239,7 +391,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'BVC'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -247,7 +401,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'BVS'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -255,7 +411,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'CLC'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -263,7 +421,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'CLD'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -271,7 +431,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'CLI'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -279,7 +441,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'CLV'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -287,7 +451,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'CMP'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -295,7 +461,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'CPX'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -303,7 +471,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'CPY'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -311,7 +481,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'DEC'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -319,7 +491,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'DEX'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -327,7 +501,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'DEY'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -335,7 +511,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'EOR'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -343,7 +521,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'INC'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -351,7 +531,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'INX'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -359,7 +541,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'INY'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -367,7 +551,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'JMP'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -375,7 +561,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'JSR'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -383,7 +571,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'LDA'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -391,7 +581,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'LDY'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -399,7 +591,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'LDX'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -407,7 +601,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'LSR'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -415,7 +611,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'NOP'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -423,7 +621,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ORA'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -431,7 +631,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'PHA'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -439,7 +641,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'PHX'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -447,7 +651,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'PHY'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -455,7 +661,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'PHP'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -463,7 +671,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'PLA'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -471,7 +681,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'PLP'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -479,7 +691,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'PLY'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -487,7 +701,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ROL'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -495,7 +711,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ROR'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -503,7 +721,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'RTI'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -511,7 +731,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'RTS'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -519,7 +741,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SBC'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -527,7 +751,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SEC'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -535,7 +761,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SED'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -543,7 +771,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SEI'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -551,7 +781,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'STA'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -559,7 +791,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'STX'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -567,7 +801,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'STY'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -575,7 +811,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'STZ'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -583,7 +821,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'TAX'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -591,7 +831,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'TAY'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -599,7 +841,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'TSX'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -607,7 +851,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'TXA'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -615,7 +861,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'TXS'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -623,7 +871,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'TYA'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -632,8 +882,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[A-Z]</rr-c>
-                  <rr-c>[A-Z0-9."]</rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -643,7 +893,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[0-9A-F]</rr-c>
+                  <rr-t>'$'</rr-t>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -652,7 +903,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>';'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -660,7 +913,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'"'</rr-t>
+                  <rr-t>'"'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -669,7 +925,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[\r\n]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -679,7 +935,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[ \t]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>

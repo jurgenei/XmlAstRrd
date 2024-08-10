@@ -5,7 +5,43 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1><a href="../index.html">Railroad</a> sparql/SparqlParser.ast.xml</h1>
+      <h1>Railroad sparql/SparqlParser.ast.xml</h1>
+      <pre>/*
+ * Copyright 2007 the original author or authors.
+ *
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following
+ * conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this list of conditions and the following
+ * disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following
+ * disclaimer in the documentation and/or other materials provided with the distribution.
+ *
+ * Neither the name of the author or authors nor the names of its contributors may be used to endorse or promote
+ * products derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * @author Simone Tripodi   (simone)
+ * @author Michele Mostarda (michele)
+ * @version $Id: Sparql.g 5 2007-10-30 17:20:36Z simone $
+ */</pre>
+      <pre>/*
+ * Ported to Antlr4 by Tom Everett
+ */</pre>
       <h1>Rules</h1>
       <h2 id="query">query</h2>
       <p>
@@ -14,6 +50,7 @@
                <rr-a><a href="#prologue">prologue</a><rr-a>
                      <rr-o><a href="#selectQuery">selectQuery</a><a href="#constructQuery">constructQuery</a><a href="#describeQuery">describeQuery</a><a href="#askQuery">askQuery</a></rr-o>
                   </rr-a>
+                  <rr-t>EOF</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -30,7 +67,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>BASE</rr-t>
+                  <rr-t>IRI_REF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -38,7 +78,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>PREFIX</rr-t>
+                  <rr-t>PNAME_NS</rr-t>
+                  <rr-t>IRI_REF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -47,11 +91,16 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>SELECT</rr-t>
                   <rr-a data-min="0" data-max="1">
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>DISTINCT</rr-t>
+                        <rr-t>REDUCED</rr-t>
+                     </rr-o>
                   </rr-a>
                   <rr-a>
-                     <rr-o><a href="#var_">var_</a></rr-o>
+                     <rr-o><a href="#var_">var_</a><rr-t>'*'</rr-t>
+                     </rr-o>
                   </rr-a><a href="#datasetClause">datasetClause</a><a href="#whereClause">whereClause</a><a href="#solutionModifier">solutionModifier</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -60,7 +109,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#constructTemplate">constructTemplate</a><a href="#datasetClause">datasetClause</a><a href="#whereClause">whereClause</a><a href="#solutionModifier">solutionModifier</a></rr-a>
+               <rr-a>
+                  <rr-t>CONSTRUCT</rr-t><a href="#constructTemplate">constructTemplate</a><a href="#datasetClause">datasetClause</a><a href="#whereClause">whereClause</a><a href="#solutionModifier">solutionModifier</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -69,8 +119,10 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>DESCRIBE</rr-t>
                   <rr-a>
-                     <rr-o><a href="#varOrIRIref">varOrIRIref</a></rr-o>
+                     <rr-o><a href="#varOrIRIref">varOrIRIref</a><rr-t>'*'</rr-t>
+                     </rr-o>
                   </rr-a><a href="#datasetClause">datasetClause</a><a href="#whereClause">whereClause</a><a href="#solutionModifier">solutionModifier</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -79,7 +131,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#datasetClause">datasetClause</a><a href="#whereClause">whereClause</a></rr-a>
+               <rr-a>
+                  <rr-t>ASK</rr-t><a href="#datasetClause">datasetClause</a><a href="#whereClause">whereClause</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -88,6 +141,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>FROM</rr-t>
                   <rr-a>
                      <rr-o><a href="#defaultGraphClause">defaultGraphClause</a><a href="#namedGraphClause">namedGraphClause</a></rr-o>
                   </rr-a>
@@ -105,7 +159,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#sourceSelector">sourceSelector</a></rr-a>
+               <rr-a>
+                  <rr-t>NAMED</rr-t><a href="#sourceSelector">sourceSelector</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -119,7 +174,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#groupGraphPattern">groupGraphPattern</a></rr-a>
+               <rr-a>
+                  <rr-t>WHERE</rr-t><a href="#groupGraphPattern">groupGraphPattern</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -144,7 +200,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#orderCondition">orderCondition</a></rr-a>
+               <rr-a>
+                  <rr-t>ORDER</rr-t>
+                  <rr-t>BY</rr-t><a href="#orderCondition">orderCondition</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -154,7 +212,10 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>ASC</rr-t>
+                        <rr-t>DESC</rr-t>
+                     </rr-o>
                   </rr-a><a href="#brackettedExpression">brackettedExpression</a></rr-a><a href="#constraint">constraint</a><a href="#var_">var_</a></rr-o>
          </rr-rr>
       </p>
@@ -162,7 +223,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>LIMIT</rr-t>
+                  <rr-t>INTEGER</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -170,7 +234,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>OFFSET</rr-t>
+                  <rr-t>INTEGER</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -178,14 +245,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#triplesBlock">triplesBlock</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#triplesBlock">triplesBlock</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
                         <rr-a>
                            <rr-a>
                               <rr-o><a href="#graphPatternNotTriples">graphPatternNotTriples</a><a href="#filter_">filter_</a></rr-o>
-                           </rr-a><a href="#triplesBlock">triplesBlock</a></rr-a>
+                           </rr-a>
+                           <rr-t>'.'</rr-t><a href="#triplesBlock">triplesBlock</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>'}'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -196,7 +266,8 @@
             <rr-o>
                <rr-a><a href="#triplesSameSubject">triplesSameSubject</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#triplesBlock">triplesBlock</a></rr-a>
+                        <rr-a>
+                           <rr-t>'.'</rr-t><a href="#triplesBlock">triplesBlock</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -213,7 +284,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#groupGraphPattern">groupGraphPattern</a></rr-a>
+               <rr-a>
+                  <rr-t>OPTIONAL</rr-t><a href="#groupGraphPattern">groupGraphPattern</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -221,7 +293,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#varOrIRIref">varOrIRIref</a><a href="#groupGraphPattern">groupGraphPattern</a></rr-a>
+               <rr-a>
+                  <rr-t>GRAPH</rr-t><a href="#varOrIRIref">varOrIRIref</a><a href="#groupGraphPattern">groupGraphPattern</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -231,7 +304,8 @@
             <rr-o>
                <rr-a><a href="#groupGraphPattern">groupGraphPattern</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#groupGraphPattern">groupGraphPattern</a></rr-a>
+                        <rr-a>
+                           <rr-t>UNION</rr-t><a href="#groupGraphPattern">groupGraphPattern</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -242,7 +316,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#constraint">constraint</a></rr-a>
+               <rr-a>
+                  <rr-t>FILTER</rr-t><a href="#constraint">constraint</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -264,11 +339,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="inf">
+               <rr-t>NIL</rr-t>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#expression">expression</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#expression">expression</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#expression">expression</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>')'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -277,7 +356,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#constructTriples">constructTriples</a></rr-a>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#constructTriples">constructTriples</a><rr-t>'}'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -287,7 +368,8 @@
             <rr-o>
                <rr-a><a href="#triplesSameSubject">triplesSameSubject</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#constructTriples">constructTriples</a></rr-a>
+                        <rr-a>
+                           <rr-t>'.'</rr-t><a href="#constructTriples">constructTriples</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -310,6 +392,7 @@
                <rr-a><a href="#verb">verb</a><a href="#objectList">objectList</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
                         <rr-a>
+                           <rr-t>';'</rr-t>
                            <rr-a data-min="0" data-max="1">
                               <rr-o>
                                  <rr-a><a href="#verb">verb</a><a href="#objectList">objectList</a></rr-a>
@@ -334,7 +417,8 @@
             <rr-o>
                <rr-a><a href="#object_">object_</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#object_">object_</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#object_">object_</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -350,7 +434,8 @@
       <h2 id="verb">verb</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#varOrIRIref">varOrIRIref</a></rr-o>
+            <rr-o><a href="#varOrIRIref">varOrIRIref</a><rr-t>A</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="triplesNode">triplesNode</h2>
@@ -363,7 +448,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#propertyListNotEmpty">propertyListNotEmpty</a></rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#propertyListNotEmpty">propertyListNotEmpty</a><rr-t>']'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -371,7 +458,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#graphNode">graphNode</a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#graphNode">graphNode</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -396,13 +485,17 @@
       <h2 id="var_">var_</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>VAR1</rr-t>
+               <rr-t>VAR2</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="graphTerm">graphTerm</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#iriRef">iriRef</a><a href="#rdfLiteral">rdfLiteral</a><a href="#numericLiteral">numericLiteral</a><a href="#booleanLiteral">booleanLiteral</a><a href="#blankNode">blankNode</a></rr-o>
+            <rr-o><a href="#iriRef">iriRef</a><a href="#rdfLiteral">rdfLiteral</a><a href="#numericLiteral">numericLiteral</a><a href="#booleanLiteral">booleanLiteral</a><a href="#blankNode">blankNode</a><rr-t>NIL</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="expression">expression</h2>
@@ -417,7 +510,8 @@
             <rr-o>
                <rr-a><a href="#conditionalAndExpression">conditionalAndExpression</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#conditionalAndExpression">conditionalAndExpression</a></rr-a>
+                        <rr-a>
+                           <rr-t>'||'</rr-t><a href="#conditionalAndExpression">conditionalAndExpression</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -430,7 +524,8 @@
             <rr-o>
                <rr-a><a href="#valueLogical">valueLogical</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#valueLogical">valueLogical</a></rr-a>
+                        <rr-a>
+                           <rr-t>'&amp;&amp;'</rr-t><a href="#valueLogical">valueLogical</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -451,7 +546,14 @@
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>'='</rr-t>
+                                 <rr-t>'!='</rr-t>
+                                 <rr-t>'&lt;'</rr-t>
+                                 <rr-t>'&gt;'</rr-t>
+                                 <rr-t>'&lt;='</rr-t>
+                                 <rr-t>'&gt;='</rr-t>
+                              </rr-o>
                            </rr-a><a href="#numericExpression">numericExpression</a></rr-a>
                      </rr-o>
                   </rr-a>
@@ -473,7 +575,10 @@
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>'+'</rr-t>
+                                 <rr-t>'-'</rr-t>
+                              </rr-o>
                            </rr-a><a href="#multiplicativeExpression">multiplicativeExpression</a></rr-a><a href="#numericLiteralPositive">numericLiteralPositive</a><a href="#numericLiteralNegative">numericLiteralNegative</a></rr-o>
                   </rr-a>
                </rr-a>
@@ -488,7 +593,10 @@
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>'*'</rr-t>
+                                 <rr-t>'/'</rr-t>
+                              </rr-o>
                            </rr-a><a href="#unaryExpression">unaryExpression</a></rr-a>
                      </rr-o>
                   </rr-a>
@@ -502,7 +610,11 @@
             <rr-o>
                <rr-a>
                   <rr-a data-min="0" data-max="1">
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>'!'</rr-t>
+                        <rr-t>'+'</rr-t>
+                        <rr-t>'-'</rr-t>
+                     </rr-o>
                   </rr-a><a href="#primaryExpression">primaryExpression</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -517,7 +629,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#expression">expression</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -525,27 +639,61 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#expression">expression</a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#var_">var_</a></rr-a>
-               <rr-a><a href="#expression">expression</a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#expression">expression</a></rr-a><a href="#regexExpression">regexExpression</a></rr-o>
+               <rr-a>
+                  <rr-t>STR</rr-t>
+                  <rr-t>'('</rr-t><a href="#expression">expression</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LANG</rr-t>
+                  <rr-t>'('</rr-t><a href="#expression">expression</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LANGMATCHES</rr-t>
+                  <rr-t>'('</rr-t><a href="#expression">expression</a><rr-t>','</rr-t><a href="#expression">expression</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>DATATYPE</rr-t>
+                  <rr-t>'('</rr-t><a href="#expression">expression</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>BOUND</rr-t>
+                  <rr-t>'('</rr-t><a href="#var_">var_</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>SAME_TERM</rr-t>
+                  <rr-t>'('</rr-t><a href="#expression">expression</a><rr-t>','</rr-t><a href="#expression">expression</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>IS_IRI</rr-t>
+                  <rr-t>'('</rr-t><a href="#expression">expression</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>IS_URI</rr-t>
+                  <rr-t>'('</rr-t><a href="#expression">expression</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>IS_BLANK</rr-t>
+                  <rr-t>'('</rr-t><a href="#expression">expression</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>IS_LITERAL</rr-t>
+                  <rr-t>'('</rr-t><a href="#expression">expression</a><rr-t>')'</rr-t>
+               </rr-a><a href="#regexExpression">regexExpression</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="regexExpression">regexExpression</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a><a href="#expression">expression</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>REGEX</rr-t>
+                  <rr-t>'('</rr-t><a href="#expression">expression</a><rr-t>','</rr-t><a href="#expression">expression</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expression">expression</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#expression">expression</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>')'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -564,7 +712,9 @@
             <rr-o>
                <rr-a><a href="#string_">string_</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#iriRef">iriRef</a></rr-a>
+                        <rr-t>LANGTAG</rr-t>
+                        <rr-a>
+                           <rr-t>'^^'</rr-t><a href="#iriRef">iriRef</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -580,49 +730,74 @@
       <h2 id="numericLiteralUnsigned">numericLiteralUnsigned</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>INTEGER</rr-t>
+               <rr-t>DECIMAL</rr-t>
+               <rr-t>DOUBLE</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="numericLiteralPositive">numericLiteralPositive</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>INTEGER_POSITIVE</rr-t>
+               <rr-t>DECIMAL_POSITIVE</rr-t>
+               <rr-t>DOUBLE_POSITIVE</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="numericLiteralNegative">numericLiteralNegative</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>INTEGER_NEGATIVE</rr-t>
+               <rr-t>DECIMAL_NEGATIVE</rr-t>
+               <rr-t>DOUBLE_NEGATIVE</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="booleanLiteral">booleanLiteral</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TRUE</rr-t>
+               <rr-t>FALSE</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="string_">string_</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>STRING_LITERAL1</rr-t>
+               <rr-t>STRING_LITERAL2</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="iriRef">iriRef</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#prefixedName">prefixedName</a></rr-o>
+            <rr-o>
+               <rr-t>IRI_REF</rr-t><a href="#prefixedName">prefixedName</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="prefixedName">prefixedName</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>PNAME_LN</rr-t>
+               <rr-t>PNAME_NS</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="blankNode">blankNode</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>BLANK_NODE_LABEL</rr-t>
+               <rr-t>ANON</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
    </body>

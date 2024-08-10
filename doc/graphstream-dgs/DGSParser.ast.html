@@ -5,15 +5,55 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1><a href="../index.html">Railroad</a> graphstream-dgs/DGSParser.ast.xml</h1>
+      <h1>Railroad graphstream-dgs/DGSParser.ast.xml</h1>
+      <pre>/*
+BSD License
+
+Copyright (c) 2017, Tim Hemel
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. Neither the name of Tim Hemel nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
+      <pre>/*
+ * Graphstream DGS grammar.
+ *
+ * Adapted from http://graphstream-project.org/doc/Advanced-Concepts/The-DGS-File-Format/
+ *
+ */</pre>
       <h1>Rules</h1>
       <h2 id="dgs">dgs</h2>
       <p>
          <rr-rr>
             <rr-o>
                <rr-a><a href="#header">header</a><rr-a data-min="0" data-max="inf">
-                     <rr-o><a href="#event">event</a></rr-o>
+                     <rr-o><a href="#event">event</a><rr-t>COMMENT</rr-t>
+                        <rr-t>EOL</rr-t>
+                     </rr-o>
                   </rr-a>
+                  <rr-t>EOF</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -22,7 +62,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a></rr-a>
+               <rr-a>
+                  <rr-t>MAGIC</rr-t>
+                  <rr-t>EOL</rr-t><a href="#identifier">identifier</a><rr-t>INT</rr-t>
+                  <rr-t>INT</rr-t>
+                  <rr-t>EOL</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -35,7 +80,10 @@
                      <rr-o><a href="#an">an</a><a href="#cn">cn</a><a href="#dn">dn</a><a href="#ae">ae</a><a href="#ce">ce</a><a href="#de">de</a><a href="#cg">cg</a><a href="#st">st</a><a href="#cl">cl</a></rr-o>
                   </rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>COMMENT</rr-t>
+                        <rr-t>EOL</rr-t>
+                     </rr-o>
                   </rr-a>
                </rr-a>
             </rr-o>
@@ -45,7 +93,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a><a href="#attributes">attributes</a></rr-a>
+               <rr-a>
+                  <rr-t>AN</rr-t><a href="#identifier">identifier</a><a href="#attributes">attributes</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -53,7 +102,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a><a href="#attributes">attributes</a></rr-a>
+               <rr-a>
+                  <rr-t>CN</rr-t><a href="#identifier">identifier</a><a href="#attributes">attributes</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -61,7 +111,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a></rr-a>
+               <rr-a>
+                  <rr-t>DN</rr-t><a href="#identifier">identifier</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -69,7 +120,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a><a href="#identifier">identifier</a><a href="#direction">direction</a><a href="#identifier">identifier</a><a href="#attributes">attributes</a></rr-a>
+               <rr-a>
+                  <rr-t>AE</rr-t><a href="#identifier">identifier</a><a href="#identifier">identifier</a><a href="#direction">direction</a><a href="#identifier">identifier</a><a href="#attributes">attributes</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -77,7 +129,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a><a href="#attributes">attributes</a></rr-a>
+               <rr-a>
+                  <rr-t>CE</rr-t><a href="#identifier">identifier</a><a href="#attributes">attributes</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -85,7 +138,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a></rr-a>
+               <rr-a>
+                  <rr-t>DE</rr-t><a href="#identifier">identifier</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -93,7 +147,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#attributes">attributes</a></rr-a>
+               <rr-a>
+                  <rr-t>CG</rr-t><a href="#attributes">attributes</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -101,14 +156,19 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>ST</rr-t>
+                  <rr-t>REAL</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="cl">cl</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>CL</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="attributes">attributes</h2>
@@ -123,12 +183,16 @@
             <rr-o>
                <rr-a>
                   <rr-a data-min="0" data-max="1">
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>PLUS</rr-t>
+                        <rr-t>MINUS</rr-t>
+                     </rr-o>
                   </rr-a><a href="#identifier">identifier</a><rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a><a href="#assign">assign</a><a href="#value">value</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#value">value</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#value">value</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
@@ -141,7 +205,11 @@
       <h2 id="value">value</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#array_">array_</a><a href="#a_map">a_map</a><a href="#identifier">identifier</a></rr-o>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+               <rr-t>INT</rr-t>
+               <rr-t>REAL</rr-t>
+               <rr-t>COLOR</rr-t><a href="#array_">array_</a><a href="#a_map">a_map</a><a href="#identifier">identifier</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="array_">array_</h2>
@@ -149,16 +217,19 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>LBRACE</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a><a href="#value">value</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#value">value</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#value">value</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>RBRACE</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -168,16 +239,19 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>LBRACK</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a><a href="#mapping">mapping</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#mapping">mapping</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#mapping">mapping</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>RBRACK</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -193,23 +267,35 @@
       <h2 id="direction">direction</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>LANGLE</rr-t>
+               <rr-t>RANGLE</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="assign">assign</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>EQUALS</rr-t>
+               <rr-t>COLON</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="identifier">identifier</h2>
       <p>
          <rr-rr>
             <rr-o>
+               <rr-t>STRING</rr-t>
+               <rr-t>INT</rr-t>
                <rr-a>
+                  <rr-t>WORD</rr-t>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>DOT</rr-t>
+                           <rr-t>WORD</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>

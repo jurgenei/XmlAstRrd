@@ -5,14 +5,56 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1><a href="../index.html">Railroad</a> scala/Scala.ast.xml</h1>
+      <h1>Railroad scala/Scala.ast.xml</h1>
+      <pre>/*
+ [The "BSD licence"]
+ Copyright (c) 2014 Leonardo Lucena
+ Copyright (c) 2018 Andrey Stolyarov
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+ 3. The name of the author may not be used to endorse or promote products
+    derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
+      <pre>/*
+   Derived from https://github.com/scala/scala/blob/2.12.x/spec/13-syntax-summary.md
+ */</pre>
       <h1>Rules</h1>
       <h2 id="literal">literal</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'-'</rr-t>
+                  <rr-t>IntegerLiteral</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'-'</rr-t>
+                  <rr-t>FloatingPointLiteral</rr-t>
+               </rr-a>
+               <rr-t>BooleanLiteral</rr-t>
+               <rr-t>CharacterLiteral</rr-t>
+               <rr-t>StringLiteral</rr-t>
+               <rr-t>SymbolLiteral</rr-t>
+               <rr-t>'null'</rr-t>
             </rr-o>
          </rr-rr>
       </p>
@@ -21,9 +63,13 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>Id</rr-t>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>'.'</rr-t>
+                           <rr-t>Id</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -35,9 +81,13 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>Id</rr-t>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t>
+                           <rr-t>Id</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -48,16 +98,26 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#stableId">stableId</a></rr-a>
+               <rr-t>Id</rr-t>
+               <rr-a><a href="#stableId">stableId</a><rr-t>'.'</rr-t>
+                  <rr-t>Id</rr-t>
+               </rr-a>
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>Id</rr-t>
+                           <rr-t>'.'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a>
                      <rr-o>
-                        <rr-a><a href="#classQualifier">classQualifier</a></rr-a>
+                        <rr-t>'this'</rr-t>
+                        <rr-a>
+                           <rr-t>'super'</rr-t><a href="#classQualifier">classQualifier</a><rr-t>'.'</rr-t>
+                           <rr-t>Id</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -68,7 +128,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t>
+                  <rr-t>Id</rr-t>
+                  <rr-t>']'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -76,7 +140,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#functionArgTypes">functionArgTypes</a><a href="#type_">type_</a></rr-a>
+               <rr-a><a href="#functionArgTypes">functionArgTypes</a><rr-t>'=&gt;'</rr-t><a href="#type_">type_</a></rr-a>
                <rr-a><a href="#infixType">infixType</a><a href="#existentialClause">existentialClause</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -85,16 +149,19 @@
       <p>
          <rr-rr>
             <rr-o><a href="#infixType">infixType</a><rr-a>
+                  <rr-t>'('</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a><a href="#paramType">paramType</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#paramType">paramType</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>','</rr-t><a href="#paramType">paramType</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>')'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -103,7 +170,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#existentialDcl">existentialDcl</a></rr-a>
+               <rr-a>
+                  <rr-t>'forSome'</rr-t>
+                  <rr-t>'{'</rr-t><a href="#existentialDcl">existentialDcl</a><rr-t>'}'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -111,8 +181,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#typeDcl">typeDcl</a></rr-a>
-               <rr-a><a href="#valDcl">valDcl</a></rr-a>
+               <rr-a>
+                  <rr-t>'type'</rr-t><a href="#typeDcl">typeDcl</a></rr-a>
+               <rr-a>
+                  <rr-t>'val'</rr-t><a href="#valDcl">valDcl</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -122,7 +194,8 @@
             <rr-o>
                <rr-a><a href="#compoundType">compoundType</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#compoundType">compoundType</a></rr-a>
+                        <rr-a>
+                           <rr-t>Id</rr-t><a href="#compoundType">compoundType</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -135,7 +208,8 @@
             <rr-o>
                <rr-a><a href="#annotType">annotType</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#annotType">annotType</a></rr-a>
+                        <rr-a>
+                           <rr-t>'with'</rr-t><a href="#annotType">annotType</a></rr-a>
                      </rr-o>
                   </rr-a><a href="#refinement">refinement</a></rr-a><a href="#refinement">refinement</a></rr-o>
          </rr-rr>
@@ -153,14 +227,21 @@
          <rr-rr>
             <rr-o>
                <rr-a><a href="#simpleType">simpleType</a><a href="#typeArgs">typeArgs</a></rr-a>
-               <rr-a><a href="#simpleType">simpleType</a></rr-a>
+               <rr-a><a href="#simpleType">simpleType</a><rr-t>'#'</rr-t>
+                  <rr-t>Id</rr-t>
+               </rr-a>
                <rr-a><a href="#stableId">stableId</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>'.'</rr-t>
+                           <rr-t>'type'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a><a href="#types">types</a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#types">types</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -168,7 +249,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#types">types</a></rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#types">types</a><rr-t>']'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -178,7 +261,8 @@
             <rr-o>
                <rr-a><a href="#type_">type_</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#type_">type_</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#type_">type_</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -189,14 +273,18 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#refineStat">refineStat</a></rr-a>
+               <rr-a>
+                  <rr-t>NL</rr-t>
+                  <rr-t>'{'</rr-t><a href="#refineStat">refineStat</a><rr-t>'}'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="refineStat">refineStat</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#dcl">dcl</a><rr-a><a href="#typeDef">typeDef</a></rr-a>
+            <rr-o><a href="#dcl">dcl</a><rr-a>
+                  <rr-t>'type'</rr-t><a href="#typeDef">typeDef</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -210,9 +298,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#infixType">infixType</a></rr-a>
-               <rr-a><a href="#annotation">annotation</a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>':'</rr-t><a href="#infixType">infixType</a></rr-a>
+               <rr-a>
+                  <rr-t>':'</rr-t><a href="#annotation">annotation</a></rr-a>
+               <rr-a>
+                  <rr-t>':'</rr-t>
+                  <rr-t>'_'</rr-t>
+                  <rr-t>'*'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -222,75 +316,114 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o><a href="#bindings">bindings</a><rr-a></rr-a>
+                     <rr-o><a href="#bindings">bindings</a><rr-a>
+                           <rr-t>'implicit'</rr-t>
+                           <rr-t>Id</rr-t>
+                        </rr-a>
+                        <rr-t>'_'</rr-t>
                      </rr-o>
-                  </rr-a><a href="#expr">expr</a></rr-a><a href="#expr1">expr1</a></rr-o>
+                  </rr-a>
+                  <rr-t>'=&gt;'</rr-t><a href="#expr">expr</a></rr-a><a href="#expr1">expr1</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="expr1">expr1</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expr">expr</a><a href="#expr">expr</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>'if'</rr-t>
+                  <rr-t>'('</rr-t><a href="#expr">expr</a><rr-t>')'</rr-t>
+                  <rr-t>NL</rr-t><a href="#expr">expr</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expr">expr</a></rr-a>
+                        <rr-a>
+                           <rr-t>'else'</rr-t><a href="#expr">expr</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a><a href="#expr">expr</a><a href="#expr">expr</a></rr-a>
-               <rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>'while'</rr-t>
+                  <rr-t>'('</rr-t><a href="#expr">expr</a><rr-t>')'</rr-t>
+                  <rr-t>NL</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a>
+                  <rr-t>'try'</rr-t><a href="#expr">expr</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expr">expr</a></rr-a>
+                        <rr-a>
+                           <rr-t>'catch'</rr-t><a href="#expr">expr</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expr">expr</a></rr-a>
+                        <rr-a>
+                           <rr-t>'finally'</rr-t><a href="#expr">expr</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a><a href="#expr">expr</a><a href="#expr">expr</a></rr-a>
                <rr-a>
+                  <rr-t>'do'</rr-t><a href="#expr">expr</a><rr-t>'while'</rr-t>
+                  <rr-t>'('</rr-t><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'for'</rr-t>
                   <rr-a>
                      <rr-o>
-                        <rr-a><a href="#enumerators">enumerators</a></rr-a>
-                        <rr-a><a href="#enumerators">enumerators</a></rr-a>
+                        <rr-a>
+                           <rr-t>'('</rr-t><a href="#enumerators">enumerators</a><rr-t>')'</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>'{'</rr-t><a href="#enumerators">enumerators</a><rr-t>'}'</rr-t>
+                        </rr-a>
                      </rr-o>
-                  </rr-a><a href="#expr">expr</a></rr-a>
-               <rr-a><a href="#expr">expr</a></rr-a>
-               <rr-a><a href="#expr">expr</a></rr-a>
+                  </rr-a>
+                  <rr-t>'yield'</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a>
+                  <rr-t>'throw'</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a>
+                  <rr-t>'return'</rr-t><a href="#expr">expr</a></rr-a>
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o><a href="#simpleExpr">simpleExpr</a><rr-a><a href="#simpleExpr1">simpleExpr1</a></rr-a>
+                              <rr-o><a href="#simpleExpr">simpleExpr</a><rr-a><a href="#simpleExpr1">simpleExpr1</a><rr-t>'_'</rr-t>
+                                 </rr-a>
                               </rr-o>
                            </rr-a>
+                           <rr-t>'.'</rr-t>
                         </rr-a>
                      </rr-o>
-                  </rr-a><a href="#expr">expr</a></rr-a>
-               <rr-a><a href="#simpleExpr1">simpleExpr1</a><a href="#argumentExprs">argumentExprs</a><a href="#expr">expr</a></rr-a>
+                  </rr-a>
+                  <rr-t>Id</rr-t>
+                  <rr-t>'='</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#simpleExpr1">simpleExpr1</a><a href="#argumentExprs">argumentExprs</a><rr-t>'='</rr-t><a href="#expr">expr</a></rr-a>
                <rr-a><a href="#postfixExpr">postfixExpr</a><a href="#ascription">ascription</a></rr-a>
-               <rr-a><a href="#postfixExpr">postfixExpr</a><a href="#caseClauses">caseClauses</a></rr-a>
+               <rr-a><a href="#postfixExpr">postfixExpr</a><rr-t>'match'</rr-t>
+                  <rr-t>'{'</rr-t><a href="#caseClauses">caseClauses</a><rr-t>'}'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="prefixDef">prefixDef</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'-'</rr-t>
+               <rr-t>'+'</rr-t>
+               <rr-t>'~'</rr-t>
+               <rr-t>'!'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="postfixExpr">postfixExpr</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#infixExpr">infixExpr</a><rr-a data-min="0" data-max="inf">
+               <rr-a><a href="#infixExpr">infixExpr</a><rr-t>Id</rr-t>
+                  <rr-a data-min="0" data-max="inf">
                      <rr-o>
                         <rr-a><a href="#prefixDef">prefixDef</a><a href="#simpleExpr1">simpleExpr1</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>NL</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -298,7 +431,8 @@
       <h2 id="infixExpr">infixExpr</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#prefixExpr">prefixExpr</a><rr-a><a href="#infixExpr">infixExpr</a><a href="#infixExpr">infixExpr</a></rr-a>
+            <rr-o><a href="#prefixExpr">prefixExpr</a><rr-a><a href="#infixExpr">infixExpr</a><rr-t>Id</rr-t>
+                  <rr-t>NL</rr-t><a href="#infixExpr">infixExpr</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -307,7 +441,8 @@
          <rr-rr>
             <rr-o>
                <rr-a><a href="#prefixDef">prefixDef</a><rr-a>
-                     <rr-o><a href="#simpleExpr">simpleExpr</a><rr-a><a href="#simpleExpr1">simpleExpr1</a></rr-a>
+                     <rr-o><a href="#simpleExpr">simpleExpr</a><rr-a><a href="#simpleExpr1">simpleExpr1</a><rr-t>'_'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -319,6 +454,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'new'</rr-t>
                   <rr-a>
                      <rr-o><a href="#classTemplate">classTemplate</a><a href="#templateBody">templateBody</a></rr-o>
                   </rr-a>
@@ -328,11 +464,19 @@
       <h2 id="simpleExpr1">simpleExpr1</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#literal">literal</a><a href="#stableId">stableId</a><rr-a><a href="#exprs">exprs</a></rr-a>
-               <rr-a><a href="#simpleExpr">simpleExpr</a></rr-a>
-               <rr-a><a href="#simpleExpr1">simpleExpr1</a></rr-a>
+            <rr-o><a href="#literal">literal</a><a href="#stableId">stableId</a><rr-t>'_'</rr-t>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#exprs">exprs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a><a href="#simpleExpr">simpleExpr</a><rr-t>'.'</rr-t>
+                  <rr-t>Id</rr-t>
+               </rr-a>
+               <rr-a><a href="#simpleExpr1">simpleExpr1</a><rr-t>'_'</rr-t>
+                  <rr-t>'.'</rr-t>
+                  <rr-t>Id</rr-t>
+               </rr-a>
                <rr-a><a href="#simpleExpr">simpleExpr</a><a href="#typeArgs">typeArgs</a></rr-a>
-               <rr-a><a href="#simpleExpr1">simpleExpr1</a><a href="#typeArgs">typeArgs</a></rr-a>
+               <rr-a><a href="#simpleExpr1">simpleExpr1</a><rr-t>'_'</rr-t><a href="#typeArgs">typeArgs</a></rr-a>
                <rr-a><a href="#simpleExpr1">simpleExpr1</a><a href="#argumentExprs">argumentExprs</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -343,7 +487,8 @@
             <rr-o>
                <rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#expr">expr</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#expr">expr</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -354,9 +499,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#args">args</a></rr-a>
-               <rr-a><a href="#args">args</a></rr-a>
-               <rr-a><a href="#blockExpr">blockExpr</a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#args">args</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#args">args</a><rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>NL</rr-t><a href="#blockExpr">blockExpr</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -366,10 +516,15 @@
             <rr-o><a href="#exprs">exprs</a><rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#exprs">exprs</a></rr-a>
+                        <rr-a><a href="#exprs">exprs</a><rr-t>','</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#postfixExpr">postfixExpr</a><rr-a data-min="0" data-max="1">
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>':'</rr-t>
+                        <rr-t>'_'</rr-t>
+                        <rr-t>'*'</rr-t>
+                     </rr-o>
                   </rr-a>
                </rr-a>
             </rr-o>
@@ -379,8 +534,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#caseClauses">caseClauses</a></rr-a>
-               <rr-a><a href="#block">block</a></rr-a>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#caseClauses">caseClauses</a><rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#block">block</a><rr-t>'}'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -396,7 +555,10 @@
       <p>
          <rr-rr>
             <rr-o><a href="#import_">import_</a><rr-a><a href="#annotation">annotation</a><rr-a data-min="0" data-max="1">
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>'implicit'</rr-t>
+                        <rr-t>'lazy'</rr-t>
+                     </rr-o>
                   </rr-a><a href="#def_">def_</a></rr-a>
                <rr-a><a href="#annotation">annotation</a><a href="#localModifier">localModifier</a><a href="#tmplDef">tmplDef</a></rr-a><a href="#expr1">expr1</a></rr-o>
          </rr-rr>
@@ -409,11 +571,17 @@
                      <rr-o><a href="#bindings">bindings</a><rr-a>
                            <rr-a>
                               <rr-o>
-                                 <rr-a></rr-a>
+                                 <rr-a>
+                                    <rr-t>'implicit'</rr-t>
+                                    <rr-t>Id</rr-t>
+                                 </rr-a>
+                                 <rr-t>'_'</rr-t>
                               </rr-o>
-                           </rr-a><a href="#compoundType">compoundType</a></rr-a>
+                           </rr-a>
+                           <rr-t>':'</rr-t><a href="#compoundType">compoundType</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#block">block</a></rr-a>
+                  </rr-a>
+                  <rr-t>'=&gt;'</rr-t><a href="#block">block</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -427,8 +595,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#pattern1">pattern1</a><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
-                     <rr-o><a href="#guard_">guard_</a><rr-a><a href="#pattern1">pattern1</a><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#pattern1">pattern1</a><rr-t>'&lt;-'</rr-t><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
+                     <rr-o><a href="#guard_">guard_</a><rr-a><a href="#pattern1">pattern1</a><rr-t>'='</rr-t><a href="#expr">expr</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -445,7 +613,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#pattern">pattern</a><a href="#guard_">guard_</a><a href="#block">block</a></rr-a>
+               <rr-a>
+                  <rr-t>'case'</rr-t><a href="#pattern">pattern</a><a href="#guard_">guard_</a><rr-t>'=&gt;'</rr-t><a href="#block">block</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -453,7 +622,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#postfixExpr">postfixExpr</a></rr-a>
+               <rr-a>
+                  <rr-t>'if'</rr-t><a href="#postfixExpr">postfixExpr</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -463,7 +633,8 @@
             <rr-o>
                <rr-a><a href="#pattern1">pattern1</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#pattern1">pattern1</a></rr-a>
+                        <rr-a>
+                           <rr-t>'|'</rr-t><a href="#pattern1">pattern1</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -476,8 +647,13 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
-                  </rr-a><a href="#typePat">typePat</a></rr-a><a href="#pattern2">pattern2</a></rr-o>
+                     <rr-o>
+                        <rr-t>BoundVarid</rr-t>
+                        <rr-t>'_'</rr-t>
+                        <rr-t>Id</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>':'</rr-t><a href="#typePat">typePat</a></rr-a><a href="#pattern2">pattern2</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="pattern2">pattern2</h2>
@@ -485,9 +661,11 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>Id</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#pattern3">pattern3</a></rr-a>
+                        <rr-a>
+                           <rr-t>'@'</rr-t><a href="#pattern3">pattern3</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a><a href="#pattern3">pattern3</a></rr-o>
@@ -498,7 +676,9 @@
          <rr-rr>
             <rr-o><a href="#simplePattern">simplePattern</a><rr-a><a href="#simplePattern">simplePattern</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#simplePattern">simplePattern</a></rr-a>
+                        <rr-a>
+                           <rr-t>Id</rr-t>
+                           <rr-t>NL</rr-t><a href="#simplePattern">simplePattern</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -508,24 +688,38 @@
       <h2 id="simplePattern">simplePattern</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#literal">literal</a><rr-a><a href="#stableId">stableId</a><rr-a data-min="0" data-max="1">
+            <rr-o>
+               <rr-t>'_'</rr-t>
+               <rr-t>Varid</rr-t><a href="#literal">literal</a><rr-a><a href="#stableId">stableId</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#patterns">patterns</a></rr-a>
+                        <rr-a>
+                           <rr-t>'('</rr-t><a href="#patterns">patterns</a><rr-t>')'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a><a href="#stableId">stableId</a><rr-a data-min="0" data-max="1">
+               <rr-a><a href="#stableId">stableId</a><rr-t>'('</rr-t>
+                  <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#patterns">patterns</a></rr-a>
+                        <rr-a><a href="#patterns">patterns</a><rr-t>','</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>Id</rr-t>
+                           <rr-t>'@'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>'_'</rr-t>
+                  <rr-t>'*'</rr-t>
+                  <rr-t>')'</rr-t>
                </rr-a>
-               <rr-a><a href="#patterns">patterns</a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#patterns">patterns</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -535,11 +729,15 @@
             <rr-o>
                <rr-a><a href="#pattern">pattern</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#patterns">patterns</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#patterns">patterns</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'_'</rr-t>
+                  <rr-t>'*'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -547,11 +745,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#variantTypeParam">variantTypeParam</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#variantTypeParam">variantTypeParam</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#variantTypeParam">variantTypeParam</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#variantTypeParam">variantTypeParam</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>']'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -560,11 +761,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#typeParam">typeParam</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#typeParam">typeParam</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#typeParam">typeParam</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#typeParam">typeParam</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>']'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -574,7 +778,10 @@
          <rr-rr>
             <rr-o>
                <rr-a><a href="#annotation">annotation</a><rr-a data-min="0" data-max="1">
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>'+'</rr-t>
+                        <rr-t>'-'</rr-t>
+                     </rr-o>
                   </rr-a><a href="#typeParam">typeParam</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -585,25 +792,32 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>Id</rr-t>
+                        <rr-t>'_'</rr-t>
+                     </rr-o>
                   </rr-a><a href="#typeParamClause">typeParamClause</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#type_">type_</a></rr-a>
+                        <rr-a>
+                           <rr-t>'&gt;:'</rr-t><a href="#type_">type_</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#type_">type_</a></rr-a>
+                        <rr-a>
+                           <rr-t>'&lt;:'</rr-t><a href="#type_">type_</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#type_">type_</a></rr-a>
+                        <rr-a>
+                           <rr-t>'&lt;%'</rr-t><a href="#type_">type_</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#type_">type_</a></rr-a>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#type_">type_</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -616,7 +830,11 @@
             <rr-o>
                <rr-a><a href="#paramClause">paramClause</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#params">params</a></rr-a>
+                        <rr-a>
+                           <rr-t>NL</rr-t>
+                           <rr-t>'('</rr-t>
+                           <rr-t>'implicit'</rr-t><a href="#params">params</a><rr-t>')'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -627,7 +845,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#params">params</a></rr-a>
+               <rr-a>
+                  <rr-t>NL</rr-t>
+                  <rr-t>'('</rr-t><a href="#params">params</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -637,7 +858,8 @@
             <rr-o>
                <rr-a><a href="#param">param</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#param">param</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#param">param</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -648,14 +870,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#annotation">annotation</a><rr-a data-min="0" data-max="1">
+               <rr-a><a href="#annotation">annotation</a><rr-t>Id</rr-t>
+                  <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#paramType">paramType</a></rr-a>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#paramType">paramType</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expr">expr</a></rr-a>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#expr">expr</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -665,8 +890,10 @@
       <h2 id="paramType">paramType</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#type_">type_</a><rr-a><a href="#type_">type_</a></rr-a>
-               <rr-a><a href="#type_">type_</a></rr-a>
+            <rr-o><a href="#type_">type_</a><rr-a>
+                  <rr-t>'=&gt;'</rr-t><a href="#type_">type_</a></rr-a>
+               <rr-a><a href="#type_">type_</a><rr-t>'*'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -676,7 +903,11 @@
             <rr-o>
                <rr-a><a href="#classParamClause">classParamClause</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#classParams">classParams</a></rr-a>
+                        <rr-a>
+                           <rr-t>NL</rr-t>
+                           <rr-t>'('</rr-t>
+                           <rr-t>'implicit'</rr-t><a href="#classParams">classParams</a><rr-t>')'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -687,7 +918,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#classParams">classParams</a></rr-a>
+               <rr-a>
+                  <rr-t>NL</rr-t>
+                  <rr-t>'('</rr-t><a href="#classParams">classParams</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -697,7 +931,8 @@
             <rr-o>
                <rr-a><a href="#classParam">classParam</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#classParam">classParam</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#classParam">classParam</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -709,10 +944,16 @@
          <rr-rr>
             <rr-o>
                <rr-a><a href="#annotation">annotation</a><a href="#modifier">modifier</a><rr-a data-min="0" data-max="1">
-                     <rr-o></rr-o>
-                  </rr-a><a href="#paramType">paramType</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expr">expr</a></rr-a>
+                        <rr-t>'val'</rr-t>
+                        <rr-t>'var'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>Id</rr-t>
+                  <rr-t>':'</rr-t><a href="#paramType">paramType</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#expr">expr</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -723,11 +964,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#binding">binding</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#binding">binding</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#binding">binding</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#binding">binding</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>')'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -738,11 +982,15 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>Id</rr-t>
+                        <rr-t>'_'</rr-t>
+                     </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#type_">type_</a></rr-a>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#type_">type_</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -752,13 +1000,20 @@
       <h2 id="modifier">modifier</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#localModifier">localModifier</a><a href="#accessModifier">accessModifier</a></rr-o>
+            <rr-o><a href="#localModifier">localModifier</a><a href="#accessModifier">accessModifier</a><rr-t>'override'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="localModifier">localModifier</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'abstract'</rr-t>
+               <rr-t>'final'</rr-t>
+               <rr-t>'sealed'</rr-t>
+               <rr-t>'implicit'</rr-t>
+               <rr-t>'lazy'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="accessModifier">accessModifier</h2>
@@ -767,7 +1022,10 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>'private'</rr-t>
+                        <rr-t>'protected'</rr-t>
+                     </rr-o>
                   </rr-a><a href="#accessQualifier">accessQualifier</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -777,9 +1035,14 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'['</rr-t>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>Id</rr-t>
+                        <rr-t>'this'</rr-t>
+                     </rr-o>
                   </rr-a>
+                  <rr-t>']'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -788,7 +1051,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#simpleType">simpleType</a><a href="#argumentExprs">argumentExprs</a></rr-a>
+               <rr-a>
+                  <rr-t>'@'</rr-t><a href="#simpleType">simpleType</a><a href="#argumentExprs">argumentExprs</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -796,7 +1060,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#simpleType">simpleType</a><a href="#argumentExprs">argumentExprs</a></rr-a>
+               <rr-a>
+                  <rr-t>'@'</rr-t><a href="#simpleType">simpleType</a><a href="#argumentExprs">argumentExprs</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -804,7 +1069,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#selfType">selfType</a><a href="#templateStat">templateStat</a></rr-a>
+               <rr-a>
+                  <rr-t>NL</rr-t>
+                  <rr-t>'{'</rr-t><a href="#selfType">selfType</a><a href="#templateStat">templateStat</a><rr-t>'}'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -814,13 +1082,15 @@
             <rr-o><a href="#import_">import_</a><rr-a>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#annotation">annotation</a></rr-a>
+                        <rr-a><a href="#annotation">annotation</a><rr-t>NL</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#modifier">modifier</a><a href="#def_">def_</a></rr-a>
                <rr-a>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#annotation">annotation</a></rr-a>
+                        <rr-a><a href="#annotation">annotation</a><rr-t>NL</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#modifier">modifier</a><a href="#dcl">dcl</a></rr-a><a href="#expr">expr</a></rr-o>
          </rr-rr>
@@ -830,13 +1100,19 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>Id</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#type_">type_</a></rr-a>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#type_">type_</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>'=&gt;'</rr-t>
                </rr-a>
-               <rr-a><a href="#type_">type_</a></rr-a>
+               <rr-a>
+                  <rr-t>'this'</rr-t>
+                  <rr-t>':'</rr-t><a href="#type_">type_</a><rr-t>'=&gt;'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -844,9 +1120,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#importExpr">importExpr</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>'import'</rr-t><a href="#importExpr">importExpr</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#importExpr">importExpr</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#importExpr">importExpr</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -860,8 +1138,11 @@
                <rr-a><a href="#stableId">stableId</a><rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
+                           <rr-t>'.'</rr-t>
                            <rr-a>
-                              <rr-o><a href="#importSelectors">importSelectors</a></rr-o>
+                              <rr-o>
+                                 <rr-t>Id</rr-t>
+                                 <rr-t>'_'</rr-t><a href="#importSelectors">importSelectors</a></rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
@@ -875,14 +1156,18 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'{'</rr-t>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#importSelector">importSelector</a></rr-a>
+                        <rr-a><a href="#importSelector">importSelector</a><rr-t>','</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a>
-                     <rr-o><a href="#importSelector">importSelector</a></rr-o>
+                     <rr-o><a href="#importSelector">importSelector</a><rr-t>'_'</rr-t>
+                     </rr-o>
                   </rr-a>
+                  <rr-t>'}'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -892,11 +1177,16 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>Id</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
+                           <rr-t>'=&gt;'</rr-t>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>Id</rr-t>
+                                 <rr-t>'_'</rr-t>
+                              </rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
@@ -909,10 +1199,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#valDcl">valDcl</a></rr-a>
-               <rr-a><a href="#varDcl">varDcl</a></rr-a>
-               <rr-a><a href="#funDcl">funDcl</a></rr-a>
-               <rr-a><a href="#typeDcl">typeDcl</a></rr-a>
+               <rr-a>
+                  <rr-t>'val'</rr-t><a href="#valDcl">valDcl</a></rr-a>
+               <rr-a>
+                  <rr-t>'var'</rr-t><a href="#varDcl">varDcl</a></rr-a>
+               <rr-a>
+                  <rr-t>'def'</rr-t><a href="#funDcl">funDcl</a></rr-a>
+               <rr-a>
+                  <rr-t>'type'</rr-t>
+                  <rr-t>NL</rr-t><a href="#typeDcl">typeDcl</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -920,7 +1215,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#ids">ids</a><a href="#type_">type_</a></rr-a>
+               <rr-a><a href="#ids">ids</a><rr-t>':'</rr-t><a href="#type_">type_</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -928,7 +1223,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#ids">ids</a><a href="#type_">type_</a></rr-a>
+               <rr-a><a href="#ids">ids</a><rr-t>':'</rr-t><a href="#type_">type_</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -938,7 +1233,8 @@
             <rr-o>
                <rr-a><a href="#funSig">funSig</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#type_">type_</a></rr-a>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#type_">type_</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -949,7 +1245,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#funTypeParamClause">funTypeParamClause</a><a href="#paramClauses">paramClauses</a></rr-a>
+               <rr-a>
+                  <rr-t>Id</rr-t><a href="#funTypeParamClause">funTypeParamClause</a><a href="#paramClauses">paramClauses</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -957,14 +1254,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#typeParamClause">typeParamClause</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>Id</rr-t><a href="#typeParamClause">typeParamClause</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#type_">type_</a></rr-a>
+                        <rr-a>
+                           <rr-t>'&gt;:'</rr-t><a href="#type_">type_</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#type_">type_</a></rr-a>
+                        <rr-a>
+                           <rr-t>'&lt;:'</rr-t><a href="#type_">type_</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -975,16 +1275,21 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#patDef">patDef</a></rr-a>
-               <rr-a><a href="#varDef">varDef</a></rr-a>
+               <rr-a>
+                  <rr-t>'val'</rr-t><a href="#patDef">patDef</a></rr-a>
+               <rr-a>
+                  <rr-t>'var'</rr-t><a href="#varDef">varDef</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="def_">def_</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#patVarDef">patVarDef</a><rr-a><a href="#funDef">funDef</a></rr-a>
-               <rr-a><a href="#typeDef">typeDef</a></rr-a><a href="#tmplDef">tmplDef</a></rr-o>
+            <rr-o><a href="#patVarDef">patVarDef</a><rr-a>
+                  <rr-t>'def'</rr-t><a href="#funDef">funDef</a></rr-a>
+               <rr-a>
+                  <rr-t>'type'</rr-t>
+                  <rr-t>NL</rr-t><a href="#typeDef">typeDef</a></rr-a><a href="#tmplDef">tmplDef</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="patDef">patDef</h2>
@@ -993,21 +1298,26 @@
             <rr-o>
                <rr-a><a href="#pattern2">pattern2</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#pattern2">pattern2</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#pattern2">pattern2</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#type_">type_</a></rr-a>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#type_">type_</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#expr">expr</a></rr-a>
+                  </rr-a>
+                  <rr-t>'='</rr-t><a href="#expr">expr</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="varDef">varDef</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#patDef">patDef</a><rr-a><a href="#ids">ids</a><a href="#type_">type_</a></rr-a>
+            <rr-o><a href="#patDef">patDef</a><rr-a><a href="#ids">ids</a><rr-t>':'</rr-t><a href="#type_">type_</a><rr-t>'='</rr-t>
+                  <rr-t>'_'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1017,14 +1327,21 @@
             <rr-o>
                <rr-a><a href="#funSig">funSig</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#type_">type_</a></rr-a>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#type_">type_</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#expr">expr</a></rr-a>
-               <rr-a><a href="#funSig">funSig</a><a href="#block">block</a></rr-a>
-               <rr-a><a href="#paramClause">paramClause</a><a href="#paramClauses">paramClauses</a><rr-a>
+                  </rr-a>
+                  <rr-t>'='</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#funSig">funSig</a><rr-t>NL</rr-t>
+                  <rr-t>'{'</rr-t><a href="#block">block</a><rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'this'</rr-t><a href="#paramClause">paramClause</a><a href="#paramClauses">paramClauses</a><rr-a>
                      <rr-o>
-                        <rr-a><a href="#constrExpr">constrExpr</a></rr-a>
-                        <rr-a><a href="#constrBlock">constrBlock</a></rr-a>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#constrExpr">constrExpr</a></rr-a>
+                        <rr-a>
+                           <rr-t>NL</rr-t><a href="#constrBlock">constrBlock</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1035,7 +1352,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#typeParamClause">typeParamClause</a><a href="#type_">type_</a></rr-a>
+               <rr-a>
+                  <rr-t>Id</rr-t><a href="#typeParamClause">typeParamClause</a><rr-t>'='</rr-t><a href="#type_">type_</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1043,9 +1361,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#classDef">classDef</a></rr-a>
-               <rr-a><a href="#objectDef">objectDef</a></rr-a>
-               <rr-a><a href="#traitDef">traitDef</a></rr-a>
+               <rr-a>
+                  <rr-t>'case'</rr-t>
+                  <rr-t>'class'</rr-t><a href="#classDef">classDef</a></rr-a>
+               <rr-a>
+                  <rr-t>'case'</rr-t>
+                  <rr-t>'object'</rr-t><a href="#objectDef">objectDef</a></rr-a>
+               <rr-a>
+                  <rr-t>'trait'</rr-t><a href="#traitDef">traitDef</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1053,7 +1376,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#typeParamClause">typeParamClause</a><a href="#constrAnnotation">constrAnnotation</a><a href="#accessModifier">accessModifier</a><a href="#classParamClauses">classParamClauses</a><a href="#classTemplateOpt">classTemplateOpt</a></rr-a>
+               <rr-a>
+                  <rr-t>Id</rr-t><a href="#typeParamClause">typeParamClause</a><a href="#constrAnnotation">constrAnnotation</a><a href="#accessModifier">accessModifier</a><a href="#classParamClauses">classParamClauses</a><a href="#classTemplateOpt">classTemplateOpt</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1061,7 +1385,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#typeParamClause">typeParamClause</a><a href="#traitTemplateOpt">traitTemplateOpt</a></rr-a>
+               <rr-a>
+                  <rr-t>Id</rr-t><a href="#typeParamClause">typeParamClause</a><a href="#traitTemplateOpt">traitTemplateOpt</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1069,7 +1394,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#classTemplateOpt">classTemplateOpt</a></rr-a>
+               <rr-a>
+                  <rr-t>Id</rr-t><a href="#classTemplateOpt">classTemplateOpt</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1077,10 +1403,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#classTemplate">classTemplate</a></rr-a>
+               <rr-a>
+                  <rr-t>'extends'</rr-t><a href="#classTemplate">classTemplate</a></rr-a>
                <rr-a data-min="0" data-max="1">
                   <rr-o>
-                     <rr-a><a href="#templateBody">templateBody</a></rr-a>
+                     <rr-a>
+                        <rr-t>'extends'</rr-t><a href="#templateBody">templateBody</a></rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -1090,10 +1418,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#traitTemplate">traitTemplate</a></rr-a>
+               <rr-a>
+                  <rr-t>'extends'</rr-t><a href="#traitTemplate">traitTemplate</a></rr-a>
                <rr-a data-min="0" data-max="1">
                   <rr-o>
-                     <rr-a><a href="#templateBody">templateBody</a></rr-a>
+                     <rr-a>
+                        <rr-t>'extends'</rr-t><a href="#templateBody">templateBody</a></rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -1121,7 +1451,8 @@
             <rr-o>
                <rr-a><a href="#constr">constr</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#annotType">annotType</a></rr-a>
+                        <rr-a>
+                           <rr-t>'with'</rr-t><a href="#annotType">annotType</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1134,7 +1465,8 @@
             <rr-o>
                <rr-a><a href="#annotType">annotType</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#annotType">annotType</a></rr-a>
+                        <rr-a>
+                           <rr-t>'with'</rr-t><a href="#annotType">annotType</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1153,7 +1485,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#earlyDef">earlyDef</a></rr-a>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#earlyDef">earlyDef</a><rr-t>'}'</rr-t>
+                  <rr-t>'with'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1164,7 +1499,8 @@
                <rr-a>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#annotation">annotation</a></rr-a>
+                        <rr-a><a href="#annotation">annotation</a><rr-t>NL</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#modifier">modifier</a><a href="#patVarDef">patVarDef</a></rr-a>
             </rr-o>
@@ -1180,9 +1516,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#selfInvocation">selfInvocation</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#selfInvocation">selfInvocation</a><rr-a data-min="0" data-max="inf">
                      <rr-o><a href="#blockStat">blockStat</a></rr-o>
                   </rr-a>
+                  <rr-t>'}'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1191,7 +1529,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#argumentExprs">argumentExprs</a></rr-a>
+               <rr-a>
+                  <rr-t>'this'</rr-t><a href="#argumentExprs">argumentExprs</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1208,7 +1547,8 @@
                <rr-a>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#annotation">annotation</a></rr-a>
+                        <rr-a><a href="#annotation">annotation</a><rr-t>NL</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#modifier">modifier</a><a href="#tmplDef">tmplDef</a></rr-a><a href="#import_">import_</a><a href="#packaging">packaging</a><a href="#packageObject">packageObject</a></rr-o>
          </rr-rr>
@@ -1217,7 +1557,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#qualId">qualId</a><a href="#topStatSeq">topStatSeq</a></rr-a>
+               <rr-a>
+                  <rr-t>'package'</rr-t><a href="#qualId">qualId</a><rr-t>NL</rr-t>
+                  <rr-t>'{'</rr-t><a href="#topStatSeq">topStatSeq</a><rr-t>'}'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1225,7 +1568,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#objectDef">objectDef</a></rr-a>
+               <rr-a>
+                  <rr-t>'package'</rr-t>
+                  <rr-t>'object'</rr-t><a href="#objectDef">objectDef</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1236,7 +1581,8 @@
                <rr-a>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#qualId">qualId</a></rr-a>
+                        <rr-a>
+                           <rr-t>'package'</rr-t><a href="#qualId">qualId</a></rr-a>
                      </rr-o>
                   </rr-a><a href="#topStatSeq">topStatSeq</a></rr-a>
             </rr-o>
@@ -1246,13 +1592,23 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
                <rr-a>
+                  <rr-t>Plainid</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'`'</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>CharNoBackQuoteOrNewline</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>UnicodeEscape</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>CharEscapeSeq</rr-t>
+                     </rr-a>
                   </rr-o>
+                  <rr-t>'`'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1261,8 +1617,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'true'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'false'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1271,10 +1631,16 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'\''</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>PrintableChar</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>CharEscapeSeq</rr-t>
+                     </rr-a>
                   </rr-o>
+                  <rr-t>'\''</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1283,7 +1649,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'\''</rr-t>
+                  <rr-t>Plainid</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1293,12 +1662,20 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>DecimalNumeral</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>HexNumeral</rr-t>
+                     </rr-a>
                   </rr-o>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'L'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'l'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -1308,8 +1685,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'"'</rr-t>
+                  <rr-t>StringElement</rr-t>
+                  <rr-t>'"'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'"""'</rr-t>
+                  <rr-t>MultiLineChars</rr-t>
+                  <rr-t>'"""'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1317,10 +1702,29 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>Digit</rr-t>
+                  <rr-t>'.'</rr-t>
+                  <rr-t>Digit</rr-t>
+                  <rr-t>ExponentPart</rr-t>
+                  <rr-t>FloatType</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'.'</rr-t>
+                  <rr-t>Digit</rr-t>
+                  <rr-t>ExponentPart</rr-t>
+                  <rr-t>FloatType</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>Digit</rr-t>
+                  <rr-t>ExponentPart</rr-t>
+                  <rr-t>FloatType</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>Digit</rr-t>
+                  <rr-t>ExponentPart</rr-t>
+                  <rr-t>FloatType</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1328,7 +1732,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>Lower</rr-t>
+                  <rr-t>Idrest</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1336,8 +1743,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>Varid</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'`'</rr-t>
+                  <rr-t>Varid</rr-t>
+                  <rr-t>'`'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1345,12 +1758,24 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'{'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'}'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1358,12 +1783,24 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'`'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'\''</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'"'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'.'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>','</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1373,10 +1810,14 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>';'</rr-t>
+                     </rr-a>
                      <rr-a>
                         <rr-o>
-                           <rr-a></rr-a>
+                           <rr-a>
+                              <rr-t>NL</rr-t>
+                           </rr-a>
                         </rr-o>
                      </rr-a>
                   </rr-o>
@@ -1388,8 +1829,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'\n'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'\r'</rr-t>
+                  <rr-t>'\n'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1398,7 +1844,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[\u0020-\u0026\u0028-\u007E]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1407,7 +1853,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'\\'</rr-t>
+                  <rr-t>'u'</rr-t>
+                  <rr-t>'u'</rr-t>
+                  <rr-t>HexDigit</rr-t>
+                  <rr-t>HexDigit</rr-t>
+                  <rr-t>HexDigit</rr-t>
+                  <rr-t>HexDigit</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1415,10 +1869,18 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'\u0020'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'\u0009'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'\u000D'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'\u000A'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1426,23 +1888,57 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'!'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'#'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'%'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'&amp;'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'*'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'+'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'-'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>':'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'&lt;'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'='</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'&gt;'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'?'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'@'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'\\'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'^'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'|'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'~'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1450,7 +1946,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'/'</rr-t>
+                  <rr-t>Opchar</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1460,11 +1959,18 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>Letter</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>Digit</rr-t>
+                     </rr-a>
                   </rr-o>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'_'</rr-t>
+                        <rr-t>Op</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -1474,10 +1980,18 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'\u0020'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'\u0021'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0023'..'\u007F'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-t>CharEscapeSeq</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1487,8 +2001,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>StringElement</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>NL</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -1498,9 +2016,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-c>'0'..'9'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'A'..'F'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'a'..'f'</rr-c>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1508,10 +2032,18 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'F'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'D'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'d'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1519,10 +2051,18 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-c>'A'..'Z'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'$'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'_'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>UnicodeClass_LU</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1530,8 +2070,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-c>'a'..'z'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-t>UnicodeClass_LL</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1539,10 +2083,18 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>Upper</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>Lower</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>UnicodeClass_LO</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>UnicodeClass_LT</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1552,13 +2104,22 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'E'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'e'</rr-t>
+                     </rr-a>
                   </rr-o>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'+'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'-'</rr-t>
+                     </rr-a>
                   </rr-o>
+                  <rr-t>Digit</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1567,7 +2128,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-c>'\u0020'..'\u007F'</rr-c>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1575,7 +2138,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-c>'\u0021'..'\u007F'</rr-c>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1584,15 +2149,32 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'\\'</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'b'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'t'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'n'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'f'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'r'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'"'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'\''</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'\\'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -1602,8 +2184,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>NonZeroDigit</rr-t>
+                  <rr-t>Digit</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1611,7 +2198,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'0'</rr-t>
+                  <rr-t>'x'</rr-t>
+                  <rr-t>HexDigit</rr-t>
+                  <rr-t>HexDigit</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1619,8 +2211,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>NonZeroDigit</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1628,7 +2224,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-c>'1'..'9'</rr-c>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1636,7 +2234,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>Varid</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1644,9 +2244,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>Upper</rr-t>
+                  <rr-t>Idrest</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>Lower</rr-t>
+                  <rr-t>Idrest</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>Op</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1654,11 +2262,21 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>UnicodeClass_LU</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>UnicodeClass_LL</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>UnicodeClass_LT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>UnicodeClass_LM</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>UnicodeClass_LO</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1666,107 +2284,309 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-c>'\u0041'..'\u005a'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u00c0'..'\u00d6'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u00d8'..'\u00de'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0100'..'\u0136'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0139'..'\u0147'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u014a'..'\u0178'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0179'..'\u017d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0181'..'\u0182'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0184'..'\u0186'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0187'..'\u0189'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u018a'..'\u018b'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u018e'..'\u0191'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0193'..'\u0194'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0196'..'\u0198'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u019c'..'\u019d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u019f'..'\u01a0'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01a2'..'\u01a6'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01a7'..'\u01a9'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01ac'..'\u01ae'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01af'..'\u01b1'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01b2'..'\u01b3'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01b5'..'\u01b7'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01b8'..'\u01bc'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01c4'..'\u01cd'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01cf'..'\u01db'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01de'..'\u01ee'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01f1'..'\u01f4'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01f6'..'\u01f8'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01fa'..'\u0232'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u023a'..'\u023b'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u023d'..'\u023e'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0241'..'\u0243'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0244'..'\u0246'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0248'..'\u024e'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0370'..'\u0372'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0376'..'\u037f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0386'..'\u0388'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0389'..'\u038a'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u038c'..'\u038e'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u038f'..'\u0391'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0392'..'\u03a1'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u03a3'..'\u03ab'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u03cf'..'\u03d2'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u03d3'..'\u03d4'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u03d8'..'\u03ee'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u03f4'..'\u03f7'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u03f9'..'\u03fa'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u03fd'..'\u042f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0460'..'\u0480'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u048a'..'\u04c0'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u04c1'..'\u04cd'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u04d0'..'\u052e'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0531'..'\u0556'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u10a0'..'\u10c5'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u10c7'..'\u10cd'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1e00'..'\u1e94'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1e9e'..'\u1efe'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1f08'..'\u1f0f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1f18'..'\u1f1d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1f28'..'\u1f2f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1f38'..'\u1f3f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1f48'..'\u1f4d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1f59'..'\u1f5f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1f68'..'\u1f6f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1fb8'..'\u1fbb'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1fc8'..'\u1fcb'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1fd8'..'\u1fdb'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1fe8'..'\u1fec'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1ff8'..'\u1ffb'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2102'..'\u2107'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u210b'..'\u210d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2110'..'\u2112'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2115'..'\u2119'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u211a'..'\u211d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2124'..'\u212a'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u212b'..'\u212d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2130'..'\u2133'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u213e'..'\u213f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2145'..'\u2183'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2c00'..'\u2c2e'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2c60'..'\u2c62'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2c63'..'\u2c64'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2c67'..'\u2c6d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2c6e'..'\u2c70'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2c72'..'\u2c75'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2c7e'..'\u2c80'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2c82'..'\u2ce2'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2ceb'..'\u2ced'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2cf2'..'\ua640'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua642'..'\ua66c'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua680'..'\ua69a'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua722'..'\ua72e'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua732'..'\ua76e'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua779'..'\ua77d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua77e'..'\ua786'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua78b'..'\ua78d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua790'..'\ua792'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua796'..'\ua7aa'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua7ab'..'\ua7ad'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua7b0'..'\ua7b1'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uff21'..'\uff3a'</rr-c>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1774,119 +2594,345 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-c>'\u0061'..'\u007A'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u00b5'..'\u00df'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u00e0'..'\u00f6'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u00f8'..'\u00ff'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0101'..'\u0137'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0138'..'\u0148'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0149'..'\u0177'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u017a'..'\u017e'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u017f'..'\u0180'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0183'..'\u0185'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0188'..'\u018c'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u018d'..'\u0192'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0195'..'\u0199'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u019a'..'\u019b'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u019e'..'\u01a1'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01a3'..'\u01a5'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01a8'..'\u01aa'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01ab'..'\u01ad'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01b0'..'\u01b4'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01b6'..'\u01b9'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01ba'..'\u01bd'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01be'..'\u01bf'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01c6'..'\u01cc'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01ce'..'\u01dc'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01dd'..'\u01ef'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01f0'..'\u01f3'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01f5'..'\u01f9'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01fb'..'\u0233'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0234'..'\u0239'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u023c'..'\u023f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0240'..'\u0242'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0247'..'\u024f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0250'..'\u0293'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0295'..'\u02af'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0371'..'\u0373'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0377'..'\u037b'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u037c'..'\u037d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0390'..'\u03ac'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u03ad'..'\u03ce'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u03d0'..'\u03d1'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u03d5'..'\u03d7'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u03d9'..'\u03ef'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u03f0'..'\u03f3'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u03f5'..'\u03fb'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u03fc'..'\u0430'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0431'..'\u045f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0461'..'\u0481'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u048b'..'\u04bf'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u04c2'..'\u04ce'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u04cf'..'\u052f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0561'..'\u0587'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1d00'..'\u1d2b'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1d6b'..'\u1d77'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1d79'..'\u1d9a'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1e01'..'\u1e95'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1e96'..'\u1e9d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1e9f'..'\u1eff'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1f00'..'\u1f07'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1f10'..'\u1f15'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1f20'..'\u1f27'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1f30'..'\u1f37'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1f40'..'\u1f45'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1f50'..'\u1f57'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1f60'..'\u1f67'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1f70'..'\u1f7d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1f80'..'\u1f87'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1f90'..'\u1f97'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1fa0'..'\u1fa7'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1fb0'..'\u1fb4'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1fb6'..'\u1fb7'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1fbe'..'\u1fc2'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1fc3'..'\u1fc4'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1fc6'..'\u1fc7'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1fd0'..'\u1fd3'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1fd6'..'\u1fd7'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1fe0'..'\u1fe7'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1ff2'..'\u1ff4'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1ff6'..'\u1ff7'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u210a'..'\u210e'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u210f'..'\u2113'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u212f'..'\u2139'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u213c'..'\u213d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2146'..'\u2149'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u214e'..'\u2184'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2c30'..'\u2c5e'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2c61'..'\u2c65'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2c66'..'\u2c6c'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2c71'..'\u2c73'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2c74'..'\u2c76'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2c77'..'\u2c7b'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2c81'..'\u2ce3'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2ce4'..'\u2cec'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2cee'..'\u2cf3'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2d00'..'\u2d25'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2d27'..'\u2d2d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua641'..'\ua66d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua681'..'\ua69b'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua723'..'\ua72f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua730'..'\ua731'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua733'..'\ua771'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua772'..'\ua778'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua77a'..'\ua77c'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua77f'..'\ua787'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua78c'..'\ua78e'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua791'..'\ua793'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua794'..'\ua795'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua797'..'\ua7a9'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua7fa'..'\uab30'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uab31'..'\uab5a'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uab64'..'\uab65'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ufb00'..'\ufb06'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ufb13'..'\ufb17'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uff41'..'\uff5a'</rr-c>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1894,13 +2940,27 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-c>'\u01c5'..'\u01cb'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01f2'..'\u1f88'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1f89'..'\u1f8f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1f98'..'\u1f9f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1fa8'..'\u1faf'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1fbc'..'\u1fcc'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1ffc'..'\u1ffc'</rr-c>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1908,46 +2968,126 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-c>'\u02b0'..'\u02c1'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u02c6'..'\u02d1'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u02e0'..'\u02e4'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u02ec'..'\u02ee'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0374'..'\u037a'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0559'..'\u0640'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u06e5'..'\u06e6'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u07f4'..'\u07f5'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u07fa'..'\u081a'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0824'..'\u0828'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0971'..'\u0e46'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0ec6'..'\u10fc'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u17d7'..'\u1843'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1aa7'..'\u1c78'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1c79'..'\u1c7d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1d2c'..'\u1d6a'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1d78'..'\u1d9b'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1d9c'..'\u1dbf'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2071'..'\u207f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2090'..'\u209c'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2c7c'..'\u2c7d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2d6f'..'\u2e2f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u3005'..'\u3031'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u3032'..'\u3035'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u303b'..'\u309d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u309e'..'\u30fc'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u30fd'..'\u30fe'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua015'..'\ua4f8'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua4f9'..'\ua4fd'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua60c'..'\ua67f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua69c'..'\ua69d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua717'..'\ua71f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua770'..'\ua788'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua7f8'..'\ua7f9'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua9cf'..'\ua9e6'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uaa70'..'\uaadd'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uaaf3'..'\uaaf4'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uab5c'..'\uab5f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uff70'..'\uff9e'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uff9f'..'\uff9f'</rr-c>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1955,282 +3095,834 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-c>'\u00aa'..'\u00ba'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01bb'..'\u01c0'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u01c1'..'\u01c3'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0294'..'\u05d0'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u05d1'..'\u05ea'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u05f0'..'\u05f2'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0620'..'\u063f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0641'..'\u064a'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u066e'..'\u066f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0671'..'\u06d3'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u06d5'..'\u06ee'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u06ef'..'\u06fa'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u06fb'..'\u06fc'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u06ff'..'\u0710'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0712'..'\u072f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u074d'..'\u07a5'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u07b1'..'\u07ca'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u07cb'..'\u07ea'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0800'..'\u0815'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0840'..'\u0858'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u08a0'..'\u08b2'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0904'..'\u0939'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u093d'..'\u0950'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0958'..'\u0961'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0972'..'\u0980'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0985'..'\u098c'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u098f'..'\u0990'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0993'..'\u09a8'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u09aa'..'\u09b0'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u09b2'..'\u09b6'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u09b7'..'\u09b9'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u09bd'..'\u09ce'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u09dc'..'\u09dd'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u09df'..'\u09e1'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u09f0'..'\u09f1'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0a05'..'\u0a0a'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0a0f'..'\u0a10'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0a13'..'\u0a28'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0a2a'..'\u0a30'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0a32'..'\u0a33'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0a35'..'\u0a36'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0a38'..'\u0a39'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0a59'..'\u0a5c'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0a5e'..'\u0a72'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0a73'..'\u0a74'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0a85'..'\u0a8d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0a8f'..'\u0a91'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0a93'..'\u0aa8'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0aaa'..'\u0ab0'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0ab2'..'\u0ab3'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0ab5'..'\u0ab9'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0abd'..'\u0ad0'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0ae0'..'\u0ae1'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0b05'..'\u0b0c'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0b0f'..'\u0b10'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0b13'..'\u0b28'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0b2a'..'\u0b30'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0b32'..'\u0b33'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0b35'..'\u0b39'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0b3d'..'\u0b5c'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0b5d'..'\u0b5f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0b60'..'\u0b61'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0b71'..'\u0b83'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0b85'..'\u0b8a'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0b8e'..'\u0b90'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0b92'..'\u0b95'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0b99'..'\u0b9a'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0b9c'..'\u0b9e'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0b9f'..'\u0ba3'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0ba4'..'\u0ba8'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0ba9'..'\u0baa'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0bae'..'\u0bb9'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0bd0'..'\u0c05'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0c06'..'\u0c0c'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0c0e'..'\u0c10'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0c12'..'\u0c28'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0c2a'..'\u0c39'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0c3d'..'\u0c58'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0c59'..'\u0c60'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0c61'..'\u0c85'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0c86'..'\u0c8c'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0c8e'..'\u0c90'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0c92'..'\u0ca8'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0caa'..'\u0cb3'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0cb5'..'\u0cb9'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0cbd'..'\u0cde'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0ce0'..'\u0ce1'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0cf1'..'\u0cf2'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0d05'..'\u0d0c'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0d0e'..'\u0d10'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0d12'..'\u0d3a'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0d3d'..'\u0d4e'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0d60'..'\u0d61'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0d7a'..'\u0d7f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0d85'..'\u0d96'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0d9a'..'\u0db1'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0db3'..'\u0dbb'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0dbd'..'\u0dc0'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0dc1'..'\u0dc6'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0e01'..'\u0e30'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0e32'..'\u0e33'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0e40'..'\u0e45'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0e81'..'\u0e82'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0e84'..'\u0e87'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0e88'..'\u0e8a'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0e8d'..'\u0e94'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0e95'..'\u0e97'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0e99'..'\u0e9f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0ea1'..'\u0ea3'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0ea5'..'\u0ea7'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0eaa'..'\u0eab'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0ead'..'\u0eb0'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0eb2'..'\u0eb3'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0ebd'..'\u0ec0'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0ec1'..'\u0ec4'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0edc'..'\u0edf'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0f00'..'\u0f40'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0f41'..'\u0f47'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0f49'..'\u0f6c'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0f88'..'\u0f8c'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1000'..'\u102a'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u103f'..'\u1050'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1051'..'\u1055'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u105a'..'\u105d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1061'..'\u1065'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1066'..'\u106e'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u106f'..'\u1070'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1075'..'\u1081'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u108e'..'\u10d0'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u10d1'..'\u10fa'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u10fd'..'\u1248'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u124a'..'\u124d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1250'..'\u1256'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1258'..'\u125a'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u125b'..'\u125d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1260'..'\u1288'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u128a'..'\u128d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1290'..'\u12b0'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u12b2'..'\u12b5'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u12b8'..'\u12be'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u12c0'..'\u12c2'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u12c3'..'\u12c5'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u12c8'..'\u12d6'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u12d8'..'\u1310'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1312'..'\u1315'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1318'..'\u135a'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1380'..'\u138f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u13a0'..'\u13f4'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1401'..'\u166c'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u166f'..'\u167f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1681'..'\u169a'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u16a0'..'\u16ea'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u16f1'..'\u16f8'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1700'..'\u170c'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u170e'..'\u1711'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1720'..'\u1731'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1740'..'\u1751'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1760'..'\u176c'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u176e'..'\u1770'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1780'..'\u17b3'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u17dc'..'\u1820'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1821'..'\u1842'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1844'..'\u1877'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1880'..'\u18a8'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u18aa'..'\u18b0'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u18b1'..'\u18f5'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1900'..'\u191e'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1950'..'\u196d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1970'..'\u1974'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1980'..'\u19ab'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u19c1'..'\u19c7'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1a00'..'\u1a16'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1a20'..'\u1a54'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1b05'..'\u1b33'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1b45'..'\u1b4b'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1b83'..'\u1ba0'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1bae'..'\u1baf'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1bba'..'\u1be5'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1c00'..'\u1c23'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1c4d'..'\u1c4f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1c5a'..'\u1c77'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1ce9'..'\u1cec'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1cee'..'\u1cf1'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1cf5'..'\u1cf6'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2135'..'\u2138'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2d30'..'\u2d67'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2d80'..'\u2d96'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2da0'..'\u2da6'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2da8'..'\u2dae'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2db0'..'\u2db6'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2db8'..'\u2dbe'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2dc0'..'\u2dc6'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2dc8'..'\u2dce'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2dd0'..'\u2dd6'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2dd8'..'\u2dde'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u3006'..'\u303c'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u3041'..'\u3096'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u309f'..'\u30a1'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u30a2'..'\u30fa'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u30ff'..'\u3105'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u3106'..'\u312d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u3131'..'\u318e'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u31a0'..'\u31ba'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u31f0'..'\u31ff'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u3400'..'\u4db5'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u4e00'..'\u9fcc'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua000'..'\ua014'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua016'..'\ua48c'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua4d0'..'\ua4f7'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua500'..'\ua60b'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua610'..'\ua61f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua62a'..'\ua62b'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua66e'..'\ua6a0'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua6a1'..'\ua6e5'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua7f7'..'\ua7fb'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua7fc'..'\ua801'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua803'..'\ua805'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua807'..'\ua80a'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua80c'..'\ua822'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua840'..'\ua873'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua882'..'\ua8b3'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua8f2'..'\ua8f7'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua8fb'..'\ua90a'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua90b'..'\ua925'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua930'..'\ua946'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua960'..'\ua97c'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua984'..'\ua9b2'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua9e0'..'\ua9e4'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua9e7'..'\ua9ef'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua9fa'..'\ua9fe'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uaa00'..'\uaa28'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uaa40'..'\uaa42'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uaa44'..'\uaa4b'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uaa60'..'\uaa6f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uaa71'..'\uaa76'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uaa7a'..'\uaa7e'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uaa7f'..'\uaaaf'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uaab1'..'\uaab5'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uaab6'..'\uaab9'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uaaba'..'\uaabd'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uaac0'..'\uaac2'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uaadb'..'\uaadc'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uaae0'..'\uaaea'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uaaf2'..'\uab01'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uab02'..'\uab06'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uab09'..'\uab0e'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uab11'..'\uab16'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uab20'..'\uab26'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uab28'..'\uab2e'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uabc0'..'\uabe2'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uac00'..'\ud7a3'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ud7b0'..'\ud7c6'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ud7cb'..'\ud7fb'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uf900'..'\ufa6d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ufa70'..'\ufad9'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ufb1d'..'\ufb1f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ufb20'..'\ufb28'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ufb2a'..'\ufb36'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ufb38'..'\ufb3c'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ufb3e'..'\ufb40'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ufb41'..'\ufb43'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ufb44'..'\ufb46'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ufb47'..'\ufbb1'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ufbd3'..'\ufd3d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ufd50'..'\ufd8f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ufd92'..'\ufdc7'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ufdf0'..'\ufdfb'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ufe70'..'\ufe74'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ufe76'..'\ufefc'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uff66'..'\uff6f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uff71'..'\uff9d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uffa0'..'\uffbe'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uffc2'..'\uffc7'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uffca'..'\uffcf'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uffd2'..'\uffd7'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uffda'..'\uffdc'</rr-c>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2238,43 +3930,117 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-c>'\u0030'..'\u0039'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0660'..'\u0669'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u06f0'..'\u06f9'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u07c0'..'\u07c9'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0966'..'\u096f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u09e6'..'\u09ef'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0a66'..'\u0a6f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0ae6'..'\u0aef'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0b66'..'\u0b6f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0be6'..'\u0bef'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0c66'..'\u0c6f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0ce6'..'\u0cef'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0d66'..'\u0d6f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0de6'..'\u0def'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0e50'..'\u0e59'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0ed0'..'\u0ed9'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0f20'..'\u0f29'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1040'..'\u1049'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1090'..'\u1099'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u17e0'..'\u17e9'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1810'..'\u1819'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1946'..'\u194f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u19d0'..'\u19d9'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1a80'..'\u1a89'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1a90'..'\u1a99'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1b50'..'\u1b59'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1bb0'..'\u1bb9'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1c40'..'\u1c49'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1c50'..'\u1c59'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua620'..'\ua629'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua8d0'..'\ua8d9'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua900'..'\ua909'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua9d0'..'\ua9d9'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\ua9f0'..'\ua9f9'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uaa50'..'\uaa59'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uabf0'..'\uabf9'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uff10'..'\uff19'</rr-c>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2282,7 +4048,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>NL</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2290,7 +4058,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>WhiteSpace</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2299,12 +4069,16 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'/*'</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
                      <rr-a>
-                        <rr-c>.</rr-c>
+                        <rr-t>COMMENT</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-c></rr-c>
                      </rr-a>
                   </rr-o>
+                  <rr-t>'*/'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -2314,6 +4088,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'//'</rr-t>
                   <rr-o>
                      <rr-a></rr-a>
                   </rr-o>

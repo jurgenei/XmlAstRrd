@@ -5,7 +5,34 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1><a href="../index.html">Railroad</a> v/V.ast.xml</h1>
+      <h1>Railroad v/V.ast.xml</h1>
+      <pre>/*
+ [The "BSD licence"]
+ Copyright (c) 2017 Sasa Coh, Michał Błotniak
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+ 3. The name of the author may not be used to endorse or promote products
+    derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
       <h1>Rules</h1>
       <h2 id="sourceFile">sourceFile</h2>
       <p>
@@ -27,15 +54,22 @@
                         <rr-a><a href="#topLevelDecl">topLevelDecl</a><a href="#eos">eos</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>EOF</rr-t>
                </rr-a>
             </rr-o>
+            <pre>/*
+    V语言没有package关键字，取而代之的是 module 关键字
+*/</pre>
          </rr-rr>
       </p>
       <h2 id="moduleClause">moduleClause</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'module'</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -44,6 +78,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'import'</rr-t>
                   <rr-a>
                      <rr-o><a href="#importSpec">importSpec</a></rr-o>
                   </rr-a>
@@ -57,7 +92,10 @@
             <rr-o>
                <rr-a>
                   <rr-a data-min="0" data-max="1">
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>'.'</rr-t>
+                        <rr-t>IDENTIFIER</rr-t>
+                     </rr-o>
                   </rr-a><a href="#importPath">importPath</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -65,7 +103,10 @@
       <h2 id="importPath">importPath</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+               <rr-t>STRING_LIT</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="topLevelDecl">topLevelDecl</h2>
@@ -77,7 +118,7 @@
       <h2 id="declaration">declaration</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#constDecl">constDecl</a><a href="#varDecl">varDecl</a><a href="#structDecln____//    | typeDecl">structDecln____//    | typeDecl</a></rr-o>
+            <rr-o><a href="#constDecl">constDecl</a><a href="#varDecl">varDecl</a><a href="#structDecln____//    | typeDecl">structDecl</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="constDecl">constDecl</h2>
@@ -85,11 +126,14 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'const'</rr-t>
+                  <rr-t>'('</rr-t>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
                         <rr-a><a href="#constSpec">constSpec</a><a href="#eos">eos</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>')'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -98,7 +142,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>'='</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -107,9 +153,13 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t>
+                           <rr-t>IDENTIFIER</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -122,7 +172,8 @@
             <rr-o>
                <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#expression">expression</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#expression">expression</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -134,6 +185,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'fn'</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
                   <rr-a>
                      <rr-o><a href="#function_">function_</a><a href="#signature">signature</a></rr-o>
                   </rr-a>
@@ -153,7 +206,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#receiver">receiver</a><rr-a>
+               <rr-a>
+                  <rr-t>'fn'</rr-t><a href="#receiver">receiver</a><rr-t>IDENTIFIER</rr-t>
+                  <rr-a>
                      <rr-o><a href="#function_">function_</a><a href="#signature">signature</a></rr-o>
                   </rr-a>
                </rr-a>
@@ -164,6 +219,11 @@
       <p>
          <rr-rr>
             <rr-o><a href="#parameters">parameters</a></rr-o>
+            <pre>/*TODO:变量定义, 语言与Go语言在定义变量的方式上有明显区别：
+  Golang: var a int = 0 (明确类型并有 var) ; var a = 0 (自动推断并有 var) ; a := 0 (自动推断没有 var) ;
+  V:      没有var关键字, 变量定义只有两种 (1) a := 0 ; (2) mut a := 0 ;
+  自2019-06-22 V语言开源到编辑该文档现在, V 并不支持多重变量定义语法
+*/</pre>
          </rr-rr>
       </p>
       <h2 id="noMutDecl">noMutDecl</h2>
@@ -172,7 +232,8 @@
             <rr-o>
                <rr-a><a href="#identifierList">identifierList</a><rr-a>
                      <rr-o>
-                        <rr-a><a href="#expressionList">expressionList</a></rr-a>
+                        <rr-a>
+                           <rr-t>':='</rr-t><a href="#expressionList">expressionList</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -184,6 +245,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'mut'</rr-t>
                   <rr-a>
                      <rr-o><a href="#noMutDecl">noMutDecl</a></rr-o>
                   </rr-a>
@@ -195,7 +257,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#statementList">statementList</a></rr-a>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#statementList">statementList</a><rr-t>'}'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -214,18 +278,13 @@
       <h2 id="statement">statement</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#declaration">declaration</a><a href="#simpleStmt">simpleStmt</a><a href="#returnStmt">returnStmt</a><a href="#breakStmt">breakStmt</a><a href="#continueStmt">continueStmt</a><a href="#block">block</a><a href="#ifStmt">ifStmt</a><a href="#switchStmt">switchStmt</a><a href="#forStmtn____//    | labeledStmt     //TODO: V%E8%AF%AD%E8%A8%80%E6%B2%A1%E6%9C%89goto%E6%95%85%E4%B9%9F%E6%B2%A1%E6%9C%89%E5%AF%B9%E5%BA%94%E7%9A%84label%E5%AE%9E%E7%8E%B0n____//    | goStmt          //TODO: V%E8%AF%AD%E8%A8%80%E8%AE%A1%E5%88%92%E5%9C%A8%E4%B9%8B%E5%90%8E%E5%BC%95%E5%85%A5go%E5%85%B3%E9%94%AE%E5%AD%97, %E4%BB%A5%E5%BE%85%E4%B9%8B%E5%90%8E%E6%B7%BB%E5%8A%A0n____//    | gotoStmt        //TODO: V%E8%AF%AD%E8%A8%80%E7%9B%AE%E5%89%8D%E6%B2%A1%E6%9C%89 goto %E5%85%B3%E9%94%AE%E5%AD%97n____//    | fallthroughStmt //TODO: V%E8%AF%AD%E8%A8%80%E7%9B%AE%E5%89%8D%E6%B2%A1%E6%9C%89 fallthrough %E5%85%B3%E9%94%AE%E5%AD%97n____//    | selectStmt      //TODO: V%E8%AF%AD%E8%A8%80%E7%9B%AE%E5%89%8D%E6%B2%A1%E6%9C%89 select %E5%85%B3%E9%94%AE%E5%AD%97n____//    | deferStmt       //TODO: V%E8%AF%AD%E8%A8%80%E7%9B%AE%E5%89%8D%E6%B2%A1%E6%9C%89 defer %E5%85%B3%E9%94%AE%E5%AD%97, %E4%BD%86%E6%9C%89%E5%BE%85%E5%AE%9E%E7%8E%B0">forStmtn____//    | labeledStmt     //TODO: V语言没有goto故也没有对应的label实现n____//    | goStmt
-                  //TODO: V语言计划在之后引入go关键字, 以待之后添加n____//    | gotoStmt        //TODO: V语言目前没有 goto 关键字n____//
-                  | fallthroughStmt //TODO: V语言目前没有 fallthrough 关键字n____//    | selectStmt      //TODO:
-                  V语言目前没有 select 关键字n____//    | deferStmt       //TODO: V语言目前没有 defer 关键字, 但有待实现</a></rr-o>
+            <rr-o><a href="#declaration">declaration</a><a href="#simpleStmt">simpleStmt</a><a href="#returnStmt">returnStmt</a><a href="#breakStmt">breakStmt</a><a href="#continueStmt">continueStmt</a><a href="#block">block</a><a href="#ifStmt">ifStmt</a><a href="#switchStmt">switchStmt</a><a href="#forStmtn____//    | labeledStmt     //TODO: V%E8%AF%AD%E8%A8%80%E6%B2%A1%E6%9C%89goto%E6%95%85%E4%B9%9F%E6%B2%A1%E6%9C%89%E5%AF%B9%E5%BA%94%E7%9A%84label%E5%AE%9E%E7%8E%B0n____//    | goStmt          //TODO: V%E8%AF%AD%E8%A8%80%E8%AE%A1%E5%88%92%E5%9C%A8%E4%B9%8B%E5%90%8E%E5%BC%95%E5%85%A5go%E5%85%B3%E9%94%AE%E5%AD%97, %E4%BB%A5%E5%BE%85%E4%B9%8B%E5%90%8E%E6%B7%BB%E5%8A%A0n____//    | gotoStmt        //TODO: V%E8%AF%AD%E8%A8%80%E7%9B%AE%E5%89%8D%E6%B2%A1%E6%9C%89 goto %E5%85%B3%E9%94%AE%E5%AD%97n____//    | fallthroughStmt //TODO: V%E8%AF%AD%E8%A8%80%E7%9B%AE%E5%89%8D%E6%B2%A1%E6%9C%89 fallthrough %E5%85%B3%E9%94%AE%E5%AD%97n____//    | selectStmt      //TODO: V%E8%AF%AD%E8%A8%80%E7%9B%AE%E5%89%8D%E6%B2%A1%E6%9C%89 select %E5%85%B3%E9%94%AE%E5%AD%97n____//    | deferStmt       //TODO: V%E8%AF%AD%E8%A8%80%E7%9B%AE%E5%89%8D%E6%B2%A1%E6%9C%89 defer %E5%85%B3%E9%94%AE%E5%AD%97, %E4%BD%86%E6%9C%89%E5%BE%85%E5%AE%9E%E7%8E%B0">forStmt</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="simpleStmt">simpleStmt</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#expressionStmt">expressionStmt</a><a href="#incDecStmt">incDecStmt</a><a href="#assignmentn____//    | noMutDecl       //  **: V%E8%AF%AD%E8%A8%80%E5%9C%A8 for %E5%BE%AA%E7%8E%AF%E6%9C%89 C-like %E5%BC%8F%E7%9A%84 ;; %E5%AE%9A%E4%B9%89%E6%B3%95%EF%BC%8C%E8%80%8C%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%98%AF noMulDec %E5%BD%A2%E5%BC%8F%E7%9A%84%E5%AE%9A%E4%B9%89n____//    | emptyStmt       //TODO: V%E8%AF%AD%E8%A8%80%E7%9B%AE%E5%89%8D%E4%B8%8D%E6%94%AF%E6%8C%81 ; %E5%8F%B7%E7%BB%93%E5%B0%BEn____//    | sendStmt        //TODO: V%E8%AF%AD%E8%A8%80%E7%9B%AE%E5%89%8D%E6%B2%A1%E6%9C%89%E7%B1%BB%E4%BC%BCGo%E7%9A%84 send %E6%9C%BA%E5%88%B6">assignmentn____//    | noMutDecl       //  **: V语言在 for 循环有 C-like 式的 ;; 定义法，而第一个是
-                  noMulDec 形式的定义n____//    | emptyStmt       //TODO: V语言目前不支持 ; 号结尾n____//    | sendStmt
-                  //TODO: V语言目前没有类似Go的 send 机制</a></rr-o>
+            <rr-o><a href="#expressionStmt">expressionStmt</a><a href="#incDecStmt">incDecStmt</a><a href="#assignmentn____//    | noMutDecl       //  **: V%E8%AF%AD%E8%A8%80%E5%9C%A8 for %E5%BE%AA%E7%8E%AF%E6%9C%89 C-like %E5%BC%8F%E7%9A%84 ;; %E5%AE%9A%E4%B9%89%E6%B3%95%EF%BC%8C%E8%80%8C%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%98%AF noMulDec %E5%BD%A2%E5%BC%8F%E7%9A%84%E5%AE%9A%E4%B9%89n____//    | emptyStmt       //TODO: V%E8%AF%AD%E8%A8%80%E7%9B%AE%E5%89%8D%E4%B8%8D%E6%94%AF%E6%8C%81 ; %E5%8F%B7%E7%BB%93%E5%B0%BEn____//    | sendStmt        //TODO: V%E8%AF%AD%E8%A8%80%E7%9B%AE%E5%89%8D%E6%B2%A1%E6%9C%89%E7%B1%BB%E4%BC%BCGo%E7%9A%84 send %E6%9C%BA%E5%88%B6">assignment</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="expressionStmt">expressionStmt</h2>
@@ -239,7 +298,10 @@
          <rr-rr>
             <rr-o>
                <rr-a><a href="#expression">expression</a><rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>'++'</rr-t>
+                        <rr-t>'--'</rr-t>
+                     </rr-o>
                   </rr-a>
                </rr-a>
             </rr-o>
@@ -259,8 +321,20 @@
             <rr-o>
                <rr-a>
                   <rr-a data-min="0" data-max="1">
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>'+'</rr-t>
+                        <rr-t>'-'</rr-t>
+                        <rr-t>'|'</rr-t>
+                        <rr-t>'^'</rr-t>
+                        <rr-t>'*'</rr-t>
+                        <rr-t>'/'</rr-t>
+                        <rr-t>'%'</rr-t>
+                        <rr-t>'&lt;&lt;'</rr-t>
+                        <rr-t>'&gt;&gt;'</rr-t>
+                        <rr-t>'&amp;'</rr-t>
+                     </rr-o>
                   </rr-a>
+                  <rr-t>'='</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -269,20 +343,25 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expressionList">expressionList</a></rr-a>
+               <rr-a>
+                  <rr-t>'return'</rr-t><a href="#expressionList">expressionList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="breakStmt">breakStmt</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'break'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="continueStmt">continueStmt</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'continue'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="ifStmt">ifStmt</h2>
@@ -290,13 +369,16 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'if'</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#simpleStmt">simpleStmt</a></rr-a>
+                        <rr-a><a href="#simpleStmt">simpleStmt</a><rr-t>';'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#expression">expression</a><a href="#block">block</a><rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
+                           <rr-t>'else'</rr-t>
                            <rr-a>
                               <rr-o><a href="#ifStmt">ifStmt</a><a href="#block">block</a></rr-o>
                            </rr-a>
@@ -310,7 +392,7 @@
       <h2 id="switchStmt">switchStmt</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#exprSwitchStmtn____//    | typeSwitchStmt     //TODO: V%E8%AF%AD%E8%A8%80%E4%B8%8D%E6%94%AF%E6%8C%81type%E5%9E%8B switch %E8%AF%AD%E5%8F%A5">exprSwitchStmtn____//    | typeSwitchStmt     //TODO: V语言不支持type型 switch 语句</a></rr-o>
+            <rr-o><a href="#exprSwitchStmtn____//    | typeSwitchStmt     //TODO: V%E8%AF%AD%E8%A8%80%E4%B8%8D%E6%94%AF%E6%8C%81type%E5%9E%8B switch %E8%AF%AD%E5%8F%A5">exprSwitchStmt</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="exprSwitchStmt">exprSwitchStmt</h2>
@@ -318,11 +400,14 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'switch'</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#simpleStmt">simpleStmt</a></rr-a>
+                        <rr-a><a href="#simpleStmt">simpleStmt</a><rr-t>';'</rr-t>
+                        </rr-a>
                      </rr-o>
-                  </rr-a><a href="#expression">expression</a><a href="#exprCaseClause">exprCaseClause</a></rr-a>
+                  </rr-a><a href="#expression">expression</a><rr-t>'{'</rr-t><a href="#exprCaseClause">exprCaseClause</a><rr-t>'}'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -330,7 +415,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#exprSwitchCase">exprSwitchCase</a><a href="#statementList">statementList</a></rr-a>
+               <rr-a><a href="#exprSwitchCase">exprSwitchCase</a><rr-t>':'</rr-t><a href="#statementList">statementList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -338,7 +423,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expressionList">expressionList</a></rr-a>
+               <rr-a>
+                  <rr-t>'case'</rr-t><a href="#expressionList">expressionList</a></rr-a>
+               <rr-t>'default'</rr-t>
             </rr-o>
          </rr-rr>
       </p>
@@ -347,6 +434,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'for'</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o><a href="#expression">expression</a><a href="#forClause">forClause</a><a href="#inClause">inClause</a></rr-o>
                   </rr-a><a href="#block">block</a></rr-a>
@@ -357,43 +445,53 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#simpleStmt">simpleStmt</a><a href="#expression">expression</a><a href="#simpleStmt">simpleStmt</a></rr-a>
+               <rr-a><a href="#simpleStmt">simpleStmt</a><rr-t>';'</rr-t><a href="#expression">expression</a><rr-t>';'</rr-t><a href="#simpleStmt">simpleStmt</a></rr-a>
             </rr-o>
+            <pre>/*
+    V语言和Golang的for循环在 for expression | forClausel 两项上都是一样的
+    但是 V 语言不支持 range 关键字, 所以 rangeClause 改为 inClause
+*/</pre>
          </rr-rr>
       </p>
       <h2 id="inClause">inClause</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expressionList">expressionList</a></rr-a>
+               <rr-a><a href="#expressionList">expressionList</a><rr-t>'in'</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="type_">type_</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#typeName">typeName</a><a href="#typeLitn____//    | '(' type ')'                //TODO: V%E8%AF%AD%E8%A8%80%E7%9B%AE%E5%89%8D%E4%B9%9F%E4%B8%8D%E6%94%AF%E6%8C%81%E7%94%A8%E7%B1%BB%E5%9E%8B%E5%90%8D%E5%A4%9A%E9%87%8D%E5%AE%9A%E4%B9%89">typeLitn____//    | '(' type ')'                //TODO: V语言目前也不支持用类型名多重定义</a></rr-o>
+            <rr-o><a href="#typeName">typeName</a><a href="#typeLitn____//    | '(' type ')'                //TODO: V%E8%AF%AD%E8%A8%80%E7%9B%AE%E5%89%8D%E4%B9%9F%E4%B8%8D%E6%94%AF%E6%8C%81%E7%94%A8%E7%B1%BB%E5%9E%8B%E5%90%8D%E5%A4%9A%E9%87%8D%E5%AE%9A%E4%B9%89">typeLit</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="typeName">typeName</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a><a href="#qualifiedIdent_________// %E5%B7%B2%E7%BB%8F%E9%A2%84%E5%AE%9A%E4%B9%89%E4%BA%86%E7%9A%84%E5%A4%8D%E5%90%88%E7%B1%BB%E5%9E%8B">qualifiedIdent_________// 已经预定义了的复合类型</a></rr-o>
+               <rr-a>
+                  <rr-t>'&amp;'</rr-t>
+                  <rr-t>'mut'</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+               </rr-a><a href="#qualifiedIdent_________// %E5%B7%B2%E7%BB%8F%E9%A2%84%E5%AE%9A%E4%B9%89%E4%BA%86%E7%9A%84%E5%A4%8D%E5%90%88%E7%B1%BB%E5%9E%8B">qualifiedIdent</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="typeLit">typeLit</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#arrayType">arrayType</a><a href="#functionType">functionType</a><a href="#interfaceType">interfaceType</a><a href="#mapTypen____//    | sliceType                   // TODO: V%E8%AF%AD%E8%A8%80%E7%9B%AE%E5%89%8D%E6%B2%A1%E6%9C%89%E5%88%87%E7%89%87%E7%B1%BB%E5%9E%8Bn____//    | channelType                 // TODO: V%E8%AF%AD%E8%A8%80%E7%9B%AE%E5%89%8D%E6%B2%A1%E6%9C%89channel%E7%B1%BB%E5%9E%8Bn____//    | pointerType">mapTypen____//    | sliceType                   // TODO: V语言目前没有切片类型n____//    | channelType
-                  // TODO: V语言目前没有channel类型n____//    | pointerType</a></rr-o>
+            <rr-o><a href="#arrayType">arrayType</a><a href="#functionType">functionType</a><a href="#interfaceType">interfaceType</a><a href="#mapTypen____//    | sliceType                   // TODO: V%E8%AF%AD%E8%A8%80%E7%9B%AE%E5%89%8D%E6%B2%A1%E6%9C%89%E5%88%87%E7%89%87%E7%B1%BB%E5%9E%8Bn____//    | channelType                 // TODO: V%E8%AF%AD%E8%A8%80%E7%9B%AE%E5%89%8D%E6%B2%A1%E6%9C%89channel%E7%B1%BB%E5%9E%8Bn____//    | pointerType">mapType</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="arrayType">arrayType</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#arrayLength">arrayLength</a><a href="#elementType">elementType</a></rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#arrayLength">arrayLength</a><rr-t>']'</rr-t><a href="#elementType">elementType</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -414,11 +512,15 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'interface'</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>'{'</rr-t>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
                         <rr-a><a href="#methodSpec">methodSpec</a><a href="#eos">eos</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>'}'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -427,7 +529,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#type_">type_</a><a href="#elementType">elementType</a></rr-a>
+               <rr-a>
+                  <rr-t>'map'</rr-t>
+                  <rr-t>'['</rr-t><a href="#type_">type_</a><rr-t>']'</rr-t><a href="#elementType">elementType</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -435,7 +539,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#parameters">parameters</a><a href="#result">result</a></rr-a><a href="#typeName">typeName</a><rr-a><a href="#parameters">parameters</a></rr-a>
+               <rr-a>
+                  <rr-t>IDENTIFIER</rr-t><a href="#parameters">parameters</a><a href="#result">result</a></rr-a><a href="#typeName">typeName</a><rr-a>
+                  <rr-t>IDENTIFIER</rr-t><a href="#parameters">parameters</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -443,7 +549,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#signature">signature</a></rr-a>
+               <rr-a>
+                  <rr-t>'fn'</rr-t><a href="#signature">signature</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -465,11 +572,14 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'('</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#parameterList">parameterList</a></rr-a>
+                        <rr-a><a href="#parameterList">parameterList</a><rr-t>','</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>')'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -480,7 +590,8 @@
             <rr-o>
                <rr-a><a href="#parameterDecl">parameterDecl</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#parameterDecl">parameterDecl</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#parameterDecl">parameterDecl</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -498,7 +609,9 @@
       <h2 id="operand">operand</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#literal">literal</a><a href="#operandName">operandName</a><a href="#methodExpr">methodExpr</a><rr-a><a href="#expression">expression</a></rr-a>
+            <rr-o><a href="#literal">literal</a><a href="#operandName">operandName</a><a href="#methodExpr">methodExpr</a><rr-a>
+                  <rr-t>'('</rr-t><a href="#expression">expression</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -512,11 +625,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#expression">expression</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#expression">expression</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#expression">expression</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>']'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -524,20 +640,30 @@
       <h2 id="basicLit">basicLit</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>INT_LIT</rr-t>
+               <rr-t>FLOAT_LIT</rr-t>
+               <rr-t>RUNE_LIT</rr-t>
+               <rr-t>STRING_LIT</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="operandName">operandName</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#qualifiedIdent">qualifiedIdent</a></rr-o>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t><a href="#qualifiedIdent">qualifiedIdent</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="qualifiedIdent">qualifiedIdent</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>'.'</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -552,7 +678,7 @@
       <h2 id="literalType">literalType</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#arrayType">arrayType</a><a href="#mapType">mapType</a><a href="#typeNamen____//    | '[' '...' ']' elementTypen____//    | sliceType">typeNamen____//    | '[' '...' ']' elementTypen____//    | sliceType</a></rr-o>
+            <rr-o><a href="#arrayType">arrayType</a><a href="#mapType">mapType</a><a href="#typeNamen____//    | '[' '...' ']' elementTypen____//    | sliceType">typeName</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="literalValue">literalValue</h2>
@@ -560,11 +686,14 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'{'</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#elementList">elementList</a></rr-a>
+                        <rr-a><a href="#elementList">elementList</a><rr-t>','</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>'}'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -592,7 +721,8 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#key">key</a></rr-a>
+                        <rr-a><a href="#key">key</a><rr-t>':'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#element">element</a></rr-a>
             </rr-o>
@@ -601,7 +731,8 @@
       <h2 id="key">key</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#expression">expression</a><a href="#literalValue">literalValue</a></rr-o>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t><a href="#expression">expression</a><a href="#literalValue">literalValue</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="element">element</h2>
@@ -615,11 +746,15 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'struct'</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>'{'</rr-t>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
                         <rr-a><a href="#fieldDecl">fieldDecl</a><a href="#eos">eos</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>'}'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -633,19 +768,26 @@
                      <rr-o>
                         <rr-a><a href="#identifierList">identifierList</a><a href="#type_">type_</a></rr-a><a href="#anonymousField">anonymousField</a></rr-o>
                   </rr-a>
+                  <rr-t>STRING_LIT</rr-t>
                </rr-a>
                <rr-a>
                   <rr-a>
                      <rr-o>
                         <rr-a>
+                           <rr-t>'pub'</rr-t>
                            <rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a></rr-a>
+                                 <rr-a>
+                                    <rr-t>'mut'</rr-t>
+                                    <rr-t>'mut'</rr-t>
+                                 </rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
+                        <rr-t>'mut'</rr-t>
                      </rr-o>
                   </rr-a>
+                  <rr-t>':'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -660,7 +802,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#function_">function_</a></rr-a>
+               <rr-a>
+                  <rr-t>'fn'</rr-t><a href="#function_">function_</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -669,8 +812,7 @@
          <rr-rr>
             <rr-o><a href="#operand">operand</a><a href="#conversion">conversion</a><rr-a><a href="#primaryExpr">primaryExpr</a><a href="#selector">selector</a></rr-a>
                <rr-a><a href="#primaryExpr">primaryExpr</a><a href="#index">index</a></rr-a>
-               <rr-a><a href="#primaryExpr">primaryExpr</a><a href="#argumentsn____//    | primaryExpr typeAssertion       //TODO: V%E8%AF%AD%E8%A8%80%E6%9A%82%E6%9C%AA%E5%8F%91%E7%8E%B0%E6%9C%89 typeAssertion %E6%9C%BA%E5%88%B6n____//    | primaryExpr slice               //TODO: V%E8%AF%AD%E8%A8%80%E5%B9%B6%E4%B8%8D%E6%94%AF%E6%8C%81%E6%95%B0%E7%BB%84%E5%88%87%E7%89%87">argumentsn____//    | primaryExpr typeAssertion       //TODO: V语言暂未发现有 typeAssertion
-                     机制n____//    | primaryExpr slice               //TODO: V语言并不支持数组切片</a></rr-a>
+               <rr-a><a href="#primaryExpr">primaryExpr</a><a href="#argumentsn____//    | primaryExpr typeAssertion       //TODO: V%E8%AF%AD%E8%A8%80%E6%9A%82%E6%9C%AA%E5%8F%91%E7%8E%B0%E6%9C%89 typeAssertion %E6%9C%BA%E5%88%B6n____//    | primaryExpr slice               //TODO: V%E8%AF%AD%E8%A8%80%E5%B9%B6%E4%B8%8D%E6%94%AF%E6%8C%81%E6%95%B0%E7%BB%84%E5%88%87%E7%89%87">arguments</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -678,7 +820,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'.'</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -686,7 +831,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#expression">expression</a><rr-t>']'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -695,21 +842,25 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'('</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
                            <rr-a>
                               <rr-o><a href="#expressionList">expressionList</a><rr-a><a href="#type_">type_</a><rr-a data-min="0" data-max="1">
                                        <rr-o>
-                                          <rr-a><a href="#expressionList">expressionList</a></rr-a>
+                                          <rr-a>
+                                             <rr-t>','</rr-t><a href="#expressionList">expressionList</a></rr-a>
                                        </rr-o>
                                     </rr-a>
                                  </rr-a>
                               </rr-o>
                            </rr-a>
+                           <rr-t>','</rr-t>
                         </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>')'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -718,22 +869,46 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#receiverType">receiverType</a></rr-a>
+               <rr-a><a href="#receiverType">receiverType</a><rr-t>'.'</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="receiverType">receiverType</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#typeName">typeName</a><rr-a><a href="#receiverType">receiverType</a></rr-a>
+            <rr-o><a href="#typeName">typeName</a><rr-a>
+                  <rr-t>'('</rr-t><a href="#receiverType">receiverType</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="expression">expression</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#unaryExprn____//    | expression BINARY_OP expression">unaryExprn____//    | expression BINARY_OP expression</a><rr-a><a href="#expression">expression</a><rr-a>
-                     <rr-o></rr-o>
+            <rr-o><a href="#unaryExprn____//    | expression BINARY_OP expression">unaryExpr</a><rr-a><a href="#expression">expression</a><rr-a>
+                     <rr-o>
+                        <rr-t>'||'</rr-t>
+                        <rr-t>'&amp;&amp;'</rr-t>
+                        <rr-t>'=='</rr-t>
+                        <rr-t>'!='</rr-t>
+                        <rr-t>'&lt;'</rr-t>
+                        <rr-t>'&lt;='</rr-t>
+                        <rr-t>'&gt;'</rr-t>
+                        <rr-t>'&gt;='</rr-t>
+                        <rr-t>'+'</rr-t>
+                        <rr-t>'-'</rr-t>
+                        <rr-t>'|'</rr-t>
+                        <rr-t>'^'</rr-t>
+                        <rr-t>'*'</rr-t>
+                        <rr-t>'/'</rr-t>
+                        <rr-t>'%'</rr-t>
+                        <rr-t>'&lt;&lt;'</rr-t>
+                        <rr-t>'&gt;&gt;'</rr-t>
+                        <rr-t>'&amp;'</rr-t>
+                        <rr-t>'&amp;^'</rr-t>
+                     </rr-o>
                   </rr-a><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -743,7 +918,14 @@
          <rr-rr>
             <rr-o><a href="#primaryExpr">primaryExpr</a><rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>'+'</rr-t>
+                        <rr-t>'-'</rr-t>
+                        <rr-t>'!'</rr-t>
+                        <rr-t>'^'</rr-t>
+                        <rr-t>'*'</rr-t>
+                        <rr-t>'&amp;'</rr-t>
+                     </rr-o>
                   </rr-a><a href="#unaryExpr">unaryExpr</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -752,14 +934,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#type_">type_</a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#type_">type_</a><rr-t>'('</rr-t><a href="#expression">expression</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="eos">eos</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>EOF</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="IDENTIFIER">IDENTIFIER</h2>
@@ -767,9 +952,14 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>LETTER</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>LETTER</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>UNICODE_DIGIT</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -779,28 +969,72 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'break'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'const'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'continue'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'defer'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'else'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'enum'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fn'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'for'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'go'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'goto'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'if'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'import'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'in'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'interface'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'match'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'module'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'mut'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'or'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'pub'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'return'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'struct'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'type'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -808,11 +1042,21 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'||'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'&amp;&amp;'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>REL_OP</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>ADD_OP</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>MUL_OP</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -820,12 +1064,24 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'=='</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'!='</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'&lt;'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'&lt;='</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'&gt;'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'&gt;='</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -833,10 +1089,18 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'+'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'-'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'|'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'^'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -844,12 +1108,24 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'*'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'/'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'%'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'&lt;&lt;'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'&gt;&gt;'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'&amp;'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -857,11 +1133,21 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'+'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'-'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'!'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'^'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'&amp;'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -869,9 +1155,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>DECIMAL_LIT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>OCTAL_LIT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>HEX_LIT</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -880,7 +1172,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[1-9]</rr-c>
+                  <rr-c></rr-c>
+                  <rr-t>DECIMAL_DIGIT</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -889,7 +1182,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'0'</rr-t>
+                  <rr-t>OCTAL_DIGIT</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -898,10 +1194,16 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'0'</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'x'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'X'</rr-t>
+                     </rr-a>
                   </rr-o>
+                  <rr-t>HEX_DIGIT</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -910,9 +1212,21 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>DECIMALS</rr-t>
+                  <rr-t>'.'</rr-t>
+                  <rr-t>DECIMALS</rr-t>
+                  <rr-t>EXPONENT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>DECIMALS</rr-t>
+                  <rr-t>EXPONENT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'.'</rr-t>
+                  <rr-t>DECIMALS</rr-t>
+                  <rr-t>EXPONENT</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -920,7 +1234,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>DECIMAL_DIGIT</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -930,13 +1246,22 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'e'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'E'</rr-t>
+                     </rr-a>
                   </rr-o>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'+'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'-'</rr-t>
+                     </rr-a>
                   </rr-o>
+                  <rr-t>DECIMALS</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -946,10 +1271,16 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'\''</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>UNICODE_VALUE</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>BYTE_VALUE</rr-t>
+                     </rr-a>
                   </rr-o>
+                  <rr-t>'\''</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -958,10 +1289,18 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>UNICODE_CHAR</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LITTLE_U_VALUE</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>BIG_U_VALUE</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>ESCAPED_CHAR</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -969,8 +1308,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>OCTAL_BYTE_VALUE</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>HEX_BYTE_VALUE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -978,7 +1321,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'\\'</rr-t>
+                  <rr-t>OCTAL_DIGIT</rr-t>
+                  <rr-t>OCTAL_DIGIT</rr-t>
+                  <rr-t>OCTAL_DIGIT</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -986,7 +1334,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'\\'</rr-t>
+                  <rr-t>'x'</rr-t>
+                  <rr-t>HEX_DIGIT</rr-t>
+                  <rr-t>HEX_DIGIT</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -994,7 +1347,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'\\u'</rr-t>
+                  <rr-t>HEX_DIGIT</rr-t>
+                  <rr-t>HEX_DIGIT</rr-t>
+                  <rr-t>HEX_DIGIT</rr-t>
+                  <rr-t>HEX_DIGIT</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1002,7 +1361,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'\\U'</rr-t>
+                  <rr-t>HEX_DIGIT</rr-t>
+                  <rr-t>HEX_DIGIT</rr-t>
+                  <rr-t>HEX_DIGIT</rr-t>
+                  <rr-t>HEX_DIGIT</rr-t>
+                  <rr-t>HEX_DIGIT</rr-t>
+                  <rr-t>HEX_DIGIT</rr-t>
+                  <rr-t>HEX_DIGIT</rr-t>
+                  <rr-t>HEX_DIGIT</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1011,17 +1380,38 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'\\'</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'a'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'b'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'f'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'n'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'r'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'t'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'v'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'\\'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'\''</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'"'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -1031,7 +1421,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>INTERPRETED_STRING_LIT</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1040,10 +1432,16 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'\''</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>UNICODE_VALUE</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>BYTE_VALUE</rr-t>
+                     </rr-a>
                   </rr-o>
+                  <rr-t>'\''</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1052,8 +1450,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>UNICODE_LETTER</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'_'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1062,7 +1464,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[0-9]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1072,7 +1474,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[0-7]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1082,7 +1484,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[0-9a-fA-F]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1092,7 +1494,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[\u000A]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1110,64 +1512,64 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[\u0030-\u0039]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0660-\u0669]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u06F0-\u06F9]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0966-\u096F]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u09E6-\u09EF]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0A66-\u0A6F]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0AE6-\u0AEF]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0B66-\u0B6F]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0BE7-\u0BEF]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0C66-\u0C6F]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0CE6-\u0CEF]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0D66-\u0D6F]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0E50-\u0E59]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0ED0-\u0ED9]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0F20-\u0F29]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1040-\u1049]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1369-\u1371]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u17E0-\u17E9]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1810-\u1819]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uFF10-\uFF19]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1177,781 +1579,781 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[\u0041-\u005A]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0061-\u007A]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u00AA]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u00B5]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u00BA]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u00C0-\u00D6]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u00D8-\u00F6]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u00F8-\u021F]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0222-\u0233]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0250-\u02AD]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u02B0-\u02B8]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u02BB-\u02C1]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u02D0-\u02D1]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u02E0-\u02E4]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u02EE]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u037A]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0386]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0388-\u038A]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u038C]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u038E-\u03A1]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u03A3-\u03CE]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u03D0-\u03D7]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u03DA-\u03F3]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0400-\u0481]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u048C-\u04C4]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u04C7-\u04C8]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u04CB-\u04CC]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u04D0-\u04F5]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u04F8-\u04F9]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0531-\u0556]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0559]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0561-\u0587]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u05D0-\u05EA]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u05F0-\u05F2]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0621-\u063A]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0640-\u064A]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0671-\u06D3]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u06D5]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u06E5-\u06E6]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u06FA-\u06FC]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0710]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0712-\u072C]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0780-\u07A5]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0905-\u0939]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u093D]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0950]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0958-\u0961]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0985-\u098C]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u098F-\u0990]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0993-\u09A8]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u09AA-\u09B0]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u09B2]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u09B6-\u09B9]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u09DC-\u09DD]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u09DF-\u09E1]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u09F0-\u09F1]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0A05-\u0A0A]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0A0F-\u0A10]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0A13-\u0A28]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0A2A-\u0A30]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0A32-\u0A33]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0A35-\u0A36]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0A38-\u0A39]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0A59-\u0A5C]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0A5E]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0A72-\u0A74]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0A85-\u0A8B]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0A8D]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0A8F-\u0A91]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0A93-\u0AA8]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0AAA-\u0AB0]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0AB2-\u0AB3]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0AB5-\u0AB9]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0ABD]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0AD0]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0AE0]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0B05-\u0B0C]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0B0F-\u0B10]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0B13-\u0B28]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0B2A-\u0B30]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0B32-\u0B33]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0B36-\u0B39]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0B3D]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0B5C-\u0B5D]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0B5F-\u0B61]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0B85-\u0B8A]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0B8E-\u0B90]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0B92-\u0B95]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0B99-\u0B9A]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0B9C]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0B9E-\u0B9F]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0BA3-\u0BA4]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0BA8-\u0BAA]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0BAE-\u0BB5]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0BB7-\u0BB9]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0C05-\u0C0C]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0C0E-\u0C10]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0C12-\u0C28]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0C2A-\u0C33]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0C35-\u0C39]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0C60-\u0C61]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0C85-\u0C8C]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0C8E-\u0C90]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0C92-\u0CA8]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0CAA-\u0CB3]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0CB5-\u0CB9]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0CDE]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0CE0-\u0CE1]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0D05-\u0D0C]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0D0E-\u0D10]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0D12-\u0D28]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0D2A-\u0D39]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0D60-\u0D61]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0D85-\u0D96]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0D9A-\u0DB1]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0DB3-\u0DBB]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0DBD]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0DC0-\u0DC6]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0E01-\u0E30]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0E32-\u0E33]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0E40-\u0E46]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0E81-\u0E82]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0E84]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0E87-\u0E88]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0E8A]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0E8D]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0E94-\u0E97]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0E99-\u0E9F]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0EA1-\u0EA3]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0EA5]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0EA7]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0EAA-\u0EAB]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0EAD-\u0EB0]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0EB2-\u0EB3]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0EBD-\u0EC4]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0EC6]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0EDC-\u0EDD]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0F00]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0F40-\u0F6A]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u0F88-\u0F8B]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1000-\u1021]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1023-\u1027]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1029-\u102A]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1050-\u1055]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u10A0-\u10C5]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u10D0-\u10F6]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1100-\u1159]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u115F-\u11A2]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u11A8-\u11F9]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1200-\u1206]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1208-\u1246]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1248]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u124A-\u124D]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1250-\u1256]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1258]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u125A-\u125D]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1260-\u1286]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1288]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u128A-\u128D]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1290-\u12AE]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u12B0]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u12B2-\u12B5]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u12B8-\u12BE]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u12C0]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u12C2-\u12C5]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u12C8-\u12CE]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u12D0-\u12D6]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u12D8-\u12EE]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u12F0-\u130E]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1310]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1312-\u1315]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1318-\u131E]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1320-\u1346]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1348-\u135A]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u13A0-\u13B0]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u13B1-\u13F4]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1401-\u1676]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1681-\u169A]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u16A0-\u16EA]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1780-\u17B3]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1820-\u1877]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1880-\u18A8]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1E00-\u1E9B]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1EA0-\u1EE0]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1EE1-\u1EF9]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1F00-\u1F15]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1F18-\u1F1D]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1F20-\u1F39]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1F3A-\u1F45]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1F48-\u1F4D]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1F50-\u1F57]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1F59]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1F5B]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1F5D]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1F5F-\u1F7D]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1F80-\u1FB4]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1FB6-\u1FBC]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1FBE]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1FC2-\u1FC4]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1FC6-\u1FCC]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1FD0-\u1FD3]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1FD6-\u1FDB]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1FE0-\u1FEC]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1FF2-\u1FF4]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u1FF6-\u1FFC]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u207F]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u2102]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u2107]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u210A-\u2113]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u2115]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u2119-\u211D]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u2124]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u2126]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u2128]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u212A-\u212D]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u212F-\u2131]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u2133-\u2139]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u2160-\u2183]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u3005-\u3007]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u3021-\u3029]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u3031-\u3035]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u3038-\u303A]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u3041-\u3094]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u309D-\u309E]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u30A1-\u30FA]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u30FC-\u30FE]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u3105-\u312C]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u3131-\u318E]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u31A0-\u31B7]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u3400-\u4DB5]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u4E00-\u9FA5]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uA000-\uA48C]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uAC00]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uD7A3]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uF900-\uFA2D]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uFB00-\uFB06]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uFB13-\uFB17]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uFB1D]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uFB1F-\uFB28]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uFB2A-\uFB36]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uFB38-\uFB3C]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uFB3E]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uFB40-\uFB41]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uFB43-\uFB44]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uFB46-\uFBB1]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uFBD3-\uFD3D]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uFD50-\uFD8F]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uFD92-\uFDC7]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uFDF0-\uFDFB]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uFE70-\uFE72]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uFE74]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uFE76-\uFEFC]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uFF21-\uFF3A]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uFF41-\uFF5A]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uFF66-\uFFBE]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uFFC2-\uFFC7]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uFFCA-\uFFCF]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uFFD2-\uFFD7]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\uFFDA-\uFFDC]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1961,7 +2363,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[ \t]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1971,7 +2373,9 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>.</rr-c>
+                  <rr-t>'/*'</rr-t>
+                  <rr-c></rr-c>
+                  <rr-t>'*/'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1981,7 +2385,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[\r\n]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1990,7 +2394,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'//'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>

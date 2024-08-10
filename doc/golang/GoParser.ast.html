@@ -5,7 +5,34 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1><a href="../index.html">Railroad</a> golang/GoParser.ast.xml</h1>
+      <h1>Railroad golang/GoParser.ast.xml</h1>
+      <pre>/*
+ [The "BSD licence"] Copyright (c) 2017 Sasa Coh, Michał Błotniak
+ Copyright (c) 2019 Ivan Kochurkin, kvanttt@gmail.com, Positive Technologies 
+ Copyright (c) 2019 Dmitry Rassadin, flipparassa@gmail.com,Positive Technologies All rights reserved. 
+ Copyright (c) 2021 Martin Mirchev, mirchevmartin2203@gmail.com
+ Copyright (c) 2023 Dmitry Litovchenko, i@dlitovchenko.ru
+
+ Redistribution and use in source and binary forms, with or without modification, are permitted
+ provided that the following conditions are met: 1. Redistributions of source code must retain the
+ above copyright notice, this list of conditions and the following disclaimer. 2. Redistributions in
+ binary form must reproduce the above copyright notice, this list of conditions and the following
+ disclaimer in the documentation and/or other materials provided with the distribution. 3. The name
+ of the author may not be used to endorse or promote products derived from this software without
+ specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
+ BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ POSSIBILITY OF SUCH DAMAGE.
+ */</pre>
+      <pre>/*
+ * A Go grammar for ANTLR 4 derived from the Go Language Specification https://golang.org/ref/spec
+ */</pre>
       <h1>Rules</h1>
       <h2 id="sourceFile">sourceFile</h2>
       <p>
@@ -24,6 +51,7 @@
                            </rr-a><a href="#eos">eos</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>EOF</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -32,7 +60,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>PACKAGE</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -41,13 +72,16 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>IMPORT</rr-t>
                   <rr-a>
                      <rr-o><a href="#importSpec">importSpec</a><rr-a>
+                           <rr-t>L_PAREN</rr-t>
                            <rr-a data-min="0" data-max="inf">
                               <rr-o>
                                  <rr-a><a href="#importSpec">importSpec</a><a href="#eos">eos</a></rr-a>
                               </rr-o>
                            </rr-a>
+                           <rr-t>R_PAREN</rr-t>
                         </rr-a>
                      </rr-o>
                   </rr-a>
@@ -61,7 +95,10 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>DOT</rr-t>
+                        <rr-t>IDENTIFIER</rr-t>
+                     </rr-o>
                   </rr-a><a href="#importPath">importPath</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -83,13 +120,16 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>CONST</rr-t>
                   <rr-a>
                      <rr-o><a href="#constSpec">constSpec</a><rr-a>
+                           <rr-t>L_PAREN</rr-t>
                            <rr-a data-min="0" data-max="inf">
                               <rr-o>
                                  <rr-a><a href="#constSpec">constSpec</a><a href="#eos">eos</a></rr-a>
                               </rr-o>
                            </rr-a>
+                           <rr-t>R_PAREN</rr-t>
                         </rr-a>
                      </rr-o>
                   </rr-a>
@@ -103,7 +143,7 @@
             <rr-o>
                <rr-a><a href="#identifierList">identifierList</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#type_">type_</a><a href="#expressionList">expressionList</a></rr-a>
+                        <rr-a><a href="#type_">type_</a><rr-t>ASSIGN</rr-t><a href="#expressionList">expressionList</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -115,9 +155,13 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t>
+                           <rr-t>IDENTIFIER</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -130,7 +174,8 @@
             <rr-o>
                <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#expression">expression</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#expression">expression</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -142,13 +187,16 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>TYPE</rr-t>
                   <rr-a>
                      <rr-o><a href="#typeSpec">typeSpec</a><rr-a>
+                           <rr-t>L_PAREN</rr-t>
                            <rr-a data-min="0" data-max="inf">
                               <rr-o>
                                  <rr-a><a href="#typeSpec">typeSpec</a><a href="#eos">eos</a></rr-a>
                               </rr-o>
                            </rr-a>
+                           <rr-t>R_PAREN</rr-t>
                         </rr-a>
                      </rr-o>
                   </rr-a>
@@ -166,7 +214,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#type_">type_</a></rr-a>
+               <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#type_">type_</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -174,7 +224,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#typeParameters">typeParameters</a><a href="#type_">type_</a></rr-a>
+               <rr-a>
+                  <rr-t>IDENTIFIER</rr-t><a href="#typeParameters">typeParameters</a><a href="#type_">type_</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -182,11 +233,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#typeParameterDecl">typeParameterDecl</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>L_BRACKET</rr-t><a href="#typeParameterDecl">typeParameterDecl</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#typeParameterDecl">typeParameterDecl</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#typeParameterDecl">typeParameterDecl</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>R_BRACKET</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -205,7 +259,8 @@
             <rr-o>
                <rr-a><a href="#typeTerm">typeTerm</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#typeTerm">typeTerm</a></rr-a>
+                        <rr-a>
+                           <rr-t>OR</rr-t><a href="#typeTerm">typeTerm</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -216,7 +271,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#type_">type_</a></rr-a>
+               <rr-a>
+                  <rr-t>UNDERLYING</rr-t><a href="#type_">type_</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -224,7 +280,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#typeParameters">typeParameters</a><a href="#signature">signature</a><a href="#block">block</a></rr-a>
+               <rr-a>
+                  <rr-t>FUNC</rr-t>
+                  <rr-t>IDENTIFIER</rr-t><a href="#typeParameters">typeParameters</a><a href="#signature">signature</a><a href="#block">block</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -232,7 +290,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#receiver">receiver</a><a href="#signature">signature</a><a href="#block">block</a></rr-a>
+               <rr-a>
+                  <rr-t>FUNC</rr-t><a href="#receiver">receiver</a><rr-t>IDENTIFIER</rr-t><a href="#signature">signature</a><a href="#block">block</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -247,13 +306,16 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>VAR</rr-t>
                   <rr-a>
                      <rr-o><a href="#varSpec">varSpec</a><rr-a>
+                           <rr-t>L_PAREN</rr-t>
                            <rr-a data-min="0" data-max="inf">
                               <rr-o>
                                  <rr-a><a href="#varSpec">varSpec</a><a href="#eos">eos</a></rr-a>
                               </rr-o>
                            </rr-a>
+                           <rr-t>R_PAREN</rr-t>
                         </rr-a>
                      </rr-o>
                   </rr-a>
@@ -269,11 +331,13 @@
                      <rr-o>
                         <rr-a><a href="#type_">type_</a><rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a><a href="#expressionList">expressionList</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>ASSIGN</rr-t><a href="#expressionList">expressionList</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
-                        <rr-a><a href="#expressionList">expressionList</a></rr-a>
+                        <rr-a>
+                           <rr-t>ASSIGN</rr-t><a href="#expressionList">expressionList</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -284,7 +348,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#statementList">statementList</a></rr-a>
+               <rr-a>
+                  <rr-t>L_CURLY</rr-t><a href="#statementList">statementList</a><rr-t>R_CURLY</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -296,7 +362,10 @@
                   <rr-o>
                      <rr-a>
                         <rr-a>
-                           <rr-o></rr-o>
+                           <rr-o>
+                              <rr-t>SEMI</rr-t>
+                              <rr-t>EOS</rr-t>
+                           </rr-o>
                         </rr-a><a href="#statement">statement</a><a href="#eos">eos</a></rr-a>
                   </rr-o>
                </rr-a>
@@ -325,7 +394,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>RECEIVE</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -334,7 +403,10 @@
          <rr-rr>
             <rr-o>
                <rr-a><a href="#expression">expression</a><rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>PLUS_PLUS</rr-t>
+                        <rr-t>MINUS_MINUS</rr-t>
+                     </rr-o>
                   </rr-a>
                </rr-a>
             </rr-o>
@@ -354,8 +426,21 @@
             <rr-o>
                <rr-a>
                   <rr-a data-min="0" data-max="1">
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>PLUS</rr-t>
+                        <rr-t>MINUS</rr-t>
+                        <rr-t>OR</rr-t>
+                        <rr-t>CARET</rr-t>
+                        <rr-t>STAR</rr-t>
+                        <rr-t>DIV</rr-t>
+                        <rr-t>MOD</rr-t>
+                        <rr-t>LSHIFT</rr-t>
+                        <rr-t>RSHIFT</rr-t>
+                        <rr-t>AMPERSAND</rr-t>
+                        <rr-t>BIT_CLEAR</rr-t>
+                     </rr-o>
                   </rr-a>
+                  <rr-t>ASSIGN</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -364,7 +449,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifierList">identifierList</a><a href="#expressionList">expressionList</a></rr-a>
+               <rr-a><a href="#identifierList">identifierList</a><rr-t>DECLARE_ASSIGN</rr-t><a href="#expressionList">expressionList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -372,7 +457,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#statement">statement</a></rr-a>
+               <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>COLON</rr-t><a href="#statement">statement</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -380,7 +467,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expressionList">expressionList</a></rr-a>
+               <rr-a>
+                  <rr-t>RETURN</rr-t><a href="#expressionList">expressionList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -388,7 +476,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>BREAK</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -396,7 +487,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>CONTINUE</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -404,21 +498,27 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>GOTO</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="fallthroughStmt">fallthroughStmt</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>FALLTHROUGH</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="deferStmt">deferStmt</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>DEFER</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -427,6 +527,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>IF</rr-t>
                   <rr-a>
                      <rr-o><a href="#expression">expression</a><rr-a><a href="#eos">eos</a><a href="#expression">expression</a></rr-a>
                         <rr-a><a href="#simpleStmt">simpleStmt</a><a href="#eos">eos</a><a href="#expression">expression</a></rr-a>
@@ -434,6 +535,7 @@
                   </rr-a><a href="#block">block</a><rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
+                           <rr-t>ELSE</rr-t>
                            <rr-a>
                               <rr-o><a href="#ifStmt">ifStmt</a><a href="#block">block</a></rr-o>
                            </rr-a>
@@ -455,10 +557,13 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>SWITCH</rr-t>
                   <rr-a>
                      <rr-o><a href="#expression">expression</a><rr-a><a href="#simpleStmt">simpleStmt</a><a href="#eos">eos</a><a href="#expression">expression</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#exprCaseClause">exprCaseClause</a></rr-a>
+                  </rr-a>
+                  <rr-t>L_CURLY</rr-t><a href="#exprCaseClause">exprCaseClause</a><rr-t>R_CURLY</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -466,7 +571,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#exprSwitchCase">exprSwitchCase</a><a href="#statementList">statementList</a></rr-a>
+               <rr-a><a href="#exprSwitchCase">exprSwitchCase</a><rr-t>COLON</rr-t><a href="#statementList">statementList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -474,7 +579,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expressionList">expressionList</a></rr-a>
+               <rr-a>
+                  <rr-t>CASE</rr-t><a href="#expressionList">expressionList</a></rr-a>
+               <rr-t>DEFAULT</rr-t>
             </rr-o>
          </rr-rr>
       </p>
@@ -483,11 +590,14 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>SWITCH</rr-t>
                   <rr-a>
                      <rr-o><a href="#typeSwitchGuard">typeSwitchGuard</a><rr-a><a href="#eos">eos</a><a href="#typeSwitchGuard">typeSwitchGuard</a></rr-a>
                         <rr-a><a href="#simpleStmt">simpleStmt</a><a href="#eos">eos</a><a href="#typeSwitchGuard">typeSwitchGuard</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#typeCaseClause">typeCaseClause</a></rr-a>
+                  </rr-a>
+                  <rr-t>L_CURLY</rr-t><a href="#typeCaseClause">typeCaseClause</a><rr-t>R_CURLY</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -498,9 +608,16 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>IDENTIFIER</rr-t>
+                           <rr-t>DECLARE_ASSIGN</rr-t>
+                        </rr-a>
                      </rr-o>
-                  </rr-a><a href="#primaryExpr">primaryExpr</a></rr-a>
+                  </rr-a><a href="#primaryExpr">primaryExpr</a><rr-t>DOT</rr-t>
+                  <rr-t>L_PAREN</rr-t>
+                  <rr-t>TYPE</rr-t>
+                  <rr-t>R_PAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -508,7 +625,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#typeSwitchCase">typeSwitchCase</a><a href="#statementList">statementList</a></rr-a>
+               <rr-a><a href="#typeSwitchCase">typeSwitchCase</a><rr-t>COLON</rr-t><a href="#statementList">statementList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -516,7 +633,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#typeList">typeList</a></rr-a>
+               <rr-a>
+                  <rr-t>CASE</rr-t><a href="#typeList">typeList</a></rr-a>
+               <rr-t>DEFAULT</rr-t>
             </rr-o>
          </rr-rr>
       </p>
@@ -526,13 +645,16 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o><a href="#type_">type_</a></rr-o>
+                     <rr-o><a href="#type_">type_</a><rr-t>NIL_LIT</rr-t>
+                     </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
                         <rr-a>
+                           <rr-t>COMMA</rr-t>
                            <rr-a>
-                              <rr-o><a href="#type_">type_</a></rr-o>
+                              <rr-o><a href="#type_">type_</a><rr-t>NIL_LIT</rr-t>
+                              </rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
@@ -545,7 +667,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#commClause">commClause</a></rr-a>
+               <rr-a>
+                  <rr-t>SELECT</rr-t>
+                  <rr-t>L_CURLY</rr-t><a href="#commClause">commClause</a><rr-t>R_CURLY</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -553,7 +678,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#commCase">commCase</a><a href="#statementList">statementList</a></rr-a>
+               <rr-a><a href="#commCase">commCase</a><rr-t>COLON</rr-t><a href="#statementList">statementList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -562,10 +687,12 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>CASE</rr-t>
                   <rr-a>
                      <rr-o><a href="#sendStmt">sendStmt</a><a href="#recvStmt">recvStmt</a></rr-o>
                   </rr-a>
                </rr-a>
+               <rr-t>DEFAULT</rr-t>
             </rr-o>
          </rr-rr>
       </p>
@@ -576,8 +703,10 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expressionList">expressionList</a></rr-a>
-                        <rr-a><a href="#identifierList">identifierList</a></rr-a>
+                        <rr-a><a href="#expressionList">expressionList</a><rr-t>ASSIGN</rr-t>
+                        </rr-a>
+                        <rr-a><a href="#identifierList">identifierList</a><rr-t>DECLARE_ASSIGN</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#expression">expression</a></rr-a>
             </rr-o>
@@ -588,6 +717,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>FOR</rr-t>
                   <rr-a>
                      <rr-o><a href="#expression">expression</a><a href="#forClause">forClause</a><a href="#rangeClause">rangeClause</a></rr-o>
                   </rr-a><a href="#block">block</a></rr-a>
@@ -609,10 +739,13 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expressionList">expressionList</a></rr-a>
-                        <rr-a><a href="#identifierList">identifierList</a></rr-a>
+                        <rr-a><a href="#expressionList">expressionList</a><rr-t>ASSIGN</rr-t>
+                        </rr-a>
+                        <rr-a><a href="#identifierList">identifierList</a><rr-t>DECLARE_ASSIGN</rr-t>
+                        </rr-a>
                      </rr-o>
-                  </rr-a><a href="#expression">expression</a></rr-a>
+                  </rr-a>
+                  <rr-t>RANGE</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -620,7 +753,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>GO</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -628,7 +762,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#typeName">typeName</a><a href="#typeArgs">typeArgs</a></rr-a><a href="#typeLit">typeLit</a><rr-a><a href="#type_">type_</a></rr-a>
+               <rr-a><a href="#typeName">typeName</a><a href="#typeArgs">typeArgs</a></rr-a><a href="#typeLit">typeLit</a><rr-a>
+                  <rr-t>L_PAREN</rr-t><a href="#type_">type_</a><rr-t>R_PAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -636,14 +772,18 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#typeList">typeList</a></rr-a>
+               <rr-a>
+                  <rr-t>L_BRACKET</rr-t><a href="#typeList">typeList</a><rr-t>COMMA</rr-t>
+                  <rr-t>R_BRACKET</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="typeName">typeName</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#qualifiedIdent">qualifiedIdent</a></rr-o>
+            <rr-o><a href="#qualifiedIdent">qualifiedIdent</a><rr-t>IDENTIFIER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="typeLit">typeLit</h2>
@@ -656,7 +796,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#arrayLength">arrayLength</a><a href="#elementType">elementType</a></rr-a>
+               <rr-a>
+                  <rr-t>L_BRACKET</rr-t><a href="#arrayLength">arrayLength</a><rr-t>R_BRACKET</rr-t><a href="#elementType">elementType</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -676,7 +817,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#type_">type_</a></rr-a>
+               <rr-a>
+                  <rr-t>STAR</rr-t><a href="#type_">type_</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -685,6 +827,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>INTERFACE</rr-t>
+                  <rr-t>L_CURLY</rr-t>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
                         <rr-a>
@@ -693,6 +837,7 @@
                            </rr-a><a href="#eos">eos</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>R_CURLY</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -701,7 +846,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#elementType">elementType</a></rr-a>
+               <rr-a>
+                  <rr-t>L_BRACKET</rr-t>
+                  <rr-t>R_BRACKET</rr-t><a href="#elementType">elementType</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -709,7 +856,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#type_">type_</a><a href="#elementType">elementType</a></rr-a>
+               <rr-a>
+                  <rr-t>MAP</rr-t>
+                  <rr-t>L_BRACKET</rr-t><a href="#type_">type_</a><rr-t>R_BRACKET</rr-t><a href="#elementType">elementType</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -720,8 +869,15 @@
                <rr-a>
                   <rr-a>
                      <rr-o>
-                        <rr-a></rr-a>
-                        <rr-a></rr-a>
+                        <rr-t>CHAN</rr-t>
+                        <rr-a>
+                           <rr-t>CHAN</rr-t>
+                           <rr-t>RECEIVE</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>RECEIVE</rr-t>
+                           <rr-t>CHAN</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#elementType">elementType</a></rr-a>
             </rr-o>
@@ -731,8 +887,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#parameters">parameters</a><a href="#result">result</a></rr-a>
-               <rr-a><a href="#parameters">parameters</a></rr-a>
+               <rr-a>
+                  <rr-t>IDENTIFIER</rr-t><a href="#parameters">parameters</a><a href="#result">result</a></rr-a>
+               <rr-a>
+                  <rr-t>IDENTIFIER</rr-t><a href="#parameters">parameters</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -740,7 +898,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#signature">signature</a></rr-a>
+               <rr-a>
+                  <rr-t>FUNC</rr-t><a href="#signature">signature</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -763,16 +922,20 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>L_PAREN</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a><a href="#parameterDecl">parameterDecl</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#parameterDecl">parameterDecl</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#parameterDecl">parameterDecl</a></rr-a>
                               </rr-o>
                            </rr-a>
+                           <rr-t>COMMA</rr-t>
                         </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>R_PAREN</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -781,7 +944,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifierList">identifierList</a><a href="#type_">type_</a></rr-a>
+               <rr-a><a href="#identifierList">identifierList</a><rr-t>ELLIPSIS</rr-t><a href="#type_">type_</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -790,19 +953,47 @@
          <rr-rr>
             <rr-o><a href="#primaryExpr">primaryExpr</a><rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>PLUS</rr-t>
+                        <rr-t>MINUS</rr-t>
+                        <rr-t>EXCLAMATION</rr-t>
+                        <rr-t>CARET</rr-t>
+                        <rr-t>STAR</rr-t>
+                        <rr-t>AMPERSAND</rr-t>
+                        <rr-t>RECEIVE</rr-t>
+                     </rr-o>
                   </rr-a><a href="#expression">expression</a></rr-a>
                <rr-a><a href="#expression">expression</a><rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>STAR</rr-t>
+                        <rr-t>DIV</rr-t>
+                        <rr-t>MOD</rr-t>
+                        <rr-t>LSHIFT</rr-t>
+                        <rr-t>RSHIFT</rr-t>
+                        <rr-t>AMPERSAND</rr-t>
+                        <rr-t>BIT_CLEAR</rr-t>
+                     </rr-o>
                   </rr-a><a href="#expression">expression</a></rr-a>
                <rr-a><a href="#expression">expression</a><rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>PLUS</rr-t>
+                        <rr-t>MINUS</rr-t>
+                        <rr-t>OR</rr-t>
+                        <rr-t>CARET</rr-t>
+                     </rr-o>
                   </rr-a><a href="#expression">expression</a></rr-a>
                <rr-a><a href="#expression">expression</a><rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>EQUALS</rr-t>
+                        <rr-t>NOT_EQUALS</rr-t>
+                        <rr-t>LESS</rr-t>
+                        <rr-t>LESS_OR_EQUALS</rr-t>
+                        <rr-t>GREATER</rr-t>
+                        <rr-t>GREATER_OR_EQUALS</rr-t>
+                     </rr-o>
                   </rr-a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#expression">expression</a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#expression">expression</a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>LOGICAL_AND</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>LOGICAL_OR</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -811,7 +1002,10 @@
          <rr-rr>
             <rr-o><a href="#operand">operand</a><a href="#conversion">conversion</a><a href="#methodExpr">methodExpr</a><rr-a><a href="#primaryExpr">primaryExpr</a><rr-a>
                      <rr-o>
-                        <rr-a></rr-a><a href="#index">index</a><a href="#slice_">slice_</a><a href="#typeAssertion">typeAssertion</a><a href="#arguments">arguments</a></rr-o>
+                        <rr-a>
+                           <rr-t>DOT</rr-t>
+                           <rr-t>IDENTIFIER</rr-t>
+                        </rr-a><a href="#index">index</a><a href="#slice_">slice_</a><a href="#typeAssertion">typeAssertion</a><a href="#arguments">arguments</a></rr-o>
                   </rr-a>
                </rr-a>
             </rr-o>
@@ -821,7 +1015,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#type_">type_</a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#type_">type_</a><rr-t>L_PAREN</rr-t><a href="#expression">expression</a><rr-t>COMMA</rr-t>
+                  <rr-t>R_PAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -829,7 +1025,9 @@
       <p>
          <rr-rr>
             <rr-o><a href="#literal">literal</a><rr-a><a href="#operandName">operandName</a><a href="#typeArgs">typeArgs</a></rr-a>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>L_PAREN</rr-t><a href="#expression">expression</a><rr-t>R_PAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -842,26 +1040,41 @@
       <h2 id="basicLit">basicLit</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#integer">integer</a><a href="#string_">string_</a></rr-o>
+            <rr-o>
+               <rr-t>NIL_LIT</rr-t><a href="#integer">integer</a><a href="#string_">string_</a><rr-t>FLOAT_LIT</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="integer">integer</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>DECIMAL_LIT</rr-t>
+               <rr-t>BINARY_LIT</rr-t>
+               <rr-t>OCTAL_LIT</rr-t>
+               <rr-t>HEX_LIT</rr-t>
+               <rr-t>IMAGINARY_LIT</rr-t>
+               <rr-t>RUNE_LIT</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="operandName">operandName</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="qualifiedIdent">qualifiedIdent</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>DOT</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -876,7 +1089,10 @@
       <h2 id="literalType">literalType</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#structType">structType</a><a href="#arrayType">arrayType</a><rr-a><a href="#elementType">elementType</a></rr-a><a href="#sliceType">sliceType</a><a href="#mapType">mapType</a><rr-a><a href="#typeName">typeName</a><a href="#typeArgs">typeArgs</a></rr-a>
+            <rr-o><a href="#structType">structType</a><a href="#arrayType">arrayType</a><rr-a>
+                  <rr-t>L_BRACKET</rr-t>
+                  <rr-t>ELLIPSIS</rr-t>
+                  <rr-t>R_BRACKET</rr-t><a href="#elementType">elementType</a></rr-a><a href="#sliceType">sliceType</a><a href="#mapType">mapType</a><rr-a><a href="#typeName">typeName</a><a href="#typeArgs">typeArgs</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -885,11 +1101,14 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>L_CURLY</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#elementList">elementList</a></rr-a>
+                        <rr-a><a href="#elementList">elementList</a><rr-t>COMMA</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>R_CURLY</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -900,7 +1119,8 @@
             <rr-o>
                <rr-a><a href="#keyedElement">keyedElement</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#keyedElement">keyedElement</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#keyedElement">keyedElement</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -914,7 +1134,8 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#key">key</a></rr-a>
+                        <rr-a><a href="#key">key</a><rr-t>COLON</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#element">element</a></rr-a>
             </rr-o>
@@ -937,11 +1158,14 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>STRUCT</rr-t>
+                  <rr-t>L_CURLY</rr-t>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
                         <rr-a><a href="#fieldDecl">fieldDecl</a><a href="#eos">eos</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>R_CURLY</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -961,14 +1185,18 @@
       <h2 id="string_">string_</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>RAW_STRING_LIT</rr-t>
+               <rr-t>INTERPRETED_STRING_LIT</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="embeddedField">embeddedField</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#typeName">typeName</a><a href="#typeArgs">typeArgs</a></rr-a>
+               <rr-a>
+                  <rr-t>STAR</rr-t><a href="#typeName">typeName</a><a href="#typeArgs">typeArgs</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -976,7 +1204,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#signature">signature</a><a href="#block">block</a></rr-a>
+               <rr-a>
+                  <rr-t>FUNC</rr-t><a href="#signature">signature</a><a href="#block">block</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -984,7 +1213,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>L_BRACKET</rr-t><a href="#expression">expression</a><rr-t>R_BRACKET</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -993,12 +1224,14 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>L_BRACKET</rr-t>
                   <rr-a>
                      <rr-o>
-                        <rr-a><a href="#expression">expression</a><a href="#expression">expression</a></rr-a>
-                        <rr-a><a href="#expression">expression</a><a href="#expression">expression</a><a href="#expression">expression</a></rr-a>
+                        <rr-a><a href="#expression">expression</a><rr-t>COLON</rr-t><a href="#expression">expression</a></rr-a>
+                        <rr-a><a href="#expression">expression</a><rr-t>COLON</rr-t><a href="#expression">expression</a><rr-t>COLON</rr-t><a href="#expression">expression</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>R_BRACKET</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1007,7 +1240,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#type_">type_</a></rr-a>
+               <rr-a>
+                  <rr-t>DOT</rr-t>
+                  <rr-t>L_PAREN</rr-t><a href="#type_">type_</a><rr-t>R_PAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1016,21 +1252,26 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>L_PAREN</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
                            <rr-a>
                               <rr-o><a href="#expressionList">expressionList</a><rr-a><a href="#type_">type_</a><rr-a data-min="0" data-max="1">
                                        <rr-o>
-                                          <rr-a><a href="#expressionList">expressionList</a></rr-a>
+                                          <rr-a>
+                                             <rr-t>COMMA</rr-t><a href="#expressionList">expressionList</a></rr-a>
                                        </rr-o>
                                     </rr-a>
                                  </rr-a>
                               </rr-o>
                            </rr-a>
+                           <rr-t>ELLIPSIS</rr-t>
+                           <rr-t>COMMA</rr-t>
                         </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>R_PAREN</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1039,14 +1280,20 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#type_">type_</a></rr-a>
+               <rr-a><a href="#type_">type_</a><rr-t>DOT</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="eos">eos</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>SEMI</rr-t>
+               <rr-t>EOF</rr-t>
+               <rr-t>EOS</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
    </body>

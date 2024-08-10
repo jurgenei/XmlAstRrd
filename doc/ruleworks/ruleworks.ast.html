@@ -5,13 +5,20 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1><a href="../index.html">Railroad</a> ruleworks/ruleworks.ast.xml</h1>
+      <h1>Railroad ruleworks/ruleworks.ast.xml</h1>
+      <pre>/*
+* This grammar is derived from yacc grammar contained in the freeware software 
+* sources. See the README.md file.
+*
+* William H. Cox 
+*/</pre>
       <h1>Rules</h1>
       <h2 id="program">program</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#program_construct">program_construct</a></rr-a>
+               <rr-a><a href="#program_construct">program_construct</a><rr-t>EOF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -19,7 +26,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#program_line">program_line</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#program_line">program_line</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -33,7 +42,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_DECLARATION_BLOCK</rr-t><a href="#name">name</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -41,15 +51,18 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a><a href="#opt_entry_block_clauses">opt_entry_block_clauses</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_ENTRY_BLOCK</rr-t><a href="#name">name</a><a href="#opt_entry_block_clauses">opt_entry_block_clauses</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="opt_entry_block_clauses">opt_entry_block_clauses</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o>
-               <rr-a><a href="#opt_entry_block_clauses">opt_entry_block_clauses</a><a href="#entry_block_clause">entry_block_clause</a></rr-a>
+               <rr-a><a href="#opt_entry_block_clauses">opt_entry_block_clauses</a><rr-t>TOK_LPAREN</rr-t><a href="#entry_block_clause">entry_block_clause</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -63,7 +76,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#names">names</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_ACTIVATES</rr-t><a href="#names">names</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -71,7 +85,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#names">names</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_USES</rr-t><a href="#names">names</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -79,7 +94,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#strategy_name">strategy_name</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_STRATEGY</rr-t><a href="#strategy_name">strategy_name</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -87,8 +103,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#startup_actions">startup_actions</a></rr-a>
-               <rr-a><a href="#startup_actions">startup_actions</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_ON_ENTRY</rr-t><a href="#startup_actions">startup_actions</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_STARTUP</rr-t><a href="#startup_actions">startup_actions</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -96,7 +114,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#actions">actions</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_ON_EMPTY</rr-t><a href="#actions">actions</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -104,7 +123,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#actions">actions</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_ON_EXIT</rr-t><a href="#actions">actions</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -112,7 +132,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#actions">actions</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_ON_EVERY</rr-t><a href="#actions">actions</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -120,35 +141,40 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#startup_action">startup_action</a></rr-a>
-               <rr-a><a href="#startup_actions">startup_actions</a><a href="#startup_action">startup_action</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#startup_action">startup_action</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a><a href="#startup_actions">startup_actions</a><rr-t>TOK_LPAREN</rr-t><a href="#startup_action">startup_action</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="startup_action">startup_action</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#action_">action_</a><a href="#at_commandn____//              |  disable_commandn____//              |  enable_commandn____//              |  trace_commandn____//">at_commandn____//              |  disable_commandn____//              |  enable_commandn____//
-                  |  trace_commandn____//</a></rr-o>
+            <rr-o><a href="#action_">action_</a><a href="#at_commandn____//              |  disable_commandn____//              |  enable_commandn____//              |  trace_commandn____//">at_command</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="at_command">at_command</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_AT</rr-t><a href="#name">name</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="opt_actions">opt_actions</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o><a href="#actions">actions</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="opt_method_actions">opt_method_actions</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o><a href="#actions">actions</a></rr-o>
          </rr-rr>
       </p>
@@ -163,8 +189,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#action_">action_</a></rr-a>
-               <rr-a><a href="#construct_keyword">construct_keyword</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#action_">action_</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#construct_keyword">construct_keyword</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -178,7 +207,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#value">value</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_ADDSTATE</rr-t><a href="#value">value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -186,7 +216,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#value">value</a><a href="#name">name</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_AFTER</rr-t><a href="#value">value</a><a href="#name">name</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -194,7 +225,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#variable">variable</a><a href="#value">value</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_BIND</rr-t><a href="#variable">variable</a><a href="#value">value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -202,7 +234,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#variables">variables</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_CALL_INHERITED</rr-t><a href="#variables">variables</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -210,7 +243,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#value_list">value_list</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_CLOSEFILE</rr-t><a href="#value_list">value_list</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -218,21 +252,25 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#variable">variable</a><a href="#opt_rhs_terms">opt_rhs_terms</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_COPY</rr-t><a href="#variable">variable</a><a href="#opt_rhs_terms">opt_rhs_terms</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="debug_action">debug_action</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TOK_DEBUG</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="default_action">default_action</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#value">value</a><a href="#value">value</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_DEFAULT</rr-t><a href="#value">value</a><a href="#value">value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -240,7 +278,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#variable">variable</a><a href="#value">value</a><a href="#actions">actions</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_FOR_EACH</rr-t><a href="#variable">variable</a><rr-t>TOK_IN</rr-t><a href="#value">value</a><a href="#actions">actions</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -248,7 +287,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a><a href="#actions">actions</a><a href="#opt_else">opt_else</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_IF</rr-t><a href="#expression">expression</a><rr-t>TOK_THEN</rr-t><a href="#actions">actions</a><a href="#opt_else">opt_else</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -256,7 +296,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#rclass">rclass</a><a href="#opt_rhs_terms">opt_rhs_terms</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_MAKE</rr-t><a href="#rclass">rclass</a><a href="#opt_rhs_terms">opt_rhs_terms</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -264,7 +305,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#variable">variable</a><a href="#opt_rhs_terms">opt_rhs_terms</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_MODIFY</rr-t><a href="#variable">variable</a><a href="#opt_rhs_terms">opt_rhs_terms</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -272,7 +314,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#value">value</a><a href="#value">value</a><a href="#value">value</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_OPENFILE</rr-t><a href="#value">value</a><a href="#value">value</a><a href="#value">value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -280,21 +323,25 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#opt_quit_value">opt_quit_value</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_QUIT</rr-t><a href="#opt_quit_value">opt_quit_value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="opt_quit_value">opt_quit_value</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#arith_value">arith_value</a></rr-o>
+            <rr-o><a href="#arith_value">arith_value</a><rr-t>TOK_FAILURE</rr-t>
+               <rr-t>TOK_SUCCESS</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="remove_action">remove_action</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#variables">variables</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_REMOVE</rr-t><a href="#variables">variables</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -302,7 +349,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#classes">classes</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_REMOVE_EVERY</rr-t><a href="#classes">classes</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -310,7 +358,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#value">value</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_RESTORESTATE</rr-t><a href="#value">value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -318,7 +367,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#opt_value">opt_value</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_RETURN</rr-t><a href="#opt_value">opt_value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -326,7 +376,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#value">value</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_SAVESTATE</rr-t><a href="#value">value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -334,7 +385,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#variable">variable</a><a href="#rclass">rclass</a><a href="#opt_rhs_terms">opt_rhs_terms</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_SPECIALIZE</rr-t><a href="#variable">variable</a><a href="#rclass">rclass</a><a href="#opt_rhs_terms">opt_rhs_terms</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -342,7 +394,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#on_off">on_off</a><a href="#trace_options">trace_options</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_TRACE</rr-t><a href="#on_off">on_off</a><a href="#trace_options">trace_options</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -350,7 +403,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a><a href="#actions">actions</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_WHILE</rr-t><a href="#expression">expression</a><rr-t>TOK_DO</rr-t><a href="#actions">actions</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -358,7 +412,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#opt_values">opt_values</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_WRITE</rr-t><a href="#opt_values">opt_values</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -366,35 +421,42 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#db_spec">db_spec</a><a href="#opt_db_scope">opt_db_scope</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_SQL_ATTACH</rr-t><a href="#db_spec">db_spec</a><a href="#opt_db_scope">opt_db_scope</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="sql_commit_action">sql_commit_action</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TOK_SQL_COMMIT</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="sql_delete_action">sql_delete_action</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#db_table">db_table</a><a href="#opt_sql_rse">opt_sql_rse</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_SQL_DELETE</rr-t><a href="#db_table">db_table</a><a href="#opt_sql_rse">opt_sql_rse</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="sql_detach_action">sql_detach_action</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TOK_SQL_DETACH</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="sql_fetch_each_action">sql_fetch_each_action</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#db_vars">db_vars</a><a href="#sql_rse">sql_rse</a><a href="#sql_actions">sql_actions</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_SQL_FETCH_EACH</rr-t><a href="#db_vars">db_vars</a><rr-t>TOK_LPAREN</rr-t><a href="#sql_rse">sql_rse</a><rr-t>TOK_RPAREN</rr-t><a href="#sql_actions">sql_actions</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -402,7 +464,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#sql_rse">sql_rse</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_SQL_FETCH_AS_OBJECT</rr-t><a href="#sql_rse">sql_rse</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -410,7 +473,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#db_table">db_table</a><a href="#sql_rse">sql_rse</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_SQL_INSERT</rr-t><a href="#db_table">db_table</a><a href="#sql_rse">sql_rse</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -418,21 +482,25 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#variable">variable</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_SQL_INSERT_FROM_OBJECT</rr-t><a href="#variable">variable</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="sql_rollback_action">sql_rollback_action</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TOK_SQL_ROLLBACK</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="sql_start_action">sql_start_action</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#opt_sql_rse">opt_sql_rse</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_SQL_START</rr-t><a href="#opt_sql_rse">opt_sql_rse</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -440,7 +508,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#db_table">db_table</a><a href="#sql_rse">sql_rse</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_SQL_UPDATE</rr-t><a href="#db_table">db_table</a><a href="#sql_rse">sql_rse</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -448,7 +517,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#variable">variable</a><a href="#opt_sql_rse">opt_sql_rse</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_SQL_UPDATE_FROM_OBJECT</rr-t><a href="#variable">variable</a><a href="#opt_sql_rse">opt_sql_rse</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -456,13 +526,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a></rr-a>
-               <rr-a><a href="#name">name</a></rr-a><a href="#db_spec_name">db_spec_name</a></rr-o>
+               <rr-a>
+                  <rr-t>TOK_FILENAME</rr-t><a href="#name">name</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_PATHNAME</rr-t><a href="#name">name</a></rr-a><a href="#db_spec_name">db_spec_name</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="opt_db_scope">opt_db_scope</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o><a href="#db_scope">db_scope</a></rr-o>
          </rr-rr>
       </p>
@@ -487,6 +560,7 @@
       <h2 id="opt_sql_rse">opt_sql_rse</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o><a href="#sql_rse">sql_rse</a></rr-o>
          </rr-rr>
       </p>
@@ -512,12 +586,31 @@
       <h2 id="sql_rse_element">sql_rse_element</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#constant">constant</a><a href="#variable">variable</a><a href="#quoted_var">quoted_var</a></rr-o>
+            <rr-o><a href="#constant">constant</a><a href="#variable">variable</a><a href="#quoted_var">quoted_var</a><rr-t>TOK_EQUAL</rr-t>
+               <rr-t>TOK_EQUAL_EQUAL</rr-t>
+               <rr-t>TOK_APPROX_EQUAL</rr-t>
+               <rr-t>TOK_NOT_APPROX_EQUAL</rr-t>
+               <rr-t>TOK_NOT_EQ</rr-t>
+               <rr-t>TOK_NOT_EQUAL</rr-t>
+               <rr-t>TOK_GREATER</rr-t>
+               <rr-t>TOK_GREATER_EQUAL</rr-t>
+               <rr-t>TOK_LESS</rr-t>
+               <rr-t>TOK_LESS_EQUAL</rr-t>
+               <rr-t>TOK_PLUS</rr-t>
+               <rr-t>TOK_MINUS</rr-t>
+               <rr-t>TOK_TIMES</rr-t>
+               <rr-t>TOK_DIVIDE</rr-t>
+               <rr-t>TOK_MODULUS</rr-t>
+               <rr-t>TOK_ARROW</rr-t>
+               <rr-t>TOK_START_DISJUNCTION</rr-t>
+               <rr-t>TOK_END_DISJUNCTION</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="opt_rhs_terms">opt_rhs_terms</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o>
                <rr-a><a href="#opt_rhs_terms">opt_rhs_terms</a><a href="#rhs_term">rhs_term</a></rr-a>
             </rr-o>
@@ -527,19 +620,32 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#attribute">attribute</a><a href="#opt_ca_access">opt_ca_access</a><a href="#value">value</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_HAT</rr-t><a href="#attribute">attribute</a><a href="#opt_ca_access">opt_ca_access</a><a href="#value">value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="rclass">rclass</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#name">name</a><a href="#variable">variable</a><rr-a><a href="#accept_atom_bti">accept_atom_bti</a></rr-a>
-               <rr-a><a href="#concat_bti">concat_bti</a></rr-a>
-               <rr-a><a href="#get_bti">get_bti</a></rr-a>
-               <rr-a><a href="#nth_bti">nth_bti</a></rr-a>
-               <rr-a><a href="#symbol_bti">symbol_bti</a></rr-a>
-               <rr-a><a href="#function_call">function_call</a></rr-a>
+            <rr-o><a href="#name">name</a><a href="#variable">variable</a><rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#accept_atom_bti">accept_atom_bti</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#concat_bti">concat_bti</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#get_bti">get_bti</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#nth_bti">nth_bti</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#symbol_bti">symbol_bti</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#function_call">function_call</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -560,7 +666,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a><a href="#opt_actions">opt_actions</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_CATCH</rr-t><a href="#name">name</a><a href="#opt_actions">opt_actions</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -568,16 +675,19 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#cmplx_expre">cmplx_expre</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#cmplx_expre">cmplx_expre</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="cmplx_expre">cmplx_expre</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#expre_value">expre_value</a><rr-a><a href="#cmplx_expre">cmplx_expre</a><a href="#cmplx_expre">cmplx_expre</a></rr-a>
-               <rr-a><a href="#cmplx_expre">cmplx_expre</a><a href="#cmplx_expre">cmplx_expre</a></rr-a>
-               <rr-a><a href="#expre_value">expre_value</a></rr-a>
+            <rr-o><a href="#expre_value">expre_value</a><rr-a><a href="#cmplx_expre">cmplx_expre</a><rr-t>TOK_AND</rr-t><a href="#cmplx_expre">cmplx_expre</a></rr-a>
+               <rr-a><a href="#cmplx_expre">cmplx_expre</a><rr-t>TOK_OR</rr-t><a href="#cmplx_expre">cmplx_expre</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_NOT</rr-t><a href="#expre_value">expre_value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -586,16 +696,23 @@
          <rr-rr>
             <rr-o>
                <rr-a><a href="#value_non_sql">value_non_sql</a><a href="#predicate">predicate</a><a href="#value_non_sql">value_non_sql</a></rr-a>
-               <rr-a><a href="#cmplx_expre">cmplx_expre</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#cmplx_expre">cmplx_expre</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="opt_else">opt_else</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o>
-               <rr-a><a href="#actions">actions</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_ELSE</rr-t><a href="#actions">actions</a></rr-a>
             </rr-o>
+            <pre>/*
+ * BUILT-IN FUNCTIONS
+ */</pre>
          </rr-rr>
       </p>
       <h2 id="built_ins">built_ins</h2>
@@ -608,7 +725,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#opt_value">opt_value</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_ACCEPT_ATOM</rr-t><a href="#opt_value">opt_value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -616,13 +734,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#opt_accpt_compound">opt_accpt_compound</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_ACCEPTLINE_COMPOUND</rr-t><a href="#opt_accpt_compound">opt_accpt_compound</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="opt_accpt_compound">opt_accpt_compound</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o>
                <rr-a><a href="#value">value</a><a href="#opt_value">opt_value</a></rr-a>
             </rr-o>
@@ -632,7 +752,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#opt_values">opt_values</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_COMPOUND</rr-t><a href="#opt_values">opt_values</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -640,21 +761,25 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#opt_values">opt_values</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_CONCAT</rr-t><a href="#opt_values">opt_values</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="crlf_bti">crlf_bti</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TOK_CRLF</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="every_bti">every_bti</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#rclass">rclass</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_EVERY</rr-t><a href="#rclass">rclass</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -662,7 +787,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#value">value</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_FLOAT</rr-t><a href="#value">value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -670,21 +796,25 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#opt_value">opt_value</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_GENATOM</rr-t><a href="#opt_value">opt_value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="genint_bti">genint_bti</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TOK_GENINT</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="get_bti">get_bti</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#value">value</a><a href="#attribute">attribute</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_GET</rr-t><a href="#value">value</a><rr-t>TOK_HAT</rr-t><a href="#attribute">attribute</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -692,7 +822,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#value">value</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_INTEGER</rr-t><a href="#value">value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -700,7 +831,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#value">value</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_IS_OPEN</rr-t><a href="#value">value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -708,7 +840,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#value">value</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_LENGTH</rr-t><a href="#value">value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -716,7 +849,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#opt_values">opt_values</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_MAX</rr-t><a href="#opt_values">opt_values</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -724,7 +858,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#opt_values">opt_values</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_MIN</rr-t><a href="#opt_values">opt_values</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -732,7 +867,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#value">value</a><a href="#index_num">index_num</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_NTH</rr-t><a href="#value">value</a><a href="#index_num">index_num</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -740,7 +876,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#value">value</a><a href="#opt_predicate">opt_predicate</a><a href="#value">value</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_POSITION</rr-t><a href="#value">value</a><a href="#opt_predicate">opt_predicate</a><a href="#value">value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -748,7 +885,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#value">value</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_RJUST</rr-t><a href="#value">value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -756,7 +894,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#value">value</a><a href="#index_num">index_num</a><a href="#index_num">index_num</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_SUBCOMPOUND</rr-t><a href="#value">value</a><a href="#index_num">index_num</a><a href="#index_num">index_num</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -764,7 +903,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#value">value</a><a href="#index_num">index_num</a><a href="#index_num">index_num</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_SUBSYMBOL</rr-t><a href="#value">value</a><a href="#index_num">index_num</a><a href="#index_num">index_num</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -772,7 +912,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#value">value</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_SYMBOL</rr-t><a href="#value">value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -780,7 +921,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#value">value</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_SYMBOL_LENGTH</rr-t><a href="#value">value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -788,7 +930,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#value">value</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_TABTO</rr-t><a href="#value">value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -796,15 +939,18 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a><a href="#opt_rule_block_clauses">opt_rule_block_clauses</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_RULE_BLOCK</rr-t><a href="#name">name</a><a href="#opt_rule_block_clauses">opt_rule_block_clauses</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="opt_rule_block_clauses">opt_rule_block_clauses</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o>
-               <rr-a><a href="#opt_rule_block_clauses">opt_rule_block_clauses</a><a href="#rule_block_clause">rule_block_clause</a></rr-a>
+               <rr-a><a href="#opt_rule_block_clauses">opt_rule_block_clauses</a><rr-t>TOK_LPAREN</rr-t><a href="#rule_block_clause">rule_block_clause</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -817,14 +963,21 @@
       <h2 id="strategy_name">strategy_name</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TOK_LEX</rr-t>
+               <rr-t>TOK_MEA</rr-t>
+            </rr-o>
+            <pre>/*
+ * END BLOCK
+ */</pre>
          </rr-rr>
       </p>
       <h2 id="end_block">end_block</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#opt_name">opt_name</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_END_BLOCK</rr-t><a href="#opt_name">opt_name</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -832,7 +985,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_RULE_GROUP</rr-t><a href="#name">name</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -840,29 +994,39 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#opt_name">opt_name</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_END_GROUP</rr-t><a href="#opt_name">opt_name</a></rr-a>
             </rr-o>
+            <pre>/*
+ * OBJECT CLASS
+ */</pre>
          </rr-rr>
       </p>
       <h2 id="object_class_declaration">object_class_declaration</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a><a href="#opt_object_class_modifier">opt_object_class_modifier</a><a href="#opt_attribute_declarations">opt_attribute_declarations</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_OBJECT_CLASS</rr-t><a href="#name">name</a><a href="#opt_object_class_modifier">opt_object_class_modifier</a><a href="#opt_attribute_declarations">opt_attribute_declarations</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="opt_object_class_modifier">opt_object_class_modifier</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o>
-               <rr-a><a href="#name">name</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t>
+                  <rr-t>TOK_INHERITS_FROM</rr-t><a href="#name">name</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="opt_attribute_declarations">opt_attribute_declarations</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o>
                <rr-a><a href="#opt_attribute_declarations">opt_attribute_declarations</a><a href="#attribute_declaration">attribute_declaration</a></rr-a>
             </rr-o>
@@ -872,7 +1036,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#attribute_name">attribute_name</a><a href="#opt_compound_flag">opt_compound_flag</a><a href="#opt_domain_restriction">opt_domain_restriction</a><a href="#opt_attribute_modifiers">opt_attribute_modifiers</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_HAT</rr-t><a href="#attribute_name">attribute_name</a><a href="#opt_compound_flag">opt_compound_flag</a><a href="#opt_domain_restriction">opt_domain_restriction</a><a href="#opt_attribute_modifiers">opt_attribute_modifiers</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -885,28 +1050,41 @@
       <h2 id="opt_compound_flag">opt_compound_flag</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <pre>/* empty */</pre>
+            <rr-o>
+               <rr-t>TOK_COMPOUND</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="opt_domain_restriction">opt_domain_restriction</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o>
-               <rr-a><a href="#opt_domain_class">opt_domain_class</a></rr-a>
+               <rr-t>TOK_ANY</rr-t>
+               <rr-a>
+                  <rr-t>TOK_INSTANCE</rr-t><a href="#opt_domain_class">opt_domain_class</a></rr-a>
+               <rr-t>TOK_INTEGER</rr-t>
+               <rr-t>TOK_FLOAT</rr-t>
+               <rr-t>TOK_OPAQUE</rr-t>
+               <rr-t>TOK_SYMBOL</rr-t>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="opt_domain_class">opt_domain_class</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o>
-               <rr-a><a href="#name">name</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_OF</rr-t><a href="#name">name</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="opt_attribute_modifiers">opt_attribute_modifiers</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o>
                <rr-a><a href="#opt_attribute_modifiers">opt_attribute_modifiers</a><a href="#attribute_modifier">attribute_modifier</a></rr-a>
             </rr-o>
@@ -916,17 +1094,30 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#constant">constant</a></rr-a>
-               <rr-a><a href="#compound_const">compound_const</a></rr-a>
-               <rr-a><a href="#constant">constant</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t>
+                  <rr-t>TOK_DEFAULT</rr-t><a href="#constant">constant</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t>
+                  <rr-t>TOK_DEFAULT</rr-t><a href="#compound_const">compound_const</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t>
+                  <rr-t>TOK_FILL</rr-t><a href="#constant">constant</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
             </rr-o>
+            <pre>/*
+ * GENERIC-METHOD-DECLARATION
+ */</pre>
          </rr-rr>
       </p>
       <h2 id="generic_method_declaration">generic_method_declaration</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#allowable_func_name">allowable_func_name</a><a href="#generic_method_accepts_clause">generic_method_accepts_clause</a><a href="#opt_generic_method_returns">opt_generic_method_returns</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_GENERIC_METHOD</rr-t><a href="#allowable_func_name">allowable_func_name</a><a href="#generic_method_accepts_clause">generic_method_accepts_clause</a><a href="#opt_generic_method_returns">opt_generic_method_returns</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -934,15 +1125,22 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#generic_method_when_decl">generic_method_when_decl</a><a href="#opt_method_param_decls">opt_method_param_decls</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t>
+                  <rr-t>TOK_ACCEPTS</rr-t><a href="#generic_method_when_decl">generic_method_when_decl</a><a href="#opt_method_param_decls">opt_method_param_decls</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="opt_generic_method_returns">opt_generic_method_returns</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o>
-               <rr-a><a href="#method_return_param">method_return_param</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t>
+                  <rr-t>TOK_RETURNS</rr-t><a href="#method_return_param">method_return_param</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -950,15 +1148,20 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#variable">variable</a><a href="#opt_domain_class">opt_domain_class</a></rr-a>
+               <rr-a><a href="#variable">variable</a><rr-t>TOK_WHEN</rr-t>
+                  <rr-t>TOK_INSTANCE</rr-t><a href="#opt_domain_class">opt_domain_class</a></rr-a>
             </rr-o>
+            <pre>/*
+ * METHOD-DECLARATION
+ */</pre>
          </rr-rr>
       </p>
       <h2 id="method_declaration">method_declaration</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#allowable_func_name">allowable_func_name</a><a href="#method_accepts_clause">method_accepts_clause</a><a href="#opt_method_returns_plus_actions">opt_method_returns_plus_actions</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_METHOD</rr-t><a href="#allowable_func_name">allowable_func_name</a><a href="#method_accepts_clause">method_accepts_clause</a><a href="#opt_method_returns_plus_actions">opt_method_returns_plus_actions</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -966,7 +1169,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#method_when_decl">method_when_decl</a><a href="#opt_method_param_decls">opt_method_param_decls</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t>
+                  <rr-t>TOK_ACCEPTS</rr-t><a href="#method_when_decl">method_when_decl</a><a href="#opt_method_param_decls">opt_method_param_decls</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -974,7 +1180,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#variable">variable</a><a href="#name">name</a></rr-a>
+               <rr-a><a href="#variable">variable</a><rr-t>TOK_WHEN</rr-t>
+                  <rr-t>TOK_INSTANCE</rr-t>
+                  <rr-t>TOK_OF</rr-t><a href="#name">name</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -989,6 +1197,7 @@
       <h2 id="opt_method_param_decls">opt_method_param_decls</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o>
                <rr-a><a href="#opt_method_param_decls">opt_method_param_decls</a><a href="#method_param_decl">method_param_decl</a></rr-a>
             </rr-o>
@@ -998,8 +1207,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#action_">action_</a><a href="#opt_method_actions">opt_method_actions</a></rr-a>
-               <rr-a><a href="#method_return_param">method_return_param</a><a href="#opt_actions">opt_actions</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#action_">action_</a><rr-t>TOK_RPAREN</rr-t><a href="#opt_method_actions">opt_method_actions</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t>
+                  <rr-t>TOK_RETURNS</rr-t><a href="#method_return_param">method_return_param</a><rr-t>TOK_RPAREN</rr-t><a href="#opt_actions">opt_actions</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1017,21 +1229,27 @@
             <rr-o>
                <rr-a><a href="#opt_compound_flag">opt_compound_flag</a><a href="#opt_domain_restriction">opt_domain_restriction</a></rr-a>
             </rr-o>
+            <pre>/*
+ * EXTERNAL-ROUTINE
+ */</pre>
          </rr-rr>
       </p>
       <h2 id="external_routine_declaration">external_routine_declaration</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#allowable_func_name">allowable_func_name</a><a href="#opt_ext_rt_clauses">opt_ext_rt_clauses</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_EXTERNAL_ROUTINE</rr-t><a href="#allowable_func_name">allowable_func_name</a><a href="#opt_ext_rt_clauses">opt_ext_rt_clauses</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="opt_ext_rt_clauses">opt_ext_rt_clauses</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o>
-               <rr-a><a href="#ext_rt_clause">ext_rt_clause</a><a href="#opt_ext_rt_clauses">opt_ext_rt_clauses</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#ext_rt_clause">ext_rt_clause</a><rr-t>TOK_RPAREN</rr-t><a href="#opt_ext_rt_clauses">opt_ext_rt_clauses</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1045,7 +1263,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_ALIAS_FOR</rr-t><a href="#name">name</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1053,7 +1272,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#ext_rt_param_decl">ext_rt_param_decl</a><a href="#opt_ext_rt_param_decls">opt_ext_rt_param_decls</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_ACCEPTS</rr-t><a href="#ext_rt_param_decl">ext_rt_param_decl</a><a href="#opt_ext_rt_param_decls">opt_ext_rt_param_decls</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1061,7 +1281,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#ext_rt_return_decl">ext_rt_return_decl</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_RETURNS</rr-t><a href="#ext_rt_return_decl">ext_rt_return_decl</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1076,6 +1297,7 @@
       <h2 id="opt_ext_rt_param_decls">opt_ext_rt_param_decls</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o>
                <rr-a><a href="#ext_rt_param_decl">ext_rt_param_decl</a><a href="#opt_ext_rt_param_decls">opt_ext_rt_param_decls</a></rr-a>
             </rr-o>
@@ -1092,65 +1314,110 @@
       <h2 id="opt_param_name">opt_param_name</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o><a href="#variable">variable</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="opt_param_cardinality">opt_param_cardinality</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o>
-               <rr-a><a href="#param_array_length">param_array_length</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_LBRACKET</rr-t><a href="#param_array_length">param_array_length</a><rr-t>TOK_RBRACKET</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="param_type">param_type</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TOK_LONG</rr-t>
+               <rr-t>TOK_SHORT</rr-t>
+               <rr-t>TOK_BYTE</rr-t>
+               <rr-t>TOK_UNSIGNED_LONG</rr-t>
+               <rr-t>TOK_UNSIGNED_SHORT</rr-t>
+               <rr-t>TOK_UNSIGNED_BYTE</rr-t>
+               <rr-t>TOK_SINGLE_FLOAT</rr-t>
+               <rr-t>TOK_DOUBLE_FLOAT</rr-t>
+               <rr-t>TOK_ASCIZ</rr-t>
+               <rr-t>TOK_ASCID</rr-t>
+               <rr-t>TOK_POINTER</rr-t>
+               <rr-t>TOK_ATOM</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="opt_param_mech">opt_param_mech</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_BY</rr-t>
+                  <rr-t>TOK_REFERENCE</rr-t>
+                  <rr-t>TOK_READ_ONLY</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_BY</rr-t>
+                  <rr-t>TOK_REFERENCE</rr-t>
+                  <rr-t>TOK_READ_WRITE</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_BY</rr-t>
+                  <rr-t>TOK_VALUE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="opt_return_mech">opt_return_mech</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_BY</rr-t>
+                  <rr-t>TOK_REFERENCE</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_BY</rr-t>
+                  <rr-t>TOK_VALUE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="param_array_length">param_array_length</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#variable">variable</a></rr-o>
+            <pre>/* empty */</pre>
+            <rr-o>
+               <rr-t>TOK_INTEGER_CONST</rr-t><a href="#variable">variable</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="rw_rule">rw_rule</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#rule_or_p">rule_or_p</a><a href="#name">name</a><a href="#ce_form">ce_form</a><a href="#opt_ce_list">opt_ce_list</a><a href="#opt_actions">opt_actions</a></rr-a>
+               <rr-a><a href="#rule_or_p">rule_or_p</a><a href="#name">name</a><a href="#ce_form">ce_form</a><a href="#opt_ce_list">opt_ce_list</a><rr-t>TOK_ARROW</rr-t><a href="#opt_actions">opt_actions</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="rule_or_p">rule_or_p</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TOK_RULE</rr-t>
+               <rr-t>TOK_P</rr-t>
+            </rr-o>
+            <pre>/*
+ * LHS
+ */</pre>
          </rr-rr>
       </p>
       <h2 id="opt_ce_list">opt_ce_list</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o>
                <rr-a><a href="#opt_ce_list">opt_ce_list</a><a href="#ce">ce</a></rr-a>
             </rr-o>
@@ -1165,14 +1432,15 @@
       <h2 id="pos_ce">pos_ce</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#ce_formn____// until we fully support them...">ce_formn____// until we fully support them...</a><a href="#ce_disjunctionn____//">ce_disjunctionn____//</a></rr-o>
+            <rr-o><a href="#ce_formn____// until we fully support them...">ce_form</a><a href="#ce_disjunctionn____//">ce_disjunction</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="neg_ce">neg_ce</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#ce_form">ce_form</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_MINUS</rr-t><a href="#ce_form">ce_form</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1180,7 +1448,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#ce_disj_list">ce_disj_list</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_START_DISJUNCTION</rr-t><a href="#ce_disj_list">ce_disj_list</a><rr-t>TOK_END_DISJUNCTION</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1195,14 +1465,19 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a><a href="#opt_lhs_terms">opt_lhs_terms</a></rr-a>
-               <rr-a><a href="#name">name</a><a href="#opt_lhs_terms">opt_lhs_terms</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#name">name</a><a href="#opt_lhs_terms">opt_lhs_terms</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#name">name</a><a href="#opt_lhs_terms">opt_lhs_terms</a><rr-t>TOK_ARROW</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="opt_lhs_terms">opt_lhs_terms</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o>
                <rr-a><a href="#opt_lhs_terms">opt_lhs_terms</a><a href="#lhs_term">lhs_term</a></rr-a>
             </rr-o>
@@ -1212,37 +1487,51 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a><a href="#opt_ca_access">opt_ca_access</a><a href="#lhs_value">lhs_value</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_HAT</rr-t><a href="#name">name</a><a href="#opt_ca_access">opt_ca_access</a><a href="#lhs_value">lhs_value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="opt_ca_access">opt_ca_access</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o>
-               <rr-a><a href="#ca_index">ca_index</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_LBRACKET</rr-t><a href="#ca_index">ca_index</a><rr-t>TOK_RBRACKET</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="ca_index">ca_index</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#arith_expr">arith_expr</a></rr-o>
+            <rr-o><a href="#arith_expr">arith_expr</a><rr-t>TOK_DOLLAR_LAST</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="index_num">index_num</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#integer_const">integer_const</a><a href="#variable">variable</a><rr-a><a href="#built_ins">built_ins</a></rr-a>
-               <rr-a><a href="#function_call">function_call</a></rr-a>
-               <rr-a><a href="#arith_expr">arith_expr</a></rr-a>
+            <rr-o><a href="#integer_const">integer_const</a><a href="#variable">variable</a><rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#built_ins">built_ins</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#function_call">function_call</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#arith_expr">arith_expr</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-t>TOK_DOLLAR_LAST</rr-t>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="lhs_value">lhs_value</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#restriction">restriction</a><rr-a><a href="#restriction_list">restriction_list</a></rr-a>
+            <rr-o><a href="#restriction">restriction</a><rr-a>
+                  <rr-t>TOK_LBRACE</rr-t><a href="#restriction_list">restriction_list</a><rr-t>TOK_RBRACE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1257,7 +1546,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#value_list">value_list</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_START_DISJUNCTION</rr-t><a href="#value_list">value_list</a><rr-t>TOK_END_DISJUNCTION</rr-t>
+               </rr-a>
                <rr-a><a href="#predicate">predicate</a><a href="#value">value</a></rr-a><a href="#value">value</a></rr-o>
          </rr-rr>
       </p>
@@ -1265,33 +1556,44 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#arith_value">arith_value</a></rr-a><a href="#arith_value">arith_value</a><rr-a><a href="#arith_expr">arith_expr</a><a href="#arith_expr">arith_expr</a></rr-a>
-               <rr-a><a href="#arith_expr">arith_expr</a><a href="#arith_expr">arith_expr</a></rr-a>
-               <rr-a><a href="#arith_expr">arith_expr</a><a href="#arith_expr">arith_expr</a></rr-a>
-               <rr-a><a href="#arith_expr">arith_expr</a><a href="#arith_expr">arith_expr</a></rr-a>
-               <rr-a><a href="#arith_expr">arith_expr</a><a href="#arith_expr">arith_expr</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_MINUS</rr-t><a href="#arith_value">arith_value</a></rr-a><a href="#arith_value">arith_value</a><rr-a><a href="#arith_expr">arith_expr</a><rr-t>TOK_PLUS</rr-t><a href="#arith_expr">arith_expr</a></rr-a>
+               <rr-a><a href="#arith_expr">arith_expr</a><rr-t>TOK_MINUS</rr-t><a href="#arith_expr">arith_expr</a></rr-a>
+               <rr-a><a href="#arith_expr">arith_expr</a><rr-t>TOK_TIMES</rr-t><a href="#arith_expr">arith_expr</a></rr-a>
+               <rr-a><a href="#arith_expr">arith_expr</a><rr-t>TOK_DIVIDE</rr-t><a href="#arith_expr">arith_expr</a></rr-a>
+               <rr-a><a href="#arith_expr">arith_expr</a><rr-t>TOK_MODULUS</rr-t><a href="#arith_expr">arith_expr</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="arith_value">arith_value</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#integer_const">integer_const</a><a href="#float_const">float_const</a><a href="#variable">variable</a><rr-a><a href="#built_ins">built_ins</a></rr-a>
-               <rr-a><a href="#function_call">function_call</a></rr-a>
-               <rr-a><a href="#arith_expr">arith_expr</a></rr-a>
+            <rr-o><a href="#integer_const">integer_const</a><a href="#float_const">float_const</a><a href="#variable">variable</a><rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#built_ins">built_ins</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#function_call">function_call</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#arith_expr">arith_expr</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="on_off">on_off</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TOK_OFF</rr-t>
+               <rr-t>TOK_ON</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="trace_options">trace_options</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#trace_names">trace_names</a></rr-o>
+            <rr-o>
+               <rr-t>TOK_TIMES</rr-t><a href="#trace_names">trace_names</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="trace_names">trace_names</h2>
@@ -1304,7 +1606,15 @@
       <h2 id="trace_name">trace_name</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TOK_ENTRY_BLOCK</rr-t>
+               <rr-t>TOK_EB</rr-t>
+               <rr-t>TOK_RULE_GROUP</rr-t>
+               <rr-t>TOK_RG</rr-t>
+               <rr-t>TOK_RULE</rr-t>
+               <rr-t>TOK_WM</rr-t>
+               <rr-t>TOK_CS</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="variables">variables</h2>
@@ -1332,35 +1642,56 @@
       <h2 id="opt_value">opt_value</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o><a href="#value">value</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="opt_values">opt_values</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o>
                <rr-a><a href="#opt_values">opt_values</a><a href="#value">value</a></rr-a>
             </rr-o>
+            <pre>/* Should grammar disallow functions like MAKE on LHS, or semantics? */</pre>
          </rr-rr>
       </p>
       <h2 id="value">value</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#value_non_sql">value_non_sql</a><rr-a><a href="#sql_fetch_as_object_action">sql_fetch_as_object_action</a></rr-a>
+            <rr-o><a href="#value_non_sql">value_non_sql</a><rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#sql_fetch_as_object_action">sql_fetch_as_object_action</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="value_non_sql">value_non_sql</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#constant">constant</a><a href="#variable">variable</a><rr-a><a href="#built_ins">built_ins</a></rr-a>
-               <rr-a><a href="#function_call">function_call</a></rr-a>
-               <rr-a><a href="#arith_expr">arith_expr</a></rr-a>
-               <rr-a><a href="#copy_action">copy_action</a></rr-a>
-               <rr-a><a href="#make_action">make_action</a></rr-a>
-               <rr-a><a href="#modify_action">modify_action</a></rr-a>
-               <rr-a><a href="#specialize_action">specialize_action</a></rr-a>
-               <rr-a><a href="#call_inherited">call_inherited</a></rr-a>
+            <rr-o><a href="#constant">constant</a><a href="#variable">variable</a><rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#built_ins">built_ins</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#function_call">function_call</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#arith_expr">arith_expr</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#copy_action">copy_action</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#make_action">make_action</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#modify_action">modify_action</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#specialize_action">specialize_action</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#call_inherited">call_inherited</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1380,6 +1711,7 @@
       <h2 id="opt_name">opt_name</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o><a href="#name">name</a></rr-o>
          </rr-rr>
       </p>
@@ -1393,47 +1725,194 @@
       <p>
          <rr-rr>
             <rr-o><a href="#allowable_func_name">allowable_func_name</a><a href="#built_in_keyword">built_in_keyword</a><a href="#construct_keyword">construct_keyword</a><a href="#action_token">action_token</a></rr-o>
+            <pre>/* Need to accept names other than actions to disambiguate function call
+ * from other actions.
+ *
+ * Not allowing construct keywords as external routine names simplifies
+ * error recovery.
+ */</pre>
          </rr-rr>
       </p>
       <h2 id="allowable_func_name">allowable_func_name</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#symbol_constn____/* Complain about names starting with &#34;$&#34; */">symbol_constn____/* Complain about names starting with "$" */</a><a href="#quoted_symbol">quoted_symbol</a><a href="#allowable_func_keyword">allowable_func_keyword</a></rr-o>
+            <rr-o><a href="#symbol_constn____/* Complain about names starting with &#34;$&#34; */">symbol_const</a><a href="#quoted_symbol">quoted_symbol</a><a href="#allowable_func_keyword">allowable_func_keyword</a></rr-o>
+            <pre>/* The construct type keywords of the language */</pre>
          </rr-rr>
       </p>
       <h2 id="construct_keyword">construct_keyword</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TOK_DECLARATION_BLOCK</rr-t>
+               <rr-t>TOK_END_BLOCK</rr-t>
+               <rr-t>TOK_END_GROUP</rr-t>
+               <rr-t>TOK_ENTRY_BLOCK</rr-t>
+               <rr-t>TOK_EXTERNAL_ROUTINE</rr-t>
+               <rr-t>TOK_GENERIC_METHOD</rr-t>
+               <rr-t>TOK_METHOD</rr-t>
+               <rr-t>TOK_OBJECT_CLASS</rr-t>
+               <rr-t>TOK_ON_EMPTY</rr-t>
+               <rr-t>TOK_ON_ENTRY</rr-t>
+               <rr-t>TOK_STARTUP</rr-t>
+               <rr-t>TOK_ON_EVERY</rr-t>
+               <rr-t>TOK_ON_EXIT</rr-t>
+               <rr-t>TOK_P</rr-t>
+               <rr-t>TOK_RULE</rr-t>
+               <rr-t>TOK_RULE_BLOCK</rr-t>
+               <rr-t>TOK_RULE_GROUP</rr-t>
+            </rr-o>
+            <pre>/* The built-in function names */</pre>
          </rr-rr>
       </p>
       <h2 id="built_in_keyword">built_in_keyword</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TOK_ACCEPT_ATOM</rr-t>
+               <rr-t>TOK_ACCEPTLINE_COMPOUND</rr-t>
+               <rr-t>TOK_ACCEPTS</rr-t>
+               <rr-t>TOK_COMPOUND</rr-t>
+               <rr-t>TOK_CONCAT</rr-t>
+               <rr-t>TOK_CRLF</rr-t>
+               <rr-t>TOK_EVERY</rr-t>
+               <rr-t>TOK_FLOAT</rr-t>
+               <rr-t>TOK_GENATOM</rr-t>
+               <rr-t>TOK_GENINT</rr-t>
+               <rr-t>TOK_GET</rr-t>
+               <rr-t>TOK_INTEGER</rr-t>
+               <rr-t>TOK_IS_OPEN</rr-t>
+               <rr-t>TOK_LENGTH</rr-t>
+               <rr-t>TOK_MAX</rr-t>
+               <rr-t>TOK_MIN</rr-t>
+               <rr-t>TOK_NTH</rr-t>
+               <rr-t>TOK_POSITION</rr-t>
+               <rr-t>TOK_RETURNS</rr-t>
+               <rr-t>TOK_RJUST</rr-t>
+               <rr-t>TOK_SUBCOMPOUND</rr-t>
+               <rr-t>TOK_SUBSYMBOL</rr-t>
+               <rr-t>TOK_SYMBOL</rr-t>
+               <rr-t>TOK_SYMBOL_LENGTH</rr-t>
+               <rr-t>TOK_TABTO</rr-t>
+               <rr-t>TOK_AND</rr-t>
+               <rr-t>TOK_NOT</rr-t>
+               <rr-t>TOK_OR</rr-t>
+            </rr-o>
+            <pre>/*
+**  Most of the  keywords of the language are usable as function names, except:
+**      - Construct type keywords  (e.g. RULE)
+**      - Built-in action names (e.g. MAKE)
+**      - Built-in function names (e.g INTEGER)
+**      RETURNS and ACCEPTS, AND OR and NOT
+*/</pre>
          </rr-rr>
       </p>
       <h2 id="allowable_func_keyword">allowable_func_keyword</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TOK_ACCEPT</rr-t>
+               <rr-t>TOK_ACTIVATES</rr-t>
+               <rr-t>TOK_ANY</rr-t>
+               <rr-t>TOK_APPEND</rr-t>
+               <rr-t>TOK_ASCID</rr-t>
+               <rr-t>TOK_ASCIZ</rr-t>
+               <rr-t>TOK_ATOM</rr-t>
+               <rr-t>TOK_BY</rr-t>
+               <rr-t>TOK_BYTE</rr-t>
+               <rr-t>TOK_CATCH</rr-t>
+               <rr-t>TOK_CS</rr-t>
+               <rr-t>TOK_DO</rr-t>
+               <rr-t>TOK_DOLLAR_LAST</rr-t>
+               <rr-t>TOK_DOUBLE_FLOAT</rr-t>
+               <rr-t>TOK_EB</rr-t>
+               <rr-t>TOK_ELSE</rr-t>
+               <rr-t>TOK_FAILURE</rr-t>
+               <rr-t>TOK_FILL</rr-t>
+               <rr-t>TOK_IN</rr-t>
+               <rr-t>TOK_INHERITS_FROM</rr-t>
+               <rr-t>TOK_INSTANCE</rr-t>
+               <rr-t>TOK_LEX</rr-t>
+               <rr-t>TOK_LONG</rr-t>
+               <rr-t>TOK_MEA</rr-t>
+               <rr-t>TOK_OF</rr-t>
+               <rr-t>TOK_OUT</rr-t>
+               <rr-t>TOK_OPAQUE</rr-t>
+               <rr-t>TOK_POINTER</rr-t>
+               <rr-t>TOK_READ_ONLY</rr-t>
+               <rr-t>TOK_READ_WRITE</rr-t>
+               <rr-t>TOK_REFERENCE</rr-t>
+               <rr-t>TOK_RG</rr-t>
+               <rr-t>TOK_SHORT</rr-t>
+               <rr-t>TOK_SINGLE_FLOAT</rr-t>
+               <rr-t>TOK_SCALAR</rr-t>
+               <rr-t>TOK_STRATEGY</rr-t>
+               <rr-t>TOK_SUCCESS</rr-t>
+               <rr-t>TOK_THEN</rr-t>
+               <rr-t>TOK_UNSIGNED_BYTE</rr-t>
+               <rr-t>TOK_UNSIGNED_LONG</rr-t>
+               <rr-t>TOK_UNSIGNED_SHORT</rr-t>
+               <rr-t>TOK_USES</rr-t>
+               <rr-t>TOK_VALUE</rr-t>
+               <rr-t>TOK_WM</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="action_token">action_token</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TOK_ADDSTATE</rr-t>
+               <rr-t>TOK_AFTER</rr-t>
+               <rr-t>TOK_BIND</rr-t>
+               <rr-t>TOK_CALL_INHERITED</rr-t>
+               <rr-t>TOK_CLOSEFILE</rr-t>
+               <rr-t>TOK_COPY</rr-t>
+               <rr-t>TOK_DEBUG</rr-t>
+               <rr-t>TOK_DEFAULT</rr-t>
+               <rr-t>TOK_FOR_EACH</rr-t>
+               <rr-t>TOK_IF</rr-t>
+               <rr-t>TOK_MAKE</rr-t>
+               <rr-t>TOK_MODIFY</rr-t>
+               <rr-t>TOK_OPENFILE</rr-t>
+               <rr-t>TOK_QUIT</rr-t>
+               <rr-t>TOK_REMOVE</rr-t>
+               <rr-t>TOK_REMOVE_EVERY</rr-t>
+               <rr-t>TOK_RESTORESTATE</rr-t>
+               <rr-t>TOK_RETURN</rr-t>
+               <rr-t>TOK_SAVESTATE</rr-t>
+               <rr-t>TOK_SPECIALIZE</rr-t>
+               <rr-t>TOK_TRACE</rr-t>
+               <rr-t>TOK_WHILE</rr-t>
+               <rr-t>TOK_WRITE</rr-t>
+               <rr-t>TOK_SQL_ATTACH</rr-t>
+               <rr-t>TOK_SQL_COMMIT</rr-t>
+               <rr-t>TOK_SQL_DELETE</rr-t>
+               <rr-t>TOK_SQL_DETACH</rr-t>
+               <rr-t>TOK_SQL_FETCH_EACH</rr-t>
+               <rr-t>TOK_SQL_FETCH_AS_OBJECT</rr-t>
+               <rr-t>TOK_SQL_INSERT</rr-t>
+               <rr-t>TOK_SQL_INSERT_FROM_OBJECT</rr-t>
+               <rr-t>TOK_SQL_ROLLBACK</rr-t>
+               <rr-t>TOK_SQL_START</rr-t>
+               <rr-t>TOK_SQL_UPDATE</rr-t>
+               <rr-t>TOK_SQL_UPDATE_FROM_OBJECT</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="sql_keyword">sql_keyword</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TOK_FILENAME</rr-t>
+               <rr-t>TOK_PATHNAME</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="opt_predicate">opt_predicate</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o><a href="#scalar_predicate">scalar_predicate</a></rr-o>
          </rr-rr>
       </p>
@@ -1446,31 +1925,74 @@
       <h2 id="scalar_predicate">scalar_predicate</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TOK_SAME_TYPE</rr-t>
+               <rr-t>TOK_DIFF_TYPE</rr-t>
+               <rr-t>TOK_EQUAL</rr-t>
+               <rr-t>TOK_EQUAL_EQUAL</rr-t>
+               <rr-t>TOK_APPROX_EQUAL</rr-t>
+               <rr-t>TOK_NOT_APPROX_EQUAL</rr-t>
+               <rr-t>TOK_NOT_EQ</rr-t>
+               <rr-t>TOK_NOT_EQUAL</rr-t>
+               <rr-t>TOK_GREATER</rr-t>
+               <rr-t>TOK_GREATER_EQUAL</rr-t>
+               <rr-t>TOK_LESS</rr-t>
+               <rr-t>TOK_LESS_EQUAL</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="content_predicate">content_predicate</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#scalar_predicate">scalar_predicate</a></rr-a>
-               <rr-a><a href="#scalar_predicate">scalar_predicate</a></rr-a>
-               <rr-a><a href="#scalar_predicate">scalar_predicate</a></rr-a>
-               <rr-a><a href="#scalar_predicate">scalar_predicate</a></rr-a>
+               <rr-t>TOK_LENGTH_EQUAL</rr-t>
+               <rr-t>TOK_LENGTH_NOT_EQUAL</rr-t>
+               <rr-t>TOK_LENGTH_GREATER</rr-t>
+               <rr-t>TOK_LENGTH_GREATER_EQUAL</rr-t>
+               <rr-t>TOK_LENGTH_LESS</rr-t>
+               <rr-t>TOK_LENGTH_LESS_EQUAL</rr-t>
+               <rr-t>TOK_CONTAINS</rr-t>
+               <rr-t>TOK_DOES_NOT_CONTAIN</rr-t>
+               <rr-a>
+                  <rr-t>TOK_CONTAINS</rr-t><a href="#scalar_predicate">scalar_predicate</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_DOES_NOT_CONTAIN</rr-t><a href="#scalar_predicate">scalar_predicate</a></rr-a>
+               <rr-a><a href="#scalar_predicate">scalar_predicate</a><rr-t>TOK_CONTAINS</rr-t>
+               </rr-a>
+               <rr-a><a href="#scalar_predicate">scalar_predicate</a><rr-t>TOK_DOES_NOT_CONTAIN</rr-t>
+               </rr-a>
             </rr-o>
+            <pre>/*
+ * All non-magic "constant tokens" of the language are in one of
+ * predicate, action_token, construct_keyword, non_action_keyword,
+ * or are in the following list:
+ *
+ *                      TOK_PLUS
+ *              |       TOK_MINUS
+ *              |       TOK_TIMES
+ *              |       TOK_DIVIDE
+ *              |       TOK_MODULUS
+ *              |       TOK_ARROW
+ *              |       TOK_START_DISJUNCTION
+ *              |       TOK_END_DISJUNCTION
+ */</pre>
          </rr-rr>
       </p>
       <h2 id="compound_const">compound_const</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#opt_comp_element_const">opt_comp_element_const</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t>
+                  <rr-t>TOK_COMPOUND</rr-t><a href="#opt_comp_element_const">opt_comp_element_const</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="opt_comp_element_const">opt_comp_element_const</h2>
       <p>
          <rr-rr>
+            <pre>/* empty */</pre>
             <rr-o>
                <rr-a><a href="#opt_comp_element_const">opt_comp_element_const</a><a href="#constant">constant</a></rr-a>
             </rr-o>
@@ -1479,56 +2001,74 @@
       <h2 id="integer_const">integer_const</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TOK_INTEGER_CONST</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="float_const">float_const</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TOK_FLOAT_CONST</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="variable">variable</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TOK_VARIABLE</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="quoted_var">quoted_var</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TOK_QUOTED_VAR</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="symbol_const">symbol_const</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TOK_SYMBOL_CONST</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="quoted_symbol">quoted_symbol</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TOK_QUOTED_SYMBOL</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="opaque_const">opaque_const</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TOK_OPAQUE_CONST</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="instance_const">instance_const</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TOK_INSTANCE_CONST</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="TOK_LBRACE">TOK_LBRACE</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'{'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1536,7 +2076,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'}'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1544,7 +2086,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1552,7 +2096,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>']'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1560,7 +2106,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1568,7 +2116,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1576,7 +2126,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'^'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1584,7 +2136,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'&lt;&lt;'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1592,7 +2146,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'&gt;&gt;'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1600,7 +2156,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'*'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1608,7 +2166,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'/'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1616,7 +2176,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'\\'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1624,7 +2186,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'+'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1632,7 +2196,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'-'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1640,7 +2206,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'='</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1648,7 +2216,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'=='</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1656,7 +2226,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'~='</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1664,7 +2236,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'-~='</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1672,7 +2246,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'&lt;=&gt;'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1680,7 +2256,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'&lt;-&gt;'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1688,7 +2266,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'&lt;&gt;'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1696,7 +2276,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'-='</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1704,7 +2286,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'&lt;'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1712,7 +2296,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'&lt;='</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1720,7 +2306,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'&gt;'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1728,7 +2316,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'&gt;='</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1736,7 +2326,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'[+]'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1744,7 +2336,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'[-]'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1752,7 +2346,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'[&lt;=]'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1760,7 +2356,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'[&lt;&gt;]'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1768,7 +2366,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'[&lt;]'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1776,7 +2376,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'[=]'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1784,7 +2386,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'[&gt;=]'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1792,7 +2396,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'[&gt;]'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1800,7 +2406,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'--&gt;'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1808,7 +2416,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'@'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1816,7 +2426,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'$LAST'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1824,7 +2436,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'$FAILURE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1832,7 +2446,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'$SUCCESS'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1840,7 +2456,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ACCEPT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1848,7 +2466,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ACCEPT-ATOM'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1856,7 +2476,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ACCEPTLINE-COMPOUND'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1864,7 +2486,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ACCEPTS'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1872,7 +2496,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ACTIVATES'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1880,7 +2506,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ADDSTATE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1888,7 +2516,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'AFTER'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1896,7 +2526,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ALIAS-FOR'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1904,7 +2536,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ANY'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1912,7 +2546,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'AND'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1920,7 +2556,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'APPEND'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1928,7 +2566,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ASCID'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1936,7 +2576,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ASCIZ'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1944,7 +2586,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ATOM'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1952,7 +2596,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'BIND'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1960,7 +2606,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'BY'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1968,7 +2616,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'BYTE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1976,7 +2626,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'CALL-INHERITED'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1984,7 +2636,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'CATCH'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1992,7 +2646,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'CLOSEFILE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2000,7 +2656,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'COMPOUND'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2008,7 +2666,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'CONCAT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2016,7 +2676,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'COPY'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2024,7 +2686,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'CRLF'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2032,7 +2696,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'CS'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2040,7 +2706,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'DEBUG'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2048,7 +2716,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'DECLARATION-BLOCK'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2056,7 +2726,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'DEFAULT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2064,7 +2736,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'DOUBLE-FLOAT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2072,7 +2746,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'DO'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2080,7 +2756,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'EB'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2088,7 +2766,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ELSE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2096,7 +2776,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'END-BLOCK'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2104,7 +2786,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'END-GROUP'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2112,7 +2796,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ENTRY-BLOCK'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2120,7 +2806,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'EVERY'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2128,7 +2816,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'EXTERNAL-ROUTINE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2136,7 +2826,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'FILENAME'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2144,7 +2836,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'FILL'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2152,7 +2846,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'FLOAT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2160,7 +2856,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'FOR-EACH'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2168,7 +2866,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'GENATOM'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2176,7 +2876,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'GENERIC-METHOD'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2184,7 +2886,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'GENINT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2192,7 +2896,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'GET'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2200,7 +2906,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'IF'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2208,7 +2916,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'IN'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2216,7 +2926,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'INHERITS-FROM'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2224,7 +2936,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'INSTANCE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2232,7 +2946,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'INTEGER'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2240,7 +2956,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'IS-OPEN'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2248,7 +2966,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'LENGTH'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2256,7 +2976,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'LEX'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2264,7 +2986,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'LONG'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2272,7 +2996,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'MAKE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2280,7 +3006,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'MAX'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2288,7 +3016,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'MEA'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2296,7 +3026,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'METHOD'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2304,7 +3036,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'MIN'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2312,7 +3046,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'MODIFY'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2320,7 +3056,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'NOT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2328,7 +3066,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'NTH'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2336,7 +3076,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'OBJECT-CLASS'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2344,7 +3086,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'OF'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2352,7 +3096,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'OFF'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2360,7 +3106,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ON'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2368,7 +3116,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ON-EMPTY'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2376,7 +3126,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ON-ENTRY'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2384,7 +3136,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ON-EVERY'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2392,7 +3146,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ON-EXIT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2400,7 +3156,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'OPAQUE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2408,7 +3166,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'OPENFILE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2416,7 +3176,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'OR'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2424,7 +3186,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'OUT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2432,7 +3196,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'P'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2440,7 +3206,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'PATHNAME'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2448,7 +3216,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'POINTER'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2456,7 +3226,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'POSITION'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2464,7 +3236,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'QUIT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2472,7 +3246,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'READ-ONLY'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2480,7 +3256,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'READ-WRITE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2488,7 +3266,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'REFERENCE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2496,7 +3276,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'REMOVE-EVERY'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2504,7 +3286,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'REMOVE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2512,7 +3296,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'RESTORESTATE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2520,7 +3306,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'RETURN'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2528,7 +3316,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'RETURNS'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2536,7 +3326,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'RG'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2544,7 +3336,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'RJUST'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2552,7 +3346,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'RULE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2560,7 +3356,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'RULE-BLOCK'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2568,7 +3366,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'RULE-GROUP'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2576,7 +3376,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SAVESTATE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2584,7 +3386,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SHORT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2592,7 +3396,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SINGLE-FLOAT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2600,7 +3406,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SCALAR'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2608,7 +3416,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SPECIALIZE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2616,7 +3426,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SQL-ATTACH'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2624,7 +3436,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SQL-COMMIT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2632,7 +3446,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SQL-DELETE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2640,7 +3456,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SQL-DETACH'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2648,7 +3466,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SQL-FETCH-AS-OBJECT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2656,7 +3476,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SQL-FETCH-EACH'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2664,7 +3486,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SQL-INSERT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2672,7 +3496,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SQL-INSERT-FROM-OBJECT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2680,7 +3506,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SQL-ROLLBACK'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2688,7 +3516,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SQL-START'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2696,7 +3526,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SQL-UPDATE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2704,7 +3536,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SQL-UPDATE-FROM-OBJECT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2712,7 +3546,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'STARTUP'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2720,7 +3556,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'STRATEGY'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2728,7 +3566,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SUBCOMPOUND'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2736,7 +3576,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SUBSYMBOL'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2744,7 +3586,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SYMBOL'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2752,7 +3596,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SYMBOL-LENGTH'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2760,7 +3606,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'TABTO'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2768,7 +3616,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'THEN'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2776,7 +3626,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'TRACE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2784,7 +3636,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'UNSIGNED-BYTE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2792,7 +3646,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'UNSIGNED-LONG'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2800,7 +3656,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'UNSIGNED-SHORT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2808,7 +3666,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'USES'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2816,7 +3676,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'VALUE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2824,7 +3686,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'WHEN'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2832,7 +3696,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'WHILE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2840,7 +3706,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'TM'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2848,7 +3716,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'WRITE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2857,7 +3727,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[0-9]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -2867,7 +3737,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[-+]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -2879,7 +3749,9 @@
                <rr-a>
                   <rr-o>
                      <rr-a>
-                        <rr-c>[E]</rr-c>
+                        <rr-c></rr-c>
+                        <rr-t>SIGN</rr-t>
+                        <rr-t>DIGIT</rr-t>
                      </rr-a>
                   </rr-o>
                </rr-a>
@@ -2891,7 +3763,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[0-9A-F]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -2900,7 +3772,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'|'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2908,8 +3782,19 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>SIGN</rr-t>
+                  <rr-t>DIGIT</rr-t>
+                  <rr-t>'.'</rr-t>
+                  <rr-t>DIGIT</rr-t>
+                  <rr-t>EXPONENT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>SIGN</rr-t>
+                  <rr-t>DIGIT</rr-t>
+                  <rr-t>'.'</rr-t>
+                  <rr-t>EXPONENT</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2917,7 +3802,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>SIGN</rr-t>
+                  <rr-t>DIGIT</rr-t>
+                  <rr-t>'.'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2925,7 +3814,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'#'</rr-t>
+                  <rr-t>DIGIT</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2933,7 +3825,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'%X'</rr-t>
+                  <rr-t>HEX_DIGIT</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2941,7 +3836,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'&lt;'</rr-t>
+                  <rr-t>NONMAGIC</rr-t>
+                  <rr-t>'&gt;'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2949,7 +3848,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'&lt;'</rr-t>
+                  <rr-t>'"'</rr-t>
+                  <rr-t>NONMAGIC</rr-t>
+                  <rr-t>'"'</rr-t>
+                  <rr-t>'&gt;'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2957,7 +3862,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>NONMAGIC</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2966,9 +3873,12 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>.</rr-c>
+                  <rr-t>'|'</rr-t>
+                  <rr-c></rr-c>
+                  <rr-t>'|'</rr-t>
                </rr-a>
             </rr-o>
+            <pre>/* "|" is really nonmagic, but we don't treat it that way here. */</pre>
          </rr-rr>
       </p>
       <h2 id="NONMAGIC">NONMAGIC</h2>
@@ -2976,7 +3886,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[A-Z0-9_$:'.,&lt;&gt;`!@*+=\-/?]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -2986,7 +3896,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[ \t\n\r\f]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -2996,7 +3906,9 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>.</rr-c>
+                  <rr-t>';'</rr-t>
+                  <rr-c></rr-c>
+                  <rr-t>'\n'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
      sqlxmlast-shorten.xsl
-
+     
      Stylesheet to compress elements in sqlxml ast files
      The basic idea is to shorten nestings of single elements like
-
+     
      <a><b><c>x</c></b></a>         becomes <c rule-path="a b">x</c>
      <a><b><c>x</c><d>y</d></b></a> becomes <b rule-path="a"><c>x</c><d>y</d></b></b>
-
+     
      Since the grammar fo oracle is realy big and there are many cases of deep single
      element nestings the resulting xml/json AST files downstream are signicant smaller
      and also the queries on these AST's are a lot easier to formulate
-
+     
      Jurgen Hildebrand (ei@xs4all.nl)
      25052021
 -->
@@ -24,58 +24,63 @@
                 exclude-result-prefixes="xs"
                 expand-text="yes">
     <!--
-    <xsl:mode on-no-match="shallow-copy"/>
+         <xsl:mode on-no-match="shallow-copy"/>
     -->    
     <xsl:param name="filename"></xsl:param>
     <xsl:param name="filedir">.</xsl:param>
     
-
+    
     <xsl:output method="html" indent="yes"/>
     <xsl:strip-space elements="*"/>
-
+    
     <xsl:function name="f:path">
-       <xsl:param name="in"/>
-       <xsl:analyze-string select="$in" regex="[^/]*/(.*)">
-         <xsl:matching-substring>../{f:path(regex-group(1))}</xsl:matching-substring>
-         <xsl:non-matching-substring>..</xsl:non-matching-substring>
-       </xsl:analyze-string>
+        <xsl:param name="in"/>
+        <xsl:analyze-string select="$in" regex="[^/]*/(.*)">
+            <xsl:matching-substring>../{f:path(regex-group(1))}</xsl:matching-substring>
+            <xsl:non-matching-substring>..</xsl:non-matching-substring>
+        </xsl:analyze-string>
     </xsl:function>
-
+    
     <xsl:variable name="root" select="f:path($filedir)"/>
-
+    
     <xsl:template match="g:ast">
         <html class="rr-root">
-        <head>
-            <meta charset="utf-8" />
-            <link rel="stylesheet" type="text/css" href="{$root}/railroad.css" />
-            <!--
-            <link rel="stylesheet" type="text/css" href="ast.css" />
-            -->
-        </head>
-        <body>
-            <h1><a href="{$root}/index.html">Railroad</a> {$filedir}/{$filename}</h1>      
-            <xsl:apply-templates/>
-        </body>
+            <head>
+                <meta charset="utf-8" />
+                <link rel="stylesheet" type="text/css" href="{f:path($filedir)}/railroad.css" />
+                <!--
+                     <link rel="stylesheet" type="text/css" href="ast.css" />
+                -->
+            </head>
+            <body>
+                <h1>Railroad {$filedir}/{$filename}</h1>      
+                <xsl:apply-templates select="node()"/>
+            </body>
         </html>
+    </xsl:template>
+    
+    <xsl:template match="c:MULTI_LINE_COMMENT" priority="10">
+        <pre>
+            <xsl:value-of select="text()"/>
+        </pre>
     </xsl:template>
 
     <xsl:template match="g:prequelConstruct|g:grammarDecl|g:blockSuffix|g:ebnfSuffix"/>
     <xsl:template match="g:altList/t:OR" priority="1"/>
     <xsl:template match="g:ruleAltList/t:OR" priority="1"/>
-<!--
-    <xsl:template match="t:*">
-        <rr-t>{.}</rr-t>
-    </xsl:template>
--->
-
+    <!--
+         <xsl:template match="t:*">
+         <rr-t>{.}</rr-t>
+         </xsl:template>
+    -->
+    
     <xsl:template match="g:rules">
         <h1>Rules</h1>
         <xsl:apply-templates/>
     </xsl:template>
-
-    <xsl:template match="g:ruleSpec/g:lexerRuleSpec">
     
-    <xsl:variable name="name" select="(g:tokenDef,t:TOKEN_REF)[1]"/>
+    <xsl:template match="g:ruleSpec/g:lexerRuleSpec">
+        <xsl:variable name="name" select="(g:tokenDef,t:TOKEN_REF)[1]"/>
         <h2 id="{$name}">{$name}</h2>
         <p>
             <rr-rr>
@@ -83,7 +88,7 @@
             </rr-rr>
         </p>
     </xsl:template>
-
+    
     <xsl:template match="g:ruleSpec/g:parserRuleSpec">
         <xsl:variable name="name" select="(g:ruleDef,t:RULE_REF)[1]"/>
         <h2 id="{$name}">{$name}</h2>
@@ -103,8 +108,8 @@
             <xsl:apply-templates/>
         </rr-a>
     </xsl:template>
-
-
+    
+    
     <xsl:template match="g:block">
         <xsl:variable name="cardinality" select="following-sibling::g:blockSuffix"/>
         <rr-a>
@@ -125,6 +130,16 @@
             <xsl:apply-templates/>
         </rr-a>
     </xsl:template>
+
+<!--
+    lexerRuleBlock
+    -->
+    
+     <xsl:template match="g:characterRange">
+         <rr-c>
+            <xsl:value-of select="string-join(.//t:*,'')"/>
+         </rr-c>
+     </xsl:template>
 
     <xsl:template match="g:atom|g:lexerAtom">
         <xsl:variable name="cardinality" select="following-sibling::g:ebnfSuffix"/>
@@ -147,51 +162,41 @@
             </xsl:with-param>
         </xsl:apply-templates>
     </xsl:template>
-
+    
     <!-- scrap rule defs -->
     <xsl:template match="g:ruleDef"/>
-
+    
     <xsl:template match="g:ruleref">
         <xsl:param name="card-attr" tunnel="true"/>
         <a href="#{.}">
             <xsl:copy-of select="if ($card-attr) then $card-attr/@* else ()"/>
-            <xsl:value-of select="."/>
+            <xsl:value-of select=".//t:*"/>
         </a>
     </xsl:template>
-
-    <xsl:template match="g:terminal">
+    
+    <xsl:template match="g:terminal|g:terminalDef">
         <xsl:param name="card-attr" tunnel="true"/>
         <rr-t>
             <xsl:copy-of select="if ($card-attr) then $card-attr/@* else ()"/>
-            <xsl:value-of select="."/>
+            <xsl:value-of select=".//t:*"/>
         </rr-t>
     </xsl:template>
-
+    
     <xsl:template match="g:lexerAtom/t:*">
         <xsl:param name="card-attr" tunnel="true"/>
         <rr-c>
             <xsl:copy-of select="if ($card-attr) then $card-attr/@* else ()"/>
-            <xsl:value-of select="."/>
+            <xsl:value-of select=".//t:*"/>
         </rr-c>
     </xsl:template>
-
+    
     <xsl:template match="g:lexerElements">
         <rr-a>
             <xsl:apply-templates/>
         </rr-a>
     </xsl:template>
 
-
-    <!--
-    initial mode
-
-    <xsl:template match="@*|node()" mode="#all">
-        <xsl:copy>
-            <xsl:apply-templates select="@*|node()" mode="#current"/>
-        </xsl:copy>
-    </xsl:template>
-    -->
     <xsl:template match="c:*|text()"/>
-
+    
 </xsl:stylesheet>
 

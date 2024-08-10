@@ -5,13 +5,45 @@
       <link rel="stylesheet" type="text/css" href="../../railroad.css">
    </head>
    <body>
-      <h1><a href="../../index.html">Railroad</a> asm/asmRISCV/Riscv64G.ast.xml</h1>
+      <h1>Railroad asm/asmRISCV/Riscv64G.ast.xml</h1>
+      <pre>/*
+BSD License
+
+Copyright (c) 2018, Tom Everett
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. Neither the name of Tom Everett nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
       <h1>Rules</h1>
       <h2 id="prog">prog</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#line">line</a></rr-a>
+               <rr-a><a href="#line">line</a><rr-t>EOF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -22,6 +54,7 @@
                <rr-a><a href="#lbl">lbl</a><rr-a data-min="0" data-max="1">
                      <rr-o><a href="#assemblerdirective">assemblerdirective</a><a href="#instruction">instruction</a></rr-o>
                   </rr-a>
+                  <rr-t>EOL</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -36,83 +69,149 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#label">label</a></rr-a>
-               <rr-a><a href="#label">label</a></rr-a>
-               <rr-a><a href="#label">label</a></rr-a>
-               <rr-a><a href="#label">label</a></rr-a>
-               <rr-a><a href="#label">label</a><a href="#label">label</a></rr-a>
-               <rr-a><a href="#number">number</a></rr-a>
-               <rr-a><a href="#number">number</a></rr-a>
-               <rr-a><a href="#number">number</a></rr-a>
-               <rr-a><a href="#expressionlist">expressionlist</a></rr-a>
-               <rr-a><a href="#expressionlist">expressionlist</a></rr-a>
-               <rr-a><a href="#expressionlist">expressionlist</a></rr-a>
-               <rr-a><a href="#expressionlist">expressionlist</a></rr-a>
-               <rr-a><a href="#expressionlist">expressionlist</a></rr-a>
-               <rr-a><a href="#expressionlist">expressionlist</a></rr-a>
-               <rr-a><a href="#string">string</a></rr-a>
-               <rr-a><a href="#string">string</a></rr-a>
-               <rr-a><a href="#label">label</a></rr-a>
-               <rr-a><a href="#label">label</a></rr-a>
-               <rr-a><a href="#expressionlist">expressionlist</a></rr-a>
-               <rr-a><a href="#expressionlist">expressionlist</a></rr-a>
-               <rr-a><a href="#label">label</a><a href="#number">number</a><a href="#number">number</a></rr-a>
-               <rr-a><a href="#label">label</a><a href="#number">number</a><a href="#number">number</a></rr-a>
-               <rr-a><a href="#label">label</a></rr-a>
-               <rr-a></rr-a>
                <rr-a>
+                  <rr-t>'.file'</rr-t><a href="#label">label</a></rr-a>
+               <rr-a>
+                  <rr-t>'.global'</rr-t><a href="#label">label</a></rr-a>
+               <rr-a>
+                  <rr-t>'.globl'</rr-t><a href="#label">label</a></rr-a>
+               <rr-a>
+                  <rr-t>'.weak'</rr-t><a href="#label">label</a></rr-a>
+               <rr-a>
+                  <rr-t>'.type'</rr-t><a href="#label">label</a><rr-t>','</rr-t>
+                  <rr-t>'@'</rr-t><a href="#label">label</a></rr-a>
+               <rr-a>
+                  <rr-t>'.align'</rr-t><a href="#number">number</a></rr-a>
+               <rr-a>
+                  <rr-t>'.balign'</rr-t><a href="#number">number</a></rr-a>
+               <rr-a>
+                  <rr-t>'.zero'</rr-t><a href="#number">number</a></rr-a>
+               <rr-a>
+                  <rr-t>'.2byte'</rr-t><a href="#expressionlist">expressionlist</a></rr-a>
+               <rr-a>
+                  <rr-t>'.4byte'</rr-t><a href="#expressionlist">expressionlist</a></rr-a>
+               <rr-a>
+                  <rr-t>'.8byte'</rr-t><a href="#expressionlist">expressionlist</a></rr-a>
+               <rr-a>
+                  <rr-t>'.half'</rr-t><a href="#expressionlist">expressionlist</a></rr-a>
+               <rr-a>
+                  <rr-t>'.word'</rr-t><a href="#expressionlist">expressionlist</a></rr-a>
+               <rr-a>
+                  <rr-t>'.dword'</rr-t><a href="#expressionlist">expressionlist</a></rr-a>
+               <rr-a>
+                  <rr-t>'.string'</rr-t><a href="#string">string</a></rr-a>
+               <rr-a>
+                  <rr-t>'.include'</rr-t><a href="#string">string</a></rr-a>
+               <rr-a>
+                  <rr-t>'.assicz'</rr-t><a href="#label">label</a></rr-a>
+               <rr-a>
+                  <rr-t>'.assic'</rr-t><a href="#label">label</a></rr-a>
+               <rr-a>
+                  <rr-t>'.float'</rr-t><a href="#expressionlist">expressionlist</a></rr-a>
+               <rr-a>
+                  <rr-t>'.double'</rr-t><a href="#expressionlist">expressionlist</a></rr-a>
+               <rr-a>
+                  <rr-t>'.comm'</rr-t><a href="#label">label</a><rr-t>','</rr-t><a href="#number">number</a><rr-t>','</rr-t><a href="#number">number</a></rr-a>
+               <rr-a>
+                  <rr-t>'.common'</rr-t><a href="#label">label</a><rr-t>','</rr-t><a href="#number">number</a><rr-t>','</rr-t><a href="#number">number</a></rr-a>
+               <rr-a>
+                  <rr-t>'.ident'</rr-t><a href="#label">label</a></rr-a>
+               <rr-a>
+                  <rr-t>'.option'</rr-t>
+                  <rr-t>OPTIONARG</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'.option arch'</rr-t>
+                  <rr-t>','</rr-t>
                   <rr-a>
                      <rr-o><a href="#extensionsorfullarch">extensionsorfullarch</a><a href="#label">label</a></rr-o>
                   </rr-a>
                </rr-a>
                <rr-a>
+                  <rr-t>'.section'</rr-t>
                   <rr-a data-min="0" data-max="1">
-                     <rr-o></rr-o>
-                  </rr-a>
-               </rr-a>
-               <rr-a><a href="#label">label</a></rr-a>
-               <rr-a><a href="#label">label</a></rr-a>
-               <rr-a><a href="#number">number</a></rr-a>
-               <rr-a><a href="#number">number</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#number">number</a></rr-a>
+                        <rr-t>'.text'</rr-t>
+                        <rr-t>'.data'</rr-t>
+                        <rr-t>'.rodata'</rr-t>
+                        <rr-t>'.bss'</rr-t>
                      </rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a><a href="#number">number</a><rr-a data-min="0" data-max="inf">
+               <rr-t>'.text'</rr-t>
+               <rr-t>'.data'</rr-t>
+               <rr-t>'.rodata'</rr-t>
+               <rr-t>'.bss'</rr-t>
+               <rr-a>
+                  <rr-t>'.pushsection'</rr-t><a href="#label">label</a></rr-a>
+               <rr-a>
+                  <rr-t>'.popsection'</rr-t><a href="#label">label</a></rr-a>
+               <rr-a>
+                  <rr-t>'.zero'</rr-t><a href="#number">number</a></rr-a>
+               <rr-a>
+                  <rr-t>'.space'</rr-t><a href="#number">number</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#number">number</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#number">number</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a><a href="#label">label</a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#label">label</a><rr-a>
+               <rr-a>
+                  <rr-t>'.skip'</rr-t><a href="#number">number</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#number">number</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'.set'</rr-t><a href="#label">label</a><rr-t>','</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'.equ'</rr-t><a href="#label">label</a><rr-t>','</rr-t>
+                  <rr-a>
                      <rr-o><a href="#number">number</a><a href="#label">label</a></rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a><a href="#label">label</a><rr-a>
+               <rr-a>
+                  <rr-t>'.size'</rr-t><a href="#label">label</a><rr-t>','</rr-t>
+                  <rr-a>
                      <rr-o><a href="#number">number</a><a href="#label">label</a></rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a><a href="#label">label</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>'.macro'</rr-t><a href="#label">label</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#label">label</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#label">label</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a><a href="#expressionlist">expressionlist</a></rr-a>
-               <rr-a><a href="#expressionlist">expressionlist</a></rr-a>
-               <rr-a><a href="#expressionlist">expressionlist</a></rr-a>
-               <rr-a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#number">number</a><rr-a data-min="0" data-max="1">
+               <rr-t>'.endm'</rr-t>
+               <rr-a>
+                  <rr-t>'.quad'</rr-t><a href="#expressionlist">expressionlist</a></rr-a>
+               <rr-a>
+                  <rr-t>'.dtprelword'</rr-t><a href="#expressionlist">expressionlist</a></rr-a>
+               <rr-a>
+                  <rr-t>'.dtpreldword'</rr-t><a href="#expressionlist">expressionlist</a></rr-a>
+               <rr-a>
+                  <rr-t>'.sleb'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'.uleb'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'.p2align'</rr-t>
+                  <rr-t>'p2'</rr-t>
+                  <rr-t>','</rr-t><a href="#number">number</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#number">number</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#number">number</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a><a href="#label">label</a></rr-a>
-               <rr-a><a href="#label">label</a><rr-a>
+               <rr-a>
+                  <rr-t>'.variant_cc'</rr-t><a href="#label">label</a></rr-a>
+               <rr-a>
+                  <rr-t>'.attribute'</rr-t><a href="#label">label</a><rr-t>','</rr-t>
+                  <rr-a>
                      <rr-o><a href="#number">number</a><a href="#label">label</a></rr-o>
                   </rr-a>
                </rr-a>
@@ -123,7 +222,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#label">label</a></rr-a>
+               <rr-a><a href="#label">label</a><rr-t>COLON</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -133,7 +233,8 @@
             <rr-o>
                <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#expression">expression</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#expression">expression</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -148,7 +249,10 @@
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>OP</rr-t>
+                                 <rr-t>'*'</rr-t>
+                              </rr-o>
                            </rr-a><a href="#expression_">expression_</a></rr-a>
                      </rr-o>
                   </rr-a>
@@ -172,7 +276,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#extension">extension</a><a href="#extension">extension</a></rr-a><a href="#extension">extension</a></rr-o>
+               <rr-a><a href="#extension">extension</a><rr-t>','</rr-t><a href="#extension">extension</a></rr-a><a href="#extension">extension</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="fullarchstr">fullarchstr</h2>
@@ -186,8 +290,10 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>OP</rr-t>
+                  <rr-t>EXTENSIONNAME</rr-t>
                   <rr-a data-min="0" data-max="1">
-                     <rr-o><a href="#number">number</a><rr-a><a href="#number">number</a><a href="#number">number</a></rr-a>
+                     <rr-o><a href="#number">number</a><rr-a><a href="#number">number</a><rr-t>'p'</rr-t><a href="#number">number</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -198,8 +304,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'+'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'-'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -212,155 +322,346 @@
       <h2 id="register">register</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>FREGS</rr-t>
+               <rr-t>XREGS</rr-t>
+               <rr-t>CSRREGS</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="rtype">rtype</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#label">label</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#xregs">xregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#xregs">xregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#fregs">fregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'add'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'mv'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'la'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#label">label</a></rr-a>
+               <rr-a>
+                  <rr-t>'sub'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'sll'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'slt'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'sltu'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'xor'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'srl'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'sra'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'or'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'and'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'addw'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'subw'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'sllw'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'srlw'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'sraw'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'mul'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'mulh'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'mulhsu'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'mulhu'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'div'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'divu'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'rem'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'remu'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'mulw'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'divw'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'divuw'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'remw'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'remuw'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'lr.w'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t>
+                  <rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'sc.w'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t>
+                  <rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'amoswap.w'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t>
+                  <rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'amoadd.w'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t>
+                  <rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'amoxor.w'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t>
+                  <rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'amoand.w'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t>
+                  <rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'amoor.w'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t>
+                  <rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'amomin.w'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t>
+                  <rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'amomax.w'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t>
+                  <rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'amominu.w'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t>
+                  <rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'amomaxu.w'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t>
+                  <rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'lr.d'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t>
+                  <rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'sc.d'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t>
+                  <rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'amoswap.d'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t>
+                  <rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'amoadd.d'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t>
+                  <rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'amoxor.d'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t>
+                  <rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'amoand.d'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t>
+                  <rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'amoor.d'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t>
+                  <rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'amomin.d'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t>
+                  <rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'amomax.d'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t>
+                  <rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'amominu.d'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t>
+                  <rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'amomaxu.d'</rr-t><a href="#xregs">xregs</a><a href="#xregs">xregs</a><rr-t>','</rr-t>
+                  <rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fadd.s'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fsub.s'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fmul.s'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fdiv.s'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fsqrt.s'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fsgnj.s'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fsgnjn.s'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fsgnjx.s'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fmin.s'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fmax.s'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.w.s'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.wu.s'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fmv.x.w'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'feq.s'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'flt.s'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fle.s'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fclass.s'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.s.w'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.s.wu'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fmv.w.x'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fmadd.s'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fmsub.s'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fnmsub.s'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fnmadd.s'</rr-t><a href="#fregs">fregs</a><a href="#xregs">xregs</a><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.l.s'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.lu.s'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.s.l'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.s.lu'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fadd.d'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fsub.d'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fmul.d'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fdiv.d'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fsqrt.d'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fsgnj.d'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fsgnjn.d'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fsgnjx.d'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fmin.d'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fmax.d'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.d.s'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.s.d'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'feq.d'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'flt.d'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fle.d'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fclass.d'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.w.d'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.wu.d'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.d.w'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.d.wu'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fmadd.d'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fmsub.d'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fnmsub.d'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fnmadd.d'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.l.d'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.lu.d'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fmv.x.d'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.d.l'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.d.lu'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fmv.d.x'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fadd.q'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fsub.q'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fmul.q'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fdiv.q'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fsqrt.q'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fsgnj.q'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fsgnjn.q'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fsgnjx.q'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fmin.q'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fmax.q'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.q.s'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.s.q'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.q.d'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.d.q'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'feq.q'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'flt.q'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fle.q'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fclass.q'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.wu.q'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.w.q'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.q.w'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.q.wu'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fmadd.q'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fmsub.q'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fnmsub.q'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fnmadd.q'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.l.q'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.lu.q'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fmv.x.q'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#fregs">fregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.q.l'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fcvt.q.lu'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'fmv.q.x'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-t>'wfi'</rr-t>
             </rr-o>
          </rr-rr>
       </p>
@@ -368,35 +669,84 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#xregs">xregs</a><a href="#number">number</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#number">number</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#number">number</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#number">number</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#number">number</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#number">number</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#number">number</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#number">number</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#number">number</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#number">number</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#number">number</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#number">number</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#number">number</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#number">number</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#number">number</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#number">number</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#number">number</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#number">number</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#number">number</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#number">number</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#number">number</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#number">number</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#number">number</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#number">number</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#number">number</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#number">number</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#number">number</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#label">label</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'jalr'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a><rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'lb'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a><rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'lh'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a><rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'lw'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a><rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'lbu'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a><rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'lhu'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a><rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'slli'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a></rr-a>
+               <rr-a>
+                  <rr-t>'srli'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a></rr-a>
+               <rr-a>
+                  <rr-t>'srai'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a></rr-a>
+               <rr-a>
+                  <rr-t>'addi'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a></rr-a>
+               <rr-a>
+                  <rr-t>'slti'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a></rr-a>
+               <rr-a>
+                  <rr-t>'sltiu'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a></rr-a>
+               <rr-a>
+                  <rr-t>'xori'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a></rr-a>
+               <rr-a>
+                  <rr-t>'ori'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a></rr-a>
+               <rr-a>
+                  <rr-t>'andi'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a></rr-a>
+               <rr-a>
+                  <rr-t>'lwu'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a><rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'ld'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a><rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'slli'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a></rr-a>
+               <rr-a>
+                  <rr-t>'srli'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a></rr-a>
+               <rr-a>
+                  <rr-t>'srai'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a></rr-a>
+               <rr-a>
+                  <rr-t>'addiw'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a></rr-a>
+               <rr-a>
+                  <rr-t>'slliw'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a></rr-a>
+               <rr-a>
+                  <rr-t>'srliw'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a></rr-a>
+               <rr-a>
+                  <rr-t>'sraiw'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a></rr-a>
+               <rr-a>
+                  <rr-t>'flw'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#number">number</a><rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fld'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#number">number</a><rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'flq'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#number">number</a><rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'li'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#label">label</a></rr-a>
+               <rr-t>'fence'</rr-t>
+               <rr-t>'fence.i'</rr-t>
+               <rr-a>
+                  <rr-t>'sfence.vma'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-t>'ecall'</rr-t>
+               <rr-t>'ebreak'</rr-t>
+               <rr-t>'mret'</rr-t>
+               <rr-t>'sret'</rr-t>
+               <rr-t>'uret'</rr-t>
+               <rr-t>'ret'</rr-t>
+               <rr-t>'nop'</rr-t>
             </rr-o>
          </rr-rr>
       </p>
@@ -404,13 +754,27 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#xregs">xregs</a><a href="#number">number</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#number">number</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#number">number</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#number">number</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#number">number</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#number">number</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#fregs">fregs</a><a href="#number">number</a><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'sb'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a><rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'sh'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a><rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'sw'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a><rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'sd'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a><rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fsw'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#number">number</a><rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fsd'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#number">number</a><rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fsq'</rr-t><a href="#fregs">fregs</a><rr-t>','</rr-t><a href="#number">number</a><rr-t>'('</rr-t><a href="#xregs">xregs</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -418,15 +782,24 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#label">label</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#label">label</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#label">label</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#label">label</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#label">label</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#label">label</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#xregs">xregs</a><a href="#label">label</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#label">label</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#label">label</a></rr-a>
+               <rr-a>
+                  <rr-t>'beq'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#label">label</a></rr-a>
+               <rr-a>
+                  <rr-t>'bne'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#label">label</a></rr-a>
+               <rr-a>
+                  <rr-t>'bnez'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#label">label</a></rr-a>
+               <rr-a>
+                  <rr-t>'blt'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#label">label</a></rr-a>
+               <rr-a>
+                  <rr-t>'bge'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#label">label</a></rr-a>
+               <rr-a>
+                  <rr-t>'bltu'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#label">label</a></rr-a>
+               <rr-a>
+                  <rr-t>'bgeu'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#label">label</a></rr-a>
+               <rr-a>
+                  <rr-t>'beqz'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#label">label</a></rr-a>
+               <rr-a>
+                  <rr-t>'bltz'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#label">label</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -434,8 +807,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#xregs">xregs</a><a href="#number">number</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#number">number</a></rr-a>
+               <rr-a>
+                  <rr-t>'lui'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a></rr-a>
+               <rr-a>
+                  <rr-t>'auipc'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#number">number</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -444,17 +819,21 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'jal'</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#xregs">xregs</a></rr-a>
+                        <rr-a><a href="#xregs">xregs</a><rr-t>','</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#label">label</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#xregs">xregs</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a><a href="#label">label</a></rr-a>
+               <rr-a>
+                  <rr-t>'j'</rr-t><a href="#label">label</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -462,70 +841,108 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#xregs">xregs</a><a href="#csrregs">csrregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#csrregs">csrregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#csrregs">csrregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#csrregs">csrregs</a><a href="#xregs">xregs</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#csrregs">csrregs</a><a href="#number">number</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#csrregs">csrregs</a><a href="#number">number</a></rr-a>
-               <rr-a><a href="#xregs">xregs</a><a href="#csrregs">csrregs</a><a href="#number">number</a></rr-a>
+               <rr-a>
+                  <rr-t>'csrrw'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#csrregs">csrregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'csrr'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#csrregs">csrregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'csrrs'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#csrregs">csrregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'csrrc'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#csrregs">csrregs</a><rr-t>','</rr-t><a href="#xregs">xregs</a></rr-a>
+               <rr-a>
+                  <rr-t>'csrrwi'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#csrregs">csrregs</a><rr-t>','</rr-t><a href="#number">number</a></rr-a>
+               <rr-a>
+                  <rr-t>'csrrsi'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#csrregs">csrregs</a><rr-t>','</rr-t><a href="#number">number</a></rr-a>
+               <rr-a>
+                  <rr-t>'csrrci'</rr-t><a href="#xregs">xregs</a><rr-t>','</rr-t><a href="#csrregs">csrregs</a><rr-t>','</rr-t><a href="#number">number</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="xregs">xregs</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>XREGS</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="fregs">fregs</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>FREGS</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="csrregs">csrregs</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>CSRREGS</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="comment">comment</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>COMMENT</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="label">label</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NAME</rr-t>
+               <rr-t>NUMBER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="string">string</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="number">number</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="OPTIONARG">OPTIONARG</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'rvc'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'norvc'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'pic'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'nopic'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'relax'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'norelax'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'push'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'pop'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -533,20 +950,48 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'A'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'G'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'C'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'M'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'F'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'D'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'Q'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'L'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'B'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'J'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'T'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'P'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'V'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'N'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -554,38 +999,102 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'zero'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'ra'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'sp'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'gp'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'tp'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'t0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'t1'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'t2'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'s0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'s1'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'a0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'a1'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'a2'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'a3'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'a4'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'a5'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'a6'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'a7'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'s2'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'s3'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'s4'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'s5'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'s6'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'s7'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'s8'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'s9'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'s10'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'s11'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'t3'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'t4'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'t5'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'t6'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -593,38 +1102,102 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ft0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'ft1'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'ft2'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'ft3'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'ft4'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'ft5'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'ft6'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'ft7'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fs0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fs1'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fa0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fa1'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fa2'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fa3'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fa4'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fa5'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fa6'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fa7'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fs2'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fs3'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fs4'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fs5'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fs6'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fs7'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fs8'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fs9'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fs10'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fs11'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'ft8'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'ft9'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'ft10'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'ft11'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -632,35 +1205,93 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'fflags'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'frm'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fcsr'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'sstatus'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'sie'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'sscratch'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'sepc'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'scause'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'stval'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'sip'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'satp'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'mhartid'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'mstatus'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'medeleg'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'mie'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'mscratch'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'mepc'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'mcause'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'mtval'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'mip'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'pmpcfg0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'pmpaddr0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'pmpaddr1'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'pmpaddr2'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'pmpaddr3'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'pmpaddr4'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'pmpaddr5'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'pmpaddr6'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'pmpaddr7'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -668,7 +1299,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'#'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -677,7 +1310,9 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>.</rr-c>
+                  <rr-t>'/*'</rr-t>
+                  <rr-c></rr-c>
+                  <rr-t>'*/'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -687,9 +1322,9 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>["]</rr-c>
-                  <rr-c>[A-Z_0-9.]</rr-c>
-                  <rr-c>["]</rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -699,8 +1334,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[.A-Z_]</rr-c>
-                  <rr-c>[A-Z0-9."_]</rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -709,7 +1344,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>':'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -718,10 +1355,12 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[0-9A-F]</rr-c>
+                  <rr-t>'0x'</rr-t>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[0-9]</rr-c>
+                  <rr-t>'-'</rr-t>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -731,7 +1370,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[\r\n]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -741,7 +1380,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[ \t]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>

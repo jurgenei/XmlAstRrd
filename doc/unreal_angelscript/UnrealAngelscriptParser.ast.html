@@ -5,14 +5,20 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1><a href="../index.html">Railroad</a> unreal_angelscript/UnrealAngelscriptParser.ast.xml</h1>
+      <h1>Railroad unreal_angelscript/UnrealAngelscriptParser.ast.xml</h1>
+      <pre>/*
+	Adapted to Unreal Angelscript by Embark Studios AB (Fredrik Lindh [Temaran]).
+	Based on the C++ grammar made by Camilo Sanchez (Camiloasc1) and Martin Mirchev (Marti2203). See the parser file.
+ */</pre>
       <h1>Rules</h1>
       <h2 id="script">script</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#declarationseq">declarationseq</a></rr-a>
+               <rr-a><a href="#declarationseq">declarationseq</a><rr-t>EOF</rr-t>
+               </rr-a>
             </rr-o>
+            <pre>/*Angelscript */</pre>
          </rr-rr>
       </p>
       <h2 id="annotationList">annotationList</h2>
@@ -21,7 +27,8 @@
             <rr-o>
                <rr-a><a href="#annotation">annotation</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#annotation">annotation</a></rr-a>
+                        <rr-a>
+                           <rr-t>Comma</rr-t><a href="#annotation">annotation</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -33,9 +40,11 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>Identifier</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expression">expression</a></rr-a>
+                        <rr-a>
+                           <rr-t>Assign</rr-t><a href="#expression">expression</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -48,8 +57,13 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
-                  </rr-a><a href="#annotationList">annotationList</a></rr-a>
+                     <rr-o>
+                        <rr-t>UClass</rr-t>
+                        <rr-t>UStruct</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>LeftParen</rr-t><a href="#annotationList">annotationList</a><rr-t>RightParen</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -57,7 +71,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#annotationList">annotationList</a></rr-a>
+               <rr-a>
+                  <rr-t>UProperty</rr-t>
+                  <rr-t>LeftParen</rr-t><a href="#annotationList">annotationList</a><rr-t>RightParen</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -65,7 +82,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#annotationList">annotationList</a></rr-a>
+               <rr-a>
+                  <rr-t>UFunction</rr-t>
+                  <rr-t>LeftParen</rr-t><a href="#annotationList">annotationList</a><rr-t>RightParen</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -74,13 +94,23 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>Import</rr-t>
+                  <rr-t>Identifier</rr-t>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>Dot</rr-t>
+                           <rr-t>Identifier</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>Semi</rr-t>
                </rr-a>
-               <rr-a><a href="#declSpecifierSeq">declSpecifierSeq</a><a href="#declarator">declarator</a><a href="#postFuncSpecifierSeq">postFuncSpecifierSeq</a></rr-a>
+               <rr-a>
+                  <rr-t>Import</rr-t><a href="#declSpecifierSeq">declSpecifierSeq</a><a href="#declarator">declarator</a><a href="#postFuncSpecifierSeq">postFuncSpecifierSeq</a><rr-t>From</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+                  <rr-t>Semi</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -88,7 +118,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#simpleTypeSpecifierList">simpleTypeSpecifierList</a></rr-a>
+               <rr-a>
+                  <rr-t>Identifier</rr-t>
+                  <rr-t>Less</rr-t><a href="#simpleTypeSpecifierList">simpleTypeSpecifierList</a><rr-t>Greater</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -98,7 +131,8 @@
             <rr-o>
                <rr-a><a href="#declSpecifierSeq">declSpecifierSeq</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#declSpecifierSeq">declSpecifierSeq</a></rr-a>
+                        <rr-a>
+                           <rr-t>Comma</rr-t><a href="#declSpecifierSeq">declSpecifierSeq</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -108,13 +142,20 @@
       <h2 id="booleanLiteral">booleanLiteral</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>False_</rr-t>
+               <rr-t>True_</rr-t>
+            </rr-o>
+            <pre>/*Expressions*/</pre>
          </rr-rr>
       </p>
       <h2 id="primaryExpression">primaryExpression</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#literal">literal</a><rr-a><a href="#expression">expression</a></rr-a><a href="#idExpression">idExpression</a><a href="#lambdaExpression">lambdaExpression</a></rr-o>
+            <rr-o><a href="#literal">literal</a><rr-t>This</rr-t>
+               <rr-a>
+                  <rr-t>LeftParen</rr-t><a href="#expression">expression</a><rr-t>RightParen</rr-t>
+               </rr-a><a href="#idExpression">idExpression</a><a href="#lambdaExpression">lambdaExpression</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="idExpression">idExpression</h2>
@@ -126,7 +167,9 @@
       <h2 id="unqualifiedId">unqualifiedId</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#operatorFunctionId">operatorFunctionId</a><a href="#literalOperatorId">literalOperatorId</a><rr-a>
+            <rr-o>
+               <rr-t>Identifier</rr-t><a href="#operatorFunctionId">operatorFunctionId</a><a href="#literalOperatorId">literalOperatorId</a><rr-a>
+                  <rr-t>Tilde</rr-t>
                   <rr-a>
                      <rr-o><a href="#className">className</a><a href="#decltypeSpecifier">decltypeSpecifier</a></rr-o>
                   </rr-a>
@@ -150,8 +193,11 @@
                   <rr-a data-min="0" data-max="1">
                      <rr-o><a href="#theTypeName">theTypeName</a><a href="#namespaceName">namespaceName</a><a href="#decltypeSpecifier">decltypeSpecifier</a></rr-o>
                   </rr-a>
+                  <rr-t>Doublecolon</rr-t>
                </rr-a>
-               <rr-a><a href="#nestedNameSpecifier">nestedNameSpecifier</a></rr-a>
+               <rr-a><a href="#nestedNameSpecifier">nestedNameSpecifier</a><rr-t>Identifier</rr-t>
+                  <rr-t>Doublecolon</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -167,7 +213,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#lambdaCapture">lambdaCapture</a></rr-a>
+               <rr-a>
+                  <rr-t>LeftBracket</rr-t><a href="#lambdaCapture">lambdaCapture</a><rr-t>RightBracket</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -176,7 +224,8 @@
          <rr-rr>
             <rr-o><a href="#captureList">captureList</a><rr-a><a href="#captureDefault">captureDefault</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#captureList">captureList</a></rr-a>
+                        <rr-a>
+                           <rr-t>Comma</rr-t><a href="#captureList">captureList</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -186,7 +235,10 @@
       <h2 id="captureDefault">captureDefault</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>And</rr-t>
+               <rr-t>Assign</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="captureList">captureList</h2>
@@ -195,7 +247,8 @@
             <rr-o>
                <rr-a><a href="#capture">capture</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#capture">capture</a></rr-a>
+                        <rr-a>
+                           <rr-t>Comma</rr-t><a href="#capture">capture</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -212,7 +265,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>And</rr-t>
+                  <rr-t>Identifier</rr-t>
+               </rr-a>
+               <rr-t>This</rr-t>
             </rr-o>
          </rr-rr>
       </p>
@@ -220,7 +277,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#initializer">initializer</a></rr-a>
+               <rr-a>
+                  <rr-t>And</rr-t>
+                  <rr-t>Identifier</rr-t><a href="#initializer">initializer</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -228,39 +287,60 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#parameterDeclarationClause">parameterDeclarationClause</a></rr-a>
+               <rr-a>
+                  <rr-t>LeftParen</rr-t><a href="#parameterDeclarationClause">parameterDeclarationClause</a><rr-t>RightParen</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="postfixExpression">postfixExpression</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#primaryExpression">primaryExpression</a><rr-a><a href="#postfixExpression">postfixExpression</a><rr-a>
+            <rr-o><a href="#primaryExpression">primaryExpression</a><rr-a><a href="#postfixExpression">postfixExpression</a><rr-t>LeftBracket</rr-t>
+                  <rr-a>
                      <rr-o><a href="#expression">expression</a><a href="#bracedInitList">bracedInitList</a></rr-o>
                   </rr-a>
+                  <rr-t>RightBracket</rr-t>
                </rr-a>
-               <rr-a><a href="#assertSpecifier">assertSpecifier</a><a href="#expressionList">expressionList</a></rr-a>
-               <rr-a><a href="#postfixExpression">postfixExpression</a><a href="#expressionList">expressionList</a></rr-a>
+               <rr-a><a href="#assertSpecifier">assertSpecifier</a><rr-t>LeftParen</rr-t><a href="#expressionList">expressionList</a><rr-t>RightParen</rr-t>
+               </rr-a>
+               <rr-a><a href="#postfixExpression">postfixExpression</a><rr-t>LeftParen</rr-t><a href="#expressionList">expressionList</a><rr-t>RightParen</rr-t>
+               </rr-a>
                <rr-a><a href="#simpleTypeSpecifier">simpleTypeSpecifier</a><rr-a>
                      <rr-o>
-                        <rr-a><a href="#expressionList">expressionList</a></rr-a><a href="#bracedInitList">bracedInitList</a></rr-o>
+                        <rr-a>
+                           <rr-t>LeftParen</rr-t><a href="#expressionList">expressionList</a><rr-t>RightParen</rr-t>
+                        </rr-a><a href="#bracedInitList">bracedInitList</a></rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a><a href="#postfixExpression">postfixExpression</a><rr-a>
+               <rr-a><a href="#postfixExpression">postfixExpression</a><rr-t>Dot</rr-t>
+                  <rr-a>
                      <rr-o><a href="#idExpression">idExpression</a><a href="#pseudoDestructorName">pseudoDestructorName</a></rr-o>
                   </rr-a>
                </rr-a>
                <rr-a><a href="#postfixExpression">postfixExpression</a><rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>PlusPlus</rr-t>
+                        <rr-t>MinusMinus</rr-t>
+                     </rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a><a href="#theTypeId">theTypeId</a><a href="#expression">expression</a></rr-a>
                <rr-a>
+                  <rr-t>Cast</rr-t>
+                  <rr-t>Less</rr-t><a href="#theTypeId">theTypeId</a><rr-t>Greater</rr-t>
+                  <rr-t>LeftParen</rr-t><a href="#expression">expression</a><rr-t>RightParen</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LeftParen</rr-t>
                   <rr-a>
                      <rr-o><a href="#expression">expression</a><a href="#theTypeId">theTypeId</a></rr-o>
                   </rr-a>
+                  <rr-t>RightParen</rr-t>
                </rr-a>
             </rr-o>
+            <pre>/*
+ add a middle layer to eliminate duplicated function declarations
+ */</pre>
          </rr-rr>
       </p>
       <h2 id="expressionList">expressionList</h2>
@@ -275,11 +355,15 @@
             <rr-o>
                <rr-a><a href="#nestedNameSpecifier">nestedNameSpecifier</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#theTypeName">theTypeName</a></rr-a>
+                        <rr-a><a href="#theTypeName">theTypeName</a><rr-t>Doublecolon</rr-t>
+                        </rr-a>
                      </rr-o>
-                  </rr-a><a href="#theTypeName">theTypeName</a></rr-a>
-               <rr-a><a href="#nestedNameSpecifier">nestedNameSpecifier</a><a href="#theTypeName">theTypeName</a></rr-a>
-               <rr-a><a href="#decltypeSpecifier">decltypeSpecifier</a></rr-a>
+                  </rr-a>
+                  <rr-t>Tilde</rr-t><a href="#theTypeName">theTypeName</a></rr-a>
+               <rr-a><a href="#nestedNameSpecifier">nestedNameSpecifier</a><rr-t>Doublecolon</rr-t>
+                  <rr-t>Tilde</rr-t><a href="#theTypeName">theTypeName</a></rr-a>
+               <rr-a>
+                  <rr-t>Tilde</rr-t><a href="#decltypeSpecifier">decltypeSpecifier</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -288,23 +372,37 @@
          <rr-rr>
             <rr-o><a href="#postfixExpression">postfixExpression</a><rr-a>
                   <rr-a>
-                     <rr-o><a href="#unaryOperator">unaryOperator</a></rr-o>
+                     <rr-o>
+                        <rr-t>PlusPlus</rr-t>
+                        <rr-t>MinusMinus</rr-t><a href="#unaryOperator">unaryOperator</a></rr-o>
                   </rr-a><a href="#unaryExpression">unaryExpression</a></rr-a>
-               <rr-a><a href="#theTypeId">theTypeId</a></rr-a>
+               <rr-a>
+                  <rr-t>LeftParen</rr-t><a href="#theTypeId">theTypeId</a><rr-t>RightParen</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="unaryOperator">unaryOperator</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>Or</rr-t>
+               <rr-t>Star</rr-t>
+               <rr-t>And</rr-t>
+               <rr-t>Plus</rr-t>
+               <rr-t>Tilde</rr-t>
+               <rr-t>Minus</rr-t>
+               <rr-t>Not</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="newPlacement">newPlacement</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expressionList">expressionList</a></rr-a>
+               <rr-a>
+                  <rr-t>LeftParen</rr-t><a href="#expressionList">expressionList</a><rr-t>RightParen</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -312,13 +410,19 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expressionList">expressionList</a></rr-a><a href="#bracedInitList">bracedInitList</a></rr-o>
+               <rr-a>
+                  <rr-t>LeftParen</rr-t><a href="#expressionList">expressionList</a><rr-t>RightParen</rr-t>
+               </rr-a><a href="#bracedInitList">bracedInitList</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="castExpression">castExpression</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#unaryExpression">unaryExpression</a><rr-a><a href="#theTypeId">theTypeId</a><a href="#castExpression">castExpression</a></rr-a>
+            <rr-o><a href="#unaryExpression">unaryExpression</a><rr-a>
+                  <rr-t>Cast</rr-t>
+                  <rr-t>Less</rr-t><a href="#theTypeId">theTypeId</a><rr-t>Greater</rr-t>
+                  <rr-t>LeftParen</rr-t><a href="#castExpression">castExpression</a><rr-t>RightParen</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -330,7 +434,11 @@
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>Star</rr-t>
+                                 <rr-t>Div</rr-t>
+                                 <rr-t>Mod</rr-t>
+                              </rr-o>
                            </rr-a><a href="#castExpression">castExpression</a></rr-a>
                      </rr-o>
                   </rr-a>
@@ -346,7 +454,10 @@
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>Plus</rr-t>
+                                 <rr-t>Minus</rr-t>
+                              </rr-o>
                            </rr-a><a href="#multiplicativeExpression">multiplicativeExpression</a></rr-a>
                      </rr-o>
                   </rr-a>
@@ -371,8 +482,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>Greater</rr-t>
+                  <rr-t>Greater</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>Less</rr-t>
+                  <rr-t>Less</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -384,7 +501,12 @@
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>Less</rr-t>
+                                 <rr-t>Greater</rr-t>
+                                 <rr-t>LessEqual</rr-t>
+                                 <rr-t>GreaterEqual</rr-t>
+                              </rr-o>
                            </rr-a><a href="#shiftExpression">shiftExpression</a></rr-a>
                      </rr-o>
                   </rr-a>
@@ -400,7 +522,10 @@
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>Equal</rr-t>
+                                 <rr-t>NotEqual</rr-t>
+                              </rr-o>
                            </rr-a><a href="#relationalExpression">relationalExpression</a></rr-a>
                      </rr-o>
                   </rr-a>
@@ -414,7 +539,8 @@
             <rr-o>
                <rr-a><a href="#equalityExpression">equalityExpression</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#equalityExpression">equalityExpression</a></rr-a>
+                        <rr-a>
+                           <rr-t>And</rr-t><a href="#equalityExpression">equalityExpression</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -427,7 +553,8 @@
             <rr-o>
                <rr-a><a href="#andExpression">andExpression</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#andExpression">andExpression</a></rr-a>
+                        <rr-a>
+                           <rr-t>Xor</rr-t><a href="#andExpression">andExpression</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -440,7 +567,8 @@
             <rr-o>
                <rr-a><a href="#exclusiveOrExpression">exclusiveOrExpression</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#exclusiveOrExpression">exclusiveOrExpression</a></rr-a>
+                        <rr-a>
+                           <rr-t>Or</rr-t><a href="#exclusiveOrExpression">exclusiveOrExpression</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -453,7 +581,8 @@
             <rr-o>
                <rr-a><a href="#inclusiveOrExpression">inclusiveOrExpression</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#inclusiveOrExpression">inclusiveOrExpression</a></rr-a>
+                        <rr-a>
+                           <rr-t>AndAnd</rr-t><a href="#inclusiveOrExpression">inclusiveOrExpression</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -466,7 +595,8 @@
             <rr-o>
                <rr-a><a href="#logicalAndExpression">logicalAndExpression</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#logicalAndExpression">logicalAndExpression</a></rr-a>
+                        <rr-a>
+                           <rr-t>OrOr</rr-t><a href="#logicalAndExpression">logicalAndExpression</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -479,7 +609,8 @@
             <rr-o>
                <rr-a><a href="#logicalOrExpression">logicalOrExpression</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expression">expression</a><a href="#assignmentExpression">assignmentExpression</a></rr-a>
+                        <rr-a>
+                           <rr-t>Question</rr-t><a href="#expression">expression</a><rr-t>Colon</rr-t><a href="#assignmentExpression">assignmentExpression</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -496,7 +627,19 @@
       <h2 id="assignmentOperator">assignmentOperator</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>Assign</rr-t>
+               <rr-t>StarAssign</rr-t>
+               <rr-t>DivAssign</rr-t>
+               <rr-t>ModAssign</rr-t>
+               <rr-t>PlusAssign</rr-t>
+               <rr-t>MinusAssign</rr-t>
+               <rr-t>RightShiftAssign</rr-t>
+               <rr-t>LeftShiftAssign</rr-t>
+               <rr-t>AndAssign</rr-t>
+               <rr-t>XorAssign</rr-t>
+               <rr-t>OrAssign</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="expression">expression</h2>
@@ -505,7 +648,8 @@
             <rr-o>
                <rr-a><a href="#assignmentExpression">assignmentExpression</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#assignmentExpression">assignmentExpression</a></rr-a>
+                        <rr-a>
+                           <rr-t>Comma</rr-t><a href="#assignmentExpression">assignmentExpression</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -516,6 +660,7 @@
       <p>
          <rr-rr>
             <rr-o><a href="#conditionalExpression">conditionalExpression</a></rr-o>
+            <pre>/*Statements*/</pre>
          </rr-rr>
       </p>
       <h2 id="statement">statement</h2>
@@ -534,9 +679,13 @@
                <rr-a>
                   <rr-a>
                      <rr-o>
-                        <rr-a><a href="#constantExpression">constantExpression</a></rr-a>
+                        <rr-t>Identifier</rr-t>
+                        <rr-a>
+                           <rr-t>Case</rr-t><a href="#constantExpression">constantExpression</a></rr-a>
+                        <rr-t>Default</rr-t>
                      </rr-o>
-                  </rr-a><a href="#statement">statement</a></rr-a>
+                  </rr-a>
+                  <rr-t>Colon</rr-t><a href="#statement">statement</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -544,7 +693,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>Semi</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -552,7 +702,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#statementSeq">statementSeq</a></rr-a>
+               <rr-a>
+                  <rr-t>LeftBrace</rr-t><a href="#statementSeq">statementSeq</a><rr-t>RightBrace</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -566,13 +718,18 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#condition">condition</a><a href="#statement">statement</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>If</rr-t>
+                  <rr-t>LeftParen</rr-t><a href="#condition">condition</a><rr-t>RightParen</rr-t><a href="#statement">statement</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#statement">statement</a></rr-a>
+                        <rr-a>
+                           <rr-t>Else</rr-t><a href="#statement">statement</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a><a href="#condition">condition</a><a href="#statement">statement</a></rr-a>
+               <rr-a>
+                  <rr-t>Switch</rr-t>
+                  <rr-t>LeftParen</rr-t><a href="#condition">condition</a><rr-t>RightParen</rr-t><a href="#statement">statement</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -581,7 +738,8 @@
          <rr-rr>
             <rr-o><a href="#expression">expression</a><rr-a><a href="#declSpecifierSeq">declSpecifierSeq</a><a href="#declarator">declarator</a><rr-a>
                      <rr-o>
-                        <rr-a><a href="#initializerClause">initializerClause</a></rr-a><a href="#bracedInitList">bracedInitList</a></rr-o>
+                        <rr-a>
+                           <rr-t>Assign</rr-t><a href="#initializerClause">initializerClause</a></rr-a><a href="#bracedInitList">bracedInitList</a></rr-o>
                   </rr-a>
                </rr-a>
             </rr-o>
@@ -591,15 +749,24 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#condition">condition</a><a href="#statement">statement</a></rr-a>
-               <rr-a><a href="#statement">statement</a><a href="#expression">expression</a></rr-a>
                <rr-a>
+                  <rr-t>While</rr-t>
+                  <rr-t>LeftParen</rr-t><a href="#condition">condition</a><rr-t>RightParen</rr-t><a href="#statement">statement</a></rr-a>
+               <rr-a>
+                  <rr-t>Do</rr-t><a href="#statement">statement</a><rr-t>While</rr-t>
+                  <rr-t>LeftParen</rr-t><a href="#expression">expression</a><rr-t>RightParen</rr-t>
+                  <rr-t>Semi</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>For</rr-t>
+                  <rr-t>LeftParen</rr-t>
                   <rr-a>
                      <rr-o>
-                        <rr-a><a href="#forInitStatement">forInitStatement</a><a href="#condition">condition</a><a href="#expression">expression</a></rr-a>
-                        <rr-a><a href="#forRangeDeclaration">forRangeDeclaration</a><a href="#forRangeInitializer">forRangeInitializer</a></rr-a>
+                        <rr-a><a href="#forInitStatement">forInitStatement</a><a href="#condition">condition</a><rr-t>Semi</rr-t><a href="#expression">expression</a></rr-a>
+                        <rr-a><a href="#forRangeDeclaration">forRangeDeclaration</a><rr-t>Colon</rr-t><a href="#forRangeInitializer">forRangeInitializer</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#statement">statement</a></rr-a>
+                  </rr-a>
+                  <rr-t>RightParen</rr-t><a href="#statement">statement</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -613,7 +780,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#declSpecifierSeq">declSpecifierSeq</a></rr-a>
+               <rr-a><a href="#declSpecifierSeq">declSpecifierSeq</a><rr-t>Identifier</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -630,14 +798,21 @@
                <rr-a>
                   <rr-a>
                      <rr-o>
+                        <rr-t>Break</rr-t>
+                        <rr-t>Continue</rr-t>
                         <rr-a>
+                           <rr-t>Return</rr-t>
                            <rr-a data-min="0" data-max="1">
                               <rr-o><a href="#expression">expression</a><a href="#bracedInitList">bracedInitList</a></rr-o>
                            </rr-a>
                         </rr-a>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>Goto</rr-t>
+                           <rr-t>Identifier</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>Semi</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -646,6 +821,7 @@
       <p>
          <rr-rr>
             <rr-o><a href="#blockDeclaration">blockDeclaration</a></rr-o>
+            <pre>/*Declarations*/</pre>
          </rr-rr>
       </p>
       <h2 id="declarationseq">declarationseq</h2>
@@ -670,7 +846,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#theTypeId">theTypeId</a></rr-a>
+               <rr-a>
+                  <rr-t>Identifier</rr-t>
+                  <rr-t>Assign</rr-t><a href="#theTypeId">theTypeId</a><rr-t>Semi</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -681,6 +860,7 @@
                <rr-a><a href="#declSpecifierSeq">declSpecifierSeq</a><rr-a data-min="0" data-max="1">
                      <rr-o><a href="#initDeclaratorList">initDeclaratorList</a><a href="#assignmentExpression">assignmentExpression</a></rr-o>
                   </rr-a>
+                  <rr-t>Semi</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -688,7 +868,9 @@
       <h2 id="emptyDeclaration_">emptyDeclaration_</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>Semi</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="declSpecifier">declSpecifier</h2>
@@ -706,13 +888,17 @@
       <h2 id="functionSpecifier">functionSpecifier</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>Virtual</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="typedefName">typedefName</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>Identifier</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="typeSpecifier">typeSpecifier</h2>
@@ -724,7 +910,10 @@
       <h2 id="trailingTypeSpecifier">trailingTypeSpecifier</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#simpleTypeSpecifier">simpleTypeSpecifier</a><a href="#elaboratedTypeSpecifier">elaboratedTypeSpecifier</a></rr-o>
+            <rr-o><a href="#simpleTypeSpecifier">simpleTypeSpecifier</a><a href="#elaboratedTypeSpecifier">elaboratedTypeSpecifier</a><rr-t>Const</rr-t>
+               <rr-t>And</rr-t>
+               <rr-t>Out</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="typeSpecifierSeq">typeSpecifierSeq</h2>
@@ -743,13 +932,31 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#nestedNameSpecifier">nestedNameSpecifier</a><a href="#theTypeName">theTypeName</a></rr-a><a href="#asGeneric">asGeneric</a><a href="#decltypeSpecifier">decltypeSpecifier</a></rr-o>
+               <rr-a><a href="#nestedNameSpecifier">nestedNameSpecifier</a><a href="#theTypeName">theTypeName</a></rr-a><a href="#asGeneric">asGeneric</a><rr-t>Int</rr-t>
+               <rr-t>Int8</rr-t>
+               <rr-t>Int16</rr-t>
+               <rr-t>Int32</rr-t>
+               <rr-t>Int64</rr-t>
+               <rr-t>UInt</rr-t>
+               <rr-t>UInt8</rr-t>
+               <rr-t>UInt16</rr-t>
+               <rr-t>UInt32</rr-t>
+               <rr-t>UInt64</rr-t>
+               <rr-t>Float</rr-t>
+               <rr-t>Double</rr-t>
+               <rr-t>Bool</rr-t>
+               <rr-t>Void</rr-t>
+               <rr-t>Auto</rr-t><a href="#decltypeSpecifier">decltypeSpecifier</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="assertSpecifier">assertSpecifier</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>Ensure</rr-t>
+               <rr-t>EnsureAlways</rr-t>
+               <rr-t>Check</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="theTypeName">theTypeName</h2>
@@ -763,9 +970,12 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>LeftParen</rr-t>
                   <rr-a>
-                     <rr-o><a href="#expression">expression</a></rr-o>
+                     <rr-o><a href="#expression">expression</a><rr-t>Auto</rr-t>
+                     </rr-o>
                   </rr-a>
+                  <rr-t>RightParen</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -776,28 +986,36 @@
             <rr-o>
                <rr-a><a href="#classKey">classKey</a><rr-a>
                      <rr-o>
-                        <rr-a><a href="#nestedNameSpecifier">nestedNameSpecifier</a></rr-a><a href="#nestedNameSpecifier">nestedNameSpecifier</a></rr-o>
+                        <rr-a><a href="#nestedNameSpecifier">nestedNameSpecifier</a><rr-t>Identifier</rr-t>
+                        </rr-a><a href="#nestedNameSpecifier">nestedNameSpecifier</a></rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a><a href="#nestedNameSpecifier">nestedNameSpecifier</a></rr-a>
+               <rr-a>
+                  <rr-t>Enum</rr-t><a href="#nestedNameSpecifier">nestedNameSpecifier</a><rr-t>Identifier</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="enumName">enumName</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>Identifier</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="enumSpecifier">enumSpecifier</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#enumHead">enumHead</a><rr-a data-min="0" data-max="1">
+               <rr-a><a href="#enumHead">enumHead</a><rr-t>LeftBrace</rr-t>
+                  <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#enumeratorList">enumeratorList</a></rr-a>
+                        <rr-a><a href="#enumeratorList">enumeratorList</a><rr-t>Comma</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>RightBrace</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -808,7 +1026,8 @@
             <rr-o>
                <rr-a><a href="#enumkey">enumkey</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#nestedNameSpecifier">nestedNameSpecifier</a></rr-a>
+                        <rr-a><a href="#nestedNameSpecifier">nestedNameSpecifier</a><rr-t>Identifier</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#enumbase">enumbase</a></rr-a>
             </rr-o>
@@ -818,21 +1037,25 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#enumkey">enumkey</a><a href="#enumbase">enumbase</a></rr-a>
+               <rr-a><a href="#enumkey">enumkey</a><rr-t>Identifier</rr-t><a href="#enumbase">enumbase</a><rr-t>Semi</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="enumkey">enumkey</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>Enum</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="enumbase">enumbase</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#typeSpecifierSeq">typeSpecifierSeq</a></rr-a>
+               <rr-a>
+                  <rr-t>Colon</rr-t><a href="#typeSpecifierSeq">typeSpecifierSeq</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -842,7 +1065,8 @@
             <rr-o>
                <rr-a><a href="#enumeratorDefinition">enumeratorDefinition</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#enumeratorDefinition">enumeratorDefinition</a></rr-a>
+                        <rr-a>
+                           <rr-t>Comma</rr-t><a href="#enumeratorDefinition">enumeratorDefinition</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -855,7 +1079,8 @@
             <rr-o>
                <rr-a><a href="#enumerator">enumerator</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#constantExpression">constantExpression</a></rr-a>
+                        <rr-a>
+                           <rr-t>Assign</rr-t><a href="#constantExpression">constantExpression</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -865,7 +1090,9 @@
       <h2 id="enumerator">enumerator</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>Identifier</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="namespaceName">namespaceName</h2>
@@ -877,7 +1104,9 @@
       <h2 id="originalNamespaceName">originalNamespaceName</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>Identifier</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="namespaceDefinition">namespaceDefinition</h2>
@@ -885,23 +1114,33 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>Namespace</rr-t>
                   <rr-a data-min="0" data-max="1">
-                     <rr-o><a href="#originalNamespaceName">originalNamespaceName</a></rr-o>
-                  </rr-a><a href="#declarationseq">declarationseq</a></rr-a>
+                     <rr-o>
+                        <rr-t>Identifier</rr-t><a href="#originalNamespaceName">originalNamespaceName</a></rr-o>
+                  </rr-a>
+                  <rr-t>LeftBrace</rr-t><a href="#declarationseq">declarationseq</a><rr-t>RightBrace</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="namespaceAlias">namespaceAlias</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>Identifier</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="namespaceAliasDefinition">namespaceAliasDefinition</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#qualifiednamespacespecifier">qualifiednamespacespecifier</a></rr-a>
+               <rr-a>
+                  <rr-t>Namespace</rr-t>
+                  <rr-t>Identifier</rr-t>
+                  <rr-t>Assign</rr-t><a href="#qualifiednamespacespecifier">qualifiednamespacespecifier</a><rr-t>Semi</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -923,10 +1162,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#balancedTokenSeq">balancedTokenSeq</a></rr-a>
-               <rr-a><a href="#balancedTokenSeq">balancedTokenSeq</a></rr-a>
-               <rr-a><a href="#balancedTokenSeq">balancedTokenSeq</a></rr-a>
+               <rr-a>
+                  <rr-t>LeftParen</rr-t><a href="#balancedTokenSeq">balancedTokenSeq</a><rr-t>RightParen</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LeftBracket</rr-t><a href="#balancedTokenSeq">balancedTokenSeq</a><rr-t>RightBracket</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LeftBrace</rr-t><a href="#balancedTokenSeq">balancedTokenSeq</a><rr-t>RightBrace</rr-t>
+               </rr-a>
             </rr-o>
+            <pre>/*Declarators*/</pre>
          </rr-rr>
       </p>
       <h2 id="initDeclaratorList">initDeclaratorList</h2>
@@ -935,7 +1181,8 @@
             <rr-o>
                <rr-a><a href="#initDeclarator">initDeclarator</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#initDeclarator">initDeclarator</a></rr-a>
+                        <rr-a>
+                           <rr-t>Comma</rr-t><a href="#initDeclarator">initDeclarator</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -946,7 +1193,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#initializer">initializer</a></rr-a>
+               <rr-a>
+                  <rr-t>Identifier</rr-t><a href="#initializer">initializer</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -962,7 +1210,9 @@
       <p>
          <rr-rr>
             <rr-o><a href="#declaratorid">declaratorid</a><rr-a><a href="#declaratorDef">declaratorDef</a><rr-a>
-                     <rr-o><a href="#parametersAndQualifiers">parametersAndQualifiers</a><rr-a><a href="#constantExpression">constantExpression</a></rr-a>
+                     <rr-o><a href="#parametersAndQualifiers">parametersAndQualifiers</a><rr-a>
+                           <rr-t>LeftBracket</rr-t><a href="#constantExpression">constantExpression</a><rr-t>RightBracket</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -973,14 +1223,19 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#parameterDeclarationClause">parameterDeclarationClause</a><a href="#refqualifier">refqualifier</a></rr-a>
+               <rr-a>
+                  <rr-t>LeftParen</rr-t><a href="#parameterDeclarationClause">parameterDeclarationClause</a><rr-t>RightParen</rr-t>
+                  <rr-t>Const</rr-t><a href="#refqualifier">refqualifier</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="refqualifier">refqualifier</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>And</rr-t>
+               <rr-t>AndAnd</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="declaratorid">declaratorid</h2>
@@ -1007,7 +1262,8 @@
             <rr-o>
                <rr-a><a href="#parameterDeclaration">parameterDeclaration</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#parameterDeclaration">parameterDeclaration</a></rr-a>
+                        <rr-a>
+                           <rr-t>Comma</rr-t><a href="#parameterDeclaration">parameterDeclaration</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1018,9 +1274,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#declSpecifierSeq">declSpecifierSeq</a><rr-a data-min="0" data-max="1">
+               <rr-a><a href="#declSpecifierSeq">declSpecifierSeq</a><rr-t>Identifier</rr-t>
+                  <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#initializerClause">initializerClause</a></rr-a>
+                        <rr-a>
+                           <rr-t>Assign</rr-t><a href="#initializerClause">initializerClause</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1031,21 +1289,28 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#ufunction">ufunction</a><a href="#accessSpecifier">accessSpecifier</a><a href="#declSpecifierSeq">declSpecifierSeq</a><a href="#declarator">declarator</a><a href="#postFuncSpecifierSeq">postFuncSpecifierSeq</a><a href="#functionBody">functionBody</a></rr-a>
+               <rr-a><a href="#ufunction">ufunction</a><a href="#accessSpecifier">accessSpecifier</a><rr-t>Mixin</rr-t><a href="#declSpecifierSeq">declSpecifierSeq</a><a href="#declarator">declarator</a><a href="#postFuncSpecifierSeq">postFuncSpecifierSeq</a><a href="#functionBody">functionBody</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="functionBody">functionBody</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#compoundStatement">compoundStatement</a><rr-a></rr-a>
+            <rr-o><a href="#compoundStatement">compoundStatement</a><rr-a>
+                  <rr-t>Assign</rr-t>
+                  <rr-t>Default</rr-t>
+                  <rr-t>Semi</rr-t>
+               </rr-a>
+               <rr-t>Semi</rr-t>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="initializer">initializer</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#braceOrEqualInitializer">braceOrEqualInitializer</a><rr-a><a href="#expressionList">expressionList</a></rr-a>
+            <rr-o><a href="#braceOrEqualInitializer">braceOrEqualInitializer</a><rr-a>
+                  <rr-t>LeftParen</rr-t><a href="#expressionList">expressionList</a><rr-t>RightParen</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1053,7 +1318,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#initializerClause">initializerClause</a></rr-a><a href="#bracedInitList">bracedInitList</a></rr-o>
+               <rr-a>
+                  <rr-t>Assign</rr-t><a href="#initializerClause">initializerClause</a></rr-a><a href="#bracedInitList">bracedInitList</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="initializerClause">initializerClause</h2>
@@ -1068,9 +1334,11 @@
             <rr-o>
                <rr-a><a href="#initializerClause">initializerClause</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#initializerClause">initializerClause</a></rr-a>
+                        <rr-a>
+                           <rr-t>Comma</rr-t><a href="#initializerClause">initializerClause</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>Comma</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1081,31 +1349,42 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>LeftBrace</rr-t>
+                        <rr-t>LeftBracket</rr-t>
+                     </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#initializerList">initializerList</a></rr-a>
+                        <rr-a><a href="#initializerList">initializerList</a><rr-t>Comma</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>RightBrace</rr-t>
+                        <rr-t>RightBracket</rr-t>
+                     </rr-o>
                   </rr-a>
                </rr-a>
             </rr-o>
+            <pre>/*Classes*/</pre>
          </rr-rr>
       </p>
       <h2 id="className">className</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>Identifier</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="classSpecifier">classSpecifier</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#classHead">classHead</a><a href="#memberSpecification">memberSpecification</a></rr-a>
+               <rr-a><a href="#classHead">classHead</a><rr-t>LeftBrace</rr-t><a href="#memberSpecification">memberSpecification</a><rr-t>RightBrace</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1132,13 +1411,18 @@
       <h2 id="classVirtSpecifier">classVirtSpecifier</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>Final</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="classKey">classKey</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>Class</rr-t>
+               <rr-t>Struct</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="memberSpecification">memberSpecification</h2>
@@ -1146,7 +1430,8 @@
          <rr-rr>
             <rr-o>
                <rr-a data-min="1" data-max="inf">
-                  <rr-o><a href="#memberdeclaration">memberdeclaration</a><rr-a><a href="#accessSpecifier">accessSpecifier</a></rr-a>
+                  <rr-o><a href="#memberdeclaration">memberdeclaration</a><rr-a><a href="#accessSpecifier">accessSpecifier</a><rr-t>Colon</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -1162,9 +1447,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#uproperty">uproperty</a><a href="#accessSpecifier">accessSpecifier</a><a href="#declSpecifierSeq">declSpecifierSeq</a><rr-a data-min="0" data-max="1">
+               <rr-a><a href="#uproperty">uproperty</a><a href="#accessSpecifier">accessSpecifier</a><rr-t>Default</rr-t><a href="#declSpecifierSeq">declSpecifierSeq</a><rr-a data-min="0" data-max="1">
                      <rr-o><a href="#memberDeclaratorList">memberDeclaratorList</a><a href="#assignmentExpression">assignmentExpression</a></rr-o>
                   </rr-a>
+                  <rr-t>Semi</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1175,7 +1461,8 @@
             <rr-o>
                <rr-a><a href="#memberDeclarator">memberDeclarator</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#memberDeclarator">memberDeclarator</a></rr-a>
+                        <rr-a>
+                           <rr-t>Comma</rr-t><a href="#memberDeclarator">memberDeclarator</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1190,7 +1477,10 @@
                      <rr-o><a href="#postFuncSpecifierSeq">postFuncSpecifierSeq</a><a href="#braceOrEqualInitializer">braceOrEqualInitializer</a></rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a><a href="#constantExpression">constantExpression</a></rr-a>
+               <rr-a>
+                  <rr-t>Identifier</rr-t>
+                  <rr-t>Colon</rr-t><a href="#constantExpression">constantExpression</a></rr-a>
+               <rr-t>Identifier</rr-t>
             </rr-o>
          </rr-rr>
       </p>
@@ -1203,14 +1493,20 @@
       <h2 id="virtualSpecifier">virtualSpecifier</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>Override</rr-t>
+               <rr-t>Final</rr-t>
+               <rr-t>Property</rr-t>
+            </rr-o>
+            <pre>/*Derived classes*/</pre>
          </rr-rr>
       </p>
       <h2 id="baseClause">baseClause</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#baseSpecifierList">baseSpecifierList</a></rr-a>
+               <rr-a>
+                  <rr-t>Colon</rr-t><a href="#baseSpecifierList">baseSpecifierList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1220,7 +1516,8 @@
             <rr-o>
                <rr-a><a href="#baseSpecifier">baseSpecifier</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#baseSpecifier">baseSpecifier</a></rr-a>
+                        <rr-a>
+                           <rr-t>Comma</rr-t><a href="#baseSpecifier">baseSpecifier</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1232,8 +1529,9 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-o><a href="#baseTypeSpecifier">baseTypeSpecifier</a><rr-a><a href="#accessSpecifier">accessSpecifier</a><a href="#baseTypeSpecifier">baseTypeSpecifier</a></rr-a>
-                     <rr-a><a href="#accessSpecifier">accessSpecifier</a><a href="#baseTypeSpecifier">baseTypeSpecifier</a></rr-a>
+                  <rr-o><a href="#baseTypeSpecifier">baseTypeSpecifier</a><rr-a>
+                        <rr-t>Virtual</rr-t><a href="#accessSpecifier">accessSpecifier</a><a href="#baseTypeSpecifier">baseTypeSpecifier</a></rr-a>
+                     <rr-a><a href="#accessSpecifier">accessSpecifier</a><rr-t>Virtual</rr-t><a href="#baseTypeSpecifier">baseTypeSpecifier</a></rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -1255,14 +1553,20 @@
       <h2 id="accessSpecifier">accessSpecifier</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>Private</rr-t>
+               <rr-t>Protected</rr-t>
+               <rr-t>Public</rr-t>
+            </rr-o>
+            <pre>/*Overloading*/</pre>
          </rr-rr>
       </p>
       <h2 id="operatorFunctionId">operatorFunctionId</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#theOperator">theOperator</a></rr-a>
+               <rr-a>
+                  <rr-t>Operator</rr-t><a href="#theOperator">theOperator</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1271,30 +1575,85 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>Operator</rr-t>
                   <rr-a>
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>StringLiteral</rr-t>
+                           <rr-t>Identifier</rr-t>
+                        </rr-a>
+                        <rr-t>UserDefinedStringLiteral</rr-t>
                      </rr-o>
                   </rr-a>
                </rr-a>
             </rr-o>
+            <pre>/*Lexer*/</pre>
          </rr-rr>
       </p>
       <h2 id="theOperator">theOperator</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-t>Plus</rr-t>
+               <rr-t>Minus</rr-t>
+               <rr-t>Star</rr-t>
+               <rr-t>Div</rr-t>
+               <rr-t>Mod</rr-t>
+               <rr-t>Xor</rr-t>
+               <rr-t>And</rr-t>
+               <rr-t>Or</rr-t>
+               <rr-t>Tilde</rr-t>
+               <rr-t>Not</rr-t>
+               <rr-t>Assign</rr-t>
+               <rr-t>Greater</rr-t>
+               <rr-t>Less</rr-t>
+               <rr-t>GreaterEqual</rr-t>
+               <rr-t>PlusAssign</rr-t>
+               <rr-t>MinusAssign</rr-t>
+               <rr-t>StarAssign</rr-t>
+               <rr-t>ModAssign</rr-t>
+               <rr-t>XorAssign</rr-t>
+               <rr-t>AndAssign</rr-t>
+               <rr-t>OrAssign</rr-t>
+               <rr-a>
+                  <rr-t>Less</rr-t>
+                  <rr-t>Less</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>Greater</rr-t>
+                  <rr-t>Greater</rr-t>
+               </rr-a>
+               <rr-t>RightShiftAssign</rr-t>
+               <rr-t>LeftShiftAssign</rr-t>
+               <rr-t>Equal</rr-t>
+               <rr-t>NotEqual</rr-t>
+               <rr-t>LessEqual</rr-t>
+               <rr-t>AndAnd</rr-t>
+               <rr-t>OrOr</rr-t>
+               <rr-t>PlusPlus</rr-t>
+               <rr-t>MinusMinus</rr-t>
+               <rr-t>Comma</rr-t>
+               <rr-a>
+                  <rr-t>LeftParen</rr-t>
+                  <rr-t>RightParen</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LeftBracket</rr-t>
+                  <rr-t>RightBracket</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="literal">literal</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#booleanLiteral">booleanLiteral</a></rr-o>
+            <rr-o>
+               <rr-t>IntegerLiteral</rr-t>
+               <rr-t>CharacterLiteral</rr-t>
+               <rr-t>FloatingLiteral</rr-t>
+               <rr-t>StringLiteral</rr-t><a href="#booleanLiteral">booleanLiteral</a><rr-t>UserDefinedLiteral</rr-t>
+               <rr-t>Nullptr</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
    </body>

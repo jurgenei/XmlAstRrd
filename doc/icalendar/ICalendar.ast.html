@@ -5,13 +5,47 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1><a href="../index.html">Railroad</a> icalendar/ICalendar.ast.xml</h1>
+      <h1>Railroad icalendar/ICalendar.ast.xml</h1>
+      <pre>/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2013-2014 by Bart Kiers
+ * 
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ * 
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ */</pre>
+      <pre>/*
+ * An iCalendar grammar for ANTLR v4 based on:
+ * https://tools.ietf.org/html/rfc5545
+ *
+ * For more information, and unit tests, see the GitHub repository:
+ * https://github.com/bkiers/ICalParser
+ */</pre>
       <h1>Rules</h1>
       <h2 id="parse">parse</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#icalstream">icalstream</a></rr-a>
+               <rr-a><a href="#icalstream">icalstream</a><rr-t>EOF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -19,11 +53,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#icalobject">icalobject</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>CRLF</rr-t><a href="#icalobject">icalobject</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#icalobject">icalobject</a></rr-a>
+                        <rr-a>
+                           <rr-t>CRLF</rr-t><a href="#icalobject">icalobject</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>CRLF</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -32,7 +69,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_begin">k_begin</a><a href="#k_vcalendar">k_vcalendar</a><a href="#calprop">calprop</a><a href="#component">component</a><a href="#k_end">k_end</a><a href="#k_vcalendar">k_vcalendar</a></rr-a>
+               <rr-a><a href="#k_begin">k_begin</a><rr-t>COL</rr-t><a href="#k_vcalendar">k_vcalendar</a><rr-t>CRLF</rr-t><a href="#calprop">calprop</a><a href="#component">component</a><a href="#k_end">k_end</a><rr-t>COL</rr-t><a href="#k_vcalendar">k_vcalendar</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -48,9 +85,12 @@
             <rr-o>
                <rr-a><a href="#k_calscale">k_calscale</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#other_param">other_param</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#k_gregorian">k_gregorian</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#k_gregorian">k_gregorian</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -60,9 +100,12 @@
             <rr-o>
                <rr-a><a href="#k_method">k_method</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#other_param">other_param</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#iana_token">iana_token</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#iana_token">iana_token</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -72,9 +115,12 @@
             <rr-o>
                <rr-a><a href="#k_prodid">k_prodid</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#other_param">other_param</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#text">text</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#text">text</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -84,9 +130,12 @@
             <rr-o>
                <rr-a><a href="#k_version">k_version</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#other_param">other_param</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#vervalue">vervalue</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#vervalue">vervalue</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -94,7 +143,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#float_num">float_num</a><a href="#float_num">float_num</a></rr-a><a href="#float_num">float_num</a></rr-o>
+               <rr-a><a href="#float_num">float_num</a><rr-t>SCOL</rr-t><a href="#float_num">float_num</a></rr-a><a href="#float_num">float_num</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="component">component</h2>
@@ -107,7 +156,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_begin">k_begin</a><a href="#iana_token">iana_token</a><a href="#contentline">contentline</a><a href="#k_end">k_end</a><a href="#iana_token">iana_token</a></rr-a>
+               <rr-a><a href="#k_begin">k_begin</a><rr-t>COL</rr-t><a href="#iana_token">iana_token</a><rr-t>CRLF</rr-t><a href="#contentline">contentline</a><a href="#k_end">k_end</a><rr-t>COL</rr-t><a href="#iana_token">iana_token</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -115,7 +165,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_begin">k_begin</a><a href="#x_name">x_name</a><a href="#contentline">contentline</a><a href="#k_end">k_end</a><a href="#x_name">x_name</a></rr-a>
+               <rr-a><a href="#k_begin">k_begin</a><rr-t>COL</rr-t><a href="#x_name">x_name</a><rr-t>CRLF</rr-t><a href="#contentline">contentline</a><a href="#k_end">k_end</a><rr-t>COL</rr-t><a href="#x_name">x_name</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -125,9 +176,12 @@
             <rr-o>
                <rr-a><a href="#name">name</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#icalparameter">icalparameter</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#icalparameter">icalparameter</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#value">value</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#value">value</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -147,7 +201,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_begin">k_begin</a><a href="#k_vevent">k_vevent</a><a href="#eventprop">eventprop</a><a href="#alarmc">alarmc</a><a href="#k_end">k_end</a><a href="#k_vevent">k_vevent</a></rr-a>
+               <rr-a><a href="#k_begin">k_begin</a><rr-t>COL</rr-t><a href="#k_vevent">k_vevent</a><rr-t>CRLF</rr-t><a href="#eventprop">eventprop</a><a href="#alarmc">alarmc</a><a href="#k_end">k_end</a><rr-t>COL</rr-t><a href="#k_vevent">k_vevent</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -155,7 +210,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_begin">k_begin</a><a href="#k_vtodo">k_vtodo</a><a href="#todoprop">todoprop</a><a href="#alarmc">alarmc</a><a href="#k_end">k_end</a><a href="#k_vtodo">k_vtodo</a></rr-a>
+               <rr-a><a href="#k_begin">k_begin</a><rr-t>COL</rr-t><a href="#k_vtodo">k_vtodo</a><rr-t>CRLF</rr-t><a href="#todoprop">todoprop</a><a href="#alarmc">alarmc</a><a href="#k_end">k_end</a><rr-t>COL</rr-t><a href="#k_vtodo">k_vtodo</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -163,7 +219,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_begin">k_begin</a><a href="#k_vjournal">k_vjournal</a><a href="#jourprop">jourprop</a><a href="#k_end">k_end</a><a href="#k_vjournal">k_vjournal</a></rr-a>
+               <rr-a><a href="#k_begin">k_begin</a><rr-t>COL</rr-t><a href="#k_vjournal">k_vjournal</a><rr-t>CRLF</rr-t><a href="#jourprop">jourprop</a><a href="#k_end">k_end</a><rr-t>COL</rr-t><a href="#k_vjournal">k_vjournal</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -171,7 +228,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_begin">k_begin</a><a href="#k_vfreebusy">k_vfreebusy</a><a href="#fbprop">fbprop</a><a href="#k_end">k_end</a><a href="#k_vfreebusy">k_vfreebusy</a></rr-a>
+               <rr-a><a href="#k_begin">k_begin</a><rr-t>COL</rr-t><a href="#k_vfreebusy">k_vfreebusy</a><rr-t>CRLF</rr-t><a href="#fbprop">fbprop</a><a href="#k_end">k_end</a><rr-t>COL</rr-t><a href="#k_vfreebusy">k_vfreebusy</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -179,7 +237,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_begin">k_begin</a><a href="#k_vtimezone">k_vtimezone</a><a href="#timezoneprop">timezoneprop</a><a href="#k_end">k_end</a><a href="#k_vtimezone">k_vtimezone</a></rr-a>
+               <rr-a><a href="#k_begin">k_begin</a><rr-t>COL</rr-t><a href="#k_vtimezone">k_vtimezone</a><rr-t>CRLF</rr-t><a href="#timezoneprop">timezoneprop</a><a href="#k_end">k_end</a><rr-t>COL</rr-t><a href="#k_vtimezone">k_vtimezone</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -187,7 +246,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_begin">k_begin</a><a href="#k_valarm">k_valarm</a><a href="#alarmprop">alarmprop</a><a href="#k_end">k_end</a><a href="#k_valarm">k_valarm</a></rr-a>
+               <rr-a><a href="#k_begin">k_begin</a><rr-t>COL</rr-t><a href="#k_valarm">k_valarm</a><rr-t>CRLF</rr-t><a href="#alarmprop">alarmprop</a><a href="#k_end">k_end</a><rr-t>COL</rr-t><a href="#k_valarm">k_valarm</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -237,7 +297,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_begin">k_begin</a><a href="#k_standard">k_standard</a><a href="#tzprop">tzprop</a><a href="#k_end">k_end</a><a href="#k_standard">k_standard</a></rr-a>
+               <rr-a><a href="#k_begin">k_begin</a><rr-t>COL</rr-t><a href="#k_standard">k_standard</a><rr-t>CRLF</rr-t><a href="#tzprop">tzprop</a><a href="#k_end">k_end</a><rr-t>COL</rr-t><a href="#k_standard">k_standard</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -245,7 +306,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_begin">k_begin</a><a href="#k_daylight">k_daylight</a><a href="#tzprop">tzprop</a><a href="#k_end">k_end</a><a href="#k_daylight">k_daylight</a></rr-a>
+               <rr-a><a href="#k_begin">k_begin</a><rr-t>COL</rr-t><a href="#k_daylight">k_daylight</a><rr-t>CRLF</rr-t><a href="#tzprop">tzprop</a><a href="#k_end">k_end</a><rr-t>COL</rr-t><a href="#k_daylight">k_daylight</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -253,9 +315,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_attach">k_attach</a><a href="#attachparam">attachparam</a><rr-a>
+               <rr-a><a href="#k_attach">k_attach</a><a href="#attachparam">attachparam</a><rr-t>COL</rr-t>
+                  <rr-a>
                      <rr-o><a href="#binary">binary</a><a href="#uri">uri</a></rr-o>
                   </rr-a>
+                  <rr-t>CRLF</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -264,10 +328,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_encoding">k_encoding</a><a href="#k_base">k_base</a></rr-a>
-               <rr-a><a href="#k_value">k_value</a><a href="#k_binary">k_binary</a></rr-a>
-               <rr-a><a href="#fmttypeparam">fmttypeparam</a></rr-a>
-               <rr-a><a href="#other_param">other_param</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_encoding">k_encoding</a><rr-t>ASSIGN</rr-t><a href="#k_base">k_base</a><rr-t>D6</rr-t>
+                  <rr-t>D4</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_binary">k_binary</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#fmttypeparam">fmttypeparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -275,11 +345,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_categories">k_categories</a><a href="#catparam">catparam</a><a href="#text">text</a><rr-a data-min="0" data-max="inf">
+               <rr-a><a href="#k_categories">k_categories</a><a href="#catparam">catparam</a><rr-t>COL</rr-t><a href="#text">text</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#text">text</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#text">text</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>CRLF</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -288,8 +360,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#languageparam">languageparam</a></rr-a>
-               <rr-a><a href="#other_param">other_param</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#languageparam">languageparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -299,9 +373,12 @@
             <rr-o>
                <rr-a><a href="#k_class">k_class</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#other_param">other_param</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#classvalue">classvalue</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#classvalue">classvalue</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -315,7 +392,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_comment">k_comment</a><a href="#commparam">commparam</a><a href="#text">text</a></rr-a>
+               <rr-a><a href="#k_comment">k_comment</a><a href="#commparam">commparam</a><rr-t>COL</rr-t><a href="#text">text</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -323,9 +401,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#altrepparam">altrepparam</a></rr-a>
-               <rr-a><a href="#languageparam">languageparam</a></rr-a>
-               <rr-a><a href="#other_param">other_param</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#altrepparam">altrepparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#languageparam">languageparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -333,7 +414,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_description">k_description</a><a href="#descparam">descparam</a><a href="#text">text</a></rr-a>
+               <rr-a><a href="#k_description">k_description</a><a href="#descparam">descparam</a><rr-t>COL</rr-t><a href="#text">text</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -341,9 +423,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#altrepparam">altrepparam</a></rr-a>
-               <rr-a><a href="#languageparam">languageparam</a></rr-a>
-               <rr-a><a href="#other_param">other_param</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#altrepparam">altrepparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#languageparam">languageparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -353,9 +438,12 @@
             <rr-o>
                <rr-a><a href="#k_geo">k_geo</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#other_param">other_param</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#geovalue">geovalue</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#geovalue">geovalue</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -363,7 +451,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#float_num">float_num</a><a href="#float_num">float_num</a></rr-a>
+               <rr-a><a href="#float_num">float_num</a><rr-t>SCOL</rr-t><a href="#float_num">float_num</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -371,7 +459,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_location">k_location</a><a href="#locparam">locparam</a><a href="#text">text</a></rr-a>
+               <rr-a><a href="#k_location">k_location</a><a href="#locparam">locparam</a><rr-t>COL</rr-t><a href="#text">text</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -379,9 +468,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#altrepparam">altrepparam</a></rr-a>
-               <rr-a><a href="#languageparam">languageparam</a></rr-a>
-               <rr-a><a href="#other_param">other_param</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#altrepparam">altrepparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#languageparam">languageparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -391,9 +483,12 @@
             <rr-o>
                <rr-a><a href="#k_percent_complete">k_percent_complete</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#other_param">other_param</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#integer">integer</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#integer">integer</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -403,9 +498,12 @@
             <rr-o>
                <rr-a><a href="#k_priority">k_priority</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#other_param">other_param</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#priovalue">priovalue</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#priovalue">priovalue</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -419,11 +517,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_resources">k_resources</a><a href="#resrcparam">resrcparam</a><a href="#text">text</a><rr-a data-min="0" data-max="inf">
+               <rr-a><a href="#k_resources">k_resources</a><a href="#resrcparam">resrcparam</a><rr-t>COL</rr-t><a href="#text">text</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#text">text</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#text">text</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>CRLF</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -432,9 +532,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#altrepparam">altrepparam</a></rr-a>
-               <rr-a><a href="#languageparam">languageparam</a></rr-a>
-               <rr-a><a href="#other_param">other_param</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#altrepparam">altrepparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#languageparam">languageparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -444,9 +547,12 @@
             <rr-o>
                <rr-a><a href="#k_status">k_status</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#other_param">other_param</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#statvalue">statvalue</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#statvalue">statvalue</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -478,7 +584,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_summary">k_summary</a><a href="#summparam">summparam</a><a href="#text">text</a></rr-a>
+               <rr-a><a href="#k_summary">k_summary</a><a href="#summparam">summparam</a><rr-t>COL</rr-t><a href="#text">text</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -486,9 +593,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#altrepparam">altrepparam</a></rr-a>
-               <rr-a><a href="#languageparam">languageparam</a></rr-a>
-               <rr-a><a href="#other_param">other_param</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#altrepparam">altrepparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#languageparam">languageparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -498,9 +608,12 @@
             <rr-o>
                <rr-a><a href="#k_completed">k_completed</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#other_param">other_param</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#date_time">date_time</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#date_time">date_time</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -508,7 +621,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_dtend">k_dtend</a><a href="#dtendparam">dtendparam</a><a href="#date_time_date">date_time_date</a></rr-a>
+               <rr-a><a href="#k_dtend">k_dtend</a><a href="#dtendparam">dtendparam</a><rr-t>COL</rr-t><a href="#date_time_date">date_time_date</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -516,10 +630,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_value">k_value</a><a href="#k_date_time">k_date_time</a></rr-a>
-               <rr-a><a href="#k_value">k_value</a><a href="#k_date">k_date</a></rr-a>
-               <rr-a><a href="#tzidparam">tzidparam</a></rr-a>
-               <rr-a><a href="#other_param">other_param</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_date_time">k_date_time</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_date">k_date</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#tzidparam">tzidparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -527,7 +645,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_due">k_due</a><a href="#dueparam">dueparam</a><a href="#date_time_date">date_time_date</a></rr-a>
+               <rr-a><a href="#k_due">k_due</a><a href="#dueparam">dueparam</a><rr-t>COL</rr-t><a href="#date_time_date">date_time_date</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -535,10 +654,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_value">k_value</a><a href="#k_date_time">k_date_time</a></rr-a>
-               <rr-a><a href="#k_value">k_value</a><a href="#k_date">k_date</a></rr-a>
-               <rr-a><a href="#tzidparam">tzidparam</a></rr-a>
-               <rr-a><a href="#other_param">other_param</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_date_time">k_date_time</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_date">k_date</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#tzidparam">tzidparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -546,7 +669,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_dtstart">k_dtstart</a><a href="#dtstparam">dtstparam</a><a href="#date_time_date">date_time_date</a></rr-a>
+               <rr-a><a href="#k_dtstart">k_dtstart</a><a href="#dtstparam">dtstparam</a><rr-t>COL</rr-t><a href="#date_time_date">date_time_date</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -554,10 +678,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_value">k_value</a><a href="#k_date_time">k_date_time</a></rr-a>
-               <rr-a><a href="#k_value">k_value</a><a href="#k_date">k_date</a></rr-a>
-               <rr-a><a href="#tzidparam">tzidparam</a></rr-a>
-               <rr-a><a href="#other_param">other_param</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_date_time">k_date_time</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_date">k_date</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#tzidparam">tzidparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -567,9 +695,12 @@
             <rr-o>
                <rr-a><a href="#k_duration">k_duration</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#other_param">other_param</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#dur_value">dur_value</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#dur_value">dur_value</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -577,7 +708,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_freebusy">k_freebusy</a><a href="#fbparam">fbparam</a><a href="#fbvalue">fbvalue</a></rr-a>
+               <rr-a><a href="#k_freebusy">k_freebusy</a><a href="#fbparam">fbparam</a><rr-t>COL</rr-t><a href="#fbvalue">fbvalue</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -585,8 +717,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#fbtypeparam">fbtypeparam</a></rr-a>
-               <rr-a><a href="#other_param">other_param</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#fbtypeparam">fbtypeparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -596,7 +730,8 @@
             <rr-o>
                <rr-a><a href="#period">period</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#period">period</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#period">period</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -609,9 +744,12 @@
             <rr-o>
                <rr-a><a href="#k_transp">k_transp</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#other_param">other_param</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#transvalue">transvalue</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#transvalue">transvalue</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -627,9 +765,13 @@
             <rr-o>
                <rr-a><a href="#k_tzid">k_tzid</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#other_param">other_param</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#text">text</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t>
+                  <rr-t>FSLASH</rr-t><a href="#text">text</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -637,7 +779,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_tzname">k_tzname</a><a href="#tznparam">tznparam</a><a href="#text">text</a></rr-a>
+               <rr-a><a href="#k_tzname">k_tzname</a><a href="#tznparam">tznparam</a><rr-t>COL</rr-t><a href="#text">text</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -645,8 +788,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#languageparam">languageparam</a></rr-a>
-               <rr-a><a href="#other_param">other_param</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#languageparam">languageparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -656,9 +801,12 @@
             <rr-o>
                <rr-a><a href="#k_tzoffsetfrom">k_tzoffsetfrom</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#other_param">other_param</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#utc_offset">utc_offset</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#utc_offset">utc_offset</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -668,9 +816,12 @@
             <rr-o>
                <rr-a><a href="#k_tzoffsetto">k_tzoffsetto</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#other_param">other_param</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#utc_offset">utc_offset</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#utc_offset">utc_offset</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -680,9 +831,12 @@
             <rr-o>
                <rr-a><a href="#k_tzurl">k_tzurl</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#other_param">other_param</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#uri">uri</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#uri">uri</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -690,7 +844,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_attendee">k_attendee</a><a href="#attparam">attparam</a><a href="#cal_address">cal_address</a></rr-a>
+               <rr-a><a href="#k_attendee">k_attendee</a><a href="#attparam">attparam</a><rr-t>COL</rr-t><a href="#cal_address">cal_address</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -698,18 +853,30 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#cutypeparam">cutypeparam</a></rr-a>
-               <rr-a><a href="#memberparam">memberparam</a></rr-a>
-               <rr-a><a href="#roleparam">roleparam</a></rr-a>
-               <rr-a><a href="#partstatparam">partstatparam</a></rr-a>
-               <rr-a><a href="#rsvpparam">rsvpparam</a></rr-a>
-               <rr-a><a href="#deltoparam">deltoparam</a></rr-a>
-               <rr-a><a href="#delfromparam">delfromparam</a></rr-a>
-               <rr-a><a href="#sentbyparam">sentbyparam</a></rr-a>
-               <rr-a><a href="#cnparam">cnparam</a></rr-a>
-               <rr-a><a href="#dirparam">dirparam</a></rr-a>
-               <rr-a><a href="#languageparam">languageparam</a></rr-a>
-               <rr-a><a href="#other_param">other_param</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#cutypeparam">cutypeparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#memberparam">memberparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#roleparam">roleparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#partstatparam">partstatparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#rsvpparam">rsvpparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#deltoparam">deltoparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#delfromparam">delfromparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#sentbyparam">sentbyparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#cnparam">cnparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#dirparam">dirparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#languageparam">languageparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -717,7 +884,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_contact">k_contact</a><a href="#contparam">contparam</a><a href="#text">text</a></rr-a>
+               <rr-a><a href="#k_contact">k_contact</a><a href="#contparam">contparam</a><rr-t>COL</rr-t><a href="#text">text</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -725,9 +893,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#altrepparam">altrepparam</a></rr-a>
-               <rr-a><a href="#languageparam">languageparam</a></rr-a>
-               <rr-a><a href="#other_param">other_param</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#altrepparam">altrepparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#languageparam">languageparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -735,7 +906,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_organizer">k_organizer</a><a href="#orgparam">orgparam</a><a href="#cal_address">cal_address</a></rr-a>
+               <rr-a><a href="#k_organizer">k_organizer</a><a href="#orgparam">orgparam</a><rr-t>COL</rr-t><a href="#cal_address">cal_address</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -743,11 +915,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#cnparam">cnparam</a></rr-a>
-               <rr-a><a href="#dirparam">dirparam</a></rr-a>
-               <rr-a><a href="#sentbyparam">sentbyparam</a></rr-a>
-               <rr-a><a href="#languageparam">languageparam</a></rr-a>
-               <rr-a><a href="#other_param">other_param</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#cnparam">cnparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#dirparam">dirparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#sentbyparam">sentbyparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#languageparam">languageparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -755,7 +932,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_recurrence_id">k_recurrence_id</a><a href="#ridparam">ridparam</a><a href="#date_time_date">date_time_date</a></rr-a>
+               <rr-a><a href="#k_recurrence_id">k_recurrence_id</a><a href="#ridparam">ridparam</a><rr-t>COL</rr-t><a href="#date_time_date">date_time_date</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -763,11 +941,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_value">k_value</a><a href="#k_date_time">k_date_time</a></rr-a>
-               <rr-a><a href="#k_value">k_value</a><a href="#k_date">k_date</a></rr-a>
-               <rr-a><a href="#tzidparam">tzidparam</a></rr-a>
-               <rr-a><a href="#rangeparam">rangeparam</a></rr-a>
-               <rr-a><a href="#other_param">other_param</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_date_time">k_date_time</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_date">k_date</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#tzidparam">tzidparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#rangeparam">rangeparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -775,7 +958,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_related_to">k_related_to</a><a href="#relparam">relparam</a><a href="#text">text</a></rr-a>
+               <rr-a><a href="#k_related_to">k_related_to</a><a href="#relparam">relparam</a><rr-t>COL</rr-t><a href="#text">text</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -783,8 +967,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#reltypeparam">reltypeparam</a></rr-a>
-               <rr-a><a href="#other_param">other_param</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#reltypeparam">reltypeparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -794,9 +980,12 @@
             <rr-o>
                <rr-a><a href="#k_url">k_url</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#other_param">other_param</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#uri">uri</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#uri">uri</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -806,9 +995,12 @@
             <rr-o>
                <rr-a><a href="#k_uid">k_uid</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#other_param">other_param</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#text">text</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#text">text</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -816,11 +1008,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_exdate">k_exdate</a><a href="#exdtparam">exdtparam</a><a href="#date_time_date">date_time_date</a><rr-a data-min="0" data-max="inf">
+               <rr-a><a href="#k_exdate">k_exdate</a><a href="#exdtparam">exdtparam</a><rr-t>COL</rr-t><a href="#date_time_date">date_time_date</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#date_time_date">date_time_date</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#date_time_date">date_time_date</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>CRLF</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -829,10 +1023,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_value">k_value</a><a href="#k_date_time">k_date_time</a></rr-a>
-               <rr-a><a href="#k_value">k_value</a><a href="#k_date">k_date</a></rr-a>
-               <rr-a><a href="#tzidparam">tzidparam</a></rr-a>
-               <rr-a><a href="#other_param">other_param</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_date_time">k_date_time</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_date">k_date</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#tzidparam">tzidparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -840,11 +1038,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_rdate">k_rdate</a><a href="#rdtparam">rdtparam</a><a href="#rdtval">rdtval</a><rr-a data-min="0" data-max="inf">
+               <rr-a><a href="#k_rdate">k_rdate</a><a href="#rdtparam">rdtparam</a><rr-t>COL</rr-t><a href="#rdtval">rdtval</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#rdtval">rdtval</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#rdtval">rdtval</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>CRLF</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -853,11 +1053,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_value">k_value</a><a href="#k_date_time">k_date_time</a></rr-a>
-               <rr-a><a href="#k_value">k_value</a><a href="#k_date">k_date</a></rr-a>
-               <rr-a><a href="#k_value">k_value</a><a href="#k_period">k_period</a></rr-a>
-               <rr-a><a href="#tzidparam">tzidparam</a></rr-a>
-               <rr-a><a href="#other_param">other_param</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_date_time">k_date_time</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_date">k_date</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_period">k_period</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#tzidparam">tzidparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -879,9 +1084,12 @@
             <rr-o>
                <rr-a><a href="#k_rrule">k_rrule</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#other_param">other_param</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#recur">recur</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#recur">recur</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -891,9 +1099,12 @@
             <rr-o>
                <rr-a><a href="#k_action">k_action</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#other_param">other_param</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#actionvalue">actionvalue</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#actionvalue">actionvalue</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -909,9 +1120,12 @@
             <rr-o>
                <rr-a><a href="#k_repeat">k_repeat</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#other_param">other_param</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#integer">integer</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#integer">integer</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -919,8 +1133,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_trigger">k_trigger</a><a href="#trigrel">trigrel</a><a href="#dur_value">dur_value</a></rr-a>
-               <rr-a><a href="#k_trigger">k_trigger</a><a href="#trigabs">trigabs</a><a href="#date_time">date_time</a></rr-a>
+               <rr-a><a href="#k_trigger">k_trigger</a><a href="#trigrel">trigrel</a><rr-t>COL</rr-t><a href="#dur_value">dur_value</a><rr-t>CRLF</rr-t>
+               </rr-a>
+               <rr-a><a href="#k_trigger">k_trigger</a><a href="#trigabs">trigabs</a><rr-t>COL</rr-t><a href="#date_time">date_time</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -928,9 +1144,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_value">k_value</a><a href="#k_duration">k_duration</a></rr-a>
-               <rr-a><a href="#trigrelparam">trigrelparam</a></rr-a>
-               <rr-a><a href="#other_param">other_param</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_duration">k_duration</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#trigrelparam">trigrelparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -938,8 +1157,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_value">k_value</a><a href="#k_date_time">k_date_time</a></rr-a>
-               <rr-a><a href="#other_param">other_param</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_date_time">k_date_time</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -949,9 +1170,12 @@
             <rr-o>
                <rr-a><a href="#k_created">k_created</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#other_param">other_param</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#date_time">date_time</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#date_time">date_time</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -961,9 +1185,12 @@
             <rr-o>
                <rr-a><a href="#k_dtstamp">k_dtstamp</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#other_param">other_param</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#date_time">date_time</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#date_time">date_time</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -973,9 +1200,12 @@
             <rr-o>
                <rr-a><a href="#k_last_modified">k_last_modified</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#other_param">other_param</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#date_time">date_time</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#date_time">date_time</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -985,9 +1215,12 @@
             <rr-o>
                <rr-a><a href="#k_sequence">k_sequence</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#other_param">other_param</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#integer">integer</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#integer">integer</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -997,9 +1230,12 @@
             <rr-o>
                <rr-a><a href="#iana_token">iana_token</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#icalparameter">icalparameter</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#icalparameter">icalparameter</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#value">value</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#value">value</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1009,9 +1245,12 @@
             <rr-o>
                <rr-a><a href="#x_name">x_name</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#icalparameter">icalparameter</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#icalparameter">icalparameter</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#value">value</a></rr-a>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#value">value</a><rr-t>CRLF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1019,11 +1258,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_request_status">k_request_status</a><a href="#rstatparam">rstatparam</a><a href="#statcode">statcode</a><a href="#text">text</a><rr-a data-min="0" data-max="1">
+               <rr-a><a href="#k_request_status">k_request_status</a><a href="#rstatparam">rstatparam</a><rr-t>COL</rr-t><a href="#statcode">statcode</a><rr-t>SCOL</rr-t><a href="#text">text</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#text">text</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#text">text</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>CRLF</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1032,8 +1273,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#languageparam">languageparam</a></rr-a>
-               <rr-a><a href="#other_param">other_param</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#languageparam">languageparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1041,9 +1284,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#digit">digit</a><a href="#digit">digit</a><rr-a data-min="0" data-max="1">
+               <rr-a><a href="#digit">digit</a><rr-t>DOT</rr-t><a href="#digit">digit</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#digit">digit</a></rr-a>
+                        <rr-a>
+                           <rr-t>DOT</rr-t><a href="#digit">digit</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1072,7 +1316,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#qsafe_char">qsafe_char</a></rr-a>
+               <rr-a>
+                  <rr-t>DQUOTE</rr-t><a href="#qsafe_char">qsafe_char</a><rr-t>DQUOTE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1081,7 +1327,8 @@
          <rr-rr>
             <rr-o>
                <rr-a data-min="1" data-max="inf">
-                  <rr-o><a href="#alpha">alpha</a></rr-o>
+                  <rr-o><a href="#alpha">alpha</a><rr-t>MINUS</rr-t>
+                  </rr-o>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1096,7 +1343,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_altrep">k_altrep</a><a href="#uri">uri</a></rr-a>
+               <rr-a><a href="#k_altrep">k_altrep</a><rr-t>ASSIGN</rr-t>
+                  <rr-t>DQUOTE</rr-t><a href="#uri">uri</a><rr-t>DQUOTE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1104,7 +1353,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_cn">k_cn</a><a href="#param_value">param_value</a></rr-a>
+               <rr-a><a href="#k_cn">k_cn</a><rr-t>ASSIGN</rr-t><a href="#param_value">param_value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1112,7 +1361,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_cutype">k_cutype</a><rr-a>
+               <rr-a><a href="#k_cutype">k_cutype</a><rr-t>ASSIGN</rr-t>
+                  <rr-a>
                      <rr-o><a href="#k_individual">k_individual</a><a href="#k_group">k_group</a><a href="#k_resource">k_resource</a><a href="#k_room">k_room</a><a href="#k_unknown">k_unknown</a><a href="#x_name">x_name</a><a href="#iana_token">iana_token</a></rr-o>
                   </rr-a>
                </rr-a>
@@ -1123,9 +1373,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_delegated_from">k_delegated_from</a><a href="#cal_address">cal_address</a><rr-a data-min="0" data-max="inf">
+               <rr-a><a href="#k_delegated_from">k_delegated_from</a><rr-t>ASSIGN</rr-t>
+                  <rr-t>DQUOTE</rr-t><a href="#cal_address">cal_address</a><rr-t>DQUOTE</rr-t>
+                  <rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#cal_address">cal_address</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t>
+                           <rr-t>DQUOTE</rr-t><a href="#cal_address">cal_address</a><rr-t>DQUOTE</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1136,9 +1391,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_delegated_to">k_delegated_to</a><a href="#cal_address">cal_address</a><rr-a data-min="0" data-max="inf">
+               <rr-a><a href="#k_delegated_to">k_delegated_to</a><rr-t>ASSIGN</rr-t>
+                  <rr-t>DQUOTE</rr-t><a href="#cal_address">cal_address</a><rr-t>DQUOTE</rr-t>
+                  <rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#cal_address">cal_address</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t>
+                           <rr-t>DQUOTE</rr-t><a href="#cal_address">cal_address</a><rr-t>DQUOTE</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1149,7 +1409,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_dir">k_dir</a><a href="#uri">uri</a></rr-a>
+               <rr-a><a href="#k_dir">k_dir</a><rr-t>ASSIGN</rr-t>
+                  <rr-t>DQUOTE</rr-t><a href="#uri">uri</a><rr-t>DQUOTE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1157,10 +1419,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_encoding">k_encoding</a><rr-a>
+               <rr-a><a href="#k_encoding">k_encoding</a><rr-t>ASSIGN</rr-t>
+                  <rr-a>
                      <rr-o>
-                        <rr-a><a href="#k_bit">k_bit</a></rr-a>
-                        <rr-a><a href="#k_base">k_base</a></rr-a>
+                        <rr-a>
+                           <rr-t>D8</rr-t><a href="#k_bit">k_bit</a></rr-a>
+                        <rr-a><a href="#k_base">k_base</a><rr-t>D6</rr-t>
+                           <rr-t>D4</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1171,7 +1437,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_fmttype">k_fmttype</a><a href="#type_name">type_name</a><a href="#subtype_name">subtype_name</a></rr-a>
+               <rr-a><a href="#k_fmttype">k_fmttype</a><rr-t>ASSIGN</rr-t><a href="#type_name">type_name</a><rr-t>FSLASH</rr-t><a href="#subtype_name">subtype_name</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1179,7 +1445,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_fbtype">k_fbtype</a><rr-a>
+               <rr-a><a href="#k_fbtype">k_fbtype</a><rr-t>ASSIGN</rr-t>
+                  <rr-a>
                      <rr-o><a href="#k_free">k_free</a><a href="#k_busy">k_busy</a><a href="#k_busy_unavailable">k_busy_unavailable</a><a href="#k_busy_tentative">k_busy_tentative</a><a href="#x_name">x_name</a><a href="#iana_token">iana_token</a></rr-o>
                   </rr-a>
                </rr-a>
@@ -1190,7 +1457,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_language">k_language</a><a href="#language">language</a></rr-a>
+               <rr-a><a href="#k_language">k_language</a><rr-t>ASSIGN</rr-t><a href="#language">language</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1198,9 +1465,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_member">k_member</a><a href="#cal_address">cal_address</a><rr-a data-min="0" data-max="inf">
+               <rr-a><a href="#k_member">k_member</a><rr-t>ASSIGN</rr-t>
+                  <rr-t>DQUOTE</rr-t><a href="#cal_address">cal_address</a><rr-t>DQUOTE</rr-t>
+                  <rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#cal_address">cal_address</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t>
+                           <rr-t>DQUOTE</rr-t><a href="#cal_address">cal_address</a><rr-t>DQUOTE</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1211,7 +1483,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_partstat">k_partstat</a><rr-a>
+               <rr-a><a href="#k_partstat">k_partstat</a><rr-t>ASSIGN</rr-t>
+                  <rr-a>
                      <rr-o><a href="#partstat_event">partstat_event</a><a href="#partstat_todo">partstat_todo</a><a href="#partstat_jour">partstat_jour</a></rr-o>
                   </rr-a>
                </rr-a>
@@ -1222,7 +1495,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_range">k_range</a><a href="#k_thisandfuture">k_thisandfuture</a></rr-a>
+               <rr-a><a href="#k_range">k_range</a><rr-t>ASSIGN</rr-t><a href="#k_thisandfuture">k_thisandfuture</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1230,7 +1503,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_related">k_related</a><rr-a>
+               <rr-a><a href="#k_related">k_related</a><rr-t>ASSIGN</rr-t>
+                  <rr-a>
                      <rr-o><a href="#k_start">k_start</a><a href="#k_end">k_end</a></rr-o>
                   </rr-a>
                </rr-a>
@@ -1241,7 +1515,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_reltype">k_reltype</a><rr-a>
+               <rr-a><a href="#k_reltype">k_reltype</a><rr-t>ASSIGN</rr-t>
+                  <rr-a>
                      <rr-o><a href="#k_parent">k_parent</a><a href="#k_child">k_child</a><a href="#k_sibling">k_sibling</a><a href="#x_name">x_name</a><a href="#iana_token">iana_token</a></rr-o>
                   </rr-a>
                </rr-a>
@@ -1252,7 +1527,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_role">k_role</a><rr-a>
+               <rr-a><a href="#k_role">k_role</a><rr-t>ASSIGN</rr-t>
+                  <rr-a>
                      <rr-o><a href="#k_chair">k_chair</a><a href="#k_req_participant">k_req_participant</a><a href="#k_opt_participant">k_opt_participant</a><a href="#k_non_participant">k_non_participant</a><a href="#iana_token">iana_token</a><a href="#x_name">x_name</a></rr-o>
                   </rr-a>
                </rr-a>
@@ -1263,7 +1539,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_rsvp">k_rsvp</a><rr-a>
+               <rr-a><a href="#k_rsvp">k_rsvp</a><rr-t>ASSIGN</rr-t>
+                  <rr-a>
                      <rr-o><a href="#k_true">k_true</a><a href="#k_false">k_false</a></rr-o>
                   </rr-a>
                </rr-a>
@@ -1274,7 +1551,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_sent_by">k_sent_by</a><a href="#cal_address">cal_address</a></rr-a>
+               <rr-a><a href="#k_sent_by">k_sent_by</a><rr-t>ASSIGN</rr-t>
+                  <rr-t>DQUOTE</rr-t><a href="#cal_address">cal_address</a><rr-t>DQUOTE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1282,7 +1561,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_tzid">k_tzid</a><a href="#paramtext">paramtext</a></rr-a>
+               <rr-a><a href="#k_tzid">k_tzid</a><rr-t>ASSIGN</rr-t>
+                  <rr-t>FSLASH</rr-t><a href="#paramtext">paramtext</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1290,7 +1570,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_value">k_value</a><a href="#valuetype">valuetype</a></rr-a>
+               <rr-a><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#valuetype">valuetype</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1318,7 +1598,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>ASSIGN</rr-t>
+                  <rr-t>ASSIGN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1344,7 +1627,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#date">date</a><a href="#time">time</a></rr-a>
+               <rr-a><a href="#date">date</a><rr-t>T</rr-t><a href="#time">time</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1353,11 +1636,15 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>P</rr-t>
                   <rr-a>
                      <rr-o><a href="#dur_date">dur_date</a><a href="#dur_time">dur_time</a><a href="#dur_week">dur_week</a></rr-o>
                   </rr-a>
                </rr-a>
                <rr-a>
+                  <rr-t>PLUS</rr-t>
+                  <rr-t>P</rr-t>
                   <rr-a>
                      <rr-o><a href="#dur_date">dur_date</a><a href="#dur_time">dur_time</a><a href="#dur_week">dur_week</a></rr-o>
                   </rr-a>
@@ -1369,15 +1656,19 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#digits">digits</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>MINUS</rr-t><a href="#digits">digits</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#digits">digits</a></rr-a>
+                        <rr-a>
+                           <rr-t>DOT</rr-t><a href="#digits">digits</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a><a href="#digits">digits</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>PLUS</rr-t><a href="#digits">digits</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#digits">digits</a></rr-a>
+                        <rr-a>
+                           <rr-t>DOT</rr-t><a href="#digits">digits</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1394,8 +1685,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#digits">digits</a></rr-a>
-               <rr-a><a href="#digits">digits</a></rr-a>
+               <rr-a>
+                  <rr-t>MINUS</rr-t><a href="#digits">digits</a></rr-a>
+               <rr-a>
+                  <rr-t>PLUS</rr-t><a href="#digits">digits</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1411,7 +1704,8 @@
             <rr-o>
                <rr-a><a href="#recur_rule_part">recur_rule_part</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#recur_rule_part">recur_rule_part</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#recur_rule_part">recur_rule_part</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1423,7 +1717,10 @@
          <rr-rr>
             <rr-o>
                <rr-a data-min="0" data-max="inf">
-                  <rr-o><a href="#tsafe_char">tsafe_char</a></rr-o>
+                  <rr-o><a href="#tsafe_char">tsafe_char</a><rr-t>COL</rr-t>
+                     <rr-t>DQUOTE</rr-t>
+                     <rr-t>ESCAPED_CHAR</rr-t>
+                  </rr-o>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1432,7 +1729,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#time_hour">time_hour</a><a href="#time_minute">time_minute</a><a href="#time_second">time_second</a></rr-a>
+               <rr-a><a href="#time_hour">time_hour</a><a href="#time_minute">time_minute</a><a href="#time_second">time_second</a><rr-t>Z</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1458,9 +1756,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#iana_token">iana_token</a><a href="#param_value">param_value</a><rr-a data-min="0" data-max="inf">
+               <rr-a><a href="#iana_token">iana_token</a><rr-t>ASSIGN</rr-t><a href="#param_value">param_value</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#param_value">param_value</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#param_value">param_value</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1471,9 +1770,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#x_name">x_name</a><a href="#param_value">param_value</a><rr-a data-min="0" data-max="inf">
+               <rr-a><a href="#x_name">x_name</a><rr-t>ASSIGN</rr-t><a href="#param_value">param_value</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#param_value">param_value</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#param_value">param_value</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1525,7 +1825,9 @@
       <h2 id="b_char">b_char</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#alpha">alpha</a><a href="#digit">digit</a></rr-o>
+            <rr-o><a href="#alpha">alpha</a><a href="#digit">digit</a><rr-t>PLUS</rr-t>
+               <rr-t>FSLASH</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="date_value">date_value</h2>
@@ -1586,7 +1888,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#digit">digit</a></rr-a>
+               <rr-a><a href="#digit">digit</a><rr-t>D</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1595,6 +1898,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>T</rr-t>
                   <rr-a>
                      <rr-o><a href="#dur_hour">dur_hour</a><a href="#dur_minute">dur_minute</a><a href="#dur_second">dur_second</a></rr-o>
                   </rr-a>
@@ -1606,7 +1910,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#digit">digit</a></rr-a>
+               <rr-a><a href="#digit">digit</a><rr-t>W</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1614,7 +1919,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#digit">digit</a><a href="#dur_minute">dur_minute</a></rr-a>
+               <rr-a><a href="#digit">digit</a><rr-t>H</rr-t><a href="#dur_minute">dur_minute</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1622,7 +1927,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#digit">digit</a><a href="#dur_second">dur_second</a></rr-a>
+               <rr-a><a href="#digit">digit</a><rr-t>M</rr-t><a href="#dur_second">dur_second</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1630,7 +1935,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#digit">digit</a></rr-a>
+               <rr-a><a href="#digit">digit</a><rr-t>S</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1638,7 +1944,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#date_time">date_time</a><a href="#date_time">date_time</a></rr-a>
+               <rr-a><a href="#date_time">date_time</a><rr-t>FSLASH</rr-t><a href="#date_time">date_time</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1646,7 +1952,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#date_time">date_time</a><a href="#dur_value">dur_value</a></rr-a>
+               <rr-a><a href="#date_time">date_time</a><rr-t>FSLASH</rr-t><a href="#dur_value">dur_value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1654,20 +1960,20 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#k_freq">k_freq</a><a href="#freq">freq</a></rr-a>
-               <rr-a><a href="#k_until">k_until</a><a href="#enddate">enddate</a></rr-a>
-               <rr-a><a href="#k_count">k_count</a><a href="#count">count</a></rr-a>
-               <rr-a><a href="#k_interval">k_interval</a><a href="#interval">interval</a></rr-a>
-               <rr-a><a href="#k_bysecond">k_bysecond</a><a href="#byseclist">byseclist</a></rr-a>
-               <rr-a><a href="#k_byminute">k_byminute</a><a href="#byminlist">byminlist</a></rr-a>
-               <rr-a><a href="#k_byhour">k_byhour</a><a href="#byhrlist">byhrlist</a></rr-a>
-               <rr-a><a href="#k_byday">k_byday</a><a href="#bywdaylist">bywdaylist</a></rr-a>
-               <rr-a><a href="#k_bymonthday">k_bymonthday</a><a href="#bymodaylist">bymodaylist</a></rr-a>
-               <rr-a><a href="#k_byyearday">k_byyearday</a><a href="#byyrdaylist">byyrdaylist</a></rr-a>
-               <rr-a><a href="#k_byweekno">k_byweekno</a><a href="#bywknolist">bywknolist</a></rr-a>
-               <rr-a><a href="#k_bymonth">k_bymonth</a><a href="#bymolist">bymolist</a></rr-a>
-               <rr-a><a href="#k_bysetpos">k_bysetpos</a><a href="#bysplist">bysplist</a></rr-a>
-               <rr-a><a href="#k_wkst">k_wkst</a><a href="#weekday">weekday</a></rr-a>
+               <rr-a><a href="#k_freq">k_freq</a><rr-t>ASSIGN</rr-t><a href="#freq">freq</a></rr-a>
+               <rr-a><a href="#k_until">k_until</a><rr-t>ASSIGN</rr-t><a href="#enddate">enddate</a></rr-a>
+               <rr-a><a href="#k_count">k_count</a><rr-t>ASSIGN</rr-t><a href="#count">count</a></rr-a>
+               <rr-a><a href="#k_interval">k_interval</a><rr-t>ASSIGN</rr-t><a href="#interval">interval</a></rr-a>
+               <rr-a><a href="#k_bysecond">k_bysecond</a><rr-t>ASSIGN</rr-t><a href="#byseclist">byseclist</a></rr-a>
+               <rr-a><a href="#k_byminute">k_byminute</a><rr-t>ASSIGN</rr-t><a href="#byminlist">byminlist</a></rr-a>
+               <rr-a><a href="#k_byhour">k_byhour</a><rr-t>ASSIGN</rr-t><a href="#byhrlist">byhrlist</a></rr-a>
+               <rr-a><a href="#k_byday">k_byday</a><rr-t>ASSIGN</rr-t><a href="#bywdaylist">bywdaylist</a></rr-a>
+               <rr-a><a href="#k_bymonthday">k_bymonthday</a><rr-t>ASSIGN</rr-t><a href="#bymodaylist">bymodaylist</a></rr-a>
+               <rr-a><a href="#k_byyearday">k_byyearday</a><rr-t>ASSIGN</rr-t><a href="#byyrdaylist">byyrdaylist</a></rr-a>
+               <rr-a><a href="#k_byweekno">k_byweekno</a><rr-t>ASSIGN</rr-t><a href="#bywknolist">bywknolist</a></rr-a>
+               <rr-a><a href="#k_bymonth">k_bymonth</a><rr-t>ASSIGN</rr-t><a href="#bymolist">bymolist</a></rr-a>
+               <rr-a><a href="#k_bysetpos">k_bysetpos</a><rr-t>ASSIGN</rr-t><a href="#bysplist">bysplist</a></rr-a>
+               <rr-a><a href="#k_wkst">k_wkst</a><rr-t>ASSIGN</rr-t><a href="#weekday">weekday</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1701,7 +2007,8 @@
             <rr-o>
                <rr-a><a href="#digits_1_2">digits_1_2</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#digits_1_2">digits_1_2</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#digits_1_2">digits_1_2</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1714,7 +2021,8 @@
             <rr-o>
                <rr-a><a href="#digits_1_2">digits_1_2</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#digits_1_2">digits_1_2</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#digits_1_2">digits_1_2</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1727,7 +2035,8 @@
             <rr-o>
                <rr-a><a href="#digits_1_2">digits_1_2</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#digits_1_2">digits_1_2</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#digits_1_2">digits_1_2</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1740,7 +2049,8 @@
             <rr-o>
                <rr-a><a href="#weekdaynum">weekdaynum</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#weekdaynum">weekdaynum</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#weekdaynum">weekdaynum</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1756,7 +2066,10 @@
                      <rr-o>
                         <rr-a>
                            <rr-a data-min="0" data-max="1">
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>PLUS</rr-t>
+                                 <rr-t>MINUS</rr-t>
+                              </rr-o>
                            </rr-a><a href="#digits_1_2">digits_1_2</a></rr-a>
                      </rr-o>
                   </rr-a><a href="#weekday">weekday</a></rr-a>
@@ -1767,13 +2080,34 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>S</rr-t>
+                  <rr-t>U</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>M</rr-t>
+                  <rr-t>O</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>U</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>W</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>H</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>F</rr-t>
+                  <rr-t>R</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>S</rr-t>
+                  <rr-t>A</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1783,7 +2117,8 @@
             <rr-o>
                <rr-a><a href="#monthdaynum">monthdaynum</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#monthdaynum">monthdaynum</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#monthdaynum">monthdaynum</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1796,7 +2131,10 @@
             <rr-o>
                <rr-a>
                   <rr-a data-min="0" data-max="1">
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>PLUS</rr-t>
+                        <rr-t>MINUS</rr-t>
+                     </rr-o>
                   </rr-a><a href="#digits_1_2">digits_1_2</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -1807,7 +2145,8 @@
             <rr-o>
                <rr-a><a href="#yeardaynum">yeardaynum</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#yeardaynum">yeardaynum</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#yeardaynum">yeardaynum</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1820,7 +2159,10 @@
             <rr-o>
                <rr-a>
                   <rr-a data-min="0" data-max="1">
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>PLUS</rr-t>
+                        <rr-t>MINUS</rr-t>
+                     </rr-o>
                   </rr-a><a href="#ordyrday">ordyrday</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -1844,7 +2186,8 @@
             <rr-o>
                <rr-a><a href="#weeknum">weeknum</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#weeknum">weeknum</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#weeknum">weeknum</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1857,7 +2200,10 @@
             <rr-o>
                <rr-a>
                   <rr-a data-min="0" data-max="1">
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>PLUS</rr-t>
+                        <rr-t>MINUS</rr-t>
+                     </rr-o>
                   </rr-a><a href="#digits_1_2">digits_1_2</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -1868,7 +2214,8 @@
             <rr-o>
                <rr-a><a href="#digits_1_2">digits_1_2</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#digits_1_2">digits_1_2</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#digits_1_2">digits_1_2</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1881,7 +2228,8 @@
             <rr-o>
                <rr-a><a href="#yeardaynum">yeardaynum</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#yeardaynum">yeardaynum</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#yeardaynum">yeardaynum</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1934,7 +2282,10 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>PLUS</rr-t>
+                        <rr-t>MINUS</rr-t>
+                     </rr-o>
                   </rr-a><a href="#time_hour">time_hour</a><a href="#time_minute">time_minute</a><a href="#time_second">time_second</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -1942,13 +2293,25 @@
       <h2 id="reg_name_char">reg_name_char</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#alpha">alpha</a><a href="#digit">digit</a></rr-o>
+            <rr-o><a href="#alpha">alpha</a><a href="#digit">digit</a><rr-t>EXCLAMATION</rr-t>
+               <rr-t>HASH</rr-t>
+               <rr-t>DOLLAR</rr-t>
+               <rr-t>AMP</rr-t>
+               <rr-t>DOT</rr-t>
+               <rr-t>PLUS</rr-t>
+               <rr-t>MINUS</rr-t>
+               <rr-t>CARET</rr-t>
+               <rr-t>USCORE</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="language_char">language_char</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#alpha">alpha</a><a href="#digit">digit</a></rr-o>
+            <rr-o><a href="#alpha">alpha</a><a href="#digit">digit</a><rr-t>MINUS</rr-t>
+               <rr-t>COL</rr-t>
+               <rr-t>WSP</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="x_name">x_name</h2>
@@ -1956,13 +2319,16 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>X</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#alpha_num">alpha_num</a><a href="#alpha_num">alpha_num</a><a href="#alpha_num">alpha_num</a></rr-a>
+                        <rr-a><a href="#alpha_num">alpha_num</a><a href="#alpha_num">alpha_num</a><a href="#alpha_num">alpha_num</a><rr-t>MINUS</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="1" data-max="inf">
-                     <rr-o><a href="#alpha_num">alpha_num</a></rr-o>
+                     <rr-o><a href="#alpha_num">alpha_num</a><rr-t>MINUS</rr-t>
+                     </rr-o>
                   </rr-a>
                </rr-a>
             </rr-o>
@@ -1977,20 +2343,67 @@
       <h2 id="digit">digit</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>D0</rr-t>
+               <rr-t>D1</rr-t>
+               <rr-t>D2</rr-t>
+               <rr-t>D3</rr-t>
+               <rr-t>D4</rr-t>
+               <rr-t>D5</rr-t>
+               <rr-t>D6</rr-t>
+               <rr-t>D7</rr-t>
+               <rr-t>D8</rr-t>
+               <rr-t>D9</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="alpha">alpha</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>A</rr-t>
+               <rr-t>B</rr-t>
+               <rr-t>C</rr-t>
+               <rr-t>D</rr-t>
+               <rr-t>E</rr-t>
+               <rr-t>F</rr-t>
+               <rr-t>G</rr-t>
+               <rr-t>H</rr-t>
+               <rr-t>I</rr-t>
+               <rr-t>J</rr-t>
+               <rr-t>K</rr-t>
+               <rr-t>L</rr-t>
+               <rr-t>M</rr-t>
+               <rr-t>N</rr-t>
+               <rr-t>O</rr-t>
+               <rr-t>P</rr-t>
+               <rr-t>Q</rr-t>
+               <rr-t>R</rr-t>
+               <rr-t>S</rr-t>
+               <rr-t>T</rr-t>
+               <rr-t>U</rr-t>
+               <rr-t>V</rr-t>
+               <rr-t>W</rr-t>
+               <rr-t>X</rr-t>
+               <rr-t>Y</rr-t>
+               <rr-t>Z</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="k_accepted">k_accepted</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>A</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1998,7 +2411,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>A</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2006,7 +2426,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>A</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>S</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2014,7 +2442,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>A</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>P</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2022,7 +2457,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>H</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2030,7 +2472,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2038,7 +2489,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>A</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>O</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2046,7 +2503,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2054,7 +2516,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>N</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2062,7 +2530,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2070,7 +2545,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2078,7 +2557,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2086,7 +2573,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2094,7 +2586,24 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>V</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>B</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2102,7 +2611,22 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>V</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2110,7 +2634,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2118,7 +2648,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>H</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>R</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2126,7 +2663,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2134,7 +2680,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>H</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2142,7 +2696,18 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>H</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2150,7 +2715,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2158,7 +2732,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>S</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2166,7 +2749,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>W</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>K</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>O</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2174,7 +2766,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2182,7 +2784,19 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>S</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2190,7 +2804,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2198,7 +2821,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2206,7 +2839,18 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>S</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2214,7 +2858,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>H</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>R</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2222,7 +2872,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>H</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2230,7 +2886,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>S</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2238,7 +2900,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>N</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2246,7 +2911,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2254,7 +2927,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2262,7 +2945,20 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>L</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2270,7 +2966,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2278,7 +2984,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2286,7 +3000,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2294,7 +3014,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2302,7 +3030,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2310,7 +3045,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2318,7 +3059,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2326,7 +3072,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2334,7 +3090,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>H</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2342,7 +3107,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2350,7 +3124,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2358,7 +3142,22 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>M</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2366,7 +3165,20 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>O</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2374,7 +3186,19 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2382,7 +3206,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>R</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2390,7 +3218,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2398,7 +3234,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2406,7 +3248,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2414,7 +3262,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>P</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2422,7 +3278,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2430,7 +3294,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2438,7 +3306,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2446,7 +3323,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>E</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>L</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2454,7 +3337,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>G</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2462,7 +3354,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2470,7 +3366,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>E</rr-t>
+                  <rr-t>X</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2478,7 +3381,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>F</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2486,7 +3395,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>F</rr-t>
+                  <rr-t>B</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2494,7 +3410,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>F</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>L</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2502,7 +3424,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>F</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2510,7 +3438,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>F</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2518,7 +3454,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>F</rr-t>
+                  <rr-t>R</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2526,7 +3465,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>F</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2534,7 +3478,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>F</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>B</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2542,7 +3495,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>F</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>Q</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2550,7 +3508,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>G</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>O</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2558,7 +3520,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>G</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2566,7 +3538,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>G</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>P</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2574,7 +3552,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>H</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2582,7 +3567,18 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>I</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>S</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2590,7 +3586,18 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>I</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>V</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>L</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2598,7 +3605,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>I</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>R</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2606,7 +3621,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>I</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>V</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>L</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2614,7 +3638,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>L</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2622,7 +3655,21 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>L</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2630,7 +3677,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>L</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2638,7 +3694,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>M</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>B</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>R</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2646,7 +3709,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>M</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>H</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2654,7 +3724,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>M</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2662,7 +3741,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>M</rr-t>
+                  <rr-t>O</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2670,7 +3752,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>M</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>H</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2678,7 +3768,20 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>N</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2686,7 +3789,23 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>N</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2694,7 +3813,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>O</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>Q</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2702,7 +3828,23 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>O</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2710,7 +3852,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>O</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>Z</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>R</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2718,7 +3870,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>P</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2726,7 +3885,19 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>P</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2734,7 +3905,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>P</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2742,7 +3922,24 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>P</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2750,7 +3947,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>P</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2758,7 +3962,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>P</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2766,7 +3979,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>P</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>V</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2774,7 +3995,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>P</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>S</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2782,7 +4011,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>P</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2790,7 +4026,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>P</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>B</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>C</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2798,7 +4041,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2806,7 +4055,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2814,7 +4069,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>R</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2822,7 +4083,21 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2830,7 +4105,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2838,7 +4119,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2846,7 +4135,18 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>O</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2854,7 +4154,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2862,7 +4170,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2870,7 +4185,23 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>Q</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2878,7 +4209,22 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>Q</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>S</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2886,7 +4232,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2894,7 +4249,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>S</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2902,7 +4267,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2910,7 +4280,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>M</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2918,7 +4293,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2926,7 +4307,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>V</rr-t>
+                  <rr-t>P</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2934,7 +4320,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>S</rr-t>
+                  <rr-t>A</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2942,7 +4331,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>S</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2950,7 +4348,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>S</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>B</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2958,7 +4364,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>S</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>Q</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2966,7 +4381,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>S</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>B</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>G</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2974,7 +4397,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>S</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2982,7 +4414,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>S</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2990,7 +4428,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>S</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>S</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2998,7 +4443,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>S</rr-t>
+                  <rr-t>U</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3006,7 +4454,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>S</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3014,7 +4470,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>V</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3022,7 +4488,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>X</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3030,7 +4501,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>H</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3038,7 +4512,21 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>H</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3046,7 +4534,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3054,7 +4547,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>P</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3062,7 +4562,19 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3070,7 +4582,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>R</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3078,7 +4598,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3086,7 +4611,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>U</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3094,7 +4622,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>Z</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3102,7 +4635,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>Z</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3110,7 +4650,20 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>Z</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>M</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3118,7 +4671,18 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>Z</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>O</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3126,7 +4690,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>Z</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>L</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3134,7 +4704,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>U</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3142,7 +4716,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>U</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>K</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>W</rr-t>
+                  <rr-t>N</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3150,7 +4732,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>U</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>L</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3158,7 +4746,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>U</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>I</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3166,7 +4758,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>U</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>L</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3174,7 +4770,18 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>U</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3182,7 +4789,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>V</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>M</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3190,7 +4804,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>V</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3198,7 +4818,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>V</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3206,7 +4836,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>V</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3214,7 +4852,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>V</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>V</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3222,7 +4867,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>V</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>B</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3230,7 +4885,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>V</rr-t>
+                  <rr-t>J</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>L</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3238,7 +4902,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>V</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>Z</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3246,7 +4920,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>V</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>O</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3254,7 +4934,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>W</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3262,7 +4945,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>W</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>K</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3270,7 +4960,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>W</rr-t>
+                  <rr-t>K</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3278,7 +4973,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>Y</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3286,7 +4988,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>CRLF</rr-t>
+                  <rr-t>WSP</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3294,8 +4999,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>' '</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'\t'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3304,24 +5013,44 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'\\'</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>CRLF</rr-t>
+                        <rr-t>WSP</rr-t>
+                     </rr-a>
                   </rr-o>
+                  <rr-t>'\\'</rr-t>
                </rr-a>
                <rr-a>
+                  <rr-t>'\\'</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>CRLF</rr-t>
+                        <rr-t>WSP</rr-t>
+                     </rr-a>
                   </rr-o>
+                  <rr-t>';'</rr-t>
                </rr-a>
                <rr-a>
+                  <rr-t>'\\'</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>CRLF</rr-t>
+                        <rr-t>WSP</rr-t>
+                     </rr-a>
                   </rr-o>
+                  <rr-t>','</rr-t>
                </rr-a>
                <rr-a>
+                  <rr-t>'\\'</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>CRLF</rr-t>
+                        <rr-t>WSP</rr-t>
+                     </rr-a>
                   </rr-o>
+                  <rr-t>N</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3330,8 +5059,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'\r'</rr-t>
+                  <rr-t>'\n'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'\r'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3340,16 +5074,16 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[\u0000-\u0008]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u000B-\u000C]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u000E-\u001F]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u007F]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3359,7 +5093,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[aA]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3369,7 +5103,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[bB]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3379,7 +5113,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[cC]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3389,7 +5123,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[dD]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3399,7 +5133,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[eE]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3409,7 +5143,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[fF]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3419,7 +5153,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[gG]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3429,7 +5163,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[hH]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3439,7 +5173,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[iI]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3449,7 +5183,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[jJ]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3459,7 +5193,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[kK]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3469,7 +5203,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[lL]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3479,7 +5213,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[mM]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3489,7 +5223,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[nN]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3499,7 +5233,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[oO]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3509,7 +5243,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[pP]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3519,7 +5253,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[qQ]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3529,7 +5263,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[rR]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3539,7 +5273,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[sS]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3549,7 +5283,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[tT]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3559,7 +5293,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[uU]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3569,7 +5303,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[vV]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3579,7 +5313,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[wW]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3589,7 +5323,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[xX]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3599,7 +5333,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[yY]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3609,7 +5343,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[zZ]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -3618,7 +5352,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'!'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3626,7 +5362,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'"'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3634,7 +5372,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'#'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3642,7 +5382,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'$'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3650,7 +5392,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'%'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3658,7 +5402,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'&amp;'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3666,7 +5412,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'\''</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3674,7 +5422,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3682,7 +5432,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3690,7 +5442,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'*'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3698,7 +5452,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'+'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3706,7 +5462,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>','</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3714,7 +5472,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'-'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3722,7 +5482,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'.'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3730,7 +5492,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'/'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3738,7 +5502,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'0'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3746,7 +5512,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'1'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3754,7 +5522,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'2'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3762,7 +5532,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'3'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3770,7 +5542,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'4'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3778,7 +5552,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'5'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3786,7 +5562,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'6'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3794,7 +5572,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'7'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3802,7 +5582,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'8'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3810,7 +5592,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'9'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3818,7 +5602,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>':'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3826,7 +5612,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>';'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3834,7 +5622,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'&lt;'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3842,7 +5632,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'='</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3850,7 +5642,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'&gt;'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3858,7 +5652,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'?'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3866,7 +5662,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'@'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3874,7 +5672,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3882,7 +5682,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'\\'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3890,7 +5692,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>']'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3898,7 +5702,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'^'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3906,7 +5712,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'_'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3914,7 +5722,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'`'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3922,7 +5732,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'{'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3930,7 +5742,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'|'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3938,7 +5752,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'}'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3946,7 +5762,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'~'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3955,7 +5773,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>.</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>

@@ -5,13 +5,45 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1><a href="../index.html">Railroad</a> pgn/PGN.ast.xml</h1>
+      <h1>Railroad pgn/PGN.ast.xml</h1>
+      <pre>/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2013-2014 by Bart Kiers
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * Project      : A Portable Game Notation (PGN) ANTLR 4 grammar
+ *                and parser.
+ * Developed by : Bart Kiers, bart@big-o.nl
+ * Also see     : https://github.com/bkiers/PGN-parser
+ */</pre>
       <h1>Rules</h1>
       <h2 id="parse">parse</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#pgn_database">pgn_database</a></rr-a>
+               <rr-a><a href="#pgn_database">pgn_database</a><rr-t>EOF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -39,20 +71,26 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tag_name">tag_name</a><a href="#tag_value">tag_value</a></rr-a>
+               <rr-a>
+                  <rr-t>LEFT_BRACKET</rr-t><a href="#tag_name">tag_name</a><a href="#tag_value">tag_value</a><rr-t>RIGHT_BRACKET</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="tag_name">tag_name</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>SYMBOL</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="tag_value">tag_value</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="movetext_section">movetext_section</h2>
@@ -76,42 +114,57 @@
       <h2 id="element">element</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#move_number_indication">move_number_indication</a><a href="#san_move">san_move</a></rr-o>
+            <rr-o><a href="#move_number_indication">move_number_indication</a><a href="#san_move">san_move</a><rr-t>NUMERIC_ANNOTATION_GLYPH</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="move_number_indication">move_number_indication</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>INTEGER</rr-t>
+                  <rr-t>PERIOD</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="san_move">san_move</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>SYMBOL</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="recursive_variation">recursive_variation</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#element_sequence">element_sequence</a></rr-a>
+               <rr-a>
+                  <rr-t>LEFT_PARENTHESIS</rr-t><a href="#element_sequence">element_sequence</a><rr-t>RIGHT_PARENTHESIS</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="game_termination">game_termination</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>WHITE_WINS</rr-t>
+               <rr-t>BLACK_WINS</rr-t>
+               <rr-t>DRAWN_GAME</rr-t>
+               <rr-t>ASTERISK</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="WHITE_WINS">WHITE_WINS</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'1-0'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -119,7 +172,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'0-1'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -127,7 +182,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'1/2-1/2'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -135,7 +192,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>';'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -143,7 +202,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'{'</rr-t>
+                  <rr-t>'}'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -151,7 +213,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'%'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -160,7 +224,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[ \t\r\n]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -170,11 +234,17 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'"'</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'\\\\'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'\\"'</rr-t>
+                     </rr-a>
                      <rr-a></rr-a>
                   </rr-o>
+                  <rr-t>'"'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -184,7 +254,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[0-9]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -193,7 +263,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'.'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -201,7 +273,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'*'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -209,7 +283,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -217,7 +293,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>']'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -225,7 +303,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -233,7 +313,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -241,7 +323,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'&lt;'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -249,7 +333,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'&gt;'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -258,7 +344,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[0-9]</rr-c>
+                  <rr-t>'$'</rr-t>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -268,8 +355,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[a-zA-Z0-9]</rr-c>
-                  <rr-c>[a-zA-Z0-9_+#=:-]</rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -279,8 +366,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[?!]</rr-c>
-                  <rr-c>[?!]</rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -290,7 +377,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>.</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>

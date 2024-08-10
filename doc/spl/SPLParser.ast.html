@@ -5,7 +5,34 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1><a href="../index.html">Railroad</a> spl/SPLParser.ast.xml</h1>
+      <h1>Railroad spl/SPLParser.ast.xml</h1>
+      <pre>/*
+ [The "BSD licence"]
+ Copyright (c) 2024 Clemens Sageder
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+ 3. The name of the author may not be used to endorse or promote products
+    derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
       <h1>Rules</h1>
       <h2 id="query">query</h2>
       <p>
@@ -13,9 +40,11 @@
             <rr-o>
                <rr-a><a href="#initCommand">initCommand</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#nextCommand">nextCommand</a></rr-a>
+                        <rr-a>
+                           <rr-t>PIPE</rr-t><a href="#nextCommand">nextCommand</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>EOF</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -24,7 +53,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#operation">operation</a><a href="#subquery">subquery</a></rr-a>
+               <rr-a>
+                  <rr-t>PIPE</rr-t>
+                  <rr-t>INIT_COMMAND</rr-t><a href="#operation">operation</a><a href="#subquery">subquery</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -40,11 +71,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#initCommand">initCommand</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>LBRACK</rr-t><a href="#initCommand">initCommand</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#nextCommand">nextCommand</a></rr-a>
+                        <rr-a>
+                           <rr-t>PIPE</rr-t><a href="#nextCommand">nextCommand</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>RBRACK</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -53,37 +87,58 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#operation">operation</a><a href="#operation">operation</a></rr-a>
-               <rr-a><a href="#operation">operation</a><a href="#operation">operation</a></rr-a>
-               <rr-a><a href="#expression">expression</a><a href="#value">value</a></rr-a>
-               <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="1">
+               <rr-a><a href="#operation">operation</a><rr-t>AND</rr-t><a href="#operation">operation</a></rr-a>
+               <rr-a><a href="#operation">operation</a><rr-t>OR</rr-t><a href="#operation">operation</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>LIKE</rr-t><a href="#value">value</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>IN</rr-t>
+                  <rr-t>LPAREN</rr-t>
+                  <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#expression">expression</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#expression">expression</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>RPAREN</rr-t>
                </rr-a>
-               <rr-a><a href="#operation">operation</a></rr-a>
-               <rr-a><a href="#expression">expression</a><rr-a>
-                     <rr-o></rr-o>
-                  </rr-a><a href="#id">id</a></rr-a>
-               <rr-a><a href="#expression">expression</a><a href="#expression">expression</a><a href="#id">id</a><a href="#id">id</a></rr-a>
-               <rr-a><a href="#expression">expression</a><a href="#expression">expression</a><a href="#expression">expression</a><rr-a>
-                     <rr-o></rr-o>
-                  </rr-a><a href="#id">id</a><a href="#id">id</a><a href="#id">id</a></rr-a>
                <rr-a>
+                  <rr-t>NOT</rr-t><a href="#operation">operation</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-a>
+                     <rr-o>
+                        <rr-t>OUTPUT</rr-t>
+                        <rr-t>OUTPUTNEW</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#id">id</a></rr-a>
+               <rr-a><a href="#expression">expression</a><a href="#expression">expression</a><rr-t>OUTPUT</rr-t><a href="#id">id</a><rr-t>COMMA</rr-t><a href="#id">id</a></rr-a>
+               <rr-a><a href="#expression">expression</a><a href="#expression">expression</a><a href="#expression">expression</a><rr-a>
+                     <rr-o>
+                        <rr-t>OUTPUT</rr-t>
+                        <rr-t>OUTPUTNEW</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#id">id</a><rr-t>COMMA</rr-t><a href="#id">id</a><rr-t>COMMA</rr-t><a href="#id">id</a></rr-a>
+               <rr-a>
+                  <rr-t>BY</rr-t>
                   <rr-a data-min="1" data-max="inf">
                      <rr-o><a href="#id">id</a></rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a><a href="#expression">expression</a><a href="#id">id</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>AS</rr-t><a href="#id">id</a></rr-a>
                <rr-a><a href="#id">id</a><rr-a>
-                     <rr-o></rr-o>
-                  </rr-a><a href="#expression">expression</a></rr-a><a href="#expression">expression</a><rr-a><a href="#operation">operation</a></rr-a>
+                     <rr-o>
+                        <rr-t>EQ</rr-t>
+                        <rr-t>NE</rr-t>
+                        <rr-t>GT</rr-t>
+                        <rr-t>LT</rr-t>
+                        <rr-t>GE</rr-t>
+                        <rr-t>LE</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expression">expression</a></rr-a><a href="#expression">expression</a><rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#operation">operation</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -91,43 +146,64 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#function">function</a><rr-a data-min="0" data-max="1">
+               <rr-a><a href="#function">function</a><rr-t>LPAREN</rr-t>
+                  <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#expression">expression</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#expression">expression</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>RPAREN</rr-t>
                </rr-a>
-               <rr-a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#expression">expression</a><a href="#expression_________________// power">expression_________________// power</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>POW</rr-t><a href="#expression_________________// power">expression</a></rr-a>
                <rr-a><a href="#expression">expression</a><rr-a>
-                     <rr-o></rr-o>
-                  </rr-a><a href="#expression________________________// mult, div, mod">expression________________________// mult, div, mod</a></rr-a>
-               <rr-a><a href="#expression">expression</a><a href="#expression_________________________________// div, path">expression_________________________________// div, path</a></rr-a>
-               <rr-a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#expression___________________________________________// wildcard">expression___________________________________________// wildcard</a></rr-a>
-               <rr-a><a href="#expression">expression</a></rr-a>
+                     <rr-o>
+                        <rr-t>MULT</rr-t>
+                        <rr-t>MOD</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expression________________________// mult, div, mod">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>DIV</rr-t><a href="#expression_________________________________// div, path">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>MULT</rr-t><a href="#expression">expression</a><rr-t>MULT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>MULT</rr-t><a href="#expression___________________________________________// wildcard">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>MULT</rr-t>
+               </rr-a>
+               <rr-t>MULT</rr-t>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#id">id</a></rr-a>
+                     <rr-a>
+                        <rr-t>DIV</rr-t><a href="#id">id</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a><a href="#expression">expression</a><rr-a>
-                     <rr-o></rr-o>
-                  </rr-a><a href="#expression_________________________// add, sub">expression_________________________// add, sub</a></rr-a><a href="#value_____________________________________________________// value">value_____________________________________________________// value</a></rr-o>
+                     <rr-o>
+                        <rr-t>ADD</rr-t>
+                        <rr-t>SUB</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expression_________________________// add, sub">expression</a></rr-a><a href="#value_____________________________________________________// value">value</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="value">value</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#date">date</a><a href="#id">id</a><rr-a>
+            <rr-o><a href="#date">date</a><rr-t>STRING</rr-t><a href="#id">id</a><rr-a>
                   <rr-a data-min="0" data-max="1">
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>ADD</rr-t>
+                        <rr-t>SUB</rr-t>
+                     </rr-o>
                   </rr-a>
+                  <rr-t>NUMBER</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -136,26 +212,42 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>QUOTE</rr-t>
+                  <rr-t>TIME_AND_FUNCTION</rr-t>
+                  <rr-t>QUOTE</rr-t>
+               </rr-a>
+               <rr-t>TIME</rr-t>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="id">id</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#command">command</a><a href="#function">function</a></rr-o>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t><a href="#command">command</a><a href="#function">function</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="function">function</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>FUNCTION</rr-t>
+               <rr-t>STD_COMMAND_AND_FUNCTION</rr-t>
+               <rr-t>MODIFIER_AND_FUNCTION</rr-t>
+               <rr-t>TIME_AND_FUNCTION</rr-t>
+               <rr-t>LIKE</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="command">command</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>INIT_COMMAND</rr-t>
+               <rr-t>STD_COMMAND</rr-t>
+               <rr-t>STD_COMMAND_AND_FUNCTION</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
    </body>

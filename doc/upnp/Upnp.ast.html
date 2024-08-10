@@ -5,7 +5,34 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1><a href="../index.html">Railroad</a> upnp/Upnp.ast.xml</h1>
+      <h1>Railroad upnp/Upnp.ast.xml</h1>
+      <pre>/*
+ [The "BSD licence"]
+ Copyright (c) 2017 Anand Tamariya
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+ 3. The name of the author may not be used to endorse or promote products
+    derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
       <h1>Rules</h1>
       <h2 id="searchCrit">searchCrit</h2>
       <p>
@@ -13,8 +40,10 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o><a href="#searchExp">searchExp</a></rr-o>
+                     <rr-o><a href="#searchExp">searchExp</a><rr-t>ASTERISK</rr-t>
+                     </rr-o>
                   </rr-a>
+                  <rr-t>EOF</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -22,8 +51,14 @@
       <h2 id="searchExp">searchExp</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#relExp">relExp</a><rr-a><a href="#searchExp">searchExp</a><a href="#searchExp">searchExp</a></rr-a>
-               <rr-a><a href="#searchExp">searchExp</a></rr-a>
+            <rr-o><a href="#relExp">relExp</a><rr-a><a href="#searchExp">searchExp</a><rr-t>WCHAR</rr-t>
+                  <rr-t>LOGOP</rr-t>
+                  <rr-t>WCHAR</rr-t><a href="#searchExp">searchExp</a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>WCHAR</rr-t><a href="#searchExp">searchExp</a><rr-t>WCHAR</rr-t>
+                  <rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -31,8 +66,18 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#quotedVal">quotedVal</a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>PROPERTY</rr-t>
+                  <rr-t>WCHAR</rr-t>
+                  <rr-t>BINOP</rr-t>
+                  <rr-t>WCHAR</rr-t><a href="#quotedVal">quotedVal</a></rr-a>
+               <rr-a>
+                  <rr-t>PROPERTY</rr-t>
+                  <rr-t>WCHAR</rr-t>
+                  <rr-t>EXISTSOP</rr-t>
+                  <rr-t>WCHAR</rr-t>
+                  <rr-t>BOOLVAL</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -40,7 +85,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#escapedQuote">escapedQuote</a></rr-a>
+               <rr-a>
+                  <rr-t>DQUOTE</rr-t><a href="#escapedQuote">escapedQuote</a><rr-t>DQUOTE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -48,8 +95,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>STRING_LITERAL</rr-t>
+                  <rr-t>WCHAR</rr-t>
+                  <rr-t>STRING_LITERAL</rr-t>
+               </rr-a>
             </rr-o>
+            <pre>/*
+ * Lexer Rules
+ */</pre>
          </rr-rr>
       </p>
       <h2 id="NUMBER">NUMBER</h2>
@@ -57,7 +111,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[0-9]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -67,7 +121,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[\r\t\n]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -76,8 +130,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'and'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'or'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -85,8 +143,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>RELOP</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>STRINGOP</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -94,12 +156,24 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'='</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'!='</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'&lt;'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'&lt;='</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'&gt;'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'&gt;='</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -107,9 +181,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'contains'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'doesnotcontain'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'derivedfrom'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -117,7 +197,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'exists'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -125,8 +207,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'true'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'false'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -134,8 +220,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>SPACE</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>HTAB</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -143,32 +233,84 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'res@resolution'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'res@duration'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'dc:title'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'dc:creator'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'upnp:actor'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'upnp:artist'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'upnp:genre'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'upnp:album'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'dc:date'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'upnp:class'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'@id'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'@refID'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'@protocolInfo'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'upnp:author'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'dc:description'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'pv:avKeywords'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'pv:rating'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'upnp:seriesTitle'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'upnp:episodeNumber'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'upnp:director'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'upnp:rating'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'upnp:channelNr'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'upnp:channelName'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'upnp:longDescription'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'pv:capturedate'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'pv:custom'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -176,7 +318,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'\t'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -184,7 +328,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>' '</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -192,7 +338,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'"'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -200,7 +348,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'*'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -209,9 +359,11 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[a-zA-Z.]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'\\"'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>

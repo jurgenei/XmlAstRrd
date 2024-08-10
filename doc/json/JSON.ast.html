@@ -5,13 +5,14 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1><a href="../index.html">Railroad</a> json/JSON.ast.xml</h1>
+      <h1>Railroad json/JSON.ast.xml</h1>
       <h1>Rules</h1>
       <h2 id="json">json</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#value">value</a></rr-a>
+               <rr-a><a href="#value">value</a><rr-t>EOF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -19,13 +20,19 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#pair">pair</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#pair">pair</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#pair">pair</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#pair">pair</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>'}'</rr-t>
                </rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'{'</rr-t>
+                  <rr-t>'}'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -33,7 +40,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#value">value</a></rr-a>
+               <rr-a>
+                  <rr-t>STRING</rr-t>
+                  <rr-t>':'</rr-t><a href="#value">value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -41,20 +50,31 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#value">value</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#value">value</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#value">value</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#value">value</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>']'</rr-t>
                </rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t>
+                  <rr-t>']'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="value">value</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#obj">obj</a><a href="#arr">arr</a></rr-o>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+               <rr-t>NUMBER</rr-t><a href="#obj">obj</a><a href="#arr">arr</a><rr-t>'true'</rr-t>
+               <rr-t>'false'</rr-t>
+               <rr-t>'null'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="STRING">STRING</h2>
@@ -62,10 +82,16 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'"'</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>ESC</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>SAFECODEPOINT</rr-t>
+                     </rr-a>
                   </rr-o>
+                  <rr-t>'"'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -75,11 +101,14 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'\\'</rr-t>
                   <rr-o>
                      <rr-a>
-                        <rr-c>["\\/bfnrt]</rr-c>
+                        <rr-c></rr-c>
                      </rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>UNICODE</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -89,7 +118,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'u'</rr-t>
+                  <rr-t>HEX</rr-t>
+                  <rr-t>HEX</rr-t>
+                  <rr-t>HEX</rr-t>
+                  <rr-t>HEX</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -98,7 +133,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[0-9a-fA-F]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -116,11 +151,15 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'-'</rr-t>
+                  <rr-t>INT</rr-t>
                   <rr-o>
                      <rr-a>
-                        <rr-c>[0-9]</rr-c>
+                        <rr-t>'.'</rr-t>
+                        <rr-c></rr-c>
                      </rr-a>
                   </rr-o>
+                  <rr-t>EXP</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -129,10 +168,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
                <rr-a>
-                  <rr-c>[1-9]</rr-c>
-                  <rr-c>[0-9]</rr-c>
+                  <rr-t>'0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -142,9 +183,9 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[Ee]</rr-c>
-                  <rr-c>[+-]</rr-c>
-                  <rr-c>[0-9]</rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -154,7 +195,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[ \t\n\r]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>

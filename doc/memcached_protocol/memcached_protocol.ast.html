@@ -5,7 +5,21 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1><a href="../index.html">Railroad</a> memcached_protocol/memcached_protocol.ast.xml</h1>
+      <h1>Railroad memcached_protocol/memcached_protocol.ast.xml</h1>
+      <pre>/*
+
+ Copyright 2008 by Nathaniel Harward &lt;nharward@gmail.com&gt;
+
+ ANTLRv3 grammar for the memcached protocol, as described by the document
+ http://code.sixapart.com/svn/memcached/trunk/server/doc/protocol.txt
+
+ Please email with any corrections/errors you might find.
+
+/*
+    Ported to Antlr4 by Tom Everett &lt;tom@khubla.com&gt;
+
+    The memcached protocol is now described here: https://github.com/memcached/memcached/blob/master/doc/protocol.txt
+*/</pre>
       <h1>Rules</h1>
       <h2 id="command_line">command_line</h2>
       <p>
@@ -15,6 +29,7 @@
                   <rr-a data-min="1" data-max="inf">
                      <rr-o><a href="#storage_command">storage_command</a><a href="#retrieval_command">retrieval_command</a><a href="#delete_command">delete_command</a><a href="#increment_command">increment_command</a><a href="#decrement_command">decrement_command</a><a href="#statistics_command">statistics_command</a><a href="#flush_command">flush_command</a><a href="#version_command">version_command</a><a href="#verbosity_command">verbosity_command</a><a href="#quit_command">quit_command</a></rr-o>
                   </rr-a>
+                  <rr-t>EOF</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -33,7 +48,8 @@
                         </rr-a>
                         <rr-a>
                            <rr-o>
-                              <rr-a><a href="#key">key</a><a href="#flags">flags</a><a href="#exptime">exptime</a><a href="#bytes">bytes</a><a href="#cas_unique">cas_unique</a></rr-a>
+                              <rr-a>
+                                 <rr-t>'cas'</rr-t><a href="#key">key</a><a href="#flags">flags</a><a href="#exptime">exptime</a><a href="#bytes">bytes</a><a href="#cas_unique">cas_unique</a></rr-a>
                            </rr-o>
                         </rr-a>
                      </rr-o>
@@ -44,7 +60,13 @@
       <h2 id="storage_command_name">storage_command_name</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'set'</rr-t>
+               <rr-t>'add'</rr-t>
+               <rr-t>'replace'</rr-t>
+               <rr-t>'append'</rr-t>
+               <rr-t>'prepend'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="retrieval_command">retrieval_command</h2>
@@ -53,7 +75,10 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>'get'</rr-t>
+                        <rr-t>'gets'</rr-t>
+                     </rr-o>
                   </rr-a><a href="#key">key</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -62,7 +87,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#key">key</a><a href="#time">time</a><a href="#noreply">noreply</a></rr-a>
+               <rr-a>
+                  <rr-t>'delete'</rr-t><a href="#key">key</a><a href="#time">time</a><a href="#noreply">noreply</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -70,7 +96,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#key">key</a><a href="#value">value</a><a href="#noreply">noreply</a></rr-a>
+               <rr-a>
+                  <rr-t>'incr'</rr-t><a href="#key">key</a><a href="#value">value</a><a href="#noreply">noreply</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -78,7 +105,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#key">key</a><a href="#value">value</a><a href="#noreply">noreply</a></rr-a>
+               <rr-a>
+                  <rr-t>'decr'</rr-t><a href="#key">key</a><a href="#value">value</a><a href="#noreply">noreply</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -86,48 +114,63 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#statistics_option">statistics_option</a></rr-a>
+               <rr-a>
+                  <rr-t>'stats'</rr-t><a href="#statistics_option">statistics_option</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="statistics_option">statistics_option</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'items'</rr-t>
+               <rr-t>'slabs'</rr-t>
+               <rr-t>'sizes'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="flush_command">flush_command</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#delay">delay</a><a href="#noreply">noreply</a></rr-a>
+               <rr-a>
+                  <rr-t>'flush_all'</rr-t><a href="#delay">delay</a><a href="#noreply">noreply</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="version_command">version_command</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'version'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="verbosity_command">verbosity_command</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#verbosity_level">verbosity_level</a></rr-a>
+               <rr-a>
+                  <rr-t>'verbosity'</rr-t><a href="#verbosity_level">verbosity_level</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="quit_command">quit_command</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'quit'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="storage_response">storage_response</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#error_response">error_response</a></rr-o>
+            <rr-o><a href="#error_response">error_response</a><rr-t>'STORED'</rr-t>
+               <rr-t>'NOT_STORED'</rr-t>
+               <rr-t>'EXISTS'</rr-t>
+               <rr-t>'NOT_FOUND'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="retrieval_response">retrieval_response</h2>
@@ -135,7 +178,8 @@
          <rr-rr>
             <rr-o><a href="#error_response">error_response</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#key">key</a><a href="#flags">flags</a><a href="#bytes">bytes</a><a href="#cas_unique">cas_unique</a></rr-a>
+                     <rr-a>
+                        <rr-t>'VALUE'</rr-t><a href="#key">key</a><a href="#flags">flags</a><a href="#bytes">bytes</a><a href="#cas_unique">cas_unique</a></rr-a>
                   </rr-o>
                </rr-a><a href="#end">end</a></rr-o>
          </rr-rr>
@@ -143,13 +187,17 @@
       <h2 id="deletion_response">deletion_response</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#error_response">error_response</a></rr-o>
+            <rr-o><a href="#error_response">error_response</a><rr-t>'DELETED'</rr-t>
+               <rr-t>'NOT_FOUND'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="incr_or_decr_response">incr_or_decr_response</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#error_response">error_response</a></rr-o>
+            <rr-o><a href="#error_response">error_response</a><rr-t>'NOT_FOUND'</rr-t>
+               <rr-t>INTEGER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="statistics_response">statistics_response</h2>
@@ -168,7 +216,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#statistic_name">statistic_name</a><a href="#statistic_value">statistic_value</a></rr-a>
+               <rr-a>
+                  <rr-t>'STAT'</rr-t><a href="#statistic_name">statistic_name</a><a href="#statistic_value">statistic_value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -183,14 +232,18 @@
       <h2 id="general_error">general_error</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'ERROR'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="client_error_message">client_error_message</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'CLIENT_ERROR'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -198,20 +251,26 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SERVER_ERROR'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="end">end</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'END'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="noreply">noreply</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'noreply'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="key">key</h2>
@@ -223,55 +282,73 @@
       <h2 id="flags">flags</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>INTEGER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="exptime">exptime</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>INTEGER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="bytes">bytes</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>INTEGER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="cas_unique">cas_unique</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>INTEGER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="value">value</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>INTEGER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="time">time</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>INTEGER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="delay">delay</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>INTEGER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="verbosity_level">verbosity_level</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>INTEGER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="statistic_name">statistic_name</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>WORD</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="statistic_value">statistic_value</h2>
@@ -283,20 +360,26 @@
       <h2 id="size">size</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>INTEGER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="count">count</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>INTEGER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="INTEGER">INTEGER</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>DIGIT</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -304,7 +387,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>PRINTABLE_CHAR</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -312,7 +397,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-c>'0'..'9'</rr-c>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -320,7 +407,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-c>'!'..'~'</rr-c>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -330,11 +419,21 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>' '</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'\t'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'\r'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'\n'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'\u000C'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>

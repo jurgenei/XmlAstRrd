@@ -5,7 +5,33 @@
       <link rel="stylesheet" type="text/css" href="../../railroad.css">
    </head>
    <body>
-      <h1><a href="../../index.html">Railroad</a> sql/sqlite/SQLiteParser.ast.xml</h1>
+      <h1>Railroad sql/sqlite/SQLiteParser.ast.xml</h1>
+      <pre>/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014 by Bart Kiers
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+ * associated documentation files (the "Software"), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute,
+ * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or
+ * substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+ * NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * Project : sqlite-parser; an ANTLR4 grammar for SQLite https://github.com/bkiers/sqlite-parser
+ * Developed by:
+ *     Bart Kiers, bart@big-o.nl
+ *     Martin Mirchev, marti_2203@abv.bg
+ *     Mike Lische, mike@lischke-online.de
+ */</pre>
       <h1>Rules</h1>
       <h2 id="parse">parse</h2>
       <p>
@@ -15,6 +41,7 @@
                   <rr-a data-min="0" data-max="inf">
                      <rr-o><a href="#sql_stmt_list">sql_stmt_list</a></rr-o>
                   </rr-a>
+                  <rr-t>EOF</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -23,11 +50,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#sql_stmt">sql_stmt</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#sql_stmt">sql_stmt</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#sql_stmt">sql_stmt</a></rr-a>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#sql_stmt">sql_stmt</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>SCOL</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -40,9 +70,13 @@
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
+                           <rr-t>EXPLAIN_</rr-t>
                            <rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a></rr-a>
+                                 <rr-a>
+                                    <rr-t>QUERY_</rr-t>
+                                    <rr-t>PLAN_</rr-t>
+                                 </rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
@@ -60,22 +94,32 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>ALTER_</rr-t>
+                  <rr-t>TABLE_</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#schema_name">schema_name</a></rr-a>
+                        <rr-a><a href="#schema_name">schema_name</a><rr-t>DOT</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#table_name">table_name</a><rr-a>
                      <rr-o>
                         <rr-a>
+                           <rr-t>RENAME_</rr-t>
                            <rr-a>
                               <rr-o>
-                                 <rr-a><a href="#table_name">table_name</a></rr-a>
-                                 <rr-a><a href="#column_name">column_name</a><a href="#column_name">column_name</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>TO_</rr-t><a href="#table_name">table_name</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COLUMN_</rr-t><a href="#column_name">column_name</a><rr-t>TO_</rr-t><a href="#column_name">column_name</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
-                        <rr-a><a href="#column_def">column_def</a></rr-a>
-                        <rr-a><a href="#column_name">column_name</a></rr-a>
+                        <rr-a>
+                           <rr-t>ADD_</rr-t>
+                           <rr-t>COLUMN_</rr-t><a href="#column_def">column_def</a></rr-a>
+                        <rr-a>
+                           <rr-t>DROP_</rr-t>
+                           <rr-t>COLUMN_</rr-t><a href="#column_name">column_name</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -87,11 +131,13 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>ANALYZE_</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o><a href="#schema_name">schema_name</a><rr-a>
                            <rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a><a href="#schema_name">schema_name</a></rr-a>
+                                 <rr-a><a href="#schema_name">schema_name</a><rr-t>DOT</rr-t>
+                                 </rr-a>
                               </rr-o>
                            </rr-a><a href="#table_or_index_name">table_or_index_name</a></rr-a>
                      </rr-o>
@@ -104,7 +150,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expr">expr</a><a href="#schema_name">schema_name</a></rr-a>
+               <rr-a>
+                  <rr-t>ATTACH_</rr-t>
+                  <rr-t>DATABASE_</rr-t><a href="#expr">expr</a><rr-t>AS_</rr-t><a href="#schema_name">schema_name</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -113,12 +161,18 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>BEGIN_</rr-t>
                   <rr-a data-min="0" data-max="1">
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>DEFERRED_</rr-t>
+                        <rr-t>IMMEDIATE_</rr-t>
+                        <rr-t>EXCLUSIVE_</rr-t>
+                     </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#transaction_name">transaction_name</a></rr-a>
+                        <rr-a>
+                           <rr-t>TRANSACTION_</rr-t><a href="#transaction_name">transaction_name</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -131,8 +185,12 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>COMMIT_</rr-t>
+                        <rr-t>END_</rr-t>
+                     </rr-o>
                   </rr-a>
+                  <rr-t>TRANSACTION_</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -142,9 +200,13 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>ROLLBACK_</rr-t>
+                  <rr-t>TRANSACTION_</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#savepoint_name">savepoint_name</a></rr-a>
+                        <rr-a>
+                           <rr-t>TO_</rr-t>
+                           <rr-t>SAVEPOINT_</rr-t><a href="#savepoint_name">savepoint_name</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -155,7 +217,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#savepoint_name">savepoint_name</a></rr-a>
+               <rr-a>
+                  <rr-t>SAVEPOINT_</rr-t><a href="#savepoint_name">savepoint_name</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -163,7 +226,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#savepoint_name">savepoint_name</a></rr-a>
+               <rr-a>
+                  <rr-t>RELEASE_</rr-t>
+                  <rr-t>SAVEPOINT_</rr-t><a href="#savepoint_name">savepoint_name</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -172,23 +237,34 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>CREATE_</rr-t>
+                  <rr-t>UNIQUE_</rr-t>
+                  <rr-t>INDEX_</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>IF_</rr-t>
+                           <rr-t>NOT_</rr-t>
+                           <rr-t>EXISTS_</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#schema_name">schema_name</a></rr-a>
+                        <rr-a><a href="#schema_name">schema_name</a><rr-t>DOT</rr-t>
+                        </rr-a>
                      </rr-o>
-                  </rr-a><a href="#index_name">index_name</a><a href="#table_name">table_name</a><a href="#indexed_column">indexed_column</a><rr-a data-min="0" data-max="inf">
+                  </rr-a><a href="#index_name">index_name</a><rr-t>ON_</rr-t><a href="#table_name">table_name</a><rr-t>OPEN_PAR</rr-t><a href="#indexed_column">indexed_column</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#indexed_column">indexed_column</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#indexed_column">indexed_column</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>CLOSE_PAR</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expr">expr</a></rr-a>
+                        <rr-a>
+                           <rr-t>WHERE_</rr-t><a href="#expr">expr</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -205,7 +281,8 @@
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#collation_name">collation_name</a></rr-a>
+                        <rr-a>
+                           <rr-t>COLLATE_</rr-t><a href="#collation_name">collation_name</a></rr-a>
                      </rr-o>
                   </rr-a><a href="#asc_desc">asc_desc</a></rr-a>
             </rr-o>
@@ -216,37 +293,55 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-a data-min="0" data-max="1">
-                     <rr-o></rr-o>
-                  </rr-a>
+                  <rr-t>CREATE_</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-t>TEMP_</rr-t>
+                        <rr-t>TEMPORARY_</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>TABLE_</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>IF_</rr-t>
+                           <rr-t>NOT_</rr-t>
+                           <rr-t>EXISTS_</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#schema_name">schema_name</a></rr-a>
+                        <rr-a><a href="#schema_name">schema_name</a><rr-t>DOT</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#table_name">table_name</a><rr-a>
                      <rr-o>
-                        <rr-a><a href="#column_def">column_def</a><rr-a>
+                        <rr-a>
+                           <rr-t>OPEN_PAR</rr-t><a href="#column_def">column_def</a><rr-a>
                               <rr-o>
-                                 <rr-a><a href="#column_def">column_def</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#column_def">column_def</a></rr-a>
                               </rr-o>
                            </rr-a>
                            <rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#table_constraint">table_constraint</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#table_constraint">table_constraint</a></rr-a>
                               </rr-o>
                            </rr-a>
+                           <rr-t>CLOSE_PAR</rr-t>
                            <rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a></rr-a>
+                                 <rr-a>
+                                    <rr-t>WITHOUT_</rr-t>
+                                    <rr-t>IDENTIFIER</rr-t>
+                                 </rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
-                        <rr-a><a href="#select_stmt">select_stmt</a></rr-a>
+                        <rr-a>
+                           <rr-t>AS_</rr-t><a href="#select_stmt">select_stmt</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -267,8 +362,12 @@
             <rr-o>
                <rr-a><a href="#name">name</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#signed_number">signed_number</a></rr-a>
-                        <rr-a><a href="#signed_number">signed_number</a><a href="#signed_number">signed_number</a></rr-a>
+                        <rr-a>
+                           <rr-t>OPEN_PAR</rr-t><a href="#signed_number">signed_number</a><rr-t>CLOSE_PAR</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>OPEN_PAR</rr-t><a href="#signed_number">signed_number</a><rr-t>COMMA</rr-t><a href="#signed_number">signed_number</a><rr-t>CLOSE_PAR</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -282,36 +381,60 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#name">name</a></rr-a>
+                        <rr-a>
+                           <rr-t>CONSTRAINT_</rr-t><a href="#name">name</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a>
                      <rr-o>
                         <rr-a>
                            <rr-o>
-                              <rr-a><a href="#asc_desc">asc_desc</a><a href="#conflict_clause">conflict_clause</a></rr-a>
+                              <rr-a>
+                                 <rr-t>PRIMARY_</rr-t>
+                                 <rr-t>KEY_</rr-t><a href="#asc_desc">asc_desc</a><a href="#conflict_clause">conflict_clause</a><rr-t>AUTOINCREMENT_</rr-t>
+                              </rr-a>
                            </rr-o>
                         </rr-a>
                         <rr-a>
                            <rr-a>
                               <rr-o>
-                                 <rr-a></rr-a>
+                                 <rr-a>
+                                    <rr-t>NOT_</rr-t>
+                                    <rr-t>NULL_</rr-t>
+                                 </rr-a>
+                                 <rr-t>UNIQUE_</rr-t>
                               </rr-o>
                            </rr-a><a href="#conflict_clause">conflict_clause</a></rr-a>
-                        <rr-a><a href="#expr">expr</a></rr-a>
                         <rr-a>
+                           <rr-t>CHECK_</rr-t>
+                           <rr-t>OPEN_PAR</rr-t><a href="#expr">expr</a><rr-t>CLOSE_PAR</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>DEFAULT_</rr-t>
                            <rr-a>
-                              <rr-o><a href="#signed_number">signed_number</a><a href="#literal_value">literal_value</a><rr-a><a href="#expr">expr</a></rr-a>
+                              <rr-o><a href="#signed_number">signed_number</a><a href="#literal_value">literal_value</a><rr-a>
+                                    <rr-t>OPEN_PAR</rr-t><a href="#expr">expr</a><rr-t>CLOSE_PAR</rr-t>
+                                 </rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
-                        <rr-a><a href="#collation_name">collation_name</a></rr-a><a href="#foreign_key_clause">foreign_key_clause</a><rr-a>
+                        <rr-a>
+                           <rr-t>COLLATE_</rr-t><a href="#collation_name">collation_name</a></rr-a><a href="#foreign_key_clause">foreign_key_clause</a><rr-a>
                            <rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a></rr-a>
+                                 <rr-a>
+                                    <rr-t>GENERATED_</rr-t>
+                                    <rr-t>ALWAYS_</rr-t>
+                                 </rr-a>
                               </rr-o>
-                           </rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="1">
-                              <rr-o></rr-o>
+                           </rr-a>
+                           <rr-t>AS_</rr-t>
+                           <rr-t>OPEN_PAR</rr-t><a href="#expr">expr</a><rr-t>CLOSE_PAR</rr-t>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-t>STORED_</rr-t>
+                                 <rr-t>VIRTUAL_</rr-t>
+                              </rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
@@ -326,8 +449,12 @@
             <rr-o>
                <rr-a>
                   <rr-a data-min="0" data-max="1">
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>PLUS</rr-t>
+                        <rr-t>MINUS</rr-t>
+                     </rr-o>
                   </rr-a>
+                  <rr-t>NUMERIC_LITERAL</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -339,7 +466,8 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#name">name</a></rr-a>
+                        <rr-a>
+                           <rr-t>CONSTRAINT_</rr-t><a href="#name">name</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a>
@@ -347,19 +475,34 @@
                         <rr-a>
                            <rr-a>
                               <rr-o>
-                                 <rr-a></rr-a>
+                                 <rr-a>
+                                    <rr-t>PRIMARY_</rr-t>
+                                    <rr-t>KEY_</rr-t>
+                                 </rr-a>
+                                 <rr-t>UNIQUE_</rr-t>
                               </rr-o>
-                           </rr-a><a href="#indexed_column">indexed_column</a><rr-a data-min="0" data-max="inf">
+                           </rr-a>
+                           <rr-t>OPEN_PAR</rr-t><a href="#indexed_column">indexed_column</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#indexed_column">indexed_column</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#indexed_column">indexed_column</a></rr-a>
                               </rr-o>
-                           </rr-a><a href="#conflict_clause">conflict_clause</a></rr-a>
-                        <rr-a><a href="#expr">expr</a></rr-a>
-                        <rr-a><a href="#column_name">column_name</a><rr-a data-min="0" data-max="inf">
+                           </rr-a>
+                           <rr-t>CLOSE_PAR</rr-t><a href="#conflict_clause">conflict_clause</a></rr-a>
+                        <rr-a>
+                           <rr-t>CHECK_</rr-t>
+                           <rr-t>OPEN_PAR</rr-t><a href="#expr">expr</a><rr-t>CLOSE_PAR</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>FOREIGN_</rr-t>
+                           <rr-t>KEY_</rr-t>
+                           <rr-t>OPEN_PAR</rr-t><a href="#column_name">column_name</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#column_name">column_name</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#column_name">column_name</a></rr-a>
                               </rr-o>
-                           </rr-a><a href="#foreign_key_clause">foreign_key_clause</a></rr-a>
+                           </rr-a>
+                           <rr-t>CLOSE_PAR</rr-t><a href="#foreign_key_clause">foreign_key_clause</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -370,44 +513,68 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#foreign_table">foreign_table</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>REFERENCES_</rr-t><a href="#foreign_table">foreign_table</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#column_name">column_name</a><rr-a data-min="0" data-max="inf">
+                        <rr-a>
+                           <rr-t>OPEN_PAR</rr-t><a href="#column_name">column_name</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#column_name">column_name</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#column_name">column_name</a></rr-a>
                               </rr-o>
                            </rr-a>
+                           <rr-t>CLOSE_PAR</rr-t>
                         </rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
                         <rr-a>
+                           <rr-t>ON_</rr-t>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>DELETE_</rr-t>
+                                 <rr-t>UPDATE_</rr-t>
+                              </rr-o>
                            </rr-a>
                            <rr-a>
                               <rr-o>
                                  <rr-a>
+                                    <rr-t>SET_</rr-t>
                                     <rr-a>
-                                       <rr-o></rr-o>
+                                       <rr-o>
+                                          <rr-t>NULL_</rr-t>
+                                          <rr-t>DEFAULT_</rr-t>
+                                       </rr-o>
                                     </rr-a>
                                  </rr-a>
-                                 <rr-a></rr-a>
+                                 <rr-t>CASCADE_</rr-t>
+                                 <rr-t>RESTRICT_</rr-t>
+                                 <rr-a>
+                                    <rr-t>NO_</rr-t>
+                                    <rr-t>ACTION_</rr-t>
+                                 </rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
-                        <rr-a><a href="#name">name</a></rr-a>
+                        <rr-a>
+                           <rr-t>MATCH_</rr-t><a href="#name">name</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
+                           <rr-t>NOT_</rr-t>
+                           <rr-t>DEFERRABLE_</rr-t>
                            <rr-a data-min="0" data-max="1">
                               <rr-o>
                                  <rr-a>
+                                    <rr-t>INITIALLY_</rr-t>
                                     <rr-a>
-                                       <rr-o></rr-o>
+                                       <rr-o>
+                                          <rr-t>DEFERRED_</rr-t>
+                                          <rr-t>IMMEDIATE_</rr-t>
+                                       </rr-o>
                                     </rr-a>
                                  </rr-a>
                               </rr-o>
@@ -424,8 +591,16 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>ON_</rr-t>
+                  <rr-t>CONFLICT_</rr-t>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>ROLLBACK_</rr-t>
+                        <rr-t>ABORT_</rr-t>
+                        <rr-t>FAIL_</rr-t>
+                        <rr-t>IGNORE_</rr-t>
+                        <rr-t>REPLACE_</rr-t>
+                     </rr-o>
                   </rr-a>
                </rr-a>
             </rr-o>
@@ -436,31 +611,51 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-a data-min="0" data-max="1">
-                     <rr-o></rr-o>
-                  </rr-a>
+                  <rr-t>CREATE_</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-t>TEMP_</rr-t>
+                        <rr-t>TEMPORARY_</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>TRIGGER_</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>IF_</rr-t>
+                           <rr-t>NOT_</rr-t>
+                           <rr-t>EXISTS_</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#schema_name">schema_name</a></rr-a>
+                        <rr-a><a href="#schema_name">schema_name</a><rr-t>DOT</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#trigger_name">trigger_name</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-t>BEFORE_</rr-t>
+                        <rr-t>AFTER_</rr-t>
+                        <rr-a>
+                           <rr-t>INSTEAD_</rr-t>
+                           <rr-t>OF_</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a>
                      <rr-o>
+                        <rr-t>DELETE_</rr-t>
+                        <rr-t>INSERT_</rr-t>
                         <rr-a>
+                           <rr-t>UPDATE_</rr-t>
                            <rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a><a href="#column_name">column_name</a><rr-a data-min="0" data-max="inf">
+                                 <rr-a>
+                                    <rr-t>OF_</rr-t><a href="#column_name">column_name</a><rr-a data-min="0" data-max="inf">
                                        <rr-o>
-                                          <rr-a><a href="#column_name">column_name</a></rr-a>
+                                          <rr-a>
+                                             <rr-t>COMMA</rr-t><a href="#column_name">column_name</a></rr-a>
                                        </rr-o>
                                     </rr-a>
                                  </rr-a>
@@ -468,25 +663,34 @@
                            </rr-a>
                         </rr-a>
                      </rr-o>
-                  </rr-a><a href="#table_name">table_name</a><rr-a data-min="0" data-max="1">
+                  </rr-a>
+                  <rr-t>ON_</rr-t><a href="#table_name">table_name</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>FOR_</rr-t>
+                           <rr-t>EACH_</rr-t>
+                           <rr-t>ROW_</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expr">expr</a></rr-a>
+                        <rr-a>
+                           <rr-t>WHEN_</rr-t><a href="#expr">expr</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>BEGIN_</rr-t>
                   <rr-a data-min="1" data-max="inf">
                      <rr-o>
                         <rr-a>
                            <rr-a>
                               <rr-o><a href="#update_stmt">update_stmt</a><a href="#insert_stmt">insert_stmt</a><a href="#delete_stmt">delete_stmt</a><a href="#select_stmt">select_stmt</a></rr-o>
                            </rr-a>
+                           <rr-t>SCOL</rr-t>
                         </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>END_</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -496,28 +700,42 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-a data-min="0" data-max="1">
-                     <rr-o></rr-o>
-                  </rr-a>
+                  <rr-t>CREATE_</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-t>TEMP_</rr-t>
+                        <rr-t>TEMPORARY_</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>VIEW_</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>IF_</rr-t>
+                           <rr-t>NOT_</rr-t>
+                           <rr-t>EXISTS_</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#schema_name">schema_name</a></rr-a>
+                        <rr-a><a href="#schema_name">schema_name</a><rr-t>DOT</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#view_name">view_name</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#column_name">column_name</a><rr-a data-min="0" data-max="inf">
+                        <rr-a>
+                           <rr-t>OPEN_PAR</rr-t><a href="#column_name">column_name</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#column_name">column_name</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#column_name">column_name</a></rr-a>
                               </rr-o>
                            </rr-a>
+                           <rr-t>CLOSE_PAR</rr-t>
                         </rr-a>
                      </rr-o>
-                  </rr-a><a href="#select_stmt">select_stmt</a></rr-a>
+                  </rr-a>
+                  <rr-t>AS_</rr-t><a href="#select_stmt">select_stmt</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -526,22 +744,33 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>CREATE_</rr-t>
+                  <rr-t>VIRTUAL_</rr-t>
+                  <rr-t>TABLE_</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>IF_</rr-t>
+                           <rr-t>NOT_</rr-t>
+                           <rr-t>EXISTS_</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#schema_name">schema_name</a></rr-a>
+                        <rr-a><a href="#schema_name">schema_name</a><rr-t>DOT</rr-t>
+                        </rr-a>
                      </rr-o>
-                  </rr-a><a href="#table_name">table_name</a><a href="#module_name">module_name</a><rr-a data-min="0" data-max="1">
+                  </rr-a><a href="#table_name">table_name</a><rr-t>USING_</rr-t><a href="#module_name">module_name</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#module_argument">module_argument</a><rr-a data-min="0" data-max="inf">
+                        <rr-a>
+                           <rr-t>OPEN_PAR</rr-t><a href="#module_argument">module_argument</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#module_argument">module_argument</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#module_argument">module_argument</a></rr-a>
                               </rr-o>
                            </rr-a>
+                           <rr-t>CLOSE_PAR</rr-t>
                         </rr-a>
                      </rr-o>
                   </rr-a>
@@ -553,9 +782,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#cte_table_name">cte_table_name</a><a href="#select_stmt">select_stmt</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>WITH_</rr-t>
+                  <rr-t>RECURSIVE_</rr-t><a href="#cte_table_name">cte_table_name</a><rr-t>AS_</rr-t>
+                  <rr-t>OPEN_PAR</rr-t><a href="#select_stmt">select_stmt</a><rr-t>CLOSE_PAR</rr-t>
+                  <rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#cte_table_name">cte_table_name</a><a href="#select_stmt">select_stmt</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#cte_table_name">cte_table_name</a><rr-t>AS_</rr-t>
+                           <rr-t>OPEN_PAR</rr-t><a href="#select_stmt">select_stmt</a><rr-t>CLOSE_PAR</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -568,11 +804,14 @@
             <rr-o>
                <rr-a><a href="#table_name">table_name</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#column_name">column_name</a><rr-a data-min="0" data-max="inf">
+                        <rr-a>
+                           <rr-t>OPEN_PAR</rr-t><a href="#column_name">column_name</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#column_name">column_name</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#column_name">column_name</a></rr-a>
                               </rr-o>
                            </rr-a>
+                           <rr-t>CLOSE_PAR</rr-t>
                         </rr-a>
                      </rr-o>
                   </rr-a>
@@ -584,7 +823,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#cte_table_name">cte_table_name</a><a href="#initial_select">initial_select</a><a href="#recursive_select">recursive_select</a></rr-a>
+               <rr-a><a href="#cte_table_name">cte_table_name</a><rr-t>AS_</rr-t>
+                  <rr-t>OPEN_PAR</rr-t><a href="#initial_select">initial_select</a><rr-t>UNION_</rr-t>
+                  <rr-t>ALL_</rr-t><a href="#recursive_select">recursive_select</a><rr-t>CLOSE_PAR</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -594,14 +836,20 @@
             <rr-o>
                <rr-a><a href="#table_name">table_name</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#column_name">column_name</a><rr-a data-min="0" data-max="inf">
+                        <rr-a>
+                           <rr-t>OPEN_PAR</rr-t><a href="#column_name">column_name</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#column_name">column_name</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#column_name">column_name</a></rr-a>
                               </rr-o>
                            </rr-a>
+                           <rr-t>CLOSE_PAR</rr-t>
                         </rr-a>
                      </rr-o>
-                  </rr-a><a href="#select_stmt">select_stmt</a></rr-a>
+                  </rr-a>
+                  <rr-t>AS_</rr-t>
+                  <rr-t>OPEN_PAR</rr-t><a href="#select_stmt">select_stmt</a><rr-t>CLOSE_PAR</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -609,9 +857,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#with_clause">with_clause</a><a href="#qualified_table_name">qualified_table_name</a><rr-a data-min="0" data-max="1">
+               <rr-a><a href="#with_clause">with_clause</a><rr-t>DELETE_</rr-t>
+                  <rr-t>FROM_</rr-t><a href="#qualified_table_name">qualified_table_name</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expr">expr</a></rr-a>
+                        <rr-a>
+                           <rr-t>WHERE_</rr-t><a href="#expr">expr</a></rr-a>
                      </rr-o>
                   </rr-a><a href="#returning_clause">returning_clause</a></rr-a>
             </rr-o>
@@ -621,9 +871,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#with_clause">with_clause</a><a href="#qualified_table_name">qualified_table_name</a><rr-a data-min="0" data-max="1">
+               <rr-a><a href="#with_clause">with_clause</a><rr-t>DELETE_</rr-t>
+                  <rr-t>FROM_</rr-t><a href="#qualified_table_name">qualified_table_name</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expr">expr</a></rr-a>
+                        <rr-a>
+                           <rr-t>WHERE_</rr-t><a href="#expr">expr</a></rr-a>
                      </rr-o>
                   </rr-a><a href="#returning_clause">returning_clause</a><rr-a data-min="0" data-max="1">
                      <rr-o>
@@ -638,7 +890,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#schema_name">schema_name</a></rr-a>
+               <rr-a>
+                  <rr-t>DETACH_</rr-t>
+                  <rr-t>DATABASE_</rr-t><a href="#schema_name">schema_name</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -647,130 +901,224 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>DROP_</rr-t>
                   <rr-a>
-                     <rr-o></rr-o>
-                  </rr-a>
-                  <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-t>INDEX_</rr-t>
+                        <rr-t>TABLE_</rr-t>
+                        <rr-t>TRIGGER_</rr-t>
+                        <rr-t>VIEW_</rr-t>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#schema_name">schema_name</a></rr-a>
+                        <rr-a>
+                           <rr-t>IF_</rr-t>
+                           <rr-t>EXISTS_</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#schema_name">schema_name</a><rr-t>DOT</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#any_name">any_name</a></rr-a>
             </rr-o>
+            <pre>/*
+ SQLite understands the following binary operators, in order from highest to lowest precedence:
+    ||
+    * / %
+    + -
+    &lt;&lt; &gt;&gt; &amp; |
+    &lt; &lt;= &gt; &gt;=
+    = == != &lt;&gt; IS IS NOT IS DISTINCT FROM IS NOT DISTINCT FROM IN LIKE GLOB MATCH REGEXP
+    AND
+    OR
+ */</pre>
          </rr-rr>
       </p>
       <h2 id="expr">expr</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#literal_value">literal_value</a><rr-a>
+            <rr-o><a href="#literal_value">literal_value</a><rr-t>BIND_PARAMETER</rr-t>
+               <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
                            <rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a><a href="#schema_name">schema_name</a></rr-a>
+                                 <rr-a><a href="#schema_name">schema_name</a><rr-t>DOT</rr-t>
+                                 </rr-a>
                               </rr-o>
-                           </rr-a><a href="#table_name">table_name</a></rr-a>
+                           </rr-a><a href="#table_name">table_name</a><rr-t>DOT</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#column_name">column_name</a></rr-a>
                <rr-a><a href="#unary_operator">unary_operator</a><a href="#expr">expr</a></rr-a>
-               <rr-a><a href="#expr">expr</a><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>PIPE2</rr-t><a href="#expr">expr</a></rr-a>
                <rr-a><a href="#expr">expr</a><rr-a>
-                     <rr-o></rr-o>
-                  </rr-a><a href="#expr">expr</a></rr-a>
-               <rr-a><a href="#expr">expr</a><rr-a>
-                     <rr-o></rr-o>
-                  </rr-a><a href="#expr">expr</a></rr-a>
-               <rr-a><a href="#expr">expr</a><rr-a>
-                     <rr-o></rr-o>
-                  </rr-a><a href="#expr">expr</a></rr-a>
-               <rr-a><a href="#expr">expr</a><rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>STAR</rr-t>
+                        <rr-t>DIV</rr-t>
+                        <rr-t>MOD</rr-t>
+                     </rr-o>
                   </rr-a><a href="#expr">expr</a></rr-a>
                <rr-a><a href="#expr">expr</a><rr-a>
                      <rr-o>
-                        <rr-a></rr-a>
-                        <rr-a></rr-a>
+                        <rr-t>PLUS</rr-t>
+                        <rr-t>MINUS</rr-t>
                      </rr-o>
                   </rr-a><a href="#expr">expr</a></rr-a>
-               <rr-a><a href="#expr">expr</a><a href="#expr">expr</a></rr-a>
-               <rr-a><a href="#expr">expr</a><a href="#expr">expr</a></rr-a>
-               <rr-a><a href="#function_name">function_name</a><rr-a data-min="0" data-max="1">
+               <rr-a><a href="#expr">expr</a><rr-a>
+                     <rr-o>
+                        <rr-t>LT2</rr-t>
+                        <rr-t>GT2</rr-t>
+                        <rr-t>AMP</rr-t>
+                        <rr-t>PIPE</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-a>
+                     <rr-o>
+                        <rr-t>LT</rr-t>
+                        <rr-t>LT_EQ</rr-t>
+                        <rr-t>GT</rr-t>
+                        <rr-t>GT_EQ</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-a>
+                     <rr-o>
+                        <rr-t>ASSIGN</rr-t>
+                        <rr-t>EQ</rr-t>
+                        <rr-t>NOT_EQ1</rr-t>
+                        <rr-t>NOT_EQ2</rr-t>
+                        <rr-t>IS_</rr-t>
+                        <rr-a>
+                           <rr-t>IS_</rr-t>
+                           <rr-t>NOT_</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>IS_</rr-t>
+                           <rr-t>NOT_</rr-t>
+                           <rr-t>DISTINCT_</rr-t>
+                           <rr-t>FROM_</rr-t>
+                        </rr-a>
+                        <rr-t>IN_</rr-t>
+                        <rr-t>LIKE_</rr-t>
+                        <rr-t>GLOB_</rr-t>
+                        <rr-t>MATCH_</rr-t>
+                        <rr-t>REGEXP_</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>AND_</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>OR_</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#function_name">function_name</a><rr-t>OPEN_PAR</rr-t>
+                  <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
                            <rr-o>
-                              <rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
+                              <rr-a>
+                                 <rr-t>DISTINCT_</rr-t><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
                                     <rr-o>
-                                       <rr-a><a href="#expr">expr</a></rr-a>
+                                       <rr-a>
+                                          <rr-t>COMMA</rr-t><a href="#expr">expr</a></rr-a>
                                     </rr-o>
                                  </rr-a>
                               </rr-a>
                            </rr-o>
                         </rr-a>
-                     </rr-o>
-                  </rr-a><a href="#filter_clause">filter_clause</a><a href="#over_clause">over_clause</a></rr-a>
-               <rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
-                     <rr-o>
-                        <rr-a><a href="#expr">expr</a></rr-a>
+                        <rr-t>STAR</rr-t>
                      </rr-o>
                   </rr-a>
-               </rr-a>
-               <rr-a><a href="#expr">expr</a><a href="#type_name">type_name</a></rr-a>
-               <rr-a><a href="#expr">expr</a><a href="#collation_name">collation_name</a></rr-a>
-               <rr-a><a href="#expr">expr</a><rr-a>
-                     <rr-o></rr-o>
-                  </rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="1">
-                     <rr-o>
-                        <rr-a><a href="#expr">expr</a></rr-a>
-                     </rr-o>
-                  </rr-a>
-               </rr-a>
-               <rr-a><a href="#expr">expr</a><rr-a>
-                     <rr-o>
-                        <rr-a></rr-a>
-                     </rr-o>
-                  </rr-a>
-               </rr-a>
-               <rr-a><a href="#expr">expr</a><a href="#expr">expr</a></rr-a>
-               <rr-a><a href="#expr">expr</a><a href="#expr">expr</a><a href="#expr">expr</a></rr-a>
-               <rr-a><a href="#expr">expr</a><rr-a>
+                  <rr-t>CLOSE_PAR</rr-t><a href="#filter_clause">filter_clause</a><a href="#over_clause">over_clause</a></rr-a>
+               <rr-a>
+                  <rr-t>OPEN_PAR</rr-t><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
                         <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#expr">expr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CLOSE_PAR</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>CAST_</rr-t>
+                  <rr-t>OPEN_PAR</rr-t><a href="#expr">expr</a><rr-t>AS_</rr-t><a href="#type_name">type_name</a><rr-t>CLOSE_PAR</rr-t>
+               </rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>COLLATE_</rr-t><a href="#collation_name">collation_name</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>NOT_</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>LIKE_</rr-t>
+                        <rr-t>GLOB_</rr-t>
+                        <rr-t>REGEXP_</rr-t>
+                        <rr-t>MATCH_</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>ESCAPE_</rr-t><a href="#expr">expr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a><a href="#expr">expr</a><rr-a>
+                     <rr-o>
+                        <rr-t>ISNULL_</rr-t>
+                        <rr-t>NOTNULL_</rr-t>
+                        <rr-a>
+                           <rr-t>NOT_</rr-t>
+                           <rr-t>NULL_</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>IS_</rr-t>
+                  <rr-t>NOT_</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>NOT_</rr-t>
+                  <rr-t>BETWEEN_</rr-t><a href="#expr">expr</a><rr-t>AND_</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>NOT_</rr-t>
+                  <rr-t>IN_</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>OPEN_PAR</rr-t>
                            <rr-a data-min="0" data-max="1">
                               <rr-o><a href="#select_stmt">select_stmt</a><rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
                                        <rr-o>
-                                          <rr-a><a href="#expr">expr</a></rr-a>
+                                          <rr-a>
+                                             <rr-t>COMMA</rr-t><a href="#expr">expr</a></rr-a>
                                        </rr-o>
                                     </rr-a>
                                  </rr-a>
                               </rr-o>
                            </rr-a>
+                           <rr-t>CLOSE_PAR</rr-t>
                         </rr-a>
                         <rr-a>
                            <rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a><a href="#schema_name">schema_name</a></rr-a>
+                                 <rr-a><a href="#schema_name">schema_name</a><rr-t>DOT</rr-t>
+                                 </rr-a>
                               </rr-o>
                            </rr-a><a href="#table_name">table_name</a></rr-a>
                         <rr-a>
                            <rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a><a href="#schema_name">schema_name</a></rr-a>
+                                 <rr-a><a href="#schema_name">schema_name</a><rr-t>DOT</rr-t>
+                                 </rr-a>
                               </rr-o>
-                           </rr-a><a href="#table_function_name">table_function_name</a><rr-a data-min="0" data-max="1">
+                           </rr-a><a href="#table_function_name">table_function_name</a><rr-t>OPEN_PAR</rr-t>
+                           <rr-a data-min="0" data-max="1">
                               <rr-o>
                                  <rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
                                        <rr-o>
-                                          <rr-a><a href="#expr">expr</a></rr-a>
+                                          <rr-a>
+                                             <rr-t>COMMA</rr-t><a href="#expr">expr</a></rr-a>
                                        </rr-o>
                                     </rr-a>
                                  </rr-a>
                               </rr-o>
                            </rr-a>
+                           <rr-t>CLOSE_PAR</rr-t>
                         </rr-a>
                      </rr-o>
                   </rr-a>
@@ -780,21 +1128,30 @@
                      <rr-o>
                         <rr-a>
                            <rr-a data-min="0" data-max="1">
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>NOT_</rr-t>
+                              </rr-o>
                            </rr-a>
+                           <rr-t>EXISTS_</rr-t>
                         </rr-a>
                      </rr-o>
-                  </rr-a><a href="#select_stmt">select_stmt</a></rr-a>
-               <rr-a><a href="#expr">expr</a><rr-a data-min="1" data-max="inf">
+                  </rr-a>
+                  <rr-t>OPEN_PAR</rr-t><a href="#select_stmt">select_stmt</a><rr-t>CLOSE_PAR</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>CASE_</rr-t><a href="#expr">expr</a><rr-a data-min="1" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#expr">expr</a><a href="#expr">expr</a></rr-a>
+                        <rr-a>
+                           <rr-t>WHEN_</rr-t><a href="#expr">expr</a><rr-t>THEN_</rr-t><a href="#expr">expr</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expr">expr</a></rr-a>
+                        <rr-a>
+                           <rr-t>ELSE_</rr-t><a href="#expr">expr</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>END_</rr-t>
                </rr-a><a href="#raise_function">raise_function</a></rr-o>
          </rr-rr>
       </p>
@@ -803,14 +1160,23 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>RAISE_</rr-t>
+                  <rr-t>OPEN_PAR</rr-t>
                   <rr-a>
                      <rr-o>
+                        <rr-t>IGNORE_</rr-t>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
-                           </rr-a><a href="#error_message">error_message</a></rr-a>
+                              <rr-o>
+                                 <rr-t>ROLLBACK_</rr-t>
+                                 <rr-t>ABORT_</rr-t>
+                                 <rr-t>FAIL_</rr-t>
+                              </rr-o>
+                           </rr-a>
+                           <rr-t>COMMA</rr-t><a href="#error_message">error_message</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>CLOSE_PAR</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -818,18 +1184,31 @@
       <h2 id="literal_value">literal_value</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NUMERIC_LITERAL</rr-t>
+               <rr-t>STRING_LITERAL</rr-t>
+               <rr-t>BLOB_LITERAL</rr-t>
+               <rr-t>NULL_</rr-t>
+               <rr-t>TRUE_</rr-t>
+               <rr-t>FALSE_</rr-t>
+               <rr-t>CURRENT_TIME_</rr-t>
+               <rr-t>CURRENT_DATE_</rr-t>
+               <rr-t>CURRENT_TIMESTAMP_</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="value_row">value_row</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>OPEN_PAR</rr-t><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#expr">expr</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#expr">expr</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>CLOSE_PAR</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -838,9 +1217,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#value_row">value_row</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>VALUES_</rr-t><a href="#value_row">value_row</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#value_row">value_row</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#value_row">value_row</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -853,29 +1234,45 @@
             <rr-o>
                <rr-a><a href="#with_clause">with_clause</a><rr-a>
                      <rr-o>
+                        <rr-t>INSERT_</rr-t>
+                        <rr-t>REPLACE_</rr-t>
                         <rr-a>
+                           <rr-t>INSERT_</rr-t>
+                           <rr-t>OR_</rr-t>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>REPLACE_</rr-t>
+                                 <rr-t>ROLLBACK_</rr-t>
+                                 <rr-t>ABORT_</rr-t>
+                                 <rr-t>FAIL_</rr-t>
+                                 <rr-t>IGNORE_</rr-t>
+                              </rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>INTO_</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#schema_name">schema_name</a></rr-a>
+                        <rr-a><a href="#schema_name">schema_name</a><rr-t>DOT</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#table_name">table_name</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#table_alias">table_alias</a></rr-a>
+                        <rr-a>
+                           <rr-t>AS_</rr-t><a href="#table_alias">table_alias</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#column_name">column_name</a><rr-a data-min="0" data-max="inf">
+                        <rr-a>
+                           <rr-t>OPEN_PAR</rr-t><a href="#column_name">column_name</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#column_name">column_name</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#column_name">column_name</a></rr-a>
                               </rr-o>
                            </rr-a>
+                           <rr-t>CLOSE_PAR</rr-t>
                         </rr-a>
                      </rr-o>
                   </rr-a>
@@ -889,7 +1286,10 @@
                                  </rr-a><a href="#upsert_clause">upsert_clause</a></rr-a>
                            </rr-o>
                         </rr-a>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>DEFAULT_</rr-t>
+                           <rr-t>VALUES_</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#returning_clause">returning_clause</a></rr-a>
             </rr-o>
@@ -899,9 +1299,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#result_column">result_column</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>RETURNING_</rr-t><a href="#result_column">result_column</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#result_column">result_column</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#result_column">result_column</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -913,40 +1315,54 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>ON_</rr-t>
+                  <rr-t>CONFLICT_</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#indexed_column">indexed_column</a><rr-a data-min="0" data-max="inf">
+                        <rr-a>
+                           <rr-t>OPEN_PAR</rr-t><a href="#indexed_column">indexed_column</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#indexed_column">indexed_column</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#indexed_column">indexed_column</a></rr-a>
                               </rr-o>
                            </rr-a>
+                           <rr-t>CLOSE_PAR</rr-t>
                            <rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a><a href="#expr">expr</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>WHERE_</rr-t><a href="#expr">expr</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>DO_</rr-t>
                   <rr-a>
                      <rr-o>
+                        <rr-t>NOTHING_</rr-t>
                         <rr-a>
+                           <rr-t>UPDATE_</rr-t>
+                           <rr-t>SET_</rr-t>
                            <rr-a>
                               <rr-o>
                                  <rr-a>
                                     <rr-a>
                                        <rr-o><a href="#column_name">column_name</a><a href="#column_name_list">column_name_list</a></rr-o>
-                                    </rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
+                                    </rr-a>
+                                    <rr-t>ASSIGN</rr-t><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
                                        <rr-o>
                                           <rr-a>
+                                             <rr-t>COMMA</rr-t>
                                              <rr-a>
                                                 <rr-o><a href="#column_name">column_name</a><a href="#column_name_list">column_name_list</a></rr-o>
-                                             </rr-a><a href="#expr">expr</a></rr-a>
+                                             </rr-a>
+                                             <rr-t>ASSIGN</rr-t><a href="#expr">expr</a></rr-a>
                                        </rr-o>
                                     </rr-a>
                                     <rr-a data-min="0" data-max="1">
                                        <rr-o>
-                                          <rr-a><a href="#expr">expr</a></rr-a>
+                                          <rr-a>
+                                             <rr-t>WHERE_</rr-t><a href="#expr">expr</a></rr-a>
                                        </rr-o>
                                     </rr-a>
                                  </rr-a>
@@ -964,14 +1380,19 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>PRAGMA_</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#schema_name">schema_name</a></rr-a>
+                        <rr-a><a href="#schema_name">schema_name</a><rr-t>DOT</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#pragma_name">pragma_name</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#pragma_value">pragma_value</a></rr-a>
-                        <rr-a><a href="#pragma_value">pragma_value</a></rr-a>
+                        <rr-a>
+                           <rr-t>ASSIGN</rr-t><a href="#pragma_value">pragma_value</a></rr-a>
+                        <rr-a>
+                           <rr-t>OPEN_PAR</rr-t><a href="#pragma_value">pragma_value</a><rr-t>CLOSE_PAR</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -981,7 +1402,8 @@
       <h2 id="pragma_value">pragma_value</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#signed_number">signed_number</a><a href="#name">name</a></rr-o>
+            <rr-o><a href="#signed_number">signed_number</a><a href="#name">name</a><rr-t>STRING_LITERAL</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="reindex_stmt">reindex_stmt</h2>
@@ -989,11 +1411,13 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>REINDEX_</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o><a href="#collation_name">collation_name</a><rr-a>
                            <rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a><a href="#schema_name">schema_name</a></rr-a>
+                                 <rr-a><a href="#schema_name">schema_name</a><rr-t>DOT</rr-t>
+                                 </rr-a>
                               </rr-o>
                            </rr-a>
                            <rr-a>
@@ -1038,21 +1462,28 @@
                <rr-a>
                   <rr-o>
                      <rr-a>
+                        <rr-t>SELECT_</rr-t>
                         <rr-a data-min="0" data-max="1">
-                           <rr-o></rr-o>
+                           <rr-o>
+                              <rr-t>DISTINCT_</rr-t>
+                              <rr-t>ALL_</rr-t>
+                           </rr-o>
                         </rr-a><a href="#result_column">result_column</a><rr-a data-min="0" data-max="inf">
                            <rr-o>
-                              <rr-a><a href="#result_column">result_column</a></rr-a>
+                              <rr-a>
+                                 <rr-t>COMMA</rr-t><a href="#result_column">result_column</a></rr-a>
                            </rr-o>
                         </rr-a>
                         <rr-a data-min="0" data-max="1">
                            <rr-o>
                               <rr-a>
+                                 <rr-t>FROM_</rr-t>
                                  <rr-a>
                                     <rr-o>
                                        <rr-a><a href="#table_or_subquery">table_or_subquery</a><rr-a data-min="0" data-max="inf">
                                              <rr-o>
-                                                <rr-a><a href="#table_or_subquery">table_or_subquery</a></rr-a>
+                                                <rr-a>
+                                                   <rr-t>COMMA</rr-t><a href="#table_or_subquery">table_or_subquery</a></rr-a>
                                              </rr-o>
                                           </rr-a>
                                        </rr-a><a href="#join_clause">join_clause</a></rr-o>
@@ -1062,19 +1493,24 @@
                         </rr-a>
                         <rr-a data-min="0" data-max="1">
                            <rr-o>
-                              <rr-a><a href="#expr">expr</a></rr-a>
+                              <rr-a>
+                                 <rr-t>WHERE_</rr-t><a href="#expr">expr</a></rr-a>
                            </rr-o>
                         </rr-a>
                         <rr-a data-min="0" data-max="1">
                            <rr-o>
-                              <rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
+                              <rr-a>
+                                 <rr-t>GROUP_</rr-t>
+                                 <rr-t>BY_</rr-t><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
                                     <rr-o>
-                                       <rr-a><a href="#expr">expr</a></rr-a>
+                                       <rr-a>
+                                          <rr-t>COMMA</rr-t><a href="#expr">expr</a></rr-a>
                                     </rr-o>
                                  </rr-a>
                                  <rr-a data-min="0" data-max="1">
                                     <rr-o>
-                                       <rr-a><a href="#expr">expr</a></rr-a>
+                                       <rr-a>
+                                          <rr-t>HAVING_</rr-t><a href="#expr">expr</a></rr-a>
                                     </rr-o>
                                  </rr-a>
                               </rr-a>
@@ -1082,9 +1518,11 @@
                         </rr-a>
                         <rr-a data-min="0" data-max="1">
                            <rr-o>
-                              <rr-a><a href="#window_name">window_name</a><a href="#window_defn">window_defn</a><rr-a data-min="0" data-max="inf">
+                              <rr-a>
+                                 <rr-t>WINDOW_</rr-t><a href="#window_name">window_name</a><rr-t>AS_</rr-t><a href="#window_defn">window_defn</a><rr-a data-min="0" data-max="inf">
                                     <rr-o>
-                                       <rr-a><a href="#window_name">window_name</a><a href="#window_defn">window_defn</a></rr-a>
+                                       <rr-a>
+                                          <rr-t>COMMA</rr-t><a href="#window_name">window_name</a><rr-t>AS_</rr-t><a href="#window_defn">window_defn</a></rr-a>
                                     </rr-o>
                                  </rr-a>
                               </rr-a>
@@ -1118,7 +1556,12 @@
                         <rr-a>
                            <rr-a>
                               <rr-o>
-                                 <rr-a></rr-a>
+                                 <rr-a>
+                                    <rr-t>UNION_</rr-t>
+                                    <rr-t>ALL_</rr-t>
+                                 </rr-a>
+                                 <rr-t>INTERSECT_</rr-t>
+                                 <rr-t>EXCEPT_</rr-t>
                               </rr-o>
                            </rr-a><a href="#select_core">select_core</a></rr-a>
                      </rr-o>
@@ -1135,17 +1578,24 @@
                      <rr-a>
                         <rr-a data-min="0" data-max="1">
                            <rr-o>
-                              <rr-a><a href="#schema_name">schema_name</a></rr-a>
+                              <rr-a><a href="#schema_name">schema_name</a><rr-t>DOT</rr-t>
+                              </rr-a>
                            </rr-o>
                         </rr-a><a href="#table_name">table_name</a><rr-a data-min="0" data-max="1">
                            <rr-o>
-                              <rr-a><a href="#table_alias">table_alias</a></rr-a>
+                              <rr-a>
+                                 <rr-t>AS_</rr-t><a href="#table_alias">table_alias</a></rr-a>
                            </rr-o>
                         </rr-a>
                         <rr-a data-min="0" data-max="1">
                            <rr-o>
-                              <rr-a><a href="#index_name">index_name</a></rr-a>
-                              <rr-a></rr-a>
+                              <rr-a>
+                                 <rr-t>INDEXED_</rr-t>
+                                 <rr-t>BY_</rr-t><a href="#index_name">index_name</a></rr-a>
+                              <rr-a>
+                                 <rr-t>NOT_</rr-t>
+                                 <rr-t>INDEXED_</rr-t>
+                              </rr-a>
                            </rr-o>
                         </rr-a>
                      </rr-a>
@@ -1154,33 +1604,43 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#schema_name">schema_name</a></rr-a>
+                        <rr-a><a href="#schema_name">schema_name</a><rr-t>DOT</rr-t>
+                        </rr-a>
                      </rr-o>
-                  </rr-a><a href="#table_function_name">table_function_name</a><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
+                  </rr-a><a href="#table_function_name">table_function_name</a><rr-t>OPEN_PAR</rr-t><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#expr">expr</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#expr">expr</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>CLOSE_PAR</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#table_alias">table_alias</a></rr-a>
+                        <rr-a>
+                           <rr-t>AS_</rr-t><a href="#table_alias">table_alias</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
                <rr-a>
+                  <rr-t>OPEN_PAR</rr-t>
                   <rr-a>
                      <rr-o>
                         <rr-a><a href="#table_or_subquery">table_or_subquery</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#table_or_subquery">table_or_subquery</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#table_or_subquery">table_or_subquery</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a><a href="#join_clause">join_clause</a></rr-o>
                   </rr-a>
+                  <rr-t>CLOSE_PAR</rr-t>
                </rr-a>
-               <rr-a><a href="#select_stmt">select_stmt</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>OPEN_PAR</rr-t><a href="#select_stmt">select_stmt</a><rr-t>CLOSE_PAR</rr-t>
+                  <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#table_alias">table_alias</a></rr-a>
+                        <rr-a>
+                           <rr-t>AS_</rr-t><a href="#table_alias">table_alias</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1191,10 +1651,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#table_name">table_name</a></rr-a>
+               <rr-t>STAR</rr-t>
+               <rr-a><a href="#table_name">table_name</a><rr-t>DOT</rr-t>
+                  <rr-t>STAR</rr-t>
+               </rr-a>
                <rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#column_alias">column_alias</a></rr-a>
+                        <rr-a>
+                           <rr-t>AS_</rr-t><a href="#column_alias">column_alias</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1205,16 +1669,26 @@
       <p>
          <rr-rr>
             <rr-o>
+               <rr-t>COMMA</rr-t>
                <rr-a>
+                  <rr-t>NATURAL_</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>LEFT_</rr-t>
+                                 <rr-t>RIGHT_</rr-t>
+                                 <rr-t>FULL_</rr-t>
+                              </rr-o>
                            </rr-a>
+                           <rr-t>OUTER_</rr-t>
                         </rr-a>
+                        <rr-t>INNER_</rr-t>
+                        <rr-t>CROSS_</rr-t>
                      </rr-o>
                   </rr-a>
+                  <rr-t>JOIN_</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1223,12 +1697,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expr">expr</a></rr-a>
-               <rr-a><a href="#column_name">column_name</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>ON_</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a>
+                  <rr-t>USING_</rr-t>
+                  <rr-t>OPEN_PAR</rr-t><a href="#column_name">column_name</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#column_name">column_name</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#column_name">column_name</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>CLOSE_PAR</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1237,7 +1716,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>UNION_</rr-t>
+                  <rr-t>ALL_</rr-t>
+               </rr-a>
+               <rr-t>INTERSECT_</rr-t>
+               <rr-t>EXCEPT_</rr-t>
             </rr-o>
          </rr-rr>
       </p>
@@ -1245,32 +1729,46 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#with_clause">with_clause</a><rr-a data-min="0" data-max="1">
+               <rr-a><a href="#with_clause">with_clause</a><rr-t>UPDATE_</rr-t>
+                  <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
+                           <rr-t>OR_</rr-t>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>ROLLBACK_</rr-t>
+                                 <rr-t>ABORT_</rr-t>
+                                 <rr-t>REPLACE_</rr-t>
+                                 <rr-t>FAIL_</rr-t>
+                                 <rr-t>IGNORE_</rr-t>
+                              </rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
-                  </rr-a><a href="#qualified_table_name">qualified_table_name</a><rr-a>
+                  </rr-a><a href="#qualified_table_name">qualified_table_name</a><rr-t>SET_</rr-t>
+                  <rr-a>
                      <rr-o><a href="#column_name">column_name</a><a href="#column_name_list">column_name_list</a></rr-o>
-                  </rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
+                  </rr-a>
+                  <rr-t>ASSIGN</rr-t><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
                         <rr-a>
+                           <rr-t>COMMA</rr-t>
                            <rr-a>
                               <rr-o><a href="#column_name">column_name</a><a href="#column_name_list">column_name_list</a></rr-o>
-                           </rr-a><a href="#expr">expr</a></rr-a>
+                           </rr-a>
+                           <rr-t>ASSIGN</rr-t><a href="#expr">expr</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
+                           <rr-t>FROM_</rr-t>
                            <rr-a>
                               <rr-o>
                                  <rr-a><a href="#table_or_subquery">table_or_subquery</a><rr-a data-min="0" data-max="inf">
                                        <rr-o>
-                                          <rr-a><a href="#table_or_subquery">table_or_subquery</a></rr-a>
+                                          <rr-a>
+                                             <rr-t>COMMA</rr-t><a href="#table_or_subquery">table_or_subquery</a></rr-a>
                                        </rr-o>
                                     </rr-a>
                                  </rr-a><a href="#join_clause">join_clause</a></rr-o>
@@ -1280,7 +1778,8 @@
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expr">expr</a></rr-a>
+                        <rr-a>
+                           <rr-t>WHERE_</rr-t><a href="#expr">expr</a></rr-a>
                      </rr-o>
                   </rr-a><a href="#returning_clause">returning_clause</a></rr-a>
             </rr-o>
@@ -1290,11 +1789,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#column_name">column_name</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>OPEN_PAR</rr-t><a href="#column_name">column_name</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#column_name">column_name</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#column_name">column_name</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>CLOSE_PAR</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1303,27 +1805,40 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#with_clause">with_clause</a><rr-a data-min="0" data-max="1">
+               <rr-a><a href="#with_clause">with_clause</a><rr-t>UPDATE_</rr-t>
+                  <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
+                           <rr-t>OR_</rr-t>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>ROLLBACK_</rr-t>
+                                 <rr-t>ABORT_</rr-t>
+                                 <rr-t>REPLACE_</rr-t>
+                                 <rr-t>FAIL_</rr-t>
+                                 <rr-t>IGNORE_</rr-t>
+                              </rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
-                  </rr-a><a href="#qualified_table_name">qualified_table_name</a><rr-a>
+                  </rr-a><a href="#qualified_table_name">qualified_table_name</a><rr-t>SET_</rr-t>
+                  <rr-a>
                      <rr-o><a href="#column_name">column_name</a><a href="#column_name_list">column_name_list</a></rr-o>
-                  </rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
+                  </rr-a>
+                  <rr-t>ASSIGN</rr-t><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
                         <rr-a>
+                           <rr-t>COMMA</rr-t>
                            <rr-a>
                               <rr-o><a href="#column_name">column_name</a><a href="#column_name_list">column_name_list</a></rr-o>
-                           </rr-a><a href="#expr">expr</a></rr-a>
+                           </rr-a>
+                           <rr-t>ASSIGN</rr-t><a href="#expr">expr</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expr">expr</a></rr-a>
+                        <rr-a>
+                           <rr-t>WHERE_</rr-t><a href="#expr">expr</a></rr-a>
                      </rr-o>
                   </rr-a><a href="#returning_clause">returning_clause</a><rr-a data-min="0" data-max="1">
                      <rr-o>
@@ -1341,17 +1856,24 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#schema_name">schema_name</a></rr-a>
+                        <rr-a><a href="#schema_name">schema_name</a><rr-t>DOT</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#table_name">table_name</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#alias">alias</a></rr-a>
+                        <rr-a>
+                           <rr-t>AS_</rr-t><a href="#alias">alias</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#index_name">index_name</a></rr-a>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>INDEXED_</rr-t>
+                           <rr-t>BY_</rr-t><a href="#index_name">index_name</a></rr-a>
+                        <rr-a>
+                           <rr-t>NOT_</rr-t>
+                           <rr-t>INDEXED_</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1362,9 +1884,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#schema_name">schema_name</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>VACUUM_</rr-t><a href="#schema_name">schema_name</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#filename">filename</a></rr-a>
+                        <rr-a>
+                           <rr-t>INTO_</rr-t><a href="#filename">filename</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1375,7 +1899,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expr">expr</a></rr-a>
+               <rr-a>
+                  <rr-t>FILTER_</rr-t>
+                  <rr-t>OPEN_PAR</rr-t>
+                  <rr-t>WHERE_</rr-t><a href="#expr">expr</a><rr-t>CLOSE_PAR</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1383,11 +1911,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#base_window_name">base_window_name</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>OPEN_PAR</rr-t><a href="#base_window_name">base_window_name</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
+                        <rr-a>
+                           <rr-t>PARTITION_</rr-t>
+                           <rr-t>BY_</rr-t><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#expr">expr</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#expr">expr</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
@@ -1395,14 +1927,18 @@
                   </rr-a>
                   <rr-a>
                      <rr-o>
-                        <rr-a><a href="#ordering_term">ordering_term</a><rr-a data-min="0" data-max="inf">
+                        <rr-a>
+                           <rr-t>ORDER_</rr-t>
+                           <rr-t>BY_</rr-t><a href="#ordering_term">ordering_term</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#ordering_term">ordering_term</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#ordering_term">ordering_term</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
-                  </rr-a><a href="#frame_spec">frame_spec</a></rr-a>
+                  </rr-a><a href="#frame_spec">frame_spec</a><rr-t>CLOSE_PAR</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1411,12 +1947,17 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>OVER_</rr-t>
                   <rr-a>
-                     <rr-o><a href="#window_name">window_name</a><rr-a><a href="#base_window_name">base_window_name</a><rr-a data-min="0" data-max="1">
+                     <rr-o><a href="#window_name">window_name</a><rr-a>
+                           <rr-t>OPEN_PAR</rr-t><a href="#base_window_name">base_window_name</a><rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
+                                 <rr-a>
+                                    <rr-t>PARTITION_</rr-t>
+                                    <rr-t>BY_</rr-t><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
                                        <rr-o>
-                                          <rr-a><a href="#expr">expr</a></rr-a>
+                                          <rr-a>
+                                             <rr-t>COMMA</rr-t><a href="#expr">expr</a></rr-a>
                                        </rr-o>
                                     </rr-a>
                                  </rr-a>
@@ -1424,14 +1965,18 @@
                            </rr-a>
                            <rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a><a href="#ordering_term">ordering_term</a><rr-a data-min="0" data-max="inf">
+                                 <rr-a>
+                                    <rr-t>ORDER_</rr-t>
+                                    <rr-t>BY_</rr-t><a href="#ordering_term">ordering_term</a><rr-a data-min="0" data-max="inf">
                                        <rr-o>
-                                          <rr-a><a href="#ordering_term">ordering_term</a></rr-a>
+                                          <rr-a>
+                                             <rr-t>COMMA</rr-t><a href="#ordering_term">ordering_term</a></rr-a>
                                        </rr-o>
                                     </rr-a>
                                  </rr-a>
                               </rr-o>
-                           </rr-a><a href="#frame_spec">frame_spec</a></rr-a>
+                           </rr-a><a href="#frame_spec">frame_spec</a><rr-t>CLOSE_PAR</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1445,10 +1990,19 @@
                <rr-a><a href="#frame_clause">frame_clause</a><rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
+                           <rr-t>EXCLUDE_</rr-t>
                            <rr-a>
                               <rr-o>
-                                 <rr-a></rr-a>
-                                 <rr-a></rr-a>
+                                 <rr-a>
+                                    <rr-t>NO_</rr-t>
+                                    <rr-t>OTHERS_</rr-t>
+                                 </rr-a>
+                                 <rr-a>
+                                    <rr-t>CURRENT_</rr-t>
+                                    <rr-t>ROW_</rr-t>
+                                 </rr-a>
+                                 <rr-t>GROUP_</rr-t>
+                                 <rr-t>TIES_</rr-t>
                               </rr-o>
                            </rr-a>
                         </rr-a>
@@ -1464,10 +2018,15 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>RANGE_</rr-t>
+                        <rr-t>ROWS_</rr-t>
+                        <rr-t>GROUPS_</rr-t>
+                     </rr-o>
                   </rr-a>
                   <rr-a>
-                     <rr-o><a href="#frame_single">frame_single</a><rr-a><a href="#frame_left">frame_left</a><a href="#frame_right">frame_right</a></rr-a>
+                     <rr-o><a href="#frame_single">frame_single</a><rr-a>
+                           <rr-t>BETWEEN_</rr-t><a href="#frame_left">frame_left</a><rr-t>AND_</rr-t><a href="#frame_right">frame_right</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1478,16 +2037,20 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#simple_func">simple_func</a><rr-a>
+               <rr-a><a href="#simple_func">simple_func</a><rr-t>OPEN_PAR</rr-t>
+                  <rr-a>
                      <rr-o>
                         <rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#expr">expr</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#expr">expr</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
+                        <rr-t>STAR</rr-t>
                      </rr-o>
                   </rr-a>
+                  <rr-t>CLOSE_PAR</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1496,16 +2059,21 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#aggregate_func">aggregate_func</a><rr-a data-min="0" data-max="1">
+               <rr-a><a href="#aggregate_func">aggregate_func</a><rr-t>OPEN_PAR</rr-t>
+                  <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
+                        <rr-a>
+                           <rr-t>DISTINCT_</rr-t><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#expr">expr</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#expr">expr</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
+                        <rr-t>STAR</rr-t>
                      </rr-o>
-                  </rr-a><a href="#filter_clause">filter_clause</a></rr-a>
+                  </rr-a>
+                  <rr-t>CLOSE_PAR</rr-t><a href="#filter_clause">filter_clause</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1513,16 +2081,21 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#window_function">window_function</a><rr-a data-min="0" data-max="1">
+               <rr-a><a href="#window_function">window_function</a><rr-t>OPEN_PAR</rr-t>
+                  <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#expr">expr</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#expr">expr</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
+                        <rr-t>STAR</rr-t>
                      </rr-o>
-                  </rr-a><a href="#filter_clause">filter_clause</a><rr-a>
+                  </rr-a>
+                  <rr-t>CLOSE_PAR</rr-t><a href="#filter_clause">filter_clause</a><rr-t>OVER_</rr-t>
+                  <rr-a>
                      <rr-o><a href="#window_defn">window_defn</a><a href="#window_name">window_name</a></rr-o>
                   </rr-a>
                </rr-a>
@@ -1533,9 +2106,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#common_table_expression">common_table_expression</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>WITH_</rr-t>
+                  <rr-t>RECURSIVE_</rr-t><a href="#common_table_expression">common_table_expression</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#common_table_expression">common_table_expression</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#common_table_expression">common_table_expression</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1546,9 +2122,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#ordering_term">ordering_term</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>ORDER_</rr-t>
+                  <rr-t>BY_</rr-t><a href="#ordering_term">ordering_term</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#ordering_term">ordering_term</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#ordering_term">ordering_term</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1559,11 +2138,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>LIMIT_</rr-t><a href="#expr">expr</a><rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>OFFSET_</rr-t>
+                                 <rr-t>COMMA</rr-t>
+                              </rr-o>
                            </rr-a><a href="#expr">expr</a></rr-a>
                      </rr-o>
                   </rr-a>
@@ -1577,13 +2160,18 @@
             <rr-o>
                <rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#collation_name">collation_name</a></rr-a>
+                        <rr-a>
+                           <rr-t>COLLATE_</rr-t><a href="#collation_name">collation_name</a></rr-a>
                      </rr-o>
                   </rr-a><a href="#asc_desc">asc_desc</a><rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
+                           <rr-t>NULLS_</rr-t>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>FIRST_</rr-t>
+                                 <rr-t>LAST_</rr-t>
+                              </rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
@@ -1595,17 +2183,28 @@
       <h2 id="asc_desc">asc_desc</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>ASC_</rr-t>
+               <rr-t>DESC_</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="frame_left">frame_left</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expr">expr</a></rr-a>
-               <rr-a><a href="#expr">expr</a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>PRECEDING_</rr-t>
+               </rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>FOLLOWING_</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>CURRENT_</rr-t>
+                  <rr-t>ROW_</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>UNBOUNDED_</rr-t>
+                  <rr-t>PRECEDING_</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1613,10 +2212,18 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expr">expr</a></rr-a>
-               <rr-a><a href="#expr">expr</a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>PRECEDING_</rr-t>
+               </rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>FOLLOWING_</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>CURRENT_</rr-t>
+                  <rr-t>ROW_</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>UNBOUNDED_</rr-t>
+                  <rr-t>FOLLOWING_</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1624,9 +2231,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expr">expr</a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>PRECEDING_</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>UNBOUNDED_</rr-t>
+                  <rr-t>PRECEDING_</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>CURRENT_</rr-t>
+                  <rr-t>ROW_</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1636,22 +2250,63 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
-                  </rr-a><a href="#expr">expr</a><a href="#partition_by">partition_by</a><a href="#order_by_expr_asc_desc">order_by_expr_asc_desc</a><a href="#frame_clause">frame_clause</a></rr-a>
+                     <rr-o>
+                        <rr-t>FIRST_VALUE_</rr-t>
+                        <rr-t>LAST_VALUE_</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>OPEN_PAR</rr-t><a href="#expr">expr</a><rr-t>CLOSE_PAR</rr-t>
+                  <rr-t>OVER_</rr-t>
+                  <rr-t>OPEN_PAR</rr-t><a href="#partition_by">partition_by</a><a href="#order_by_expr_asc_desc">order_by_expr_asc_desc</a><a href="#frame_clause">frame_clause</a><rr-t>CLOSE_PAR</rr-t>
+               </rr-a>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
-                  </rr-a><a href="#partition_by">partition_by</a><a href="#order_by_expr">order_by_expr</a></rr-a>
+                     <rr-o>
+                        <rr-t>CUME_DIST_</rr-t>
+                        <rr-t>PERCENT_RANK_</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>OPEN_PAR</rr-t>
+                  <rr-t>CLOSE_PAR</rr-t>
+                  <rr-t>OVER_</rr-t>
+                  <rr-t>OPEN_PAR</rr-t><a href="#partition_by">partition_by</a><a href="#order_by_expr">order_by_expr</a><rr-t>CLOSE_PAR</rr-t>
+               </rr-a>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
-                  </rr-a><a href="#partition_by">partition_by</a><a href="#order_by_expr_asc_desc">order_by_expr_asc_desc</a></rr-a>
+                     <rr-o>
+                        <rr-t>DENSE_RANK_</rr-t>
+                        <rr-t>RANK_</rr-t>
+                        <rr-t>ROW_NUMBER_</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>OPEN_PAR</rr-t>
+                  <rr-t>CLOSE_PAR</rr-t>
+                  <rr-t>OVER_</rr-t>
+                  <rr-t>OPEN_PAR</rr-t><a href="#partition_by">partition_by</a><a href="#order_by_expr_asc_desc">order_by_expr_asc_desc</a><rr-t>CLOSE_PAR</rr-t>
+               </rr-a>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
-                  </rr-a><a href="#expr">expr</a><a href="#offset">offset</a><a href="#default_value">default_value</a><a href="#partition_by">partition_by</a><a href="#order_by_expr_asc_desc">order_by_expr_asc_desc</a></rr-a>
-               <rr-a><a href="#expr">expr</a><a href="#signed_number">signed_number</a><a href="#partition_by">partition_by</a><a href="#order_by_expr_asc_desc">order_by_expr_asc_desc</a><a href="#frame_clause">frame_clause</a></rr-a>
-               <rr-a><a href="#expr">expr</a><a href="#partition_by">partition_by</a><a href="#order_by_expr_asc_desc">order_by_expr_asc_desc</a></rr-a>
+                     <rr-o>
+                        <rr-t>LAG_</rr-t>
+                        <rr-t>LEAD_</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>OPEN_PAR</rr-t><a href="#expr">expr</a><a href="#offset">offset</a><a href="#default_value">default_value</a><rr-t>CLOSE_PAR</rr-t>
+                  <rr-t>OVER_</rr-t>
+                  <rr-t>OPEN_PAR</rr-t><a href="#partition_by">partition_by</a><a href="#order_by_expr_asc_desc">order_by_expr_asc_desc</a><rr-t>CLOSE_PAR</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>NTH_VALUE_</rr-t>
+                  <rr-t>OPEN_PAR</rr-t><a href="#expr">expr</a><rr-t>COMMA</rr-t><a href="#signed_number">signed_number</a><rr-t>CLOSE_PAR</rr-t>
+                  <rr-t>OVER_</rr-t>
+                  <rr-t>OPEN_PAR</rr-t><a href="#partition_by">partition_by</a><a href="#order_by_expr_asc_desc">order_by_expr_asc_desc</a><a href="#frame_clause">frame_clause</a><rr-t>CLOSE_PAR</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>NTILE_</rr-t>
+                  <rr-t>OPEN_PAR</rr-t><a href="#expr">expr</a><rr-t>CLOSE_PAR</rr-t>
+                  <rr-t>OVER_</rr-t>
+                  <rr-t>OPEN_PAR</rr-t><a href="#partition_by">partition_by</a><a href="#order_by_expr_asc_desc">order_by_expr_asc_desc</a><rr-t>CLOSE_PAR</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1659,7 +2314,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#signed_number">signed_number</a></rr-a>
+               <rr-a>
+                  <rr-t>COMMA</rr-t><a href="#signed_number">signed_number</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1667,7 +2323,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#signed_number">signed_number</a></rr-a>
+               <rr-a>
+                  <rr-t>COMMA</rr-t><a href="#signed_number">signed_number</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1675,7 +2332,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expr">expr</a></rr-a>
+               <rr-a>
+                  <rr-t>PARTITION_</rr-t>
+                  <rr-t>BY_</rr-t><a href="#expr">expr</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1683,7 +2342,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expr">expr</a></rr-a>
+               <rr-a>
+                  <rr-t>ORDER_</rr-t>
+                  <rr-t>BY_</rr-t><a href="#expr">expr</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1691,7 +2352,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expr_asc_desc">expr_asc_desc</a></rr-a>
+               <rr-a>
+                  <rr-t>ORDER_</rr-t>
+                  <rr-t>BY_</rr-t><a href="#expr_asc_desc">expr_asc_desc</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1701,7 +2364,8 @@
             <rr-o>
                <rr-a><a href="#expr">expr</a><a href="#asc_desc">asc_desc</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#expr">expr</a><a href="#asc_desc">asc_desc</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#expr">expr</a><a href="#asc_desc">asc_desc</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1723,13 +2387,20 @@
       <h2 id="unary_operator">unary_operator</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>MINUS</rr-t>
+               <rr-t>PLUS</rr-t>
+               <rr-t>TILDE</rr-t>
+               <rr-t>NOT_</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="error_message">error_message</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>STRING_LITERAL</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="module_argument">module_argument</h2>
@@ -1741,13 +2412,172 @@
       <h2 id="column_alias">column_alias</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+               <rr-t>STRING_LITERAL</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="keyword">keyword</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>ABORT_</rr-t>
+               <rr-t>ACTION_</rr-t>
+               <rr-t>ADD_</rr-t>
+               <rr-t>AFTER_</rr-t>
+               <rr-t>ALL_</rr-t>
+               <rr-t>ALTER_</rr-t>
+               <rr-t>ANALYZE_</rr-t>
+               <rr-t>AND_</rr-t>
+               <rr-t>AS_</rr-t>
+               <rr-t>ASC_</rr-t>
+               <rr-t>ATTACH_</rr-t>
+               <rr-t>AUTOINCREMENT_</rr-t>
+               <rr-t>BEFORE_</rr-t>
+               <rr-t>BEGIN_</rr-t>
+               <rr-t>BETWEEN_</rr-t>
+               <rr-t>BY_</rr-t>
+               <rr-t>CASCADE_</rr-t>
+               <rr-t>CASE_</rr-t>
+               <rr-t>CAST_</rr-t>
+               <rr-t>CHECK_</rr-t>
+               <rr-t>COLLATE_</rr-t>
+               <rr-t>COLUMN_</rr-t>
+               <rr-t>COMMIT_</rr-t>
+               <rr-t>CONFLICT_</rr-t>
+               <rr-t>CONSTRAINT_</rr-t>
+               <rr-t>CREATE_</rr-t>
+               <rr-t>CROSS_</rr-t>
+               <rr-t>CURRENT_DATE_</rr-t>
+               <rr-t>CURRENT_TIME_</rr-t>
+               <rr-t>CURRENT_TIMESTAMP_</rr-t>
+               <rr-t>DATABASE_</rr-t>
+               <rr-t>DEFAULT_</rr-t>
+               <rr-t>DEFERRABLE_</rr-t>
+               <rr-t>DEFERRED_</rr-t>
+               <rr-t>DELETE_</rr-t>
+               <rr-t>DESC_</rr-t>
+               <rr-t>DETACH_</rr-t>
+               <rr-t>DISTINCT_</rr-t>
+               <rr-t>DROP_</rr-t>
+               <rr-t>EACH_</rr-t>
+               <rr-t>ELSE_</rr-t>
+               <rr-t>END_</rr-t>
+               <rr-t>ESCAPE_</rr-t>
+               <rr-t>EXCEPT_</rr-t>
+               <rr-t>EXCLUSIVE_</rr-t>
+               <rr-t>EXISTS_</rr-t>
+               <rr-t>EXPLAIN_</rr-t>
+               <rr-t>FAIL_</rr-t>
+               <rr-t>FOR_</rr-t>
+               <rr-t>FOREIGN_</rr-t>
+               <rr-t>FROM_</rr-t>
+               <rr-t>FULL_</rr-t>
+               <rr-t>GLOB_</rr-t>
+               <rr-t>GROUP_</rr-t>
+               <rr-t>HAVING_</rr-t>
+               <rr-t>IF_</rr-t>
+               <rr-t>IGNORE_</rr-t>
+               <rr-t>IMMEDIATE_</rr-t>
+               <rr-t>IN_</rr-t>
+               <rr-t>INDEX_</rr-t>
+               <rr-t>INDEXED_</rr-t>
+               <rr-t>INITIALLY_</rr-t>
+               <rr-t>INNER_</rr-t>
+               <rr-t>INSERT_</rr-t>
+               <rr-t>INSTEAD_</rr-t>
+               <rr-t>INTERSECT_</rr-t>
+               <rr-t>INTO_</rr-t>
+               <rr-t>IS_</rr-t>
+               <rr-t>ISNULL_</rr-t>
+               <rr-t>JOIN_</rr-t>
+               <rr-t>KEY_</rr-t>
+               <rr-t>LEFT_</rr-t>
+               <rr-t>LIKE_</rr-t>
+               <rr-t>LIMIT_</rr-t>
+               <rr-t>MATCH_</rr-t>
+               <rr-t>NATURAL_</rr-t>
+               <rr-t>NO_</rr-t>
+               <rr-t>NOT_</rr-t>
+               <rr-t>NOTNULL_</rr-t>
+               <rr-t>NULL_</rr-t>
+               <rr-t>OF_</rr-t>
+               <rr-t>OFFSET_</rr-t>
+               <rr-t>ON_</rr-t>
+               <rr-t>OR_</rr-t>
+               <rr-t>ORDER_</rr-t>
+               <rr-t>OUTER_</rr-t>
+               <rr-t>PLAN_</rr-t>
+               <rr-t>PRAGMA_</rr-t>
+               <rr-t>PRIMARY_</rr-t>
+               <rr-t>QUERY_</rr-t>
+               <rr-t>RAISE_</rr-t>
+               <rr-t>RECURSIVE_</rr-t>
+               <rr-t>REFERENCES_</rr-t>
+               <rr-t>REGEXP_</rr-t>
+               <rr-t>REINDEX_</rr-t>
+               <rr-t>RELEASE_</rr-t>
+               <rr-t>RENAME_</rr-t>
+               <rr-t>REPLACE_</rr-t>
+               <rr-t>RESTRICT_</rr-t>
+               <rr-t>RIGHT_</rr-t>
+               <rr-t>ROLLBACK_</rr-t>
+               <rr-t>ROW_</rr-t>
+               <rr-t>ROWS_</rr-t>
+               <rr-t>SAVEPOINT_</rr-t>
+               <rr-t>SELECT_</rr-t>
+               <rr-t>SET_</rr-t>
+               <rr-t>TABLE_</rr-t>
+               <rr-t>TEMP_</rr-t>
+               <rr-t>TEMPORARY_</rr-t>
+               <rr-t>THEN_</rr-t>
+               <rr-t>TO_</rr-t>
+               <rr-t>TRANSACTION_</rr-t>
+               <rr-t>TRIGGER_</rr-t>
+               <rr-t>UNION_</rr-t>
+               <rr-t>UNIQUE_</rr-t>
+               <rr-t>UPDATE_</rr-t>
+               <rr-t>USING_</rr-t>
+               <rr-t>VACUUM_</rr-t>
+               <rr-t>VALUES_</rr-t>
+               <rr-t>VIEW_</rr-t>
+               <rr-t>VIRTUAL_</rr-t>
+               <rr-t>WHEN_</rr-t>
+               <rr-t>WHERE_</rr-t>
+               <rr-t>WITH_</rr-t>
+               <rr-t>WITHOUT_</rr-t>
+               <rr-t>FIRST_VALUE_</rr-t>
+               <rr-t>OVER_</rr-t>
+               <rr-t>PARTITION_</rr-t>
+               <rr-t>RANGE_</rr-t>
+               <rr-t>PRECEDING_</rr-t>
+               <rr-t>UNBOUNDED_</rr-t>
+               <rr-t>CURRENT_</rr-t>
+               <rr-t>FOLLOWING_</rr-t>
+               <rr-t>CUME_DIST_</rr-t>
+               <rr-t>DENSE_RANK_</rr-t>
+               <rr-t>LAG_</rr-t>
+               <rr-t>LAST_VALUE_</rr-t>
+               <rr-t>LEAD_</rr-t>
+               <rr-t>NTH_VALUE_</rr-t>
+               <rr-t>NTILE_</rr-t>
+               <rr-t>PERCENT_RANK_</rr-t>
+               <rr-t>RANK_</rr-t>
+               <rr-t>ROW_NUMBER_</rr-t>
+               <rr-t>GENERATED_</rr-t>
+               <rr-t>ALWAYS_</rr-t>
+               <rr-t>STORED_</rr-t>
+               <rr-t>TRUE_</rr-t>
+               <rr-t>FALSE_</rr-t>
+               <rr-t>WINDOW_</rr-t>
+               <rr-t>NULLS_</rr-t>
+               <rr-t>FIRST_</rr-t>
+               <rr-t>LAST_</rr-t>
+               <rr-t>FILTER_</rr-t>
+               <rr-t>GROUPS_</rr-t>
+               <rr-t>EXCLUDE_</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="name">name</h2>
@@ -1891,7 +2721,11 @@
       <h2 id="any_name">any_name</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#keyword">keyword</a><rr-a><a href="#any_name">any_name</a></rr-a>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t><a href="#keyword">keyword</a><rr-t>STRING_LITERAL</rr-t>
+               <rr-a>
+                  <rr-t>OPEN_PAR</rr-t><a href="#any_name">any_name</a><rr-t>CLOSE_PAR</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>

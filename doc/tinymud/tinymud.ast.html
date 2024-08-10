@@ -5,13 +5,46 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1><a href="../index.html">Railroad</a> tinymud/tinymud.ast.xml</h1>
+      <h1>Railroad tinymud/tinymud.ast.xml</h1>
+      <pre>/*
+BSD License
+
+Copyright (c) 2018, Tom Everett
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. Neither the name of Tom Everett nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
       <h1>Rules</h1>
       <h2 id="prog">prog</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#line">line</a></rr-a>
+               <rr-a><a href="#line">line</a><rr-t>EOL</rr-t>
+                  <rr-t>EOF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -23,6 +56,7 @@
                   <rr-a>
                      <rr-o><a href="#command">command</a><a href="#action">action</a></rr-o>
                   </rr-a>
+                  <rr-t>EOL</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -37,7 +71,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#player">player</a></rr-a>
+               <rr-a>
+                  <rr-t>'@boot'</rr-t><a href="#player">player</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -45,7 +80,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#object_">object_</a><a href="#player">player</a></rr-a>
+               <rr-a>
+                  <rr-t>'@chown'</rr-t><a href="#object_">object_</a><rr-t>'='</rr-t><a href="#player">player</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -53,9 +89,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>'@create'</rr-t><a href="#name">name</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#cost">cost</a></rr-a>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#cost">cost</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -68,10 +106,14 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>'@describe'</rr-t>
+                        <rr-t>'@desc'</rr-t>
+                     </rr-o>
                   </rr-a><a href="#object_">object_</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#description">description</a></rr-a>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#description">description</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -82,23 +124,28 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a></rr-a>
+               <rr-a>
+                  <rr-t>'@dig'</rr-t><a href="#name">name</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="dumpcommand">dumpcommand</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'@dump'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="failcommand">failcommand</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>'@fail'</rr-t><a href="#name">name</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#description">description</a></rr-a>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#description">description</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -109,7 +156,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a></rr-a>
+               <rr-a>
+                  <rr-t>'@find'</rr-t><a href="#name">name</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -117,7 +165,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#player">player</a><a href="#command">command</a></rr-a>
+               <rr-a>
+                  <rr-t>'@force'</rr-t><a href="#player">player</a><rr-t>'='</rr-t><a href="#command">command</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -125,7 +174,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#object_">object_</a><rr-a>
+               <rr-a>
+                  <rr-t>'@link'</rr-t><a href="#object_">object_</a><rr-t>'='</rr-t>
+                  <rr-a>
                      <rr-o><a href="#number">number</a><a href="#dir_">dir_</a><a href="#room">room</a></rr-o>
                   </rr-a>
                </rr-a>
@@ -136,7 +187,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#object_">object_</a><a href="#key">key</a></rr-a>
+               <rr-a>
+                  <rr-t>'@lock'</rr-t><a href="#object_">object_</a><rr-t>'='</rr-t><a href="#key">key</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -144,7 +196,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#object_">object_</a><a href="#name">name</a><a href="#password">password</a></rr-a>
+               <rr-a>
+                  <rr-t>'@name'</rr-t><a href="#object_">object_</a><rr-t>'='</rr-t><a href="#name">name</a><a href="#password">password</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -152,9 +205,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#player">player</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>'@newpassword'</rr-t><a href="#player">player</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#password">password</a></rr-a>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#password">password</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -165,9 +220,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#object_">object_</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>'@ofail'</rr-t><a href="#object_">object_</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#message">message</a></rr-a>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#message">message</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -178,14 +235,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#dir_">dir_</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>'@open'</rr-t><a href="#dir_">dir_</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#dir_">dir_</a></rr-a>
+                        <rr-a>
+                           <rr-t>';'</rr-t><a href="#dir_">dir_</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#number">number</a></rr-a>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#number">number</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -198,10 +258,14 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>'@osuccess'</rr-t>
+                        <rr-t>'@osucc'</rr-t>
+                     </rr-o>
                   </rr-a><a href="#object_">object_</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#message">message</a></rr-a>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#message">message</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -212,7 +276,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#password">password</a><a href="#password">password</a></rr-a>
+               <rr-a>
+                  <rr-t>'@password'</rr-t><a href="#password">password</a><rr-t>'='</rr-t><a href="#password">password</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -220,7 +285,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name">name</a></rr-a>
+               <rr-a>
+                  <rr-t>'@pcreate'</rr-t><a href="#name">name</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -228,21 +294,26 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#object_">object_</a><a href="#flag">flag</a></rr-a>
+               <rr-a>
+                  <rr-t>'@set'</rr-t><a href="#object_">object_</a><rr-t>'='</rr-t>
+                  <rr-t>'!'</rr-t><a href="#flag">flag</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="shutdowncommand">shutdowncommand</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'@shutdown'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="statscommand">statscommand</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#player">player</a></rr-a>
+               <rr-a>
+                  <rr-t>'@stats'</rr-t><a href="#player">player</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -252,10 +323,14 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>'@success'</rr-t>
+                        <rr-t>'@succ'</rr-t>
+                     </rr-o>
                   </rr-a><a href="#object_">object_</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#message">message</a></rr-a>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#message">message</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -267,9 +342,11 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'@teleport'</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#object_">object_</a></rr-a>
+                        <rr-a><a href="#object_">object_</a><rr-t>'='</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#room">room</a></rr-a>
             </rr-o>
@@ -279,7 +356,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#player">player</a></rr-a>
+               <rr-a>
+                  <rr-t>'@toad'</rr-t><a href="#player">player</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -287,7 +365,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#dir_">dir_</a></rr-a>
+               <rr-a>
+                  <rr-t>'@unlink'</rr-t><a href="#dir_">dir_</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -295,7 +374,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#object_">object_</a></rr-a>
+               <rr-a>
+                  <rr-t>'@unlock'</rr-t><a href="#object_">object_</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -303,7 +383,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#message">message</a></rr-a>
+               <rr-a>
+                  <rr-t>'@wall'</rr-t><a href="#message">message</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -319,7 +400,10 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>'drop'</rr-t>
+                        <rr-t>'throw'</rr-t>
+                     </rr-o>
                   </rr-a><a href="#object_">object_</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -328,7 +412,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#object_">object_</a></rr-a>
+               <rr-a>
+                  <rr-t>'examine'</rr-t><a href="#object_">object_</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -338,7 +423,10 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>'get'</rr-t>
+                        <rr-t>'take'</rr-t>
+                     </rr-o>
                   </rr-a><a href="#object_">object_</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -347,7 +435,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#player">player</a><a href="#pennies">pennies</a></rr-a>
+               <rr-a>
+                  <rr-t>'give'</rr-t><a href="#player">player</a><rr-t>'='</rr-t><a href="#pennies">pennies</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -357,7 +446,11 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>'go'</rr-t>
+                        <rr-t>'goto'</rr-t>
+                        <rr-t>'move'</rr-t>
+                     </rr-o>
                   </rr-a><a href="#direction">direction</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -366,29 +459,37 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#message">message</a></rr-a>
+               <rr-a>
+                  <rr-t>'gripe'</rr-t><a href="#message">message</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="helpaction">helpaction</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'help'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="inventoryaction">inventoryaction</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'inventory'</rr-t>
+               <rr-t>'inv'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="killaction">killaction</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#player">player</a><rr-a>
+               <rr-a>
+                  <rr-t>'kill'</rr-t><a href="#player">player</a><rr-a>
                      <rr-o>
-                        <rr-a><a href="#cost">cost</a></rr-a>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#cost">cost</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -401,7 +502,10 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>'look'</rr-t>
+                        <rr-t>'read'</rr-t>
+                     </rr-o>
                   </rr-a><a href="#object_">object_</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -409,16 +513,20 @@
       <h2 id="newsaction">newsaction</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'news'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="pageaction">pageaction</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#player">player</a><rr-a>
+               <rr-a>
+                  <rr-t>'page'</rr-t><a href="#player">player</a><rr-a>
                      <rr-o>
-                        <rr-a><a href="#message">message</a></rr-a>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#message">message</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -428,14 +536,17 @@
       <h2 id="quitaction">quitaction</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'quit'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="robaction">robaction</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#player">player</a></rr-a>
+               <rr-a>
+                  <rr-t>'rob'</rr-t><a href="#player">player</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -443,21 +554,25 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#message">message</a></rr-a>
+               <rr-a>
+                  <rr-t>'say'</rr-t><a href="#message">message</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="scoreaction">scoreaction</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'score'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="whisperaction">whisperaction</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#player">player</a><a href="#message">message</a></rr-a>
+               <rr-a>
+                  <rr-t>'whisper'</rr-t><a href="#player">player</a><rr-t>'='</rr-t><a href="#message">message</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -465,92 +580,121 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#player">player</a></rr-a>
+               <rr-a>
+                  <rr-t>'who'</rr-t><a href="#player">player</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="object_">object_</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="player">player</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="name">name</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="description">description</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="cost">cost</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="key">key</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="password">password</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="message">message</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="dir_">dir_</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="number">number</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="room">room</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="flag">flag</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="pennies">pennies</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="direction">direction</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="STRING">STRING</h2>
@@ -558,8 +702,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[a-zA-Z]</rr-c>
-                  <rr-c>[a-zA-Z0-9_. %,']</rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -569,7 +713,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[0-9]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -578,7 +722,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'\r'</rr-t>
+                  <rr-t>'\n'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -587,7 +734,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[ \t]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>

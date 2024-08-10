@@ -5,13 +5,41 @@
       <link rel="stylesheet" type="text/css" href="../../railroad.css">
    </head>
    <body>
-      <h1><a href="../../index.html">Railroad</a> python/python3_12_1/PythonParser.ast.xml</h1>
+      <h1>Railroad python/python3_12_1/PythonParser.ast.xml</h1>
+      <pre>/*
+Python grammar
+The MIT License (MIT)
+Copyright (c) 2021 Robert Einhorn
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+ */</pre>
+      <pre>/*
+  * Project      : an ANTLR4 parser grammar by the official PEG grammar
+  *                https://github.com/RobEin/ANTLR4-parser-for-Python-3.12
+  * Developed by : Robert Einhorn
+  *
+  */</pre>
       <h1>Rules</h1>
       <h2 id="file_input">file_input</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#statements">statements</a></rr-a>
+               <rr-a><a href="#statements">statements</a><rr-t>EOF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -25,7 +53,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expressions">expressions</a></rr-a>
+               <rr-a><a href="#expressions">expressions</a><rr-t>NEWLINE</rr-t>
+                  <rr-t>EOF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -33,7 +63,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#type_expressions">type_expressions</a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#type_expressions">type_expressions</a><rr-t>')'</rr-t>
+                  <rr-t>'-&gt;'</rr-t><a href="#expression">expression</a><rr-t>NEWLINE</rr-t>
+                  <rr-t>EOF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -59,7 +93,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#compound_stmt">compound_stmt</a></rr-a><a href="#simple_stmts">simple_stmts</a></rr-o>
+               <rr-a><a href="#compound_stmt">compound_stmt</a><rr-t>NEWLINE</rr-t>
+               </rr-a><a href="#simple_stmts">simple_stmts</a><rr-t>NEWLINE</rr-t>
+               <rr-t>EOF</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="simple_stmts">simple_stmts</h2>
@@ -68,9 +105,12 @@
             <rr-o>
                <rr-a><a href="#simple_stmt">simple_stmt</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#simple_stmt">simple_stmt</a></rr-a>
+                        <rr-a>
+                           <rr-t>';'</rr-t><a href="#simple_stmt">simple_stmt</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>';'</rr-t>
+                  <rr-t>NEWLINE</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -78,7 +118,8 @@
       <h2 id="simple_stmt">simple_stmt</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#assignment">assignment</a><a href="#type_alias">type_alias</a><a href="#star_expressions">star_expressions</a><a href="#return_stmt">return_stmt</a><a href="#import_stmt">import_stmt</a><a href="#raise_stmt">raise_stmt</a><a href="#del_stmt">del_stmt</a><a href="#yield_stmt">yield_stmt</a><a href="#assert_stmt">assert_stmt</a><a href="#global_stmt">global_stmt</a><a href="#nonlocal_stmt">nonlocal_stmt</a></rr-o>
+            <rr-o><a href="#assignment">assignment</a><a href="#type_alias">type_alias</a><a href="#star_expressions">star_expressions</a><a href="#return_stmt">return_stmt</a><a href="#import_stmt">import_stmt</a><a href="#raise_stmt">raise_stmt</a><rr-t>'pass'</rr-t><a href="#del_stmt">del_stmt</a><a href="#yield_stmt">yield_stmt</a><a href="#assert_stmt">assert_stmt</a><rr-t>'break'</rr-t>
+               <rr-t>'continue'</rr-t><a href="#global_stmt">global_stmt</a><a href="#nonlocal_stmt">nonlocal_stmt</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="compound_stmt">compound_stmt</h2>
@@ -91,31 +132,40 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>':'</rr-t><a href="#expression">expression</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#annotated_rhs">annotated_rhs</a></rr-a>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#annotated_rhs">annotated_rhs</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
                <rr-a>
                   <rr-a>
                      <rr-o>
-                        <rr-a><a href="#single_target">single_target</a></rr-a><a href="#single_subscript_attribute_target">single_subscript_attribute_target</a></rr-o>
-                  </rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="1">
+                        <rr-a>
+                           <rr-t>'('</rr-t><a href="#single_target">single_target</a><rr-t>')'</rr-t>
+                        </rr-a><a href="#single_subscript_attribute_target">single_subscript_attribute_target</a></rr-o>
+                  </rr-a>
+                  <rr-t>':'</rr-t><a href="#expression">expression</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#annotated_rhs">annotated_rhs</a></rr-a>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#annotated_rhs">annotated_rhs</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
                <rr-a>
                   <rr-a data-min="1" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#star_targets">star_targets</a></rr-a>
+                        <rr-a><a href="#star_targets">star_targets</a><rr-t>'='</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a>
                      <rr-o><a href="#yield_expr">yield_expr</a><a href="#star_expressions">star_expressions</a></rr-o>
                   </rr-a>
+                  <rr-t>TYPE_COMMENT</rr-t>
                </rr-a>
                <rr-a><a href="#single_target">single_target</a><a href="#augassign">augassign</a><rr-a>
                      <rr-o><a href="#yield_expr">yield_expr</a><a href="#star_expressions">star_expressions</a></rr-o>
@@ -133,14 +183,29 @@
       <h2 id="augassign">augassign</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'+='</rr-t>
+               <rr-t>'-='</rr-t>
+               <rr-t>'*='</rr-t>
+               <rr-t>'@='</rr-t>
+               <rr-t>'/='</rr-t>
+               <rr-t>'%='</rr-t>
+               <rr-t>'&amp;='</rr-t>
+               <rr-t>'|='</rr-t>
+               <rr-t>'^='</rr-t>
+               <rr-t>'&lt;&lt;='</rr-t>
+               <rr-t>'&gt;&gt;='</rr-t>
+               <rr-t>'**='</rr-t>
+               <rr-t>'//='</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="return_stmt">return_stmt</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#star_expressions">star_expressions</a></rr-a>
+               <rr-a>
+                  <rr-t>'return'</rr-t><a href="#star_expressions">star_expressions</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -149,11 +214,13 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'raise'</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a><a href="#expression">expression</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>'from'</rr-t><a href="#expression">expression</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
@@ -168,9 +235,14 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'global'</rr-t>
+                  <rr-t>NAME</rr-t>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t>
+                           <rr-t>NAME</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -182,9 +254,14 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'nonlocal'</rr-t>
+                  <rr-t>NAME</rr-t>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t>
+                           <rr-t>NAME</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -195,7 +272,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#del_targets">del_targets</a></rr-a>
+               <rr-a>
+                  <rr-t>'del'</rr-t><a href="#del_targets">del_targets</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -209,9 +287,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>'assert'</rr-t><a href="#expression">expression</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expression">expression</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#expression">expression</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -228,7 +308,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#dotted_as_names">dotted_as_names</a></rr-a>
+               <rr-a>
+                  <rr-t>'import'</rr-t><a href="#dotted_as_names">dotted_as_names</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -237,13 +318,22 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'from'</rr-t>
                   <rr-a data-min="0" data-max="inf">
-                     <rr-o></rr-o>
-                  </rr-a><a href="#dotted_name">dotted_name</a><a href="#import_from_targets">import_from_targets</a></rr-a>
+                     <rr-o>
+                        <rr-t>'.'</rr-t>
+                        <rr-t>'...'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#dotted_name">dotted_name</a><rr-t>'import'</rr-t><a href="#import_from_targets">import_from_targets</a></rr-a>
                <rr-a>
+                  <rr-t>'from'</rr-t>
                   <rr-a data-min="1" data-max="inf">
-                     <rr-o></rr-o>
-                  </rr-a><a href="#import_from_targets">import_from_targets</a></rr-a>
+                     <rr-o>
+                        <rr-t>'.'</rr-t>
+                        <rr-t>'...'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'import'</rr-t><a href="#import_from_targets">import_from_targets</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -251,7 +341,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#import_from_as_names">import_from_as_names</a></rr-a><a href="#import_from_as_names">import_from_as_names</a></rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#import_from_as_names">import_from_as_names</a><rr-t>','</rr-t>
+                  <rr-t>')'</rr-t>
+               </rr-a><a href="#import_from_as_names">import_from_as_names</a><rr-t>'*'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="import_from_as_names">import_from_as_names</h2>
@@ -260,7 +354,8 @@
             <rr-o>
                <rr-a><a href="#import_from_as_name">import_from_as_name</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#import_from_as_name">import_from_as_name</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#import_from_as_name">import_from_as_name</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -272,9 +367,13 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>NAME</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>'as'</rr-t>
+                           <rr-t>NAME</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -287,7 +386,8 @@
             <rr-o>
                <rr-a><a href="#dotted_as_name">dotted_as_name</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#dotted_as_name">dotted_as_name</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#dotted_as_name">dotted_as_name</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -300,7 +400,10 @@
             <rr-o>
                <rr-a><a href="#dotted_name">dotted_name</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>'as'</rr-t>
+                           <rr-t>NAME</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -311,7 +414,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#dotted_name">dotted_name</a></rr-a>
+               <rr-a><a href="#dotted_name">dotted_name</a><rr-t>'.'</rr-t>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
+               <rr-t>NAME</rr-t>
             </rr-o>
          </rr-rr>
       </p>
@@ -319,7 +425,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#statements">statements</a></rr-a><a href="#simple_stmts">simple_stmts</a></rr-o>
+               <rr-a>
+                  <rr-t>NEWLINE</rr-t>
+                  <rr-t>INDENT</rr-t><a href="#statements">statements</a><rr-t>DEDENT</rr-t>
+               </rr-a><a href="#simple_stmts">simple_stmts</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="decorators">decorators</h2>
@@ -328,7 +437,9 @@
             <rr-o>
                <rr-a data-min="1" data-max="inf">
                   <rr-o>
-                     <rr-a><a href="#named_expression">named_expression</a></rr-a>
+                     <rr-a>
+                        <rr-t>'@'</rr-t><a href="#named_expression">named_expression</a><rr-t>NEWLINE</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -345,11 +456,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#type_params">type_params</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>'class'</rr-t>
+                  <rr-t>NAME</rr-t><a href="#type_params">type_params</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#arguments">arguments</a></rr-a>
+                        <rr-a>
+                           <rr-t>'('</rr-t><a href="#arguments">arguments</a><rr-t>')'</rr-t>
+                        </rr-a>
                      </rr-o>
-                  </rr-a><a href="#block">block</a></rr-a>
+                  </rr-a>
+                  <rr-t>':'</rr-t><a href="#block">block</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -364,16 +480,27 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#type_params">type_params</a><a href="#params">params</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>'def'</rr-t>
+                  <rr-t>NAME</rr-t><a href="#type_params">type_params</a><rr-t>'('</rr-t><a href="#params">params</a><rr-t>')'</rr-t>
+                  <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expression">expression</a></rr-a>
+                        <rr-a>
+                           <rr-t>'-&gt;'</rr-t><a href="#expression">expression</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#func_type_comment">func_type_comment</a><a href="#block">block</a></rr-a>
-               <rr-a><a href="#type_params">type_params</a><a href="#params">params</a><rr-a data-min="0" data-max="1">
+                  </rr-a>
+                  <rr-t>':'</rr-t><a href="#func_type_comment">func_type_comment</a><a href="#block">block</a></rr-a>
+               <rr-a>
+                  <rr-t>ASYNC</rr-t>
+                  <rr-t>'def'</rr-t>
+                  <rr-t>NAME</rr-t><a href="#type_params">type_params</a><rr-t>'('</rr-t><a href="#params">params</a><rr-t>')'</rr-t>
+                  <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expression">expression</a></rr-a>
+                        <rr-a>
+                           <rr-t>'-&gt;'</rr-t><a href="#expression">expression</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#func_type_comment">func_type_comment</a><a href="#block">block</a></rr-a>
+                  </rr-a>
+                  <rr-t>':'</rr-t><a href="#func_type_comment">func_type_comment</a><a href="#block">block</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -397,7 +524,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#param_no_default">param_no_default</a></rr-a>
+               <rr-a><a href="#param_no_default">param_no_default</a><rr-t>'/'</rr-t>
+                  <rr-t>','</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -405,7 +534,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#param_no_default">param_no_default</a><a href="#param_with_default">param_with_default</a></rr-a>
+               <rr-a><a href="#param_no_default">param_no_default</a><a href="#param_with_default">param_with_default</a><rr-t>'/'</rr-t>
+                  <rr-t>','</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -413,16 +544,21 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#param_no_default">param_no_default</a><a href="#param_maybe_default">param_maybe_default</a><a href="#kwds">kwds</a></rr-a>
-               <rr-a><a href="#param_no_default_star_annotation">param_no_default_star_annotation</a><a href="#param_maybe_default">param_maybe_default</a><a href="#kwds">kwds</a></rr-a>
-               <rr-a><a href="#param_maybe_default">param_maybe_default</a><a href="#kwds">kwds</a></rr-a><a href="#kwds">kwds</a></rr-o>
+               <rr-a>
+                  <rr-t>'*'</rr-t><a href="#param_no_default">param_no_default</a><a href="#param_maybe_default">param_maybe_default</a><a href="#kwds">kwds</a></rr-a>
+               <rr-a>
+                  <rr-t>'*'</rr-t><a href="#param_no_default_star_annotation">param_no_default_star_annotation</a><a href="#param_maybe_default">param_maybe_default</a><a href="#kwds">kwds</a></rr-a>
+               <rr-a>
+                  <rr-t>'*'</rr-t>
+                  <rr-t>','</rr-t><a href="#param_maybe_default">param_maybe_default</a><a href="#kwds">kwds</a></rr-a><a href="#kwds">kwds</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="kwds">kwds</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#param_no_default">param_no_default</a></rr-a>
+               <rr-a>
+                  <rr-t>'**'</rr-t><a href="#param_no_default">param_no_default</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -430,7 +566,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#param">param</a></rr-a>
+               <rr-a><a href="#param">param</a><rr-t>','</rr-t>
+                  <rr-t>TYPE_COMMENT</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -438,7 +576,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#param_star_annotation">param_star_annotation</a></rr-a>
+               <rr-a><a href="#param_star_annotation">param_star_annotation</a><rr-t>','</rr-t>
+                  <rr-t>TYPE_COMMENT</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -446,7 +586,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#param">param</a><a href="#default_assignment">default_assignment</a></rr-a>
+               <rr-a><a href="#param">param</a><a href="#default_assignment">default_assignment</a><rr-t>','</rr-t>
+                  <rr-t>TYPE_COMMENT</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -454,7 +596,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#param">param</a><a href="#default_assignment">default_assignment</a></rr-a>
+               <rr-a><a href="#param">param</a><a href="#default_assignment">default_assignment</a><rr-t>','</rr-t>
+                  <rr-t>TYPE_COMMENT</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -462,7 +606,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#annotation">annotation</a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t><a href="#annotation">annotation</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -470,7 +615,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#star_annotation">star_annotation</a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t><a href="#star_annotation">star_annotation</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -478,7 +624,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>':'</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -486,7 +633,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#star_expression">star_expression</a></rr-a>
+               <rr-a>
+                  <rr-t>':'</rr-t><a href="#star_expression">star_expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -494,7 +642,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'='</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -502,7 +651,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#named_expression">named_expression</a><a href="#block">block</a><rr-a>
+               <rr-a>
+                  <rr-t>'if'</rr-t><a href="#named_expression">named_expression</a><rr-t>':'</rr-t><a href="#block">block</a><rr-a>
                      <rr-o><a href="#elif_stmt">elif_stmt</a><a href="#else_block">else_block</a></rr-o>
                   </rr-a>
                </rr-a>
@@ -513,7 +663,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#named_expression">named_expression</a><a href="#block">block</a><rr-a>
+               <rr-a>
+                  <rr-t>'elif'</rr-t><a href="#named_expression">named_expression</a><rr-t>':'</rr-t><a href="#block">block</a><rr-a>
                      <rr-o><a href="#elif_stmt">elif_stmt</a><a href="#else_block">else_block</a></rr-o>
                   </rr-a>
                </rr-a>
@@ -524,7 +675,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#block">block</a></rr-a>
+               <rr-a>
+                  <rr-t>'else'</rr-t>
+                  <rr-t>':'</rr-t><a href="#block">block</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -532,7 +685,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#named_expression">named_expression</a><a href="#block">block</a><a href="#else_block">else_block</a></rr-a>
+               <rr-a>
+                  <rr-t>'while'</rr-t><a href="#named_expression">named_expression</a><rr-t>':'</rr-t><a href="#block">block</a><a href="#else_block">else_block</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -540,7 +694,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#star_targets">star_targets</a><a href="#star_expressions">star_expressions</a><a href="#block">block</a><a href="#else_block">else_block</a></rr-a>
+               <rr-a>
+                  <rr-t>ASYNC</rr-t>
+                  <rr-t>'for'</rr-t><a href="#star_targets">star_targets</a><rr-t>'in'</rr-t><a href="#star_expressions">star_expressions</a><rr-t>':'</rr-t>
+                  <rr-t>TYPE_COMMENT</rr-t><a href="#block">block</a><a href="#else_block">else_block</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -549,19 +706,29 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>ASYNC</rr-t>
+                  <rr-t>'with'</rr-t>
                   <rr-a>
                      <rr-o>
-                        <rr-a><a href="#with_item">with_item</a><rr-a data-min="0" data-max="inf">
+                        <rr-a>
+                           <rr-t>'('</rr-t><a href="#with_item">with_item</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#with_item">with_item</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>','</rr-t><a href="#with_item">with_item</a></rr-a>
                               </rr-o>
                            </rr-a>
+                           <rr-t>','</rr-t>
+                           <rr-t>')'</rr-t>
+                           <rr-t>':'</rr-t>
                         </rr-a>
                         <rr-a><a href="#with_item">with_item</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#with_item">with_item</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>','</rr-t><a href="#with_item">with_item</a></rr-a>
                               </rr-o>
                            </rr-a>
+                           <rr-t>':'</rr-t>
+                           <rr-t>TYPE_COMMENT</rr-t>
                         </rr-a>
                      </rr-o>
                   </rr-a><a href="#block">block</a></rr-a>
@@ -574,7 +741,8 @@
             <rr-o>
                <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#star_target">star_target</a></rr-a>
+                        <rr-a>
+                           <rr-t>'as'</rr-t><a href="#star_target">star_target</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -585,9 +753,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#block">block</a><a href="#finally_block">finally_block</a></rr-a>
-               <rr-a><a href="#block">block</a><a href="#except_block">except_block</a><a href="#else_block">else_block</a><a href="#finally_block">finally_block</a></rr-a>
-               <rr-a><a href="#block">block</a><a href="#except_star_block">except_star_block</a><a href="#else_block">else_block</a><a href="#finally_block">finally_block</a></rr-a>
+               <rr-a>
+                  <rr-t>'try'</rr-t>
+                  <rr-t>':'</rr-t><a href="#block">block</a><a href="#finally_block">finally_block</a></rr-a>
+               <rr-a>
+                  <rr-t>'try'</rr-t>
+                  <rr-t>':'</rr-t><a href="#block">block</a><a href="#except_block">except_block</a><a href="#else_block">else_block</a><a href="#finally_block">finally_block</a></rr-a>
+               <rr-a>
+                  <rr-t>'try'</rr-t>
+                  <rr-t>':'</rr-t><a href="#block">block</a><a href="#except_star_block">except_star_block</a><a href="#else_block">else_block</a><a href="#finally_block">finally_block</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -596,16 +770,21 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'except'</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a></rr-a>
+                                 <rr-a>
+                                    <rr-t>'as'</rr-t>
+                                    <rr-t>NAME</rr-t>
+                                 </rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
-                  </rr-a><a href="#block">block</a></rr-a>
+                  </rr-a>
+                  <rr-t>':'</rr-t><a href="#block">block</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -613,11 +792,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>'except'</rr-t>
+                  <rr-t>'*'</rr-t><a href="#expression">expression</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>'as'</rr-t>
+                           <rr-t>NAME</rr-t>
+                        </rr-a>
                      </rr-o>
-                  </rr-a><a href="#block">block</a></rr-a>
+                  </rr-a>
+                  <rr-t>':'</rr-t><a href="#block">block</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -625,7 +810,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#block">block</a></rr-a>
+               <rr-a>
+                  <rr-t>'finally'</rr-t>
+                  <rr-t>':'</rr-t><a href="#block">block</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -633,7 +820,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#soft_kw_match">soft_kw_match</a><a href="#subject_expr">subject_expr</a><a href="#case_block">case_block</a></rr-a>
+               <rr-a><a href="#soft_kw_match">soft_kw_match</a><a href="#subject_expr">subject_expr</a><rr-t>':'</rr-t>
+                  <rr-t>NEWLINE</rr-t>
+                  <rr-t>INDENT</rr-t><a href="#case_block">case_block</a><rr-t>DEDENT</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -641,14 +831,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#star_named_expression">star_named_expression</a><a href="#star_named_expressions">star_named_expressions</a></rr-a><a href="#named_expression">named_expression</a></rr-o>
+               <rr-a><a href="#star_named_expression">star_named_expression</a><rr-t>','</rr-t><a href="#star_named_expressions">star_named_expressions</a></rr-a><a href="#named_expression">named_expression</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="case_block">case_block</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#soft_kw_case">soft_kw_case</a><a href="#patterns">patterns</a><a href="#guard">guard</a><a href="#block">block</a></rr-a>
+               <rr-a><a href="#soft_kw_case">soft_kw_case</a><a href="#patterns">patterns</a><a href="#guard">guard</a><rr-t>':'</rr-t><a href="#block">block</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -656,7 +846,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#named_expression">named_expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'if'</rr-t><a href="#named_expression">named_expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -676,7 +867,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#or_pattern">or_pattern</a><a href="#pattern_capture_target">pattern_capture_target</a></rr-a>
+               <rr-a><a href="#or_pattern">or_pattern</a><rr-t>'as'</rr-t><a href="#pattern_capture_target">pattern_capture_target</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -686,7 +877,8 @@
             <rr-o>
                <rr-a><a href="#closed_pattern">closed_pattern</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#closed_pattern">closed_pattern</a></rr-a>
+                        <rr-a>
+                           <rr-t>'|'</rr-t><a href="#closed_pattern">closed_pattern</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -702,13 +894,19 @@
       <h2 id="literal_pattern">literal_pattern</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#signed_number">signed_number</a><a href="#complex_number">complex_number</a><a href="#strings">strings</a></rr-o>
+            <rr-o><a href="#signed_number">signed_number</a><a href="#complex_number">complex_number</a><a href="#strings">strings</a><rr-t>'None'</rr-t>
+               <rr-t>'True'</rr-t>
+               <rr-t>'False'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="literal_expr">literal_expr</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#signed_number">signed_number</a><a href="#complex_number">complex_number</a><a href="#strings">strings</a></rr-o>
+            <rr-o><a href="#signed_number">signed_number</a><a href="#complex_number">complex_number</a><a href="#strings">strings</a><rr-t>'None'</rr-t>
+               <rr-t>'True'</rr-t>
+               <rr-t>'False'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="complex_number">complex_number</h2>
@@ -716,7 +914,10 @@
          <rr-rr>
             <rr-o>
                <rr-a><a href="#signed_real_number">signed_real_number</a><rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>'+'</rr-t>
+                        <rr-t>'-'</rr-t>
+                     </rr-o>
                   </rr-a><a href="#imaginary_number">imaginary_number</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -725,7 +926,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'-'</rr-t>
+                  <rr-t>NUMBER</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -733,20 +937,25 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#real_number">real_number</a></rr-a>
+               <rr-a>
+                  <rr-t>'-'</rr-t><a href="#real_number">real_number</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="real_number">real_number</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="imaginary_number">imaginary_number</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="capture_pattern">capture_pattern</h2>
@@ -778,9 +987,13 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>NAME</rr-t>
                   <rr-a data-min="1" data-max="inf">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>'.'</rr-t>
+                           <rr-t>NAME</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -792,9 +1005,13 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>NAME</rr-t>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>'.'</rr-t>
+                           <rr-t>NAME</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -805,7 +1022,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#pattern">pattern</a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#pattern">pattern</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -813,8 +1032,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#maybe_sequence_pattern">maybe_sequence_pattern</a></rr-a>
-               <rr-a><a href="#open_sequence_pattern">open_sequence_pattern</a></rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#maybe_sequence_pattern">maybe_sequence_pattern</a><rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#open_sequence_pattern">open_sequence_pattern</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -822,7 +1045,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#maybe_star_pattern">maybe_star_pattern</a><a href="#maybe_sequence_pattern">maybe_sequence_pattern</a></rr-a>
+               <rr-a><a href="#maybe_star_pattern">maybe_star_pattern</a><rr-t>','</rr-t><a href="#maybe_sequence_pattern">maybe_sequence_pattern</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -832,9 +1055,11 @@
             <rr-o>
                <rr-a><a href="#maybe_star_pattern">maybe_star_pattern</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#maybe_star_pattern">maybe_star_pattern</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#maybe_star_pattern">maybe_star_pattern</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>','</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -849,8 +1074,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#pattern_capture_target">pattern_capture_target</a></rr-a>
-               <rr-a><a href="#wildcard_pattern">wildcard_pattern</a></rr-a>
+               <rr-a>
+                  <rr-t>'*'</rr-t><a href="#pattern_capture_target">pattern_capture_target</a></rr-a>
+               <rr-a>
+                  <rr-t>'*'</rr-t><a href="#wildcard_pattern">wildcard_pattern</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -858,13 +1085,23 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a><a href="#double_star_pattern">double_star_pattern</a></rr-a>
-               <rr-a><a href="#items_pattern">items_pattern</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>LBRACE</rr-t>
+                  <rr-t>RBRACE</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LBRACE</rr-t><a href="#double_star_pattern">double_star_pattern</a><rr-t>','</rr-t>
+                  <rr-t>RBRACE</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LBRACE</rr-t><a href="#items_pattern">items_pattern</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#double_star_pattern">double_star_pattern</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#double_star_pattern">double_star_pattern</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>','</rr-t>
+                  <rr-t>RBRACE</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -875,7 +1112,8 @@
             <rr-o>
                <rr-a><a href="#key_value_pattern">key_value_pattern</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#key_value_pattern">key_value_pattern</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#key_value_pattern">key_value_pattern</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -889,7 +1127,8 @@
                <rr-a>
                   <rr-a>
                      <rr-o><a href="#literal_expr">literal_expr</a><a href="#attr">attr</a></rr-o>
-                  </rr-a><a href="#pattern">pattern</a></rr-a>
+                  </rr-a>
+                  <rr-t>':'</rr-t><a href="#pattern">pattern</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -897,7 +1136,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#pattern_capture_target">pattern_capture_target</a></rr-a>
+               <rr-a>
+                  <rr-t>'**'</rr-t><a href="#pattern_capture_target">pattern_capture_target</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -905,21 +1145,25 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#name_or_attr">name_or_attr</a><rr-a data-min="0" data-max="1">
+               <rr-a><a href="#name_or_attr">name_or_attr</a><rr-t>'('</rr-t>
+                  <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
                            <rr-a>
                               <rr-o>
                                  <rr-a><a href="#positional_patterns">positional_patterns</a><rr-a data-min="0" data-max="1">
                                        <rr-o>
-                                          <rr-a><a href="#keyword_patterns">keyword_patterns</a></rr-a>
+                                          <rr-a>
+                                             <rr-t>','</rr-t><a href="#keyword_patterns">keyword_patterns</a></rr-a>
                                        </rr-o>
                                     </rr-a>
                                  </rr-a><a href="#keyword_patterns">keyword_patterns</a></rr-o>
                            </rr-a>
+                           <rr-t>','</rr-t>
                         </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>')'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -930,7 +1174,8 @@
             <rr-o>
                <rr-a><a href="#pattern">pattern</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#pattern">pattern</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#pattern">pattern</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -943,7 +1188,8 @@
             <rr-o>
                <rr-a><a href="#keyword_pattern">keyword_pattern</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#keyword_pattern">keyword_pattern</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#keyword_pattern">keyword_pattern</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -954,7 +1200,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#pattern">pattern</a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>'='</rr-t><a href="#pattern">pattern</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -962,7 +1210,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#soft_kw_type">soft_kw_type</a><a href="#type_params">type_params</a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#soft_kw_type">soft_kw_type</a><rr-t>NAME</rr-t><a href="#type_params">type_params</a><rr-t>'='</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -970,7 +1218,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#type_param_seq">type_param_seq</a></rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#type_param_seq">type_param_seq</a><rr-t>']'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -980,9 +1230,11 @@
             <rr-o>
                <rr-a><a href="#type_param">type_param</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#type_param">type_param</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#type_param">type_param</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>','</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -991,18 +1243,25 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#type_param_bound">type_param_bound</a></rr-a>
                <rr-a>
+                  <rr-t>NAME</rr-t><a href="#type_param_bound">type_param_bound</a></rr-a>
+               <rr-a>
+                  <rr-t>'*'</rr-t>
+                  <rr-t>NAME</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expression">expression</a></rr-a>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#expression">expression</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
                <rr-a>
+                  <rr-t>'**'</rr-t>
+                  <rr-t>NAME</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expression">expression</a></rr-a>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#expression">expression</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1013,7 +1272,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>':'</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1023,9 +1283,11 @@
             <rr-o>
                <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#expression">expression</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#expression">expression</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>','</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1036,7 +1298,8 @@
             <rr-o>
                <rr-a><a href="#disjunction">disjunction</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#disjunction">disjunction</a><a href="#expression">expression</a></rr-a>
+                        <rr-a>
+                           <rr-t>'if'</rr-t><a href="#disjunction">disjunction</a><rr-t>'else'</rr-t><a href="#expression">expression</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a><a href="#lambdef">lambdef</a></rr-o>
@@ -1047,9 +1310,11 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'yield'</rr-t>
                   <rr-a>
                      <rr-o>
-                        <rr-a><a href="#expression">expression</a></rr-a><a href="#star_expressions">star_expressions</a></rr-o>
+                        <rr-a>
+                           <rr-t>'from'</rr-t><a href="#expression">expression</a></rr-a><a href="#star_expressions">star_expressions</a></rr-o>
                   </rr-a>
                </rr-a>
             </rr-o>
@@ -1061,9 +1326,11 @@
             <rr-o>
                <rr-a><a href="#star_expression">star_expression</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#star_expression">star_expression</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#star_expression">star_expression</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>','</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1072,7 +1339,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#bitwise_or">bitwise_or</a></rr-a><a href="#expression">expression</a></rr-o>
+               <rr-a>
+                  <rr-t>'*'</rr-t><a href="#bitwise_or">bitwise_or</a></rr-a><a href="#expression">expression</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="star_named_expressions">star_named_expressions</h2>
@@ -1081,9 +1349,11 @@
             <rr-o>
                <rr-a><a href="#star_named_expression">star_named_expression</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#star_named_expression">star_named_expression</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#star_named_expression">star_named_expression</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>','</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1092,14 +1362,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#bitwise_or">bitwise_or</a></rr-a><a href="#named_expression">named_expression</a></rr-o>
+               <rr-a>
+                  <rr-t>'*'</rr-t><a href="#bitwise_or">bitwise_or</a></rr-a><a href="#named_expression">named_expression</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="assignment_expression">assignment_expression</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>':='</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1115,7 +1388,8 @@
             <rr-o>
                <rr-a><a href="#conjunction">conjunction</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#conjunction">conjunction</a></rr-a>
+                        <rr-a>
+                           <rr-t>'or'</rr-t><a href="#conjunction">conjunction</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1128,7 +1402,8 @@
             <rr-o>
                <rr-a><a href="#inversion">inversion</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#inversion">inversion</a></rr-a>
+                        <rr-a>
+                           <rr-t>'and'</rr-t><a href="#inversion">inversion</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1139,7 +1414,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#inversion">inversion</a></rr-a><a href="#comparison">comparison</a></rr-o>
+               <rr-a>
+                  <rr-t>'not'</rr-t><a href="#inversion">inversion</a></rr-a><a href="#comparison">comparison</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="comparison">comparison</h2>
@@ -1160,7 +1436,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#bitwise_or">bitwise_or</a></rr-a>
+               <rr-a>
+                  <rr-t>'=='</rr-t><a href="#bitwise_or">bitwise_or</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1170,7 +1447,9 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>'!='</rr-t>
+                     </rr-o>
                   </rr-a><a href="#bitwise_or">bitwise_or</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -1179,7 +1458,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#bitwise_or">bitwise_or</a></rr-a>
+               <rr-a>
+                  <rr-t>'&lt;='</rr-t><a href="#bitwise_or">bitwise_or</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1187,7 +1467,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#bitwise_or">bitwise_or</a></rr-a>
+               <rr-a>
+                  <rr-t>'&lt;'</rr-t><a href="#bitwise_or">bitwise_or</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1195,7 +1476,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#bitwise_or">bitwise_or</a></rr-a>
+               <rr-a>
+                  <rr-t>'&gt;='</rr-t><a href="#bitwise_or">bitwise_or</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1203,7 +1485,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#bitwise_or">bitwise_or</a></rr-a>
+               <rr-a>
+                  <rr-t>'&gt;'</rr-t><a href="#bitwise_or">bitwise_or</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1211,7 +1494,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#bitwise_or">bitwise_or</a></rr-a>
+               <rr-a>
+                  <rr-t>'not'</rr-t>
+                  <rr-t>'in'</rr-t><a href="#bitwise_or">bitwise_or</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1219,7 +1504,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#bitwise_or">bitwise_or</a></rr-a>
+               <rr-a>
+                  <rr-t>'in'</rr-t><a href="#bitwise_or">bitwise_or</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1227,7 +1513,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#bitwise_or">bitwise_or</a></rr-a>
+               <rr-a>
+                  <rr-t>'is'</rr-t>
+                  <rr-t>'not'</rr-t><a href="#bitwise_or">bitwise_or</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1235,7 +1523,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#bitwise_or">bitwise_or</a></rr-a>
+               <rr-a>
+                  <rr-t>'is'</rr-t><a href="#bitwise_or">bitwise_or</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1243,21 +1532,21 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#bitwise_or">bitwise_or</a><a href="#bitwise_xor">bitwise_xor</a></rr-a><a href="#bitwise_xor">bitwise_xor</a></rr-o>
+               <rr-a><a href="#bitwise_or">bitwise_or</a><rr-t>'|'</rr-t><a href="#bitwise_xor">bitwise_xor</a></rr-a><a href="#bitwise_xor">bitwise_xor</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="bitwise_xor">bitwise_xor</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#bitwise_xor">bitwise_xor</a><a href="#bitwise_and">bitwise_and</a></rr-a><a href="#bitwise_and">bitwise_and</a></rr-o>
+               <rr-a><a href="#bitwise_xor">bitwise_xor</a><rr-t>'^'</rr-t><a href="#bitwise_and">bitwise_and</a></rr-a><a href="#bitwise_and">bitwise_and</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="bitwise_and">bitwise_and</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#bitwise_and">bitwise_and</a><a href="#shift_expr">shift_expr</a></rr-a><a href="#shift_expr">shift_expr</a></rr-o>
+               <rr-a><a href="#bitwise_and">bitwise_and</a><rr-t>'&amp;'</rr-t><a href="#shift_expr">shift_expr</a></rr-a><a href="#shift_expr">shift_expr</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="shift_expr">shift_expr</h2>
@@ -1265,7 +1554,10 @@
          <rr-rr>
             <rr-o>
                <rr-a><a href="#shift_expr">shift_expr</a><rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>'&lt;&lt;'</rr-t>
+                        <rr-t>'&gt;&gt;'</rr-t>
+                     </rr-o>
                   </rr-a><a href="#sum">sum</a></rr-a><a href="#sum">sum</a></rr-o>
          </rr-rr>
       </p>
@@ -1274,7 +1566,10 @@
          <rr-rr>
             <rr-o>
                <rr-a><a href="#sum">sum</a><rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>'+'</rr-t>
+                        <rr-t>'-'</rr-t>
+                     </rr-o>
                   </rr-a><a href="#term">term</a></rr-a><a href="#term">term</a></rr-o>
          </rr-rr>
       </p>
@@ -1283,7 +1578,13 @@
          <rr-rr>
             <rr-o>
                <rr-a><a href="#term">term</a><rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>'*'</rr-t>
+                        <rr-t>'/'</rr-t>
+                        <rr-t>'//'</rr-t>
+                        <rr-t>'%'</rr-t>
+                        <rr-t>'@'</rr-t>
+                     </rr-o>
                   </rr-a><a href="#factor">factor</a></rr-a><a href="#factor">factor</a></rr-o>
          </rr-rr>
       </p>
@@ -1291,9 +1592,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#factor">factor</a></rr-a>
-               <rr-a><a href="#factor">factor</a></rr-a>
-               <rr-a><a href="#factor">factor</a></rr-a><a href="#power">power</a></rr-o>
+               <rr-a>
+                  <rr-t>'+'</rr-t><a href="#factor">factor</a></rr-a>
+               <rr-a>
+                  <rr-t>'-'</rr-t><a href="#factor">factor</a></rr-a>
+               <rr-a>
+                  <rr-t>'~'</rr-t><a href="#factor">factor</a></rr-a><a href="#power">power</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="power">power</h2>
@@ -1302,7 +1606,8 @@
             <rr-o>
                <rr-a><a href="#await_primary">await_primary</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#factor">factor</a></rr-a>
+                        <rr-a>
+                           <rr-t>'**'</rr-t><a href="#factor">factor</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1313,7 +1618,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#primary">primary</a></rr-a><a href="#primary">primary</a></rr-o>
+               <rr-a>
+                  <rr-t>AWAIT</rr-t><a href="#primary">primary</a></rr-a><a href="#primary">primary</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="primary">primary</h2>
@@ -1322,8 +1628,15 @@
             <rr-o>
                <rr-a><a href="#primary">primary</a><rr-a>
                      <rr-o>
-                        <rr-a></rr-a><a href="#genexp">genexp</a><rr-a><a href="#arguments">arguments</a></rr-a>
-                        <rr-a><a href="#slices">slices</a></rr-a>
+                        <rr-a>
+                           <rr-t>'.'</rr-t>
+                           <rr-t>NAME</rr-t>
+                        </rr-a><a href="#genexp">genexp</a><rr-a>
+                           <rr-t>'('</rr-t><a href="#arguments">arguments</a><rr-t>')'</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>'['</rr-t><a href="#slices">slices</a><rr-t>']'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a><a href="#atom">atom</a></rr-o>
@@ -1339,12 +1652,14 @@
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
                         <rr-a>
+                           <rr-t>','</rr-t>
                            <rr-a>
                               <rr-o><a href="#slice">slice</a><a href="#starred_expression">starred_expression</a></rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>','</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1353,9 +1668,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a><a href="#expression">expression</a><rr-a data-min="0" data-max="1">
+               <rr-a><a href="#expression">expression</a><rr-t>':'</rr-t><a href="#expression">expression</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expression">expression</a></rr-a>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#expression">expression</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a><a href="#named_expression">named_expression</a></rr-o>
@@ -1364,7 +1680,12 @@
       <h2 id="atom">atom</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#strings">strings</a><rr-a>
+            <rr-o>
+               <rr-t>NAME</rr-t>
+               <rr-t>'True'</rr-t>
+               <rr-t>'False'</rr-t>
+               <rr-t>'None'</rr-t><a href="#strings">strings</a><rr-t>NUMBER</rr-t>
+               <rr-a>
                   <rr-o><a href="#tuple">tuple</a><a href="#group">group</a><a href="#genexp">genexp</a></rr-o>
                </rr-a>
                <rr-a>
@@ -1373,6 +1694,7 @@
                <rr-a>
                   <rr-o><a href="#dict">dict</a><a href="#set">set</a><a href="#dictcomp">dictcomp</a><a href="#setcomp">setcomp</a></rr-o>
                </rr-a>
+               <rr-t>'...'</rr-t>
             </rr-o>
          </rr-rr>
       </p>
@@ -1381,9 +1703,11 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'('</rr-t>
                   <rr-a>
                      <rr-o><a href="#yield_expr">yield_expr</a><a href="#named_expression">named_expression</a></rr-o>
                   </rr-a>
+                  <rr-t>')'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1392,7 +1716,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#lambda_params">lambda_params</a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'lambda'</rr-t><a href="#lambda_params">lambda_params</a><rr-t>':'</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1416,7 +1741,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#lambda_param_no_default">lambda_param_no_default</a></rr-a>
+               <rr-a><a href="#lambda_param_no_default">lambda_param_no_default</a><rr-t>'/'</rr-t>
+                  <rr-t>','</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1424,7 +1751,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#lambda_param_no_default">lambda_param_no_default</a><a href="#lambda_param_with_default">lambda_param_with_default</a></rr-a>
+               <rr-a><a href="#lambda_param_no_default">lambda_param_no_default</a><a href="#lambda_param_with_default">lambda_param_with_default</a><rr-t>'/'</rr-t>
+                  <rr-t>','</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1432,15 +1761,19 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#lambda_param_no_default">lambda_param_no_default</a><a href="#lambda_param_maybe_default">lambda_param_maybe_default</a><a href="#lambda_kwds">lambda_kwds</a></rr-a>
-               <rr-a><a href="#lambda_param_maybe_default">lambda_param_maybe_default</a><a href="#lambda_kwds">lambda_kwds</a></rr-a><a href="#lambda_kwds">lambda_kwds</a></rr-o>
+               <rr-a>
+                  <rr-t>'*'</rr-t><a href="#lambda_param_no_default">lambda_param_no_default</a><a href="#lambda_param_maybe_default">lambda_param_maybe_default</a><a href="#lambda_kwds">lambda_kwds</a></rr-a>
+               <rr-a>
+                  <rr-t>'*'</rr-t>
+                  <rr-t>','</rr-t><a href="#lambda_param_maybe_default">lambda_param_maybe_default</a><a href="#lambda_kwds">lambda_kwds</a></rr-a><a href="#lambda_kwds">lambda_kwds</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="lambda_kwds">lambda_kwds</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#lambda_param_no_default">lambda_param_no_default</a></rr-a>
+               <rr-a>
+                  <rr-t>'**'</rr-t><a href="#lambda_param_no_default">lambda_param_no_default</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1448,7 +1781,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#lambda_param">lambda_param</a></rr-a>
+               <rr-a><a href="#lambda_param">lambda_param</a><rr-t>','</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1456,7 +1790,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#lambda_param">lambda_param</a><a href="#default_assignment">default_assignment</a></rr-a>
+               <rr-a><a href="#lambda_param">lambda_param</a><a href="#default_assignment">default_assignment</a><rr-t>','</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1464,20 +1799,24 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#lambda_param">lambda_param</a><a href="#default_assignment">default_assignment</a></rr-a>
+               <rr-a><a href="#lambda_param">lambda_param</a><a href="#default_assignment">default_assignment</a><rr-t>','</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="lambda_param">lambda_param</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NAME</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="fstring_middle">fstring_middle</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#fstring_replacement_field">fstring_replacement_field</a></rr-o>
+            <rr-o><a href="#fstring_replacement_field">fstring_replacement_field</a><rr-t>FSTRING_MIDDLE</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="fstring_replacement_field">fstring_replacement_field</h2>
@@ -1485,9 +1824,12 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>LBRACE</rr-t>
                   <rr-a>
                      <rr-o><a href="#yield_expr">yield_expr</a><a href="#star_expressions">star_expressions</a></rr-o>
-                  </rr-a><a href="#fstring_conversion">fstring_conversion</a><a href="#fstring_full_format_spec">fstring_full_format_spec</a></rr-a>
+                  </rr-a>
+                  <rr-t>'='</rr-t><a href="#fstring_conversion">fstring_conversion</a><a href="#fstring_full_format_spec">fstring_full_format_spec</a><rr-t>RBRACE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1495,7 +1837,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'!'</rr-t>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1503,28 +1848,34 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#fstring_format_spec">fstring_format_spec</a></rr-a>
+               <rr-a>
+                  <rr-t>':'</rr-t><a href="#fstring_format_spec">fstring_format_spec</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="fstring_format_spec">fstring_format_spec</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#fstring_replacement_field">fstring_replacement_field</a></rr-o>
+            <rr-o>
+               <rr-t>FSTRING_MIDDLE</rr-t><a href="#fstring_replacement_field">fstring_replacement_field</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="fstring">fstring</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#fstring_middle">fstring_middle</a></rr-a>
+               <rr-a>
+                  <rr-t>FSTRING_START</rr-t><a href="#fstring_middle">fstring_middle</a><rr-t>FSTRING_END</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="string">string</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="strings">strings</h2>
@@ -1541,7 +1892,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#star_named_expressions">star_named_expressions</a></rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#star_named_expressions">star_named_expressions</a><rr-t>']'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1550,11 +1903,13 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'('</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#star_named_expression">star_named_expression</a><a href="#star_named_expressions">star_named_expressions</a></rr-a>
+                        <rr-a><a href="#star_named_expression">star_named_expression</a><rr-t>','</rr-t><a href="#star_named_expressions">star_named_expressions</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>')'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1563,7 +1918,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#star_named_expressions">star_named_expressions</a></rr-a>
+               <rr-a>
+                  <rr-t>LBRACE</rr-t><a href="#star_named_expressions">star_named_expressions</a><rr-t>RBRACE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1571,7 +1928,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#double_starred_kvpairs">double_starred_kvpairs</a></rr-a>
+               <rr-a>
+                  <rr-t>LBRACE</rr-t><a href="#double_starred_kvpairs">double_starred_kvpairs</a><rr-t>RBRACE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1581,9 +1940,11 @@
             <rr-o>
                <rr-a><a href="#double_starred_kvpair">double_starred_kvpair</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#double_starred_kvpair">double_starred_kvpair</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#double_starred_kvpair">double_starred_kvpair</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>','</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1592,14 +1953,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#bitwise_or">bitwise_or</a></rr-a><a href="#kvpair">kvpair</a></rr-o>
+               <rr-a>
+                  <rr-t>'**'</rr-t><a href="#bitwise_or">bitwise_or</a></rr-a><a href="#kvpair">kvpair</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="kvpair">kvpair</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>':'</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1613,9 +1975,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#star_targets">star_targets</a><a href="#disjunction">disjunction</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>ASYNC</rr-t>
+                  <rr-t>'for'</rr-t><a href="#star_targets">star_targets</a><rr-t>'in'</rr-t><a href="#disjunction">disjunction</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#disjunction">disjunction</a></rr-a>
+                        <rr-a>
+                           <rr-t>'if'</rr-t><a href="#disjunction">disjunction</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1626,7 +1991,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#named_expression">named_expression</a><a href="#for_if_clauses">for_if_clauses</a></rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#named_expression">named_expression</a><a href="#for_if_clauses">for_if_clauses</a><rr-t>']'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1634,7 +2001,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#named_expression">named_expression</a><a href="#for_if_clauses">for_if_clauses</a></rr-a>
+               <rr-a>
+                  <rr-t>LBRACE</rr-t><a href="#named_expression">named_expression</a><a href="#for_if_clauses">for_if_clauses</a><rr-t>RBRACE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1643,9 +2012,11 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'('</rr-t>
                   <rr-a>
                      <rr-o><a href="#assignment_expression">assignment_expression</a><a href="#expression">expression</a></rr-o>
-                  </rr-a><a href="#for_if_clauses">for_if_clauses</a></rr-a>
+                  </rr-a><a href="#for_if_clauses">for_if_clauses</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1653,7 +2024,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#kvpair">kvpair</a><a href="#for_if_clauses">for_if_clauses</a></rr-a>
+               <rr-a>
+                  <rr-t>LBRACE</rr-t><a href="#kvpair">kvpair</a><a href="#for_if_clauses">for_if_clauses</a><rr-t>RBRACE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1661,7 +2034,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#args">args</a></rr-a>
+               <rr-a><a href="#args">args</a><rr-t>','</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1679,6 +2053,7 @@
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
                         <rr-a>
+                           <rr-t>','</rr-t>
                            <rr-a>
                               <rr-o><a href="#starred_expression">starred_expression</a><rr-a>
                                     <rr-o><a href="#assignment_expression">assignment_expression</a><a href="#expression">expression</a></rr-o>
@@ -1690,7 +2065,8 @@
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#kwargs">kwargs</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#kwargs">kwargs</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a><a href="#kwargs">kwargs</a></rr-o>
@@ -1702,14 +2078,17 @@
             <rr-o>
                <rr-a><a href="#kwarg_or_starred">kwarg_or_starred</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#kwarg_or_starred">kwarg_or_starred</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#kwarg_or_starred">kwarg_or_starred</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#kwarg_or_double_starred">kwarg_or_double_starred</a><rr-a data-min="0" data-max="inf">
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#kwarg_or_double_starred">kwarg_or_double_starred</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#kwarg_or_double_starred">kwarg_or_double_starred</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>','</rr-t><a href="#kwarg_or_double_starred">kwarg_or_double_starred</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
@@ -1718,7 +2097,8 @@
                </rr-a>
                <rr-a><a href="#kwarg_or_double_starred">kwarg_or_double_starred</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#kwarg_or_double_starred">kwarg_or_double_starred</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#kwarg_or_double_starred">kwarg_or_double_starred</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1729,7 +2109,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'*'</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1737,15 +2118,20 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a><a href="#starred_expression">starred_expression</a></rr-o>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>'='</rr-t><a href="#expression">expression</a></rr-a><a href="#starred_expression">starred_expression</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="kwarg_or_double_starred">kwarg_or_double_starred</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>'='</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'**'</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1755,9 +2141,11 @@
             <rr-o>
                <rr-a><a href="#star_target">star_target</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#star_target">star_target</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#star_target">star_target</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>','</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1768,9 +2156,11 @@
             <rr-o>
                <rr-a><a href="#star_target">star_target</a><rr-a data-min="1" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#star_target">star_target</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#star_target">star_target</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>','</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1781,12 +2171,15 @@
             <rr-o>
                <rr-a><a href="#star_target">star_target</a><rr-a>
                      <rr-o>
+                        <rr-t>','</rr-t>
                         <rr-a>
                            <rr-a data-min="1" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#star_target">star_target</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>','</rr-t><a href="#star_target">star_target</a></rr-a>
                               </rr-o>
                            </rr-a>
+                           <rr-t>','</rr-t>
                         </rr-a>
                      </rr-o>
                   </rr-a>
@@ -1799,6 +2192,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'*'</rr-t>
                   <rr-a>
                      <rr-o><a href="#star_target">star_target</a></rr-o>
                   </rr-a>
@@ -1811,8 +2205,13 @@
             <rr-o>
                <rr-a><a href="#t_primary">t_primary</a><rr-a>
                      <rr-o>
-                        <rr-a></rr-a>
-                        <rr-a><a href="#slices">slices</a></rr-a>
+                        <rr-a>
+                           <rr-t>'.'</rr-t>
+                           <rr-t>NAME</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>'['</rr-t><a href="#slices">slices</a><rr-t>']'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a><a href="#star_atom">star_atom</a></rr-o>
@@ -1822,16 +2221,26 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#target_with_star_atom">target_with_star_atom</a></rr-a>
-               <rr-a><a href="#star_targets_tuple_seq">star_targets_tuple_seq</a></rr-a>
-               <rr-a><a href="#star_targets_list_seq">star_targets_list_seq</a></rr-a>
+               <rr-t>NAME</rr-t>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#target_with_star_atom">target_with_star_atom</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#star_targets_tuple_seq">star_targets_tuple_seq</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#star_targets_list_seq">star_targets_list_seq</a><rr-t>']'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="single_target">single_target</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#single_subscript_attribute_target">single_subscript_attribute_target</a><rr-a><a href="#single_target">single_target</a></rr-a>
+            <rr-o><a href="#single_subscript_attribute_target">single_subscript_attribute_target</a><rr-t>NAME</rr-t>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#single_target">single_target</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1841,8 +2250,13 @@
             <rr-o>
                <rr-a><a href="#t_primary">t_primary</a><rr-a>
                      <rr-o>
-                        <rr-a></rr-a>
-                        <rr-a><a href="#slices">slices</a></rr-a>
+                        <rr-a>
+                           <rr-t>'.'</rr-t>
+                           <rr-t>NAME</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>'['</rr-t><a href="#slices">slices</a><rr-t>']'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1855,8 +2269,15 @@
             <rr-o>
                <rr-a><a href="#t_primary">t_primary</a><rr-a>
                      <rr-o>
-                        <rr-a></rr-a>
-                        <rr-a><a href="#slices">slices</a></rr-a><a href="#genexp">genexp</a><rr-a><a href="#arguments">arguments</a></rr-a>
+                        <rr-a>
+                           <rr-t>'.'</rr-t>
+                           <rr-t>NAME</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>'['</rr-t><a href="#slices">slices</a><rr-t>']'</rr-t>
+                        </rr-a><a href="#genexp">genexp</a><rr-a>
+                           <rr-t>'('</rr-t><a href="#arguments">arguments</a><rr-t>')'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a><a href="#atom">atom</a></rr-o>
@@ -1868,9 +2289,11 @@
             <rr-o>
                <rr-a><a href="#del_target">del_target</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#del_target">del_target</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#del_target">del_target</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>','</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1881,8 +2304,13 @@
             <rr-o>
                <rr-a><a href="#t_primary">t_primary</a><rr-a>
                      <rr-o>
-                        <rr-a></rr-a>
-                        <rr-a><a href="#slices">slices</a></rr-a>
+                        <rr-a>
+                           <rr-t>'.'</rr-t>
+                           <rr-t>NAME</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>'['</rr-t><a href="#slices">slices</a><rr-t>']'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a><a href="#del_t_atom">del_t_atom</a></rr-o>
@@ -1892,9 +2320,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#del_target">del_target</a></rr-a>
-               <rr-a><a href="#del_targets">del_targets</a></rr-a>
-               <rr-a><a href="#del_targets">del_targets</a></rr-a>
+               <rr-t>NAME</rr-t>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#del_target">del_target</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#del_targets">del_targets</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#del_targets">del_targets</a><rr-t>']'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1904,34 +2339,44 @@
             <rr-o>
                <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#expression">expression</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#expression">expression</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
+                           <rr-t>','</rr-t>
                            <rr-a>
                               <rr-o>
-                                 <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="1">
+                                 <rr-a>
+                                    <rr-t>'*'</rr-t><a href="#expression">expression</a><rr-a data-min="0" data-max="1">
                                        <rr-o>
-                                          <rr-a><a href="#expression">expression</a></rr-a>
+                                          <rr-a>
+                                             <rr-t>','</rr-t>
+                                             <rr-t>'**'</rr-t><a href="#expression">expression</a></rr-a>
                                        </rr-o>
                                     </rr-a>
                                  </rr-a>
-                                 <rr-a><a href="#expression">expression</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>'**'</rr-t><a href="#expression">expression</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>'*'</rr-t><a href="#expression">expression</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expression">expression</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t>
+                           <rr-t>'**'</rr-t><a href="#expression">expression</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'**'</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1939,7 +2384,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>NEWLINE</rr-t>
+                  <rr-t>TYPE_COMMENT</rr-t>
+               </rr-a>
+               <rr-t>TYPE_COMMENT</rr-t>
             </rr-o>
          </rr-rr>
       </p>
@@ -1947,7 +2396,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1955,7 +2406,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1963,7 +2416,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1971,7 +2426,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1979,7 +2436,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>

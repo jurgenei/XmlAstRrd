@@ -5,37 +5,101 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1><a href="../index.html">Railroad</a> codeql/CodeQLParser.ast.xml</h1>
+      <h1>Railroad codeql/CodeQLParser.ast.xml</h1>
+      <pre>/*
+ CodeQL grammar
+ The MIT License (MIT).
+ Copyright (c) 2023, Dijun Liu
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+
+ CodeQL grammar built from the CodeQL Specification https://codeql.github.com/docs/ql-language-reference/ql-language-specification
+*/</pre>
       <h1>Rules</h1>
       <h2 id="literalId">literalId</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#keywordAllowed">keywordAllowed</a></rr-o>
+            <rr-o>
+               <rr-t>LOWERID</rr-t>
+               <rr-t>ATLOWERID</rr-t>
+               <rr-t>UPPERID</rr-t>
+               <rr-t>NONE</rr-t>
+               <rr-t>ANY</rr-t><a href="#keywordAllowed">keywordAllowed</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="keywordAllowed">keywordAllowed</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'unique'</rr-t>
+               <rr-t>'implements'</rr-t>
+               <rr-t>'signature'</rr-t>
+               <rr-t>'default'</rr-t>
+               <rr-t>'abstract'</rr-t>
+               <rr-t>'cached'</rr-t>
+               <rr-t>'external'</rr-t>
+               <rr-t>'extensible'</rr-t>
+               <rr-t>'final'</rr-t>
+               <rr-t>'transient'</rr-t>
+               <rr-t>'library'</rr-t>
+               <rr-t>'private'</rr-t>
+               <rr-t>'deprecated'</rr-t>
+               <rr-t>'override'</rr-t>
+               <rr-t>'additional'</rr-t>
+               <rr-t>'query'</rr-t>
+               <rr-t>'pragma'</rr-t>
+               <rr-t>'inline'</rr-t>
+               <rr-t>'inline_late'</rr-t>
+               <rr-t>'noinline'</rr-t>
+               <rr-t>'nomagic'</rr-t>
+               <rr-t>'noopt'</rr-t>
+               <rr-t>'assume_small_delta'</rr-t>
+               <rr-t>'language'</rr-t>
+               <rr-t>'monotonicAggregates'</rr-t>
+               <rr-t>'bindingset'</rr-t>
+               <rr-t>'only_bind_out'</rr-t>
+               <rr-t>'only_bind_into'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="keywordPredCallAllowed">keywordPredCallAllowed</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#keywordAllowed">keywordAllowed</a></rr-o>
+            <rr-o><a href="#keywordAllowed">keywordAllowed</a><rr-t>'any'</rr-t>
+               <rr-t>'none'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="varname">varname</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#keywordAllowed">keywordAllowed</a></rr-o>
+            <rr-o>
+               <rr-t>LOWERID</rr-t><a href="#keywordAllowed">keywordAllowed</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="ql">ql</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#moduleBody">moduleBody</a></rr-a>
+               <rr-a>
+                  <rr-t>QL_DOC</rr-t><a href="#moduleBody">moduleBody</a><rr-t>EOF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -43,7 +107,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#annotation">annotation</a><a href="#modulename">modulename</a><a href="#parameters">parameters</a><a href="#implements">implements</a><a href="#moduleBody">moduleBody</a></rr-a>
+               <rr-a><a href="#annotation">annotation</a><rr-t>'module'</rr-t><a href="#modulename">modulename</a><a href="#parameters">parameters</a><a href="#implements">implements</a><rr-t>'{'</rr-t><a href="#moduleBody">moduleBody</a><rr-t>'}'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -51,11 +116,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#signatureExpr">signatureExpr</a><a href="#parameterName">parameterName</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>'&lt;'</rr-t><a href="#signatureExpr">signatureExpr</a><a href="#parameterName">parameterName</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#signatureExpr">signatureExpr</a><a href="#parameterName">parameterName</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#signatureExpr">signatureExpr</a><a href="#parameterName">parameterName</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>'&gt;'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -64,9 +132,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#moduleSignatureExpr">moduleSignatureExpr</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>IMPLEMENTS</rr-t><a href="#moduleSignatureExpr">moduleSignatureExpr</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#moduleSignatureExpr">moduleSignatureExpr</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#moduleSignatureExpr">moduleSignatureExpr</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -87,9 +157,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#annotations">annotations</a><a href="#importModuleExpr">importModuleExpr</a><rr-a data-min="0" data-max="1">
+               <rr-a><a href="#annotations">annotations</a><rr-t>'import'</rr-t><a href="#importModuleExpr">importModuleExpr</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#modulename">modulename</a></rr-a>
+                        <rr-a>
+                           <rr-t>'as'</rr-t><a href="#modulename">modulename</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -99,20 +170,23 @@
       <h2 id="simpleId">simpleId</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>LOWERID</rr-t>
+               <rr-t>UPPERID</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="qualId">qualId</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#simpleId">simpleId</a><rr-a><a href="#qualId">qualId</a><a href="#simpleId">simpleId</a></rr-a>
+            <rr-o><a href="#simpleId">simpleId</a><rr-a><a href="#qualId">qualId</a><rr-t>'.'</rr-t><a href="#simpleId">simpleId</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="importModuleExpr">importModuleExpr</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#qualId">qualId</a><rr-a><a href="#importModuleExpr">importModuleExpr</a><a href="#modulename">modulename</a><a href="#arguments">arguments</a></rr-a>
+            <rr-o><a href="#qualId">qualId</a><rr-a><a href="#importModuleExpr">importModuleExpr</a><rr-t>'::'</rr-t><a href="#modulename">modulename</a><a href="#arguments">arguments</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -120,11 +194,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#argument">argument</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>'&lt;'</rr-t><a href="#argument">argument</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#argument">argument</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#argument">argument</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>'&gt;'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -132,7 +209,9 @@
       <h2 id="argument">argument</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#moduleExpr">moduleExpr</a><a href="#type">type</a><rr-a><a href="#predicateRef">predicateRef</a></rr-a>
+            <rr-o><a href="#moduleExpr">moduleExpr</a><a href="#type">type</a><rr-a><a href="#predicateRef">predicateRef</a><rr-t>'/'</rr-t>
+                  <rr-t>INT_LITERAL</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -146,7 +225,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#annotation">annotation</a><a href="#head">head</a></rr-a>
+               <rr-a>
+                  <rr-t>QL_DOC</rr-t><a href="#annotation">annotation</a><rr-t>SIGNATURE</rr-t><a href="#head">head</a><rr-t>';'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -154,11 +235,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#annotations">annotations</a><a href="#classname">classname</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>QL_DOC</rr-t><a href="#annotations">annotations</a><rr-t>SIGNATURE</rr-t>
+                  <rr-t>'class'</rr-t><a href="#classname">classname</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#type">type</a><rr-a data-min="0" data-max="inf">
+                        <rr-a>
+                           <rr-t>'extends'</rr-t><a href="#type">type</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#type">type</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>','</rr-t><a href="#type">type</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
@@ -166,7 +251,10 @@
                   </rr-a>
                   <rr-a>
                      <rr-o>
-                        <rr-a><a href="#signaturePredicate">signaturePredicate</a></rr-a>
+                        <rr-t>';'</rr-t>
+                        <rr-a>
+                           <rr-t>'{'</rr-t><a href="#signaturePredicate">signaturePredicate</a><rr-t>'}'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -177,7 +265,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#annotation">annotation</a><a href="#moduleSignatureName">moduleSignatureName</a><a href="#parameters">parameters</a><a href="#moduleSignatureBody">moduleSignatureBody</a></rr-a>
+               <rr-a>
+                  <rr-t>QL_DOC</rr-t><a href="#annotation">annotation</a><rr-t>SIGNATURE</rr-t>
+                  <rr-t>'module'</rr-t><a href="#moduleSignatureName">moduleSignatureName</a><a href="#parameters">parameters</a><rr-t>'{'</rr-t><a href="#moduleSignatureBody">moduleSignatureBody</a><rr-t>'}'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -195,7 +286,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#annotations">annotations</a><a href="#head">head</a></rr-a>
+               <rr-a>
+                  <rr-t>QL_DOC</rr-t><a href="#annotations">annotations</a><a href="#head">head</a><rr-t>';'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -203,7 +296,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#annotations">annotations</a><a href="#head">head</a><a href="#formula">formula</a></rr-a>
+               <rr-a>
+                  <rr-t>QL_DOC</rr-t><a href="#annotations">annotations</a><rr-t>DEFAULT</rr-t><a href="#head">head</a><rr-t>'{'</rr-t><a href="#formula">formula</a><rr-t>'}'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -211,11 +306,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#annotations">annotations</a><a href="#classname">classname</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>QL_DOC</rr-t><a href="#annotations">annotations</a><rr-t>'class'</rr-t><a href="#classname">classname</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#type">type</a><rr-a data-min="0" data-max="inf">
+                        <rr-a>
+                           <rr-t>'extends'</rr-t><a href="#type">type</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#type">type</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>','</rr-t><a href="#type">type</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
@@ -223,7 +321,10 @@
                   </rr-a>
                   <rr-a>
                      <rr-o>
-                        <rr-a><a href="#signaturePredicate">signaturePredicate</a></rr-a>
+                        <rr-t>';'</rr-t>
+                        <rr-a>
+                           <rr-t>'{'</rr-t><a href="#signaturePredicate">signaturePredicate</a><rr-t>'}'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -237,16 +338,21 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#var_decls">var_decls</a></rr-a>
+                        <rr-a>
+                           <rr-t>'from'</rr-t><a href="#var_decls">var_decls</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#formula">formula</a></rr-a>
+                        <rr-a>
+                           <rr-t>'where'</rr-t><a href="#formula">formula</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#as_exprs">as_exprs</a><rr-a data-min="0" data-max="1">
+                  </rr-a>
+                  <rr-t>'select'</rr-t><a href="#as_exprs">as_exprs</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#orderbys">orderbys</a></rr-a>
+                        <rr-a>
+                           <rr-t>'order'</rr-t>
+                           <rr-t>'by'</rr-t><a href="#orderbys">orderbys</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -259,7 +365,8 @@
             <rr-o>
                <rr-a><a href="#as_expr">as_expr</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#as_expr">as_expr</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#as_expr">as_expr</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -272,7 +379,10 @@
             <rr-o>
                <rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>'as'</rr-t>
+                           <rr-t>LOWERID</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -285,7 +395,8 @@
             <rr-o>
                <rr-a><a href="#orderby">orderby</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#orderby">orderby</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#orderby">orderby</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -297,8 +408,12 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>LOWERID</rr-t>
                   <rr-a data-min="0" data-max="1">
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>'asc'</rr-t>
+                        <rr-t>'desc'</rr-t>
+                     </rr-o>
                   </rr-a>
                </rr-a>
             </rr-o>
@@ -307,7 +422,9 @@
       <h2 id="dtName">dtName</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>UPPERID</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="dtBranches">dtBranches</h2>
@@ -316,7 +433,8 @@
             <rr-o>
                <rr-a><a href="#dtBranche">dtBranche</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#dtBranche">dtBranche</a></rr-a>
+                        <rr-a>
+                           <rr-t>'or'</rr-t><a href="#dtBranche">dtBranche</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -327,9 +445,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#dtBranchName">dtBranchName</a><a href="#var_decls">var_decls</a><rr-a data-min="0" data-max="1">
+               <rr-a><a href="#dtBranchName">dtBranchName</a><rr-t>'('</rr-t><a href="#var_decls">var_decls</a><rr-t>')'</rr-t>
+                  <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#formula">formula</a></rr-a>
+                        <rr-a>
+                           <rr-t>'{'</rr-t><a href="#formula">formula</a><rr-t>'}'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -339,14 +460,17 @@
       <h2 id="dtBranchName">dtBranchName</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>UPPERID</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="datatype">datatype</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#annotations">annotations</a><a href="#dtName">dtName</a><a href="#dtBranches">dtBranches</a></rr-a>
+               <rr-a>
+                  <rr-t>QL_DOC</rr-t><a href="#annotations">annotations</a><rr-t>'newtype'</rr-t><a href="#dtName">dtName</a><rr-t>'='</rr-t><a href="#dtBranches">dtBranches</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -356,7 +480,8 @@
             <rr-o>
                <rr-a><a href="#type">type</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#type">type</a></rr-a>
+                        <rr-a>
+                           <rr-t>'or'</rr-t><a href="#type">type</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -367,7 +492,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#annotations">annotations</a><a href="#unionBranches">unionBranches</a></rr-a>
+               <rr-a>
+                  <rr-t>QL_DOC</rr-t><a href="#annotations">annotations</a><rr-t>'class'</rr-t>
+                  <rr-t>UPPERID</rr-t>
+                  <rr-t>'='</rr-t><a href="#unionBranches">unionBranches</a><rr-t>';'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -375,7 +504,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#annotations">annotations</a><a href="#head">head</a><a href="#optbody">optbody</a></rr-a>
+               <rr-a>
+                  <rr-t>QL_DOC</rr-t><a href="#annotations">annotations</a><a href="#head">head</a><a href="#optbody">optbody</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -394,37 +524,70 @@
       <h2 id="simpleAnnotation">simpleAnnotation</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>ABSTRACT</rr-t>
+               <rr-t>CACHED</rr-t>
+               <rr-t>EXTERNAL</rr-t>
+               <rr-t>EXTENSIBLE</rr-t>
+               <rr-t>FINAL</rr-t>
+               <rr-t>TRANSIENT</rr-t>
+               <rr-t>LIBRARY</rr-t>
+               <rr-t>PRIVATE</rr-t>
+               <rr-t>DEPRECATED</rr-t>
+               <rr-t>OVERRIDE</rr-t>
+               <rr-t>ADDITIONAL</rr-t>
+               <rr-t>QUERY</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="pragmaArg">pragmaArg</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>INLINE</rr-t>
+               <rr-t>INLINE_LATE</rr-t>
+               <rr-t>NOINLINE</rr-t>
+               <rr-t>NOMAGIC</rr-t>
+               <rr-t>NOOPT</rr-t>
+               <rr-t>ASSUME_SMALL_DELTA</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="argsAnnotation">argsAnnotation</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#pragmaArg">pragmaArg</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>PRAGMA</rr-t>
+                  <rr-t>'['</rr-t><a href="#pragmaArg">pragmaArg</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#pragmaArg">pragmaArg</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#pragmaArg">pragmaArg</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>']'</rr-t>
                </rr-a>
-               <rr-a></rr-a>
                <rr-a>
+                  <rr-t>LANGUAGE</rr-t>
+                  <rr-t>'['</rr-t>
+                  <rr-t>'monotonicAggregates'</rr-t>
+                  <rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>BINDINGSET</rr-t>
+                  <rr-t>'['</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a><a href="#variable">variable</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#variable">variable</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>','</rr-t><a href="#variable">variable</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>']'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -435,8 +598,10 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o><a href="#type">type</a></rr-o>
-                  </rr-a><a href="#predicateName">predicateName</a><a href="#var_decls">var_decls</a></rr-a>
+                     <rr-o>
+                        <rr-t>'predicate'</rr-t><a href="#type">type</a></rr-o>
+                  </rr-a><a href="#predicateName">predicateName</a><rr-t>'('</rr-t><a href="#var_decls">var_decls</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -444,17 +609,30 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#formula">formula</a></rr-a>
-               <rr-a><a href="#literalId">literalId</a><rr-a data-min="0" data-max="1">
+               <rr-t>';'</rr-t>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#formula">formula</a><rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'='</rr-t><a href="#literalId">literalId</a><rr-t>'('</rr-t>
+                  <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#predicateRef">predicateRef</a><rr-a data-min="0" data-max="inf">
+                        <rr-a><a href="#predicateRef">predicateRef</a><rr-t>'/'</rr-t>
+                           <rr-t>INT_LITERAL</rr-t>
+                           <rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#predicateRef">predicateRef</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>','</rr-t><a href="#predicateRef">predicateRef</a><rr-t>'/'</rr-t>
+                                    <rr-t>INT_LITERAL</rr-t>
+                                 </rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
-                  </rr-a><a href="#exprs">exprs</a></rr-a>
+                  </rr-a>
+                  <rr-t>')'</rr-t>
+                  <rr-t>'('</rr-t><a href="#exprs">exprs</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -462,11 +640,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#annotations">annotations</a><a href="#classname">classname</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>QL_DOC</rr-t><a href="#annotations">annotations</a><rr-t>'class'</rr-t><a href="#classname">classname</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#type">type</a><rr-a data-min="0" data-max="inf">
+                        <rr-a>
+                           <rr-t>'extends'</rr-t><a href="#type">type</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#type">type</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>','</rr-t><a href="#type">type</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
@@ -474,14 +655,18 @@
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#type">type</a><rr-a data-min="0" data-max="inf">
+                        <rr-a>
+                           <rr-t>'instanceof'</rr-t><a href="#type">type</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#type">type</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>','</rr-t><a href="#type">type</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
-                  </rr-a><a href="#member">member</a></rr-a>
+                  </rr-a>
+                  <rr-t>'{'</rr-t><a href="#member">member</a><rr-t>'}'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -495,7 +680,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#annotations">annotations</a><a href="#classname">classname</a><a href="#formula">formula</a></rr-a>
+               <rr-a>
+                  <rr-t>QL_DOC</rr-t><a href="#annotations">annotations</a><a href="#classname">classname</a><rr-t>'('</rr-t>
+                  <rr-t>')'</rr-t>
+                  <rr-t>'{'</rr-t><a href="#formula">formula</a><rr-t>'}'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -503,7 +692,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#annotations">annotations</a><a href="#var_decl">var_decl</a></rr-a>
+               <rr-a>
+                  <rr-t>QL_DOC</rr-t><a href="#annotations">annotations</a><a href="#var_decl">var_decl</a><rr-t>';'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -512,7 +703,7 @@
          <rr-rr>
             <rr-o>
                <rr-a><a href="#modulename">modulename</a><a href="#arguments">arguments</a></rr-a>
-               <rr-a><a href="#moduleExpr">moduleExpr</a><a href="#modulename">modulename</a><a href="#arguments">arguments</a></rr-a>
+               <rr-a><a href="#moduleExpr">moduleExpr</a><rr-t>'::'</rr-t><a href="#modulename">modulename</a><a href="#arguments">arguments</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -523,7 +714,8 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#moduleExpr">moduleExpr</a></rr-a>
+                        <rr-a><a href="#moduleExpr">moduleExpr</a><rr-t>'::'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#moduleSignatureName">moduleSignatureName</a><a href="#arguments">arguments</a></rr-a>
             </rr-o>
@@ -536,11 +728,15 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#moduleExpr">moduleExpr</a></rr-a>
+                        <rr-a><a href="#moduleExpr">moduleExpr</a><rr-t>'::'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#simpleId">simpleId</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a><a href="#arguments">arguments</a></rr-o>
+                        <rr-a>
+                           <rr-t>'/'</rr-t>
+                           <rr-t>INT_LITERAL</rr-t>
+                        </rr-a><a href="#arguments">arguments</a></rr-o>
                   </rr-a>
                </rr-a>
             </rr-o>
@@ -553,9 +749,15 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#moduleExpr">moduleExpr</a></rr-a>
+                        <rr-a><a href="#moduleExpr">moduleExpr</a><rr-t>'::'</rr-t>
+                        </rr-a>
                      </rr-o>
-                  </rr-a><a href="#classname">classname</a></rr-a><a href="#dbbasetype">dbbasetype</a></rr-o>
+                  </rr-a><a href="#classname">classname</a></rr-a><a href="#dbbasetype">dbbasetype</a><rr-t>'boolean'</rr-t>
+               <rr-t>'date'</rr-t>
+               <rr-t>'float'</rr-t>
+               <rr-t>'int'</rr-t>
+               <rr-t>'string'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="exprs">exprs</h2>
@@ -564,7 +766,8 @@
             <rr-o>
                <rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#expr">expr</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#expr">expr</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -575,9 +778,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#annotations">annotations</a><a href="#predicateName">predicateName</a><a href="#predicateRef">predicateRef</a></rr-a>
-               <rr-a><a href="#annotations">annotations</a><a href="#classname">classname</a><a href="#type">type</a></rr-a>
-               <rr-a><a href="#annotations">annotations</a><a href="#modulename">modulename</a><a href="#moduleExpr">moduleExpr</a></rr-a>
+               <rr-a>
+                  <rr-t>QL_DOC</rr-t><a href="#annotations">annotations</a><rr-t>'predicate'</rr-t><a href="#predicateName">predicateName</a><rr-t>'='</rr-t><a href="#predicateRef">predicateRef</a><rr-t>'/'</rr-t>
+                  <rr-t>INT_LITERAL</rr-t>
+                  <rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>QL_DOC</rr-t><a href="#annotations">annotations</a><rr-t>'class'</rr-t><a href="#classname">classname</a><rr-t>'='</rr-t><a href="#type">type</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>QL_DOC</rr-t><a href="#annotations">annotations</a><rr-t>'module'</rr-t><a href="#modulename">modulename</a><rr-t>'='</rr-t><a href="#moduleExpr">moduleExpr</a><rr-t>';'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -589,7 +800,8 @@
                   <rr-o>
                      <rr-a><a href="#var_decl">var_decl</a><rr-a data-min="0" data-max="inf">
                            <rr-o>
-                              <rr-a><a href="#var_decl">var_decl</a></rr-a>
+                              <rr-a>
+                                 <rr-t>','</rr-t><a href="#var_decl">var_decl</a></rr-a>
                            </rr-o>
                         </rr-a>
                      </rr-a>
@@ -612,7 +824,8 @@
             <rr-o>
                <rr-a><a href="#conjunction_formula">conjunction_formula</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#formula">formula</a></rr-a>
+                        <rr-a>
+                           <rr-t>'or'</rr-t><a href="#formula">formula</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -631,7 +844,8 @@
             <rr-o>
                <rr-a><a href="#implies_formula">implies_formula</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#formula">formula</a></rr-a>
+                        <rr-a>
+                           <rr-t>'and'</rr-t><a href="#formula">formula</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -644,7 +858,8 @@
             <rr-o>
                <rr-a><a href="#formula_base">formula_base</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#formula">formula</a></rr-a>
+                        <rr-a>
+                           <rr-t>'implies'</rr-t><a href="#formula">formula</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -655,7 +870,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#formula">formula</a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#formula">formula</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -663,7 +880,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#formula">formula</a><a href="#formula">formula</a><a href="#formula">formula</a></rr-a>
+               <rr-a>
+                  <rr-t>'if'</rr-t><a href="#formula">formula</a><rr-t>'then'</rr-t><a href="#formula">formula</a><rr-t>'else'</rr-t><a href="#formula">formula</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -671,7 +889,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#formula">formula</a></rr-a>
+               <rr-a>
+                  <rr-t>'not'</rr-t><a href="#formula">formula</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -679,28 +898,46 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expr">expr</a></rr-a>
-               <rr-a><a href="#var_decls">var_decls</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>'exists'</rr-t>
+                  <rr-t>'('</rr-t><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'exists'</rr-t>
+                  <rr-t>'('</rr-t><a href="#var_decls">var_decls</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#formula">formula</a></rr-a>
+                        <rr-a>
+                           <rr-t>'|'</rr-t><a href="#formula">formula</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#formula">formula</a></rr-a>
+                        <rr-a>
+                           <rr-t>'|'</rr-t><a href="#formula">formula</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>')'</rr-t>
                </rr-a>
-               <rr-a><a href="#var_decls">var_decls</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>'forall'</rr-t>
+                  <rr-t>'('</rr-t><a href="#var_decls">var_decls</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#formula">formula</a></rr-a>
+                        <rr-a>
+                           <rr-t>'|'</rr-t><a href="#formula">formula</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#formula">formula</a></rr-a>
-               <rr-a><a href="#var_decls">var_decls</a><rr-a data-min="0" data-max="1">
+                  </rr-a>
+                  <rr-t>'|'</rr-t><a href="#formula">formula</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'forex'</rr-t>
+                  <rr-t>'('</rr-t><a href="#var_decls">var_decls</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#formula">formula</a></rr-a>
+                        <rr-a>
+                           <rr-t>'|'</rr-t><a href="#formula">formula</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#formula">formula</a></rr-a>
+                  </rr-a>
+                  <rr-t>'|'</rr-t><a href="#formula">formula</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -715,14 +952,21 @@
       <h2 id="compop">compop</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'='</rr-t>
+               <rr-t>'!='</rr-t>
+               <rr-t>'&lt;'</rr-t>
+               <rr-t>'&gt;'</rr-t>
+               <rr-t>'&lt;='</rr-t>
+               <rr-t>'&gt;='</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="instanceof">instanceof</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expr">expr</a><a href="#type">type</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>'instanceof'</rr-t><a href="#type">type</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -730,7 +974,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expr">expr</a><rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>'in'</rr-t>
+                  <rr-a>
                      <rr-o><a href="#range">range</a><a href="#setliteral">setliteral</a></rr-o>
                   </rr-a>
                </rr-a>
@@ -741,15 +986,20 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#predicateRef">predicateRef</a><a href="#closure">closure</a><a href="#exprs">exprs</a></rr-a>
-               <rr-a><a href="#primary">primary</a><a href="#predicateName">predicateName</a><a href="#closure">closure</a><a href="#exprs">exprs</a></rr-a>
+               <rr-a><a href="#predicateRef">predicateRef</a><a href="#closure">closure</a><rr-t>'('</rr-t><a href="#exprs">exprs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a><a href="#primary">primary</a><rr-t>'.'</rr-t><a href="#predicateName">predicateName</a><a href="#closure">closure</a><rr-t>'('</rr-t><a href="#exprs">exprs</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="closure">closure</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'*'</rr-t>
+               <rr-t>'+'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="expr">expr</h2>
@@ -760,7 +1010,10 @@
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>'+'</rr-t>
+                                 <rr-t>'-'</rr-t>
+                              </rr-o>
                            </rr-a><a href="#multExpr">multExpr</a></rr-a>
                      </rr-o>
                   </rr-a>
@@ -776,7 +1029,11 @@
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>'*'</rr-t>
+                                 <rr-t>'/'</rr-t>
+                                 <rr-t>'%'</rr-t>
+                              </rr-o>
                            </rr-a><a href="#unaryExpr">unaryExpr</a></rr-a>
                      </rr-o>
                   </rr-a>
@@ -793,7 +1050,8 @@
       <h2 id="nonOpExpr">nonOpExpr</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#cast">cast</a><a href="#primary">primary</a></rr-o>
+            <rr-o>
+               <rr-t>DONTCARE</rr-t><a href="#cast">cast</a><a href="#primary">primary</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="primary">primary</h2>
@@ -808,8 +1066,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#type">type</a></rr-a>
-               <rr-a><a href="#predicateName">predicateName</a><a href="#closure">closure</a><a href="#exprs">exprs</a></rr-a>
+               <rr-a>
+                  <rr-t>'.'</rr-t>
+                  <rr-t>'('</rr-t><a href="#type">type</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'.'</rr-t><a href="#predicateName">predicateName</a><a href="#closure">closure</a><rr-t>'('</rr-t><a href="#exprs">exprs</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -817,7 +1080,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#predicateRef">predicateRef</a><a href="#closure">closure</a><a href="#exprs">exprs</a></rr-a>
+               <rr-a><a href="#predicateRef">predicateRef</a><a href="#closure">closure</a><rr-t>'('</rr-t><a href="#exprs">exprs</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -831,7 +1095,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>NONE</rr-t>
+                  <rr-t>'('</rr-t>
+                  <rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -839,36 +1107,51 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expr">expr</a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="literal">literal</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'false'</rr-t>
+               <rr-t>'true'</rr-t>
+               <rr-t>INT_LITERAL</rr-t>
+               <rr-t>FLOAT_LITERAL</rr-t>
+               <rr-t>STRING_LITERAL</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="unop">unop</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expr">expr</a></rr-a>
-               <rr-a><a href="#expr">expr</a></rr-a>
+               <rr-a>
+                  <rr-t>'+'</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a>
+                  <rr-t>'-'</rr-t><a href="#expr">expr</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="variable">variable</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#varname">varname</a></rr-o>
+            <rr-o><a href="#varname">varname</a><rr-t>'this'</rr-t>
+               <rr-t>'result'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="super_expr">super_expr</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#type">type</a></rr-a>
+               <rr-t>'super'</rr-t>
+               <rr-a><a href="#type">type</a><rr-t>'.'</rr-t>
+                  <rr-t>'super'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -876,7 +1159,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#type">type</a><a href="#expr">expr</a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#type">type</a><rr-t>')'</rr-t><a href="#expr">expr</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -886,15 +1170,22 @@
             <rr-o>
                <rr-a><a href="#aggid">aggid</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expr">expr</a></rr-a>
+                        <rr-a>
+                           <rr-t>'['</rr-t><a href="#expr">expr</a><rr-t>']'</rr-t>
+                        </rr-a>
                      </rr-o>
-                  </rr-a><a href="#var_decls">var_decls</a><rr-a data-min="0" data-max="1">
+                  </rr-a>
+                  <rr-t>'('</rr-t><a href="#var_decls">var_decls</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#formula">formula</a><rr-a data-min="0" data-max="1">
+                        <rr-a>
+                           <rr-t>'|'</rr-t><a href="#formula">formula</a><rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a><a href="#as_exprs">as_exprs</a><rr-a data-min="0" data-max="1">
+                                 <rr-a>
+                                    <rr-t>'|'</rr-t><a href="#as_exprs">as_exprs</a><rr-a data-min="0" data-max="1">
                                        <rr-o>
-                                          <rr-a><a href="#aggorderbys">aggorderbys</a></rr-a>
+                                          <rr-a>
+                                             <rr-t>'order'</rr-t>
+                                             <rr-t>'by'</rr-t><a href="#aggorderbys">aggorderbys</a></rr-a>
                                        </rr-o>
                                     </rr-a>
                                  </rr-a>
@@ -903,22 +1194,33 @@
                         </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>')'</rr-t>
                </rr-a>
                <rr-a><a href="#aggid">aggid</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expr">expr</a></rr-a>
-                     </rr-o>
-                  </rr-a><a href="#as_exprs">as_exprs</a><rr-a data-min="0" data-max="1">
-                     <rr-o>
-                        <rr-a><a href="#aggorderbys">aggorderbys</a></rr-a>
+                        <rr-a>
+                           <rr-t>'['</rr-t><a href="#expr">expr</a><rr-t>']'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>'('</rr-t><a href="#as_exprs">as_exprs</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'order'</rr-t>
+                           <rr-t>'by'</rr-t><a href="#aggorderbys">aggorderbys</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t>
                </rr-a>
-               <rr-a><a href="#var_decls">var_decls</a><a href="#formula">formula</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>'unique'</rr-t>
+                  <rr-t>'('</rr-t><a href="#var_decls">var_decls</a><rr-t>'|'</rr-t><a href="#formula">formula</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#as_exprs">as_exprs</a></rr-a>
+                        <rr-a>
+                           <rr-t>'|'</rr-t><a href="#as_exprs">as_exprs</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>')'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -927,20 +1229,38 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression_pragma_type">expression_pragma_type</a><a href="#expr">expr</a></rr-a>
+               <rr-a>
+                  <rr-t>PRAGMA</rr-t>
+                  <rr-t>'['</rr-t><a href="#expression_pragma_type">expression_pragma_type</a><rr-t>']'</rr-t>
+                  <rr-t>'('</rr-t><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="expression_pragma_type">expression_pragma_type</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'only_bind_out'</rr-t>
+               <rr-t>'only_bind_into'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="aggid">aggid</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'avg'</rr-t>
+               <rr-t>'concat'</rr-t>
+               <rr-t>'count'</rr-t>
+               <rr-t>'max'</rr-t>
+               <rr-t>'min'</rr-t>
+               <rr-t>'rank'</rr-t>
+               <rr-t>'strictconcat'</rr-t>
+               <rr-t>'strictcount'</rr-t>
+               <rr-t>'strictsum'</rr-t>
+               <rr-t>'sum'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="aggorderbys">aggorderbys</h2>
@@ -949,7 +1269,8 @@
             <rr-o>
                <rr-a><a href="#aggorderby">aggorderby</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#aggorderby">aggorderby</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#aggorderby">aggorderby</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -961,7 +1282,10 @@
          <rr-rr>
             <rr-o>
                <rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="1">
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>'asc'</rr-t>
+                        <rr-t>'desc'</rr-t>
+                     </rr-o>
                   </rr-a>
                </rr-a>
             </rr-o>
@@ -971,16 +1295,21 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#var_decls">var_decls</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>'any'</rr-t>
+                  <rr-t>'('</rr-t><a href="#var_decls">var_decls</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#formula">formula</a><rr-a data-min="0" data-max="1">
+                        <rr-a>
+                           <rr-t>'|'</rr-t><a href="#formula">formula</a><rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a><a href="#expr">expr</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>'|'</rr-t><a href="#expr">expr</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>')'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -989,7 +1318,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expr">expr</a><a href="#expr">expr</a></rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#expr">expr</a><rr-t>'..'</rr-t><a href="#expr">expr</a><rr-t>']'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -997,11 +1328,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#expr">expr</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#expr">expr</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>','</rr-t>
+                  <rr-t>']'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1015,19 +1350,25 @@
       <h2 id="moduleSignatureName">moduleSignatureName</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>UPPERID</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="classname">classname</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>UPPERID</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="dbbasetype">dbbasetype</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>ATLOWERID</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="predicateRef">predicateRef</h2>
@@ -1037,7 +1378,8 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#moduleExpr">moduleExpr</a></rr-a>
+                        <rr-a><a href="#moduleExpr">moduleExpr</a><rr-t>'::'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#predicateCallName">predicateCallName</a></rr-a>
             </rr-o>
@@ -1046,13 +1388,17 @@
       <h2 id="predicateName">predicateName</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#keywordAllowed">keywordAllowed</a></rr-o>
+            <rr-o>
+               <rr-t>LOWERID</rr-t><a href="#keywordAllowed">keywordAllowed</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="predicateCallName">predicateCallName</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#keywordPredCallAllowed">keywordPredCallAllowed</a></rr-o>
+            <rr-o>
+               <rr-t>LOWERID</rr-t>
+               <rr-t>ATLOWERID</rr-t>
+               <rr-t>UPPERID</rr-t><a href="#keywordPredCallAllowed">keywordPredCallAllowed</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="parameterName">parameterName</h2>

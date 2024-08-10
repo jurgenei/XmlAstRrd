@@ -5,20 +5,42 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1><a href="../index.html">Railroad</a> turtle/TURTLE.ast.xml</h1>
+      <h1>Railroad turtle/TURTLE.ast.xml</h1>
+      <pre>/*
+ [The "BSD licence"]
+ Copyright (c) 2014, Alejandro Medrano (@ Universidad Politecnica de Madrid, http://www.upm.es/)
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+ 3. The name of the author may not be used to endorse or promote products
+    derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+*/</pre>
+      <pre>/* Derived from http://www.w3.org/TR/turtle/#sec-grammar-grammar */</pre>
       <h1>Rules</h1>
       <h2 id="turtleDoc">turtleDoc</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#statement">statement</a></rr-a>
+               <rr-a><a href="#statement">statement</a><rr-t>EOF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="statement">statement</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#directive">directive</a><rr-a><a href="#triples">triples</a></rr-a>
+            <rr-o><a href="#directive">directive</a><rr-a><a href="#triples">triples</a><rr-t>'.'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -32,7 +54,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'@prefix'</rr-t>
+                  <rr-t>PNAME_NS</rr-t>
+                  <rr-t>IRIREF</rr-t>
+                  <rr-t>'.'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -40,7 +67,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'@base'</rr-t>
+                  <rr-t>IRIREF</rr-t>
+                  <rr-t>'.'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -48,7 +79,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'BASE'</rr-t>
+                  <rr-t>IRIREF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -56,7 +90,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'PREFIX'</rr-t>
+                  <rr-t>PNAME_NS</rr-t>
+                  <rr-t>IRIREF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -76,6 +114,7 @@
                <rr-a><a href="#verb">verb</a><a href="#objectList">objectList</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
                         <rr-a>
+                           <rr-t>';'</rr-t>
                            <rr-a data-min="0" data-max="1">
                               <rr-o>
                                  <rr-a><a href="#verb">verb</a><a href="#objectList">objectList</a></rr-a>
@@ -94,7 +133,8 @@
             <rr-o>
                <rr-a><a href="#object_">object_</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#object_">object_</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#object_">object_</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -104,13 +144,14 @@
       <h2 id="verb">verb</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#predicate">predicate</a></rr-o>
+            <rr-o><a href="#predicate">predicate</a><rr-t>'a'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="subject">subject</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#iri">iri</a><a href="#collection">collection</a></rr-o>
+            <rr-o><a href="#iri">iri</a><rr-t>BlankNode</rr-t><a href="#collection">collection</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="predicate">predicate</h2>
@@ -122,20 +163,24 @@
       <h2 id="object_">object_</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#iri">iri</a><a href="#collection">collection</a><a href="#blankNodePropertyList">blankNodePropertyList</a><a href="#literal">literal</a></rr-o>
+            <rr-o><a href="#iri">iri</a><rr-t>BlankNode</rr-t><a href="#collection">collection</a><a href="#blankNodePropertyList">blankNodePropertyList</a><a href="#literal">literal</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="literal">literal</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#rdfLiteral">rdfLiteral</a></rr-o>
+            <rr-o><a href="#rdfLiteral">rdfLiteral</a><rr-t>NumericLiteral</rr-t>
+               <rr-t>BooleanLiteral</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="blankNodePropertyList">blankNodePropertyList</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#predicateObjectList">predicateObjectList</a></rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#predicateObjectList">predicateObjectList</a><rr-t>']'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -143,7 +188,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#object_">object_</a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#object_">object_</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -151,9 +198,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>INTEGER</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>DECIMAL</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>DOUBLE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -162,9 +215,12 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>String</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#iri">iri</a></rr-a>
+                        <rr-t>LANGTAG</rr-t>
+                        <rr-a>
+                           <rr-t>'^^'</rr-t><a href="#iri">iri</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -175,8 +231,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'true'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'false'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -184,25 +244,40 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>STRING_LITERAL_QUOTE</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>STRING_LITERAL_SINGLE_QUOTE</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>STRING_LITERAL_LONG_SINGLE_QUOTE</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>STRING_LITERAL_LONG_QUOTE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="iri">iri</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>IRIREF</rr-t>
+               <rr-t>PrefixedName</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="BlankNode">BlankNode</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>BLANK_NODE_LABEL</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>ANON</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -213,9 +288,11 @@
                <rr-a>
                   <rr-o>
                      <rr-a>
-                        <rr-c>[\t\r\n\u000C]</rr-c>
+                        <rr-c></rr-c>
                      </rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>' '</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -226,12 +303,18 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>PN_CHARS_BASE</rr-t>
                   <rr-o>
                      <rr-a>
                         <rr-o>
-                           <rr-a></rr-a>
-                           <rr-a></rr-a>
+                           <rr-a>
+                              <rr-t>PN_CHARS</rr-t>
+                           </rr-a>
+                           <rr-a>
+                              <rr-t>'.'</rr-t>
+                           </rr-a>
                         </rr-o>
+                        <rr-t>PN_CHARS</rr-t>
                      </rr-a>
                   </rr-o>
                </rr-a>
@@ -243,18 +326,40 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'&lt;'</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>PN_CHARS</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'.'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>':'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'/'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'\\'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'#'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'@'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'%'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'&amp;'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>UCHAR</rr-t>
+                     </rr-a>
                   </rr-o>
+                  <rr-t>'&gt;'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -263,7 +368,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>PN_PREFIX</rr-t>
+                  <rr-t>':'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -271,8 +379,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>PNAME_LN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>PNAME_NS</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -280,7 +392,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>PNAME_NS</rr-t>
+                  <rr-t>PN_LOCAL</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -289,18 +404,26 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'_:'</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
                      <rr-a>
-                        <rr-c>[0-9]</rr-c>
+                        <rr-t>PN_CHARS_U</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-c></rr-c>
                      </rr-a>
                   </rr-o>
                   <rr-o>
                      <rr-a>
                         <rr-o>
-                           <rr-a></rr-a>
-                           <rr-a></rr-a>
+                           <rr-a>
+                              <rr-t>PN_CHARS</rr-t>
+                           </rr-a>
+                           <rr-a>
+                              <rr-t>'.'</rr-t>
+                           </rr-a>
                         </rr-o>
+                        <rr-t>PN_CHARS</rr-t>
                      </rr-a>
                   </rr-o>
                </rr-a>
@@ -312,10 +435,12 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[a-zA-Z]</rr-c>
+                  <rr-t>'@'</rr-t>
+                  <rr-c></rr-c>
                   <rr-o>
                      <rr-a>
-                        <rr-c>[a-zA-Z0-9]</rr-c>
+                        <rr-t>'-'</rr-t>
+                        <rr-c></rr-c>
                      </rr-a>
                   </rr-o>
                </rr-a>
@@ -327,8 +452,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[+-]</rr-c>
-                  <rr-c>[0-9]</rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -338,9 +463,10 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[+-]</rr-c>
-                  <rr-c>[0-9]</rr-c>
-                  <rr-c>[0-9]</rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
+                  <rr-t>'.'</rr-t>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -350,17 +476,22 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[+-]</rr-c>
+                  <rr-c></rr-c>
                   <rr-o>
                      <rr-a>
-                        <rr-c>[0-9]</rr-c>
-                        <rr-c>[0-9]</rr-c>
+                        <rr-c></rr-c>
+                        <rr-t>'.'</rr-t>
+                        <rr-c></rr-c>
+                        <rr-t>EXPONENT</rr-t>
                      </rr-a>
                      <rr-a>
-                        <rr-c>[0-9]</rr-c>
+                        <rr-t>'.'</rr-t>
+                        <rr-c></rr-c>
+                        <rr-t>EXPONENT</rr-t>
                      </rr-a>
                      <rr-a>
-                        <rr-c>[0-9]</rr-c>
+                        <rr-c></rr-c>
+                        <rr-t>EXPONENT</rr-t>
                      </rr-a>
                   </rr-o>
                </rr-a>
@@ -372,9 +503,9 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[eE]</rr-c>
-                  <rr-c>[+-]</rr-c>
-                  <rr-c>[0-9]</rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -384,22 +515,34 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'\'\'\''</rr-t>
                   <rr-o>
                      <rr-a>
                         <rr-o>
-                           <rr-a></rr-a>
-                           <rr-a></rr-a>
+                           <rr-a>
+                              <rr-t>'\''</rr-t>
+                           </rr-a>
+                           <rr-a>
+                              <rr-t>'\'\''</rr-t>
+                           </rr-a>
                         </rr-o>
                         <rr-o>
                            <rr-a>
-                              <rr-c>[^'\\]</rr-c>
+                              <rr-c></rr-c>
                            </rr-a>
-                           <rr-a></rr-a>
-                           <rr-a></rr-a>
-                           <rr-a></rr-a>
+                           <rr-a>
+                              <rr-t>ECHAR</rr-t>
+                           </rr-a>
+                           <rr-a>
+                              <rr-t>UCHAR</rr-t>
+                           </rr-a>
+                           <rr-a>
+                              <rr-t>'"'</rr-t>
+                           </rr-a>
                         </rr-o>
                      </rr-a>
                   </rr-o>
+                  <rr-t>'\'\'\''</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -409,20 +552,32 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'"""'</rr-t>
                   <rr-o>
                      <rr-a>
                         <rr-o>
-                           <rr-a></rr-a>
-                           <rr-a></rr-a>
+                           <rr-a>
+                              <rr-t>'"'</rr-t>
+                           </rr-a>
+                           <rr-a>
+                              <rr-t>'""'</rr-t>
+                           </rr-a>
                         </rr-o>
                         <rr-o>
                            <rr-a></rr-a>
-                           <rr-a></rr-a>
-                           <rr-a></rr-a>
-                           <rr-a></rr-a>
+                           <rr-a>
+                              <rr-t>ECHAR</rr-t>
+                           </rr-a>
+                           <rr-a>
+                              <rr-t>UCHAR</rr-t>
+                           </rr-a>
+                           <rr-a>
+                              <rr-t>'\''</rr-t>
+                           </rr-a>
                         </rr-o>
                      </rr-a>
                   </rr-o>
+                  <rr-t>'"""'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -432,11 +587,17 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'"'</rr-t>
                   <rr-o>
                      <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'\''</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'\\"'</rr-t>
+                     </rr-a>
                   </rr-o>
+                  <rr-t>'"'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -446,12 +607,20 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'\''</rr-t>
                   <rr-o>
                      <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>ECHAR</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>UCHAR</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'"'</rr-t>
+                     </rr-a>
                   </rr-o>
+                  <rr-t>'\''</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -460,8 +629,24 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'\\u'</rr-t>
+                  <rr-t>HEX</rr-t>
+                  <rr-t>HEX</rr-t>
+                  <rr-t>HEX</rr-t>
+                  <rr-t>HEX</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'\\U'</rr-t>
+                  <rr-t>HEX</rr-t>
+                  <rr-t>HEX</rr-t>
+                  <rr-t>HEX</rr-t>
+                  <rr-t>HEX</rr-t>
+                  <rr-t>HEX</rr-t>
+                  <rr-t>HEX</rr-t>
+                  <rr-t>HEX</rr-t>
+                  <rr-t>HEX</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -470,7 +655,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[tbnrf"'\\]</rr-c>
+                  <rr-t>'\\'</rr-t>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -479,10 +665,18 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>' '</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'\t'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'\r'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'\n'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -490,7 +684,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t>
+                  <rr-t>ANON_WS</rr-t>
+                  <rr-t>']'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -498,19 +696,45 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-c>'A'..'Z'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'a'..'z'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u00C0'..'\u00D6'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u00D8'..'\u00F6'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u00F8'..'\u02FF'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0370'..'\u037D'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u037F'..'\u1FFF'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u200C'..'\u200D'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2070'..'\u218F'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u2C00'..'\u2FEF'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u3001'..'\uD7FF'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uF900'..'\uFDCF'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uFDF0'..'\uFFFD'</rr-c>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -518,8 +742,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>PN_CHARS_BASE</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'_'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -527,17 +755,23 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
                <rr-a>
-                  <rr-c>[0-9]</rr-c>
-               </rr-a>
-               <rr-a></rr-a>
-               <rr-a>
-                  <rr-c>[\u0300-\u036F]</rr-c>
+                  <rr-t>PN_CHARS_U</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-c>[\u203F-\u2040]</rr-c>
+                  <rr-t>'-'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-c></rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'\u00B7'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-c></rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -548,25 +782,45 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
                      <rr-a>
-                        <rr-c>[0-9]</rr-c>
+                        <rr-t>PN_CHARS_U</rr-t>
                      </rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>':'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-c></rr-c>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>PLX</rr-t>
+                     </rr-a>
                   </rr-o>
                   <rr-o>
                      <rr-a>
                         <rr-o>
-                           <rr-a></rr-a>
-                           <rr-a></rr-a>
-                           <rr-a></rr-a>
-                           <rr-a></rr-a>
+                           <rr-a>
+                              <rr-t>PN_CHARS</rr-t>
+                           </rr-a>
+                           <rr-a>
+                              <rr-t>'.'</rr-t>
+                           </rr-a>
+                           <rr-a>
+                              <rr-t>':'</rr-t>
+                           </rr-a>
+                           <rr-a>
+                              <rr-t>PLX</rr-t>
+                           </rr-a>
                         </rr-o>
                         <rr-o>
-                           <rr-a></rr-a>
-                           <rr-a></rr-a>
-                           <rr-a></rr-a>
+                           <rr-a>
+                              <rr-t>PN_CHARS</rr-t>
+                           </rr-a>
+                           <rr-a>
+                              <rr-t>':'</rr-t>
+                           </rr-a>
+                           <rr-a>
+                              <rr-t>PLX</rr-t>
+                           </rr-a>
                         </rr-o>
                      </rr-a>
                   </rr-o>
@@ -578,8 +832,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>PERCENT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>PN_LOCAL_ESC</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -587,7 +845,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'%'</rr-t>
+                  <rr-t>HEX</rr-t>
+                  <rr-t>HEX</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -596,13 +858,13 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[0-9]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[A-F]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
                <rr-a>
-                  <rr-c>[a-f]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -612,27 +874,68 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'\\'</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'_'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'~'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'.'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'-'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'!'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'$'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'&amp;'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'\''</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'('</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>')'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'*'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'+'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>','</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>';'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'='</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'/'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'?'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'#'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'@'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'%'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -642,7 +945,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'#'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>

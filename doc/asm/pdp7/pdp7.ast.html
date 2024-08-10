@@ -5,7 +5,38 @@
       <link rel="stylesheet" type="text/css" href="../../railroad.css">
    </head>
    <body>
-      <h1><a href="../../index.html">Railroad</a> asm/pdp7/pdp7.ast.xml</h1>
+      <h1>Railroad asm/pdp7/pdp7.ast.xml</h1>
+      <pre>/*
+BSD License
+
+Copyright (c) 2013, Tom Everett
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. Neither the name of Tom Everett nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
       <h1>Rules</h1>
       <h2 id="prog">prog</h2>
       <p>
@@ -16,7 +47,8 @@
                      <rr-o>
                         <rr-a><a href="#line">line</a><a href="#eol">eol</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#line">line</a></rr-a>
+                  </rr-a><a href="#line">line</a><rr-t>EOF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -33,7 +65,8 @@
             <rr-o>
                <rr-a><a href="#declaration">declaration</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#declaration">declaration</a></rr-a>
+                        <rr-a>
+                           <rr-t>';'</rr-t><a href="#declaration">declaration</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -71,14 +104,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#symbol">symbol</a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#symbol">symbol</a><rr-t>'='</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="symbol">symbol</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#opcode">opcode</a><a href="#variable">variable</a></rr-o>
+            <rr-o><a href="#opcode">opcode</a><a href="#variable">variable</a><rr-t>LOC</rr-t>
+               <rr-t>RELOC</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="expression">expression</h2>
@@ -89,7 +124,10 @@
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>PLUS</rr-t>
+                                 <rr-t>MINUS</rr-t>
+                              </rr-o>
                            </rr-a><a href="#multiplyingExpression">multiplyingExpression</a></rr-a>
                      </rr-o>
                   </rr-a>
@@ -105,7 +143,10 @@
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>TIMES</rr-t>
+                                 <rr-t>DIV</rr-t>
+                              </rr-o>
                            </rr-a><a href="#atom">atom</a></rr-a>
                      </rr-o>
                   </rr-a>
@@ -116,7 +157,14 @@
       <h2 id="atom">atom</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#variable">variable</a><a href="#string">string</a><rr-a><a href="#atom">atom</a></rr-a>
+            <rr-o><a href="#variable">variable</a><rr-t>LOC</rr-t>
+               <rr-t>CHAR</rr-t>
+               <rr-t>RELOC</rr-t><a href="#string">string</a><rr-t>DECIMAL</rr-t>
+               <rr-t>DECIMAL_MINUS</rr-t>
+               <rr-t>OCTAL</rr-t>
+               <rr-t>NUMERIC_LITERAL</rr-t>
+               <rr-a>
+                  <rr-t>'-'</rr-t><a href="#atom">atom</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -124,45 +172,152 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>STRING</rr-t>
+                  <rr-t>NUMERIC_LITERAL</rr-t>
+                  <rr-t>'&gt;'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="eol">eol</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>EOL</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="comment">comment</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>COMMENT</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="label">label</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>LABEL</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="variable">variable</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="opcode">opcode</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'dac'</rr-t>
+               <rr-t>'jms'</rr-t>
+               <rr-t>'dzm'</rr-t>
+               <rr-t>'lac'</rr-t>
+               <rr-t>'xor'</rr-t>
+               <rr-t>'add'</rr-t>
+               <rr-t>'tad'</rr-t>
+               <rr-t>'xct'</rr-t>
+               <rr-t>'isz'</rr-t>
+               <rr-t>'and'</rr-t>
+               <rr-t>'sad'</rr-t>
+               <rr-t>'jmp'</rr-t>
+               <rr-t>'nop'</rr-t>
+               <rr-t>'law'</rr-t>
+               <rr-t>'cma'</rr-t>
+               <rr-t>'las'</rr-t>
+               <rr-t>'ral'</rr-t>
+               <rr-t>'rar'</rr-t>
+               <rr-t>'hlt'</rr-t>
+               <rr-t>'sma'</rr-t>
+               <rr-t>'sza'</rr-t>
+               <rr-t>'snl'</rr-t>
+               <rr-t>'skp'</rr-t>
+               <rr-t>'sna'</rr-t>
+               <rr-t>'szl'</rr-t>
+               <rr-t>'rtl'</rr-t>
+               <rr-t>'rtr'</rr-t>
+               <rr-t>'cil'</rr-t>
+               <rr-t>'rcl'</rr-t>
+               <rr-t>'rcr'</rr-t>
+               <rr-t>'cia'</rr-t>
+               <rr-t>'lrs'</rr-t>
+               <rr-t>'lrss'</rr-t>
+               <rr-t>'lls'</rr-t>
+               <rr-t>'llss'</rr-t>
+               <rr-t>'als'</rr-t>
+               <rr-t>'alss'</rr-t>
+               <rr-t>'mul'</rr-t>
+               <rr-t>'idiv'</rr-t>
+               <rr-t>'lacq'</rr-t>
+               <rr-t>'clq'</rr-t>
+               <rr-t>'omq'</rr-t>
+               <rr-t>'cmq'</rr-t>
+               <rr-t>'lmq'</rr-t>
+               <rr-t>'dscs'</rr-t>
+               <rr-t>'dslw'</rr-t>
+               <rr-t>'dslm'</rr-t>
+               <rr-t>'dsld'</rr-t>
+               <rr-t>'dsls'</rr-t>
+               <rr-t>'dssf'</rr-t>
+               <rr-t>'dsrs'</rr-t>
+               <rr-t>'iof'</rr-t>
+               <rr-t>'ion'</rr-t>
+               <rr-t>'caf'</rr-t>
+               <rr-t>'clon'</rr-t>
+               <rr-t>'clsf'</rr-t>
+               <rr-t>'clof'</rr-t>
+               <rr-t>'ksf'</rr-t>
+               <rr-t>'krb'</rr-t>
+               <rr-t>'tsf'</rr-t>
+               <rr-t>'tcf'</rr-t>
+               <rr-t>'tls'</rr-t>
+               <rr-t>'sck'</rr-t>
+               <rr-t>'cck'</rr-t>
+               <rr-t>'lck'</rr-t>
+               <rr-t>'rsf'</rr-t>
+               <rr-t>'rsa'</rr-t>
+               <rr-t>'rrb'</rr-t>
+               <rr-t>'psf'</rr-t>
+               <rr-t>'pcf'</rr-t>
+               <rr-t>'psa'</rr-t>
+               <rr-t>'cdf'</rr-t>
+               <rr-t>'rlpd'</rr-t>
+               <rr-t>'lda'</rr-t>
+               <rr-t>'wcga'</rr-t>
+               <rr-t>'raef'</rr-t>
+               <rr-t>'rlpd'</rr-t>
+               <rr-t>'beg'</rr-t>
+               <rr-t>'spb'</rr-t>
+               <rr-t>'cpb'</rr-t>
+               <rr-t>'lpb'</rr-t>
+               <rr-t>'wbl'</rr-t>
+               <rr-t>'dprs'</rr-t>
+               <rr-t>'dpsf'</rr-t>
+               <rr-t>'dpcf'</rr-t>
+               <rr-t>'dprc'</rr-t>
+               <rr-t>'crsf'</rr-t>
+               <rr-t>'crrb'</rr-t>
+               <rr-t>'sys'</rr-t>
+               <rr-t>'czm'</rr-t>
+               <rr-t>'irss'</rr-t>
+               <rr-t>'dsm'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="LOC">LOC</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'.'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -170,7 +325,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'..'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -178,7 +335,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'+'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -186,7 +345,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'-'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -194,7 +355,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'*'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -202,7 +365,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'/'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -211,7 +376,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[a-zA-Z0-9.]</rr-c>
+                  <rr-c></rr-c>
+                  <rr-t>':'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -221,8 +387,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[a-zA-Z]</rr-c>
-                  <rr-c>[a-zA-Z0-9.]</rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -232,8 +398,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[0-9]</rr-c>
-                  <rr-c>[0-9a-f]</rr-c>
+                  <rr-c></rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -243,7 +409,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[0-9]</rr-c>
+                  <rr-t>'d'</rr-t>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -253,7 +420,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[0-7]</rr-c>
+                  <rr-t>'o'</rr-t>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -263,7 +431,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[0-9]</rr-c>
+                  <rr-t>'dm'</rr-t>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -273,7 +442,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[a-zA-Z0-9$*,%/:?#@.]</rr-c>
+                  <rr-t>'&lt;'</rr-t>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -283,7 +453,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[a-zA-Z0-9&gt;.]</rr-c>
+                  <rr-c></rr-c>
+                  <rr-t>'&gt;'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -292,7 +463,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'"'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -301,7 +474,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[\r\n]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -311,7 +484,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[ \t]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>

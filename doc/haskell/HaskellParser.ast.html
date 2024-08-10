@@ -5,15 +5,45 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1><a href="../index.html">Railroad</a> haskell/HaskellParser.ast.xml</h1>
+      <h1>Railroad haskell/HaskellParser.ast.xml</h1>
+      <pre>/*
+BSD License
+Copyright (c) 2020, Evgeniy Slobodkin
+All rights reserved.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. Neither the name of Tom Everett nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
       <h1>Rules</h1>
       <h2 id="module">module</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#semi">semi</a><a href="#pragmas">pragmas</a><a href="#semi">semi</a><rr-a>
+               <rr-a>
+                  <rr-t>OCURLY</rr-t><a href="#semi">semi</a><a href="#pragmas">pragmas</a><a href="#semi">semi</a><rr-a>
                      <rr-o><a href="#module_content">module_content</a><a href="#body">body</a></rr-o>
-                  </rr-a><a href="#semi">semi</a></rr-a>
+                  </rr-a>
+                  <rr-t>CCURLY</rr-t><a href="#semi">semi</a><rr-t>EOF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -21,7 +51,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#modid">modid</a><a href="#exports">exports</a><a href="#where_module">where_module</a></rr-a>
+               <rr-a>
+                  <rr-t>'module'</rr-t><a href="#modid">modid</a><a href="#exports">exports</a><a href="#where_module">where_module</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -29,7 +60,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#module_body">module_body</a></rr-a>
+               <rr-a>
+                  <rr-t>'where'</rr-t><a href="#module_body">module_body</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -57,11 +89,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#extension_">extension_</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>'{-#'</rr-t>
+                  <rr-t>'LANGUAGE'</rr-t><a href="#extension_">extension_</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#extension_">extension_</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#extension_">extension_</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#semi">semi</a></rr-a>
+                  </rr-a>
+                  <rr-t>'#-}'</rr-t><a href="#semi">semi</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -70,15 +106,19 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'{-#'</rr-t>
+                  <rr-t>'OPTIONS_GHC'</rr-t>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
                         <rr-a>
+                           <rr-t>'-'</rr-t>
                            <rr-a>
                               <rr-o><a href="#varid">varid</a><a href="#conid">conid</a></rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
-                  </rr-a><a href="#semi">semi</a></rr-a>
+                  </rr-a>
+                  <rr-t>'#-}'</rr-t><a href="#semi">semi</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -87,22 +127,28 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'{-#'</rr-t>
+                  <rr-t>'OPTIONS'</rr-t>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
                         <rr-a>
+                           <rr-t>'-'</rr-t>
                            <rr-a>
                               <rr-o><a href="#varid">varid</a><a href="#conid">conid</a></rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
-                  </rr-a><a href="#semi">semi</a></rr-a>
+                  </rr-a>
+                  <rr-t>'#-}'</rr-t><a href="#semi">semi</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="extension_">extension_</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>CONID</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="body">body</h2>
@@ -121,7 +167,7 @@
          <rr-rr>
             <rr-o>
                <rr-a data-min="1" data-max="inf">
-                  <rr-o><a href="#impdecl">impdecl</a><a href="#semi">semi</a></rr-o>
+                  <rr-o><a href="#impdecl">impdecl</a><rr-t>NEWLINE</rr-t><a href="#semi">semi</a></rr-o>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -131,16 +177,20 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'('</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a><a href="#exprt">exprt</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#exprt">exprt</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>','</rr-t><a href="#exprt">exprt</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>','</rr-t>
+                  <rr-t>')'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -154,22 +204,29 @@
                            <rr-o>
                               <rr-a>
                                  <rr-o>
-                                    <rr-a></rr-a>
+                                    <rr-a>
+                                       <rr-t>'('</rr-t>
+                                       <rr-t>'..'</rr-t>
+                                       <rr-t>')'</rr-t>
+                                    </rr-a>
                                  </rr-o>
                               </rr-a>
                               <rr-a>
                                  <rr-o>
                                     <rr-a>
+                                       <rr-t>'('</rr-t>
                                        <rr-a data-min="0" data-max="1">
                                           <rr-o>
                                              <rr-a><a href="#cname">cname</a><rr-a data-min="0" data-max="inf">
                                                    <rr-o>
-                                                      <rr-a><a href="#cname">cname</a></rr-a>
+                                                      <rr-a>
+                                                         <rr-t>','</rr-t><a href="#cname">cname</a></rr-a>
                                                    </rr-o>
                                                 </rr-a>
                                              </rr-a>
                                           </rr-o>
                                        </rr-a>
+                                       <rr-t>')'</rr-t>
                                     </rr-a>
                                  </rr-o>
                               </rr-a>
@@ -184,22 +241,29 @@
                            <rr-o>
                               <rr-a>
                                  <rr-o>
-                                    <rr-a></rr-a>
+                                    <rr-a>
+                                       <rr-t>'('</rr-t>
+                                       <rr-t>'..'</rr-t>
+                                       <rr-t>')'</rr-t>
+                                    </rr-a>
                                  </rr-o>
                               </rr-a>
                               <rr-a>
                                  <rr-o>
                                     <rr-a>
+                                       <rr-t>'('</rr-t>
                                        <rr-a data-min="0" data-max="1">
                                           <rr-o>
                                              <rr-a><a href="#qvar">qvar</a><rr-a data-min="0" data-max="inf">
                                                    <rr-o>
-                                                      <rr-a><a href="#qvar">qvar</a></rr-a>
+                                                      <rr-a>
+                                                         <rr-t>','</rr-t><a href="#qvar">qvar</a></rr-a>
                                                    </rr-o>
                                                 </rr-a>
                                              </rr-a>
                                           </rr-o>
                                        </rr-a>
+                                       <rr-t>')'</rr-t>
                                     </rr-a>
                                  </rr-o>
                               </rr-a>
@@ -210,7 +274,8 @@
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#modid">modid</a></rr-a>
+                     <rr-a>
+                        <rr-t>'module'</rr-t><a href="#modid">modid</a></rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -220,9 +285,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#modid">modid</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>'import'</rr-t>
+                  <rr-t>'qualified'</rr-t><a href="#modid">modid</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#modid">modid</a></rr-a>
+                        <rr-a>
+                           <rr-t>'as'</rr-t><a href="#modid">modid</a></rr-a>
                      </rr-o>
                   </rr-a><a href="#impspec">impspec</a><a href="#semi">semi</a></rr-a>
             </rr-o>
@@ -235,32 +303,41 @@
                <rr-a>
                   <rr-o>
                      <rr-a>
+                        <rr-t>'('</rr-t>
                         <rr-a data-min="0" data-max="1">
                            <rr-o>
                               <rr-a><a href="#himport">himport</a><rr-a data-min="0" data-max="inf">
                                     <rr-o>
-                                       <rr-a><a href="#himport">himport</a></rr-a>
+                                       <rr-a>
+                                          <rr-t>','</rr-t><a href="#himport">himport</a></rr-a>
                                     </rr-o>
                                  </rr-a>
+                                 <rr-t>','</rr-t>
                               </rr-a>
                            </rr-o>
                         </rr-a>
+                        <rr-t>')'</rr-t>
                      </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
                      <rr-a>
+                        <rr-t>'hiding'</rr-t>
+                        <rr-t>'('</rr-t>
                         <rr-a data-min="0" data-max="1">
                            <rr-o>
                               <rr-a><a href="#himport">himport</a><rr-a data-min="0" data-max="inf">
                                     <rr-o>
-                                       <rr-a><a href="#himport">himport</a></rr-a>
+                                       <rr-a>
+                                          <rr-t>','</rr-t><a href="#himport">himport</a></rr-a>
                                     </rr-o>
                                  </rr-a>
+                                 <rr-t>','</rr-t>
                               </rr-a>
                            </rr-o>
                         </rr-a>
+                        <rr-t>')'</rr-t>
                      </rr-a>
                   </rr-o>
                </rr-a>
@@ -276,22 +353,29 @@
                            <rr-o>
                               <rr-a>
                                  <rr-o>
-                                    <rr-a></rr-a>
+                                    <rr-a>
+                                       <rr-t>'('</rr-t>
+                                       <rr-t>'..'</rr-t>
+                                       <rr-t>')'</rr-t>
+                                    </rr-a>
                                  </rr-o>
                               </rr-a>
                               <rr-a>
                                  <rr-o>
                                     <rr-a>
+                                       <rr-t>'('</rr-t>
                                        <rr-a data-min="0" data-max="1">
                                           <rr-o>
                                              <rr-a><a href="#cname">cname</a><rr-a data-min="0" data-max="inf">
                                                    <rr-o>
-                                                      <rr-a><a href="#cname">cname</a></rr-a>
+                                                      <rr-a>
+                                                         <rr-t>','</rr-t><a href="#cname">cname</a></rr-a>
                                                    </rr-o>
                                                 </rr-a>
                                              </rr-a>
                                           </rr-o>
                                        </rr-a>
+                                       <rr-t>')'</rr-t>
                                     </rr-a>
                                  </rr-o>
                               </rr-a>
@@ -306,12 +390,18 @@
                            <rr-o>
                               <rr-a>
                                  <rr-o>
-                                    <rr-a></rr-a>
+                                    <rr-a>
+                                       <rr-t>'('</rr-t>
+                                       <rr-t>'..'</rr-t>
+                                       <rr-t>')'</rr-t>
+                                    </rr-a>
                                  </rr-o>
                               </rr-a>
                               <rr-a>
                                  <rr-o>
-                                    <rr-a><a href="#sig_vars">sig_vars</a></rr-a>
+                                    <rr-a>
+                                       <rr-t>'('</rr-t><a href="#sig_vars">sig_vars</a><rr-t>')'</rr-t>
+                                    </rr-a>
                                  </rr-o>
                               </rr-a>
                            </rr-o>
@@ -331,7 +421,11 @@
       <h2 id="fixity">fixity</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'infix'</rr-t>
+               <rr-t>'infixl'</rr-t>
+               <rr-t>'infixr'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="ops">ops</h2>
@@ -340,7 +434,8 @@
             <rr-o>
                <rr-a><a href="#op">op</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#op">op</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#op">op</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -353,7 +448,8 @@
             <rr-o>
                <rr-a data-min="1" data-max="inf">
                   <rr-o>
-                     <rr-a><a href="#topdecl">topdecl</a><a href="#semi">semi</a></rr-a><a href="#semi">semi</a></rr-o>
+                     <rr-a><a href="#topdecl">topdecl</a><a href="#semi">semi</a></rr-a>
+                     <rr-t>NEWLINE</rr-t><a href="#semi">semi</a></rr-o>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -361,40 +457,52 @@
       <h2 id="topdecl">topdecl</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#cl_decl">cl_decl</a><a href="#ty_decln____// Check KindSignatures">ty_decln____// Check KindSignatures</a><a href="#standalone_kind_sig">standalone_kind_sig</a><a href="#inst_decl">inst_decl</a><a href="#standalone_deriving">standalone_deriving</a><a href="#role_annot">role_annot</a><rr-a>
+            <rr-o><a href="#cl_decl">cl_decl</a><a href="#ty_decln____// Check KindSignatures">ty_decl</a><a href="#standalone_kind_sig">standalone_kind_sig</a><a href="#inst_decl">inst_decl</a><a href="#standalone_deriving">standalone_deriving</a><a href="#role_annot">role_annot</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#comma_types">comma_types</a></rr-a>
+                     <rr-a>
+                        <rr-t>'default'</rr-t>
+                        <rr-t>'('</rr-t><a href="#comma_types">comma_types</a><rr-t>')'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#fdecl">fdecl</a></rr-a>
+                     <rr-a>
+                        <rr-t>'foreign'</rr-t><a href="#fdecl">fdecl</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#deprecations">deprecations</a></rr-a>
+                     <rr-a>
+                        <rr-t>'{-#'</rr-t>
+                        <rr-t>'DEPRECATED'</rr-t><a href="#deprecations">deprecations</a><rr-t>'#-}'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#warnings">warnings</a></rr-a>
+                     <rr-a>
+                        <rr-t>'{-#'</rr-t>
+                        <rr-t>'WARNING'</rr-t><a href="#warnings">warnings</a><rr-t>'#-}'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#rules">rules</a></rr-a>
+                     <rr-a>
+                        <rr-t>'{-#'</rr-t>
+                        <rr-t>'RULES'</rr-t><a href="#rules">rules</a><rr-t>'#-}'</rr-t>
+                     </rr-a>
                   </rr-o>
-               </rr-a><a href="#annotation">annotation</a><a href="#decl_no_thn____// -- Template Haskell Extensionn____//  The $(..) form is one possible form of infixexpn____//  but we treat an arbitrary expression just as ifn____//  it had a $(..) wrapped around it">decl_no_thn____// -- Template Haskell Extensionn____//  The $(..) form is one possible
-                  form of infixexpn____//  but we treat an arbitrary expression just as ifn____//  it
-                  had a $(..) wrapped around it</a><a href="#infixexp">infixexp</a></rr-o>
+               </rr-a><a href="#annotation">annotation</a><a href="#decl_no_thn____// -- Template Haskell Extensionn____//  The $(..) form is one possible form of infixexpn____//  but we treat an arbitrary expression just as ifn____//  it had a $(..) wrapped around it">decl_no_th</a><a href="#infixexp">infixexp</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="cl_decl">cl_decl</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tycl_hdr">tycl_hdr</a><a href="#fds">fds</a><a href="#where_cls">where_cls</a></rr-a>
+               <rr-a>
+                  <rr-t>'class'</rr-t><a href="#tycl_hdr">tycl_hdr</a><a href="#fds">fds</a><a href="#where_cls">where_cls</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -402,13 +510,22 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#type_">type_</a><a href="#ktypedocn____// type family declarations">ktypedocn____// type family declarations</a></rr-a>
-               <rr-a><a href="#type_">type_</a><a href="#opt_tyfam_kind_sig">opt_tyfam_kind_sig</a><a href="#opt_injective_info">opt_injective_info</a><a href="#where_type_family">where_type_family</a></rr-a>
-               <rr-a><a href="#capi_ctype">capi_ctype</a><a href="#tycl_hdr">tycl_hdr</a><a href="#constrs">constrs</a><a href="#derivings">derivings</a></rr-a>
-               <rr-a><a href="#capi_ctype">capi_ctype</a><a href="#tycl_hdr">tycl_hdr</a><a href="#constrs">constrs</a><a href="#derivings">derivings</a></rr-a>
-               <rr-a><a href="#capi_ctype">capi_ctype</a><a href="#tycl_hdr">tycl_hdr</a><a href="#opt_kind_sig">opt_kind_sig</a><a href="#gadt_constrlist">gadt_constrlist</a><a href="#derivings">derivings</a></rr-a>
-               <rr-a><a href="#capi_ctype">capi_ctype</a><a href="#tycl_hdr">tycl_hdr</a><a href="#opt_kind_sig">opt_kind_sig</a><a href="#gadt_constrlist">gadt_constrlist</a><a href="#derivings">derivings</a></rr-a>
-               <rr-a><a href="#type_">type_</a><a href="#opt_datafam_kind_sig">opt_datafam_kind_sig</a></rr-a>
+               <rr-a>
+                  <rr-t>'type'</rr-t><a href="#type_">type_</a><rr-t>'='</rr-t><a href="#ktypedocn____// type family declarations">ktypedoc</a></rr-a>
+               <rr-a>
+                  <rr-t>'type'</rr-t>
+                  <rr-t>'family'</rr-t><a href="#type_">type_</a><a href="#opt_tyfam_kind_sig">opt_tyfam_kind_sig</a><a href="#opt_injective_info">opt_injective_info</a><a href="#where_type_family">where_type_family</a></rr-a>
+               <rr-a>
+                  <rr-t>'data'</rr-t><a href="#capi_ctype">capi_ctype</a><a href="#tycl_hdr">tycl_hdr</a><a href="#constrs">constrs</a><a href="#derivings">derivings</a></rr-a>
+               <rr-a>
+                  <rr-t>'newtype'</rr-t><a href="#capi_ctype">capi_ctype</a><a href="#tycl_hdr">tycl_hdr</a><a href="#constrs">constrs</a><a href="#derivings">derivings</a></rr-a>
+               <rr-a>
+                  <rr-t>'data'</rr-t><a href="#capi_ctype">capi_ctype</a><a href="#tycl_hdr">tycl_hdr</a><a href="#opt_kind_sig">opt_kind_sig</a><a href="#gadt_constrlist">gadt_constrlist</a><a href="#derivings">derivings</a></rr-a>
+               <rr-a>
+                  <rr-t>'newtype'</rr-t><a href="#capi_ctype">capi_ctype</a><a href="#tycl_hdr">tycl_hdr</a><a href="#opt_kind_sig">opt_kind_sig</a><a href="#gadt_constrlist">gadt_constrlist</a><a href="#derivings">derivings</a></rr-a>
+               <rr-a>
+                  <rr-t>'data'</rr-t>
+                  <rr-t>'family'</rr-t><a href="#type_">type_</a><a href="#opt_datafam_kind_sig">opt_datafam_kind_sig</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -416,7 +533,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#sks_vars">sks_vars</a><a href="#ktypedoc">ktypedoc</a></rr-a>
+               <rr-a>
+                  <rr-t>'type'</rr-t><a href="#sks_vars">sks_vars</a><rr-t>'::'</rr-t><a href="#ktypedoc">ktypedoc</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -426,7 +544,8 @@
             <rr-o>
                <rr-a><a href="#oqtycon">oqtycon</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#oqtycon">oqtycon</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#oqtycon">oqtycon</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -439,32 +558,43 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#overlap_pragma">overlap_pragma</a><a href="#inst_type">inst_type</a><a href="#where_inst">where_inst</a></rr-a>
+                     <rr-a>
+                        <rr-t>'instance'</rr-t><a href="#overlap_pragma">overlap_pragma</a><a href="#inst_type">inst_type</a><a href="#where_inst">where_inst</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#ty_fam_inst_eqn">ty_fam_inst_eqn</a></rr-a>
+                     <rr-a>
+                        <rr-t>'type'</rr-t>
+                        <rr-t>'instance'</rr-t><a href="#ty_fam_inst_eqn">ty_fam_inst_eqn</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#capi_ctype">capi_ctype</a><a href="#tycl_hdr_inst">tycl_hdr_inst</a><a href="#derivings">derivings</a></rr-a>
+                     <rr-a>
+                        <rr-t>'data'</rr-t>
+                        <rr-t>'instance'</rr-t><a href="#capi_ctype">capi_ctype</a><a href="#tycl_hdr_inst">tycl_hdr_inst</a><a href="#derivings">derivings</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#capi_ctype">capi_ctype</a><a href="#tycl_hdr_inst">tycl_hdr_inst</a><a href="#derivings">derivings</a></rr-a>
+                     <rr-a>
+                        <rr-t>'newtype'</rr-t>
+                        <rr-t>'instance'</rr-t><a href="#capi_ctype">capi_ctype</a><a href="#tycl_hdr_inst">tycl_hdr_inst</a><a href="#derivings">derivings</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#capi_ctype">capi_ctype</a><a href="#tycl_hdr_inst">tycl_hdr_inst</a><a href="#opt_kind_sig">opt_kind_sig</a><a href="#gadt_constrlist">gadt_constrlist</a><a href="#derivings">derivings</a></rr-a>
+                     <rr-a>
+                        <rr-t>'data'</rr-t>
+                        <rr-t>'instance'</rr-t><a href="#capi_ctype">capi_ctype</a><a href="#tycl_hdr_inst">tycl_hdr_inst</a><a href="#opt_kind_sig">opt_kind_sig</a><a href="#gadt_constrlist">gadt_constrlist</a><a href="#derivings">derivings</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#capi_ctype">capi_ctype</a><a href="#tycl_hdr_inst">tycl_hdr_inst</a><a href="#opt_kind_sig">opt_kind_sig</a><a href="#gadt_constrlist">gadt_constrlist</a><a href="#derivings">derivings</a></rr-a>
+                     <rr-a>
+                        <rr-t>'newtype'</rr-t>
+                        <rr-t>'instance'</rr-t><a href="#capi_ctype">capi_ctype</a><a href="#tycl_hdr_inst">tycl_hdr_inst</a><a href="#opt_kind_sig">opt_kind_sig</a><a href="#gadt_constrlist">gadt_constrlist</a><a href="#derivings">derivings</a></rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -474,38 +604,63 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'{-#'</rr-t>
+                  <rr-t>'OVERLAPPABLE'</rr-t>
+                  <rr-t>'#-}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'{-#'</rr-t>
+                  <rr-t>'OVERLAPPING'</rr-t>
+                  <rr-t>'#-}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'{-#'</rr-t>
+                  <rr-t>'OVERLAPS'</rr-t>
+                  <rr-t>'#-}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'{-#'</rr-t>
+                  <rr-t>'INCOHERENT'</rr-t>
+                  <rr-t>'#-}'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="deriv_strategy_no_via">deriv_strategy_no_via</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'stock'</rr-t>
+               <rr-t>'anyclass'</rr-t>
+               <rr-t>'newtype'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="deriv_strategy_via">deriv_strategy_via</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#ktype">ktype</a></rr-a>
+               <rr-a>
+                  <rr-t>'via'</rr-t><a href="#ktype">ktype</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="deriv_standalone_strategy">deriv_standalone_strategy</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#deriv_strategy_via">deriv_strategy_via</a></rr-o>
+            <rr-o>
+               <rr-t>'stock'</rr-t>
+               <rr-t>'anyclass'</rr-t>
+               <rr-t>'newtype'</rr-t><a href="#deriv_strategy_via">deriv_strategy_via</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="opt_injective_info">opt_injective_info</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#injectivity_cond">injectivity_cond</a></rr-a>
+               <rr-a>
+                  <rr-t>'|'</rr-t><a href="#injectivity_cond">injectivity_cond</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -513,7 +668,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tyvarid">tyvarid</a><a href="#inj_varids">inj_varids</a></rr-a>
+               <rr-a><a href="#tyvarid">tyvarid</a><rr-t>'-&gt;'</rr-t><a href="#inj_varids">inj_varids</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -527,7 +682,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#ty_fam_inst_eqn_list">ty_fam_inst_eqn_list</a></rr-a>
+               <rr-a>
+                  <rr-t>'where'</rr-t><a href="#ty_fam_inst_eqn_list">ty_fam_inst_eqn_list</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -542,12 +698,16 @@
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'{'</rr-t>
+                        <rr-t>'..'</rr-t>
+                        <rr-t>'}'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#open_">open_</a><a href="#close">close</a></rr-a>
+                     <rr-a><a href="#open_">open_</a><rr-t>'..'</rr-t><a href="#close">close</a></rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -569,8 +729,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tv_bndrs">tv_bndrs</a><a href="#type_">type_</a><a href="#ktype">ktype</a></rr-a>
-               <rr-a><a href="#type_">type_</a><a href="#ktype">ktype</a></rr-a>
+               <rr-a>
+                  <rr-t>'forall'</rr-t><a href="#tv_bndrs">tv_bndrs</a><rr-t>'.'</rr-t><a href="#type_">type_</a><rr-t>'='</rr-t><a href="#ktype">ktype</a></rr-a>
+               <rr-a><a href="#type_">type_</a><rr-t>'='</rr-t><a href="#ktype">ktype</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -580,17 +741,23 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#type_">type_</a><a href="#opt_datafam_kind_sig">opt_datafam_kind_sig</a></rr-a>
+                     <rr-a>
+                        <rr-t>'data'</rr-t>
+                        <rr-t>'family'</rr-t><a href="#type_">type_</a><a href="#opt_datafam_kind_sig">opt_datafam_kind_sig</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#type_">type_</a><a href="#opt_at_kind_inj_sig">opt_at_kind_inj_sig</a></rr-a>
+                     <rr-a>
+                        <rr-t>'type'</rr-t>
+                        <rr-t>'family'</rr-t><a href="#type_">type_</a><a href="#opt_at_kind_inj_sig">opt_at_kind_inj_sig</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#ty_fam_inst_eqn">ty_fam_inst_eqn</a></rr-a>
+                     <rr-a>
+                        <rr-t>'type'</rr-t>
+                        <rr-t>'instance'</rr-t><a href="#ty_fam_inst_eqn">ty_fam_inst_eqn</a></rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -602,27 +769,37 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#ty_fam_inst_eqn">ty_fam_inst_eqn</a></rr-a>
+                     <rr-a>
+                        <rr-t>'type'</rr-t>
+                        <rr-t>'instance'</rr-t><a href="#ty_fam_inst_eqn">ty_fam_inst_eqn</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#capi_ctype">capi_ctype</a><a href="#tycl_hdr_inst">tycl_hdr_inst</a><a href="#constrs">constrs</a><a href="#derivings">derivings</a></rr-a>
+                     <rr-a>
+                        <rr-t>'data'</rr-t>
+                        <rr-t>'instance'</rr-t><a href="#capi_ctype">capi_ctype</a><a href="#tycl_hdr_inst">tycl_hdr_inst</a><a href="#constrs">constrs</a><a href="#derivings">derivings</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#capi_ctype">capi_ctype</a><a href="#tycl_hdr_inst">tycl_hdr_inst</a><a href="#constrs">constrs</a><a href="#derivings">derivings</a></rr-a>
+                     <rr-a>
+                        <rr-t>'newtype'</rr-t>
+                        <rr-t>'instance'</rr-t><a href="#capi_ctype">capi_ctype</a><a href="#tycl_hdr_inst">tycl_hdr_inst</a><a href="#constrs">constrs</a><a href="#derivings">derivings</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#capi_ctype">capi_ctype</a><a href="#tycl_hdr_inst">tycl_hdr_inst</a><a href="#opt_kind_sig">opt_kind_sig</a><a href="#gadt_constrlist">gadt_constrlist</a><a href="#derivings">derivings</a></rr-a>
+                     <rr-a>
+                        <rr-t>'data'</rr-t>
+                        <rr-t>'instance'</rr-t><a href="#capi_ctype">capi_ctype</a><a href="#tycl_hdr_inst">tycl_hdr_inst</a><a href="#opt_kind_sig">opt_kind_sig</a><a href="#gadt_constrlist">gadt_constrlist</a><a href="#derivings">derivings</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#capi_ctype">capi_ctype</a><a href="#tycl_hdr_inst">tycl_hdr_inst</a><a href="#opt_kind_sig">opt_kind_sig</a><a href="#gadt_constrlist">gadt_constrlist</a><a href="#derivings">derivings</a></rr-a>
+                     <rr-a>
+                        <rr-t>'newtype'</rr-t>
+                        <rr-t>'instance'</rr-t><a href="#capi_ctype">capi_ctype</a><a href="#tycl_hdr_inst">tycl_hdr_inst</a><a href="#opt_kind_sig">opt_kind_sig</a><a href="#gadt_constrlist">gadt_constrlist</a><a href="#derivings">derivings</a></rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -632,7 +809,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#kind">kind</a></rr-a>
+               <rr-a>
+                  <rr-t>'::'</rr-t><a href="#kind">kind</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -640,7 +818,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#kind">kind</a></rr-a>
+               <rr-a>
+                  <rr-t>'::'</rr-t><a href="#kind">kind</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -650,12 +829,14 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#kind">kind</a></rr-a>
+                     <rr-a>
+                        <rr-t>'::'</rr-t><a href="#kind">kind</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#tv_bndr">tv_bndr</a></rr-a>
+                     <rr-a>
+                        <rr-t>'='</rr-t><a href="#tv_bndr">tv_bndr</a></rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -667,12 +848,14 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#kind">kind</a></rr-a>
+                     <rr-a>
+                        <rr-t>'::'</rr-t><a href="#kind">kind</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#tv_bndr_no_braces">tv_bndr_no_braces</a><a href="#injectivity_cond">injectivity_cond</a></rr-a>
+                     <rr-a>
+                        <rr-t>'='</rr-t><a href="#tv_bndr_no_braces">tv_bndr_no_braces</a><rr-t>'|'</rr-t><a href="#injectivity_cond">injectivity_cond</a></rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -684,7 +867,7 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#tycl_context">tycl_context</a><a href="#type_">type_</a></rr-a>
+                     <rr-a><a href="#tycl_context">tycl_context</a><rr-t>'=&gt;'</rr-t><a href="#type_">type_</a></rr-a>
                   </rr-o>
                </rr-a><a href="#type_">type_</a></rr-o>
          </rr-rr>
@@ -695,17 +878,19 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#tv_bndrs">tv_bndrs</a><a href="#tycl_context">tycl_context</a><a href="#type_">type_</a></rr-a>
+                     <rr-a>
+                        <rr-t>'forall'</rr-t><a href="#tv_bndrs">tv_bndrs</a><rr-t>'.'</rr-t><a href="#tycl_context">tycl_context</a><rr-t>'=&gt;'</rr-t><a href="#type_">type_</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#tv_bndrs">tv_bndrs</a><a href="#type_">type_</a></rr-a>
+                     <rr-a>
+                        <rr-t>'forall'</rr-t><a href="#tv_bndrs">tv_bndrs</a><rr-t>'.'</rr-t><a href="#type_">type_</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#tycl_context">tycl_context</a><a href="#type_">type_</a></rr-a>
+                     <rr-a><a href="#tycl_context">tycl_context</a><rr-t>'=&gt;'</rr-t><a href="#type_">type_</a></rr-a>
                   </rr-o>
                </rr-a><a href="#type_">type_</a></rr-o>
          </rr-rr>
@@ -716,12 +901,23 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'{-#'</rr-t>
+                        <rr-t>'CTYPE'</rr-t>
+                        <rr-t>STRING</rr-t>
+                        <rr-t>STRING</rr-t>
+                        <rr-t>'#-}'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'{-#'</rr-t>
+                        <rr-t>'CTYPE'</rr-t>
+                        <rr-t>STRING</rr-t>
+                        <rr-t>'#-}'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -731,7 +927,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#deriv_standalone_strategy">deriv_standalone_strategy</a><a href="#overlap_pragma">overlap_pragma</a><a href="#inst_type">inst_type</a></rr-a>
+               <rr-a>
+                  <rr-t>'deriving'</rr-t><a href="#deriv_standalone_strategy">deriv_standalone_strategy</a><rr-t>'instance'</rr-t><a href="#overlap_pragma">overlap_pragma</a><a href="#inst_type">inst_type</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -739,7 +936,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#oqtycon">oqtycon</a><a href="#roles">roles</a></rr-a>
+               <rr-a>
+                  <rr-t>'type'</rr-t>
+                  <rr-t>'role'</rr-t><a href="#oqtycon">oqtycon</a><a href="#roles">roles</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -752,7 +951,8 @@
       <h2 id="role">role</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#varid">varid</a></rr-o>
+            <rr-o><a href="#varid">varid</a><rr-t>'_'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="pattern_synonym_decl">pattern_synonym_decl</h2>
@@ -761,12 +961,14 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#pattern_synonym_lhs">pattern_synonym_lhs</a><a href="#pat">pat</a></rr-a>
+                     <rr-a>
+                        <rr-t>'pattern'</rr-t><a href="#pattern_synonym_lhs">pattern_synonym_lhs</a><rr-t>'='</rr-t><a href="#pat">pat</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#pattern_synonym_lhs">pattern_synonym_lhs</a><a href="#pat">pat</a><a href="#where_decls">where_decls</a></rr-a>
+                     <rr-a>
+                        <rr-t>'pattern'</rr-t><a href="#pattern_synonym_lhs">pattern_synonym_lhs</a><rr-t>'&lt;-'</rr-t><a href="#pat">pat</a><a href="#where_decls">where_decls</a></rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -788,7 +990,8 @@
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#con">con</a><a href="#cvars">cvars</a></rr-a>
+                     <rr-a><a href="#con">con</a><rr-t>'{'</rr-t><a href="#cvars">cvars</a><rr-t>'}'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -806,7 +1009,8 @@
             <rr-o>
                <rr-a><a href="#var_">var_</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#var_">var_</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#var_">var_</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -817,7 +1021,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#open_">open_</a><a href="#decls">decls</a><a href="#close">close</a></rr-a>
+               <rr-a>
+                  <rr-t>'where'</rr-t><a href="#open_">open_</a><a href="#decls">decls</a><a href="#close">close</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -825,14 +1030,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#con_list">con_list</a><a href="#sigtypedoc">sigtypedoc</a></rr-a>
+               <rr-a>
+                  <rr-t>'pattern'</rr-t><a href="#con_list">con_list</a><rr-t>'::'</rr-t><a href="#sigtypedoc">sigtypedoc</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="decl_cls">decl_cls</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#at_decl_cls">at_decl_cls</a><a href="#decl">decl</a><rr-a><a href="#infixexp">infixexp</a><a href="#sigtypedoc">sigtypedoc</a></rr-a>
+            <rr-o><a href="#at_decl_cls">at_decl_cls</a><a href="#decl">decl</a><rr-a>
+                  <rr-t>'default'</rr-t><a href="#infixexp">infixexp</a><rr-t>'::'</rr-t><a href="#sigtypedoc">sigtypedoc</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -860,7 +1067,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#decllist_cls">decllist_cls</a></rr-a>
+               <rr-a>
+                  <rr-t>'where'</rr-t><a href="#decllist_cls">decllist_cls</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -894,7 +1102,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#decllist_inst">decllist_inst</a></rr-a>
+               <rr-a>
+                  <rr-t>'where'</rr-t><a href="#decllist_inst">decllist_inst</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -933,7 +1142,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#binds">binds</a></rr-a>
+               <rr-a>
+                  <rr-t>'where'</rr-t><a href="#binds">binds</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -953,14 +1163,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#pstring">pstring</a><a href="#rule_activation">rule_activation</a><a href="#rule_foralls">rule_foralls</a><a href="#infixexp">infixexp</a><a href="#exp">exp</a></rr-a>
+               <rr-a><a href="#pstring">pstring</a><a href="#rule_activation">rule_activation</a><a href="#rule_foralls">rule_foralls</a><a href="#infixexp">infixexp</a><rr-t>'='</rr-t><a href="#exp">exp</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="rule_activation_marker">rule_activation_marker</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#varsym">varsym</a></rr-o>
+            <rr-o>
+               <rr-t>'~'</rr-t><a href="#varsym">varsym</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="rule_activation">rule_activation</h2>
@@ -969,17 +1180,23 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#integer">integer</a></rr-a>
+                     <rr-a>
+                        <rr-t>'['</rr-t><a href="#integer">integer</a><rr-t>']'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#rule_activation_marker">rule_activation_marker</a><a href="#integer">integer</a></rr-a>
+                     <rr-a>
+                        <rr-t>'['</rr-t><a href="#rule_activation_marker">rule_activation_marker</a><a href="#integer">integer</a><rr-t>']'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#rule_activation_marker">rule_activation_marker</a></rr-a>
+                     <rr-a>
+                        <rr-t>'['</rr-t><a href="#rule_activation_marker">rule_activation_marker</a><rr-t>']'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -991,9 +1208,13 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#rule_vars">rule_vars</a><rr-a data-min="0" data-max="1">
+                     <rr-a>
+                        <rr-t>'forall'</rr-t><a href="#rule_vars">rule_vars</a><rr-t>'.'</rr-t>
+                        <rr-a data-min="0" data-max="1">
                            <rr-o>
-                              <rr-a><a href="#rule_vars">rule_vars</a></rr-a>
+                              <rr-a>
+                                 <rr-t>'forall'</rr-t><a href="#rule_vars">rule_vars</a><rr-t>'.'</rr-t>
+                              </rr-a>
                            </rr-o>
                         </rr-a>
                      </rr-a>
@@ -1013,7 +1234,9 @@
          <rr-rr>
             <rr-o><a href="#varid">varid</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#varid">varid</a><a href="#ctype">ctype</a></rr-a>
+                     <rr-a>
+                        <rr-t>'('</rr-t><a href="#varid">varid</a><rr-t>'::'</rr-t><a href="#ctype">ctype</a><rr-t>')'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -1064,7 +1287,9 @@
          <rr-rr>
             <rr-o><a href="#pstring">pstring</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#stringlist">stringlist</a></rr-a>
+                     <rr-a>
+                        <rr-t>'['</rr-t><a href="#stringlist">stringlist</a><rr-t>']'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -1076,7 +1301,8 @@
             <rr-o>
                <rr-a><a href="#pstring">pstring</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#pstring">pstring</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#pstring">pstring</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1089,17 +1315,27 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#name_var">name_var</a><a href="#aexp">aexp</a></rr-a>
+                     <rr-a>
+                        <rr-t>'{-#'</rr-t>
+                        <rr-t>'ANN'</rr-t><a href="#name_var">name_var</a><a href="#aexp">aexp</a><rr-t>'#-}'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#tycon">tycon</a><a href="#aexp">aexp</a></rr-a>
+                     <rr-a>
+                        <rr-t>'{-#'</rr-t>
+                        <rr-t>'ANN'</rr-t><a href="#tycon">tycon</a><a href="#aexp">aexp</a><rr-t>'#-}'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#aexp">aexp</a></rr-a>
+                     <rr-a>
+                        <rr-t>'{-#'</rr-t>
+                        <rr-t>'ANN'</rr-t>
+                        <rr-t>'module'</rr-t><a href="#aexp">aexp</a><rr-t>'#-}'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -1111,12 +1347,14 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#callconv">callconv</a><a href="#safety">safety</a><a href="#fspec">fspec</a></rr-a>
+                     <rr-a>
+                        <rr-t>'import'</rr-t><a href="#callconv">callconv</a><a href="#safety">safety</a><a href="#fspec">fspec</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#callconv">callconv</a><a href="#fspec">fspec</a></rr-a>
+                     <rr-a>
+                        <rr-t>'export'</rr-t><a href="#callconv">callconv</a><a href="#fspec">fspec</a></rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -1125,20 +1363,29 @@
       <h2 id="callconv">callconv</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'ccall'</rr-t>
+               <rr-t>'stdcall'</rr-t>
+               <rr-t>'cplusplus'</rr-t>
+               <rr-t>'javascript'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="safety">safety</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'unsafe'</rr-t>
+               <rr-t>'safe'</rr-t>
+               <rr-t>'interruptible'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="fspec">fspec</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#pstring">pstring</a><a href="#var_">var_</a><a href="#sigtypedoc">sigtypedoc</a></rr-a>
+               <rr-a><a href="#pstring">pstring</a><a href="#var_">var_</a><rr-t>'::'</rr-t><a href="#sigtypedoc">sigtypedoc</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1146,7 +1393,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#sigtype">sigtype</a></rr-a>
+               <rr-a>
+                  <rr-t>'::'</rr-t><a href="#sigtype">sigtype</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1154,7 +1402,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#gtycon">gtycon</a></rr-a>
+               <rr-a>
+                  <rr-t>'::'</rr-t><a href="#gtycon">gtycon</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1176,7 +1425,8 @@
             <rr-o>
                <rr-a><a href="#var_">var_</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#var_">var_</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#var_">var_</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1189,7 +1439,8 @@
             <rr-o>
                <rr-a><a href="#sigtype">sigtype</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#sigtype">sigtype</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#sigtype">sigtype</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1202,12 +1453,20 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'{-#'</rr-t>
+                        <rr-t>'UNPACK'</rr-t>
+                        <rr-t>'#-}'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'{-#'</rr-t>
+                        <rr-t>'NOUNPACK'</rr-t>
+                        <rr-t>'#-}'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -1216,7 +1475,10 @@
       <h2 id="forall_vis_flag">forall_vis_flag</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'.'</rr-t>
+               <rr-t>'-&gt;'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="ktype">ktype</h2>
@@ -1224,7 +1486,7 @@
          <rr-rr>
             <rr-o><a href="#ctype">ctype</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#ctype">ctype</a><a href="#kind">kind</a></rr-a>
+                     <rr-a><a href="#ctype">ctype</a><rr-t>'::'</rr-t><a href="#kind">kind</a></rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -1233,7 +1495,7 @@
       <h2 id="ktypedoc">ktypedoc</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#ctypedoc">ctypedoc</a><rr-a><a href="#ctypedoc">ctypedoc</a><a href="#kind">kind</a></rr-a>
+            <rr-o><a href="#ctypedoc">ctypedoc</a><rr-a><a href="#ctypedoc">ctypedoc</a><rr-t>'::'</rr-t><a href="#kind">kind</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1241,18 +1503,20 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tv_bndrs">tv_bndrs</a><a href="#forall_vis_flag">forall_vis_flag</a><a href="#ctype">ctype</a></rr-a>
-               <rr-a><a href="#btype">btype</a><a href="#ctype">ctype</a></rr-a>
-               <rr-a><a href="#var_">var_</a><a href="#type__// not sure about this rule">type__// not sure about this rule</a></rr-a><a href="#type_">type_</a></rr-o>
+               <rr-a>
+                  <rr-t>'forall'</rr-t><a href="#tv_bndrs">tv_bndrs</a><a href="#forall_vis_flag">forall_vis_flag</a><a href="#ctype">ctype</a></rr-a>
+               <rr-a><a href="#btype">btype</a><rr-t>'=&gt;'</rr-t><a href="#ctype">ctype</a></rr-a>
+               <rr-a><a href="#var_">var_</a><rr-t>'::'</rr-t><a href="#type__// not sure about this rule">type_</a></rr-a><a href="#type_">type_</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="ctypedoc">ctypedoc</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tv_bndrs">tv_bndrs</a><a href="#forall_vis_flag">forall_vis_flag</a><a href="#ctypedoc">ctypedoc</a></rr-a>
-               <rr-a><a href="#tycl_context">tycl_context</a><a href="#ctypedoc">ctypedoc</a></rr-a>
-               <rr-a><a href="#var_">var_</a><a href="#type_">type_</a></rr-a><a href="#typedoc">typedoc</a></rr-o>
+               <rr-a>
+                  <rr-t>'forall'</rr-t><a href="#tv_bndrs">tv_bndrs</a><a href="#forall_vis_flag">forall_vis_flag</a><a href="#ctypedoc">ctypedoc</a></rr-a>
+               <rr-a><a href="#tycl_context">tycl_context</a><rr-t>'=&gt;'</rr-t><a href="#ctypedoc">ctypedoc</a></rr-a>
+               <rr-a><a href="#var_">var_</a><rr-t>'::'</rr-t><a href="#type_">type_</a></rr-a><a href="#typedoc">typedoc</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="tycl_context">tycl_context</h2>
@@ -1270,14 +1534,14 @@
       <h2 id="type_">type_</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#btype">btype</a><rr-a><a href="#btype">btype</a><a href="#ctype">ctype</a></rr-a>
+            <rr-o><a href="#btype">btype</a><rr-a><a href="#btype">btype</a><rr-t>'-&gt;'</rr-t><a href="#ctype">ctype</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="typedoc">typedoc</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#btype">btype</a><rr-a><a href="#btype">btype</a><a href="#ctypedoc">ctypedoc</a></rr-a>
+            <rr-o><a href="#btype">btype</a><rr-a><a href="#btype">btype</a><rr-t>'-&gt;'</rr-t><a href="#ctypedoc">ctypedoc</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1316,16 +1580,19 @@
          <rr-rr>
             <rr-o><a href="#atype">atype</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#atype">atype</a></rr-a>
+                     <rr-a>
+                        <rr-t>'@'</rr-t><a href="#atype">atype</a></rr-a>
                   </rr-o>
                </rr-a><a href="#qtyconop">qtyconop</a><a href="#tyvarop">tyvarop</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#qconop">qconop</a></rr-a>
+                     <rr-a>
+                        <rr-t>'\''</rr-t><a href="#qconop">qconop</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#varop">varop</a></rr-a>
+                     <rr-a>
+                        <rr-t>'\''</rr-t><a href="#varop">varop</a></rr-a>
                   </rr-o>
                </rr-a><a href="#unpackedness">unpackedness</a></rr-o>
          </rr-rr>
@@ -1333,80 +1600,112 @@
       <h2 id="atype">atype</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#ntgtycon">ntgtycon</a><a href="#tyvar">tyvar</a><rr-a>
+            <rr-o><a href="#ntgtycon">ntgtycon</a><a href="#tyvar">tyvar</a><rr-t>'*'</rr-t>
+               <rr-a>
                   <rr-o>
-                     <rr-a><a href="#atype">atype</a></rr-a>
+                     <rr-a>
+                        <rr-t>'~'</rr-t><a href="#atype">atype</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#atype">atype</a></rr-a>
+                     <rr-a>
+                        <rr-t>'!'</rr-t><a href="#atype">atype</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#fielddecls">fielddecls</a></rr-a>
+                     <rr-a>
+                        <rr-t>'{'</rr-t><a href="#fielddecls">fielddecls</a><rr-t>'}'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'('</rr-t>
+                        <rr-t>')'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#ktype">ktype</a><a href="#comma_types">comma_types</a></rr-a>
+                     <rr-a>
+                        <rr-t>'('</rr-t><a href="#ktype">ktype</a><rr-t>','</rr-t><a href="#comma_types">comma_types</a><rr-t>')'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'(#'</rr-t>
+                        <rr-t>'#)'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#comma_types">comma_types</a></rr-a>
+                     <rr-a>
+                        <rr-t>'(#'</rr-t><a href="#comma_types">comma_types</a><rr-t>'#)'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#bar_types2">bar_types2</a></rr-a>
+                     <rr-a>
+                        <rr-t>'(#'</rr-t><a href="#bar_types2">bar_types2</a><rr-t>'#)'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#ktype">ktype</a></rr-a>
+                     <rr-a>
+                        <rr-t>'['</rr-t><a href="#ktype">ktype</a><rr-t>']'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#ktype">ktype</a></rr-a>
+                     <rr-a>
+                        <rr-t>'('</rr-t><a href="#ktype">ktype</a><rr-t>')'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a><a href="#quasiquote">quasiquote</a><a href="#splice_untyped">splice_untyped</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#qcon_nowiredlist">qcon_nowiredlist</a></rr-a>
+                     <rr-a>
+                        <rr-t>'\''</rr-t><a href="#qcon_nowiredlist">qcon_nowiredlist</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#ktype">ktype</a><a href="#comma_types">comma_types</a></rr-a>
+                     <rr-a>
+                        <rr-t>'\''</rr-t>
+                        <rr-t>'('</rr-t><a href="#ktype">ktype</a><rr-t>','</rr-t><a href="#comma_types">comma_types</a><rr-t>')'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#comma_types">comma_types</a></rr-a>
+                     <rr-a>
+                        <rr-t>'\''</rr-t>
+                        <rr-t>'['</rr-t><a href="#comma_types">comma_types</a><rr-t>']'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#var_">var_</a></rr-a>
+                     <rr-a>
+                        <rr-t>'\''</rr-t><a href="#var_">var_</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#ktype">ktype</a><a href="#comma_types">comma_types</a></rr-a>
+                     <rr-a>
+                        <rr-t>'['</rr-t><a href="#ktype">ktype</a><rr-t>','</rr-t><a href="#comma_types">comma_types</a><rr-t>']'</rr-t>
+                     </rr-a>
                   </rr-o>
-               </rr-a><a href="#integer">integer</a><a href="#pstring">pstring</a></rr-o>
+               </rr-a><a href="#integer">integer</a><a href="#pstring">pstring</a><rr-t>'_'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="inst_type">inst_type</h2>
@@ -1421,7 +1720,8 @@
             <rr-o>
                <rr-a><a href="#ktypedoc">ktypedoc</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#ktypedoc">ktypedoc</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#ktypedoc">ktypedoc</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1434,7 +1734,8 @@
             <rr-o>
                <rr-a><a href="#ktype">ktype</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#ktype">ktype</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#ktype">ktype</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1445,9 +1746,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#ktype">ktype</a><a href="#ktype">ktype</a><rr-a data-min="0" data-max="inf">
+               <rr-a><a href="#ktype">ktype</a><rr-t>'|'</rr-t><a href="#ktype">ktype</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#ktype">ktype</a></rr-a>
+                        <rr-a>
+                           <rr-t>'|'</rr-t><a href="#ktype">ktype</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1465,12 +1767,16 @@
          <rr-rr>
             <rr-o><a href="#tv_bndr_no_braces">tv_bndr_no_braces</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#tyvar">tyvar</a></rr-a>
+                     <rr-a>
+                        <rr-t>'{'</rr-t><a href="#tyvar">tyvar</a><rr-t>'}'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#tyvar">tyvar</a><a href="#kind">kind</a></rr-a>
+                     <rr-a>
+                        <rr-t>'{'</rr-t><a href="#tyvar">tyvar</a><rr-t>'::'</rr-t><a href="#kind">kind</a><rr-t>'}'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -1481,7 +1787,9 @@
          <rr-rr>
             <rr-o><a href="#tyvar">tyvar</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#tyvar">tyvar</a><a href="#kind">kind</a></rr-a>
+                     <rr-a>
+                        <rr-t>'('</rr-t><a href="#tyvar">tyvar</a><rr-t>'::'</rr-t><a href="#kind">kind</a><rr-t>')'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -1491,7 +1799,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#fds1">fds1</a></rr-a>
+               <rr-a>
+                  <rr-t>'|'</rr-t><a href="#fds1">fds1</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1501,7 +1810,8 @@
             <rr-o>
                <rr-a><a href="#fd">fd</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#fd">fd</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#fd">fd</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1512,7 +1822,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#varids0">varids0</a><a href="#varids0">varids0</a></rr-a>
+               <rr-a><a href="#varids0">varids0</a><rr-t>'-&gt;'</rr-t><a href="#varids0">varids0</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1532,7 +1842,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#open_">open_</a><a href="#gadt_constrs">gadt_constrs</a><a href="#semi">semi</a><a href="#close">close</a></rr-a>
+               <rr-a>
+                  <rr-t>'where'</rr-t><a href="#open_">open_</a><a href="#gadt_constrs">gadt_constrs</a><a href="#semi">semi</a><a href="#close">close</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1559,7 +1870,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#con_list">con_list</a><a href="#sigtypedoc">sigtypedoc</a></rr-a>
+               <rr-a><a href="#con_list">con_list</a><rr-t>'::'</rr-t><a href="#sigtypedoc">sigtypedoc</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1567,7 +1878,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#constrs1">constrs1</a></rr-a>
+               <rr-a>
+                  <rr-t>'='</rr-t><a href="#constrs1">constrs1</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1577,7 +1889,8 @@
             <rr-o>
                <rr-a><a href="#constr">constr</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#constr">constr</a></rr-a>
+                        <rr-a>
+                           <rr-t>'|'</rr-t><a href="#constr">constr</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1590,7 +1903,8 @@
             <rr-o>
                <rr-a><a href="#forall">forall</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#constr_context">constr_context</a></rr-a>
+                        <rr-a><a href="#constr_context">constr_context</a><rr-t>'=&gt;'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#constr_stuff">constr_stuff</a></rr-a>
             </rr-o>
@@ -1600,7 +1914,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tv_bndrs">tv_bndrs</a></rr-a>
+               <rr-a>
+                  <rr-t>'forall'</rr-t><a href="#tv_bndrs">tv_bndrs</a><rr-t>'.'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1616,7 +1932,8 @@
             <rr-o>
                <rr-a><a href="#fielddecl">fielddecl</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#fielddecl">fielddecl</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#fielddecl">fielddecl</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1627,7 +1944,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#sig_vars">sig_vars</a><a href="#ctype">ctype</a></rr-a>
+               <rr-a><a href="#sig_vars">sig_vars</a><rr-t>'::'</rr-t><a href="#ctype">ctype</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1643,17 +1960,20 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#deriv_clause_types">deriv_clause_types</a></rr-a>
+                     <rr-a>
+                        <rr-t>'deriving'</rr-t><a href="#deriv_clause_types">deriv_clause_types</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#deriv_strategy_no_via">deriv_strategy_no_via</a><a href="#deriv_clause_types">deriv_clause_types</a></rr-a>
+                     <rr-a>
+                        <rr-t>'deriving'</rr-t><a href="#deriv_strategy_no_via">deriv_strategy_no_via</a><a href="#deriv_clause_types">deriv_clause_types</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#deriv_clause_types">deriv_clause_types</a><a href="#deriv_strategy_via">deriv_strategy_via</a></rr-a>
+                     <rr-a>
+                        <rr-t>'deriving'</rr-t><a href="#deriv_clause_types">deriv_clause_types</a><a href="#deriv_strategy_via">deriv_strategy_via</a></rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -1662,8 +1982,13 @@
       <h2 id="deriv_clause_types">deriv_clause_types</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#qtycon">qtycon</a><rr-a></rr-a>
-               <rr-a><a href="#deriv_types">deriv_types</a></rr-a>
+            <rr-o><a href="#qtycon">qtycon</a><rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#deriv_types">deriv_types</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1674,15 +1999,13 @@
                   <rr-o>
                      <rr-a><a href="#infixexp">infixexp</a><a href="#opt_sig">opt_sig</a><a href="#rhs">rhs</a></rr-a>
                   </rr-o>
-               </rr-a><a href="#pattern_synonym_decln____// | docdecl">pattern_synonym_decln____// | docdecl</a><a href="#semi">semi</a></rr-o>
+               </rr-a><a href="#pattern_synonym_decln____// | docdecl">pattern_synonym_decl</a><a href="#semi">semi</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="decl">decl</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#decl_no_thnn____// Why do we only allow naked declaration splices in top-leveln____// declarations and not here? Short answer: because readFail009n____// fails terribly with a panic in cvBindsAndSigs otherwise.">decl_no_thnn____// Why do we only allow naked declaration splices in top-leveln____//
-                  declarations and not here? Short answer: because readFail009n____// fails terribly
-                  with a panic in cvBindsAndSigs otherwise.</a><a href="#splice_exp">splice_exp</a><a href="#semi">semi</a></rr-o>
+            <rr-o><a href="#decl_no_thnn____// Why do we only allow naked declaration splices in top-leveln____// declarations and not here? Short answer: because readFail009n____// fails terribly with a panic in cvBindsAndSigs otherwise.">decl_no_th</a><a href="#splice_exp">splice_exp</a><a href="#semi">semi</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="rhs">rhs</h2>
@@ -1691,7 +2014,8 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#exp">exp</a><a href="#wherebinds">wherebinds</a></rr-a>
+                     <rr-a>
+                        <rr-t>'='</rr-t><a href="#exp">exp</a><a href="#wherebinds">wherebinds</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
@@ -1712,7 +2036,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#guards">guards</a><a href="#exp">exp</a></rr-a>
+               <rr-a>
+                  <rr-t>'|'</rr-t><a href="#guards">guards</a><rr-t>'='</rr-t><a href="#exp">exp</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1722,12 +2047,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#infixexp">infixexp</a><a href="#sigtypedoc">sigtypedoc</a></rr-a>
+                     <rr-a><a href="#infixexp">infixexp</a><rr-t>'::'</rr-t><a href="#sigtypedoc">sigtypedoc</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#var_">var_</a><a href="#sig_vars">sig_vars</a><a href="#sigtypedoc">sigtypedoc</a></rr-a>
+                     <rr-a><a href="#var_">var_</a><rr-t>','</rr-t><a href="#sig_vars">sig_vars</a><rr-t>'::'</rr-t><a href="#sigtypedoc">sigtypedoc</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
@@ -1740,37 +2065,60 @@
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#con_list">con_list</a><a href="#opt_tyconsig">opt_tyconsig</a></rr-a>
+                     <rr-a>
+                        <rr-t>'{-#'</rr-t>
+                        <rr-t>'COMPLETE'</rr-t><a href="#con_list">con_list</a><a href="#opt_tyconsig">opt_tyconsig</a><rr-t>'#-}'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#activation">activation</a><a href="#qvar">qvar</a></rr-a>
+                     <rr-a>
+                        <rr-t>'{-#'</rr-t>
+                        <rr-t>'INLINE'</rr-t><a href="#activation">activation</a><a href="#qvar">qvar</a><rr-t>'#-}'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#qvar">qvar</a><a href="#pstring">pstring</a></rr-a>
+                     <rr-a>
+                        <rr-t>'{-#'</rr-t>
+                        <rr-t>'SCC'</rr-t><a href="#qvar">qvar</a><a href="#pstring">pstring</a><rr-t>'#-}'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#activation">activation</a><a href="#qvar">qvar</a><a href="#sigtypes1">sigtypes1</a></rr-a>
+                     <rr-a>
+                        <rr-t>'{-#'</rr-t>
+                        <rr-t>'SPECIALISE'</rr-t><a href="#activation">activation</a><a href="#qvar">qvar</a><rr-t>'::'</rr-t><a href="#sigtypes1">sigtypes1</a><rr-t>'#-}'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#activation">activation</a><a href="#qvar">qvar</a><a href="#sigtypes1">sigtypes1</a></rr-a>
+                     <rr-a>
+                        <rr-t>'{-#'</rr-t>
+                        <rr-t>'SPECIALISE_INLINE'</rr-t><a href="#activation">activation</a><a href="#qvar">qvar</a><rr-t>'::'</rr-t><a href="#sigtypes1">sigtypes1</a><rr-t>'#-}'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#inst_type">inst_type</a></rr-a>
+                     <rr-a>
+                        <rr-t>'{-#'</rr-t>
+                        <rr-t>'SPECIALISE'</rr-t>
+                        <rr-t>'instance'</rr-t><a href="#inst_type">inst_type</a><rr-t>'#-}'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#name_boolformula_opt">name_boolformula_opt</a></rr-a>
+                     <rr-a>
+                        <rr-t>'{-#'</rr-t>
+                        <rr-t>'MINIMAL'</rr-t>
+                        <rr-t>'#-}'</rr-t><a href="#name_boolformula_opt">name_boolformula_opt</a><rr-t>'#-}'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
@@ -1785,12 +2133,16 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#integer">integer</a></rr-a>
+                     <rr-a>
+                        <rr-t>'['</rr-t><a href="#integer">integer</a><rr-t>']'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#rule_activation_marker">rule_activation_marker</a><a href="#integer">integer</a></rr-a>
+                     <rr-a>
+                        <rr-t>'['</rr-t><a href="#rule_activation_marker">rule_activation_marker</a><a href="#integer">integer</a><rr-t>']'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -1800,7 +2152,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#varid">varid</a></rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#varid">varid</a><rr-t>'|'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1808,7 +2162,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#qvarid">qvarid</a></rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#qvarid">qvarid</a><rr-t>'|'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1824,27 +2180,27 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#infixexp">infixexp</a><a href="#sigtype">sigtype</a></rr-a>
+                     <rr-a><a href="#infixexp">infixexp</a><rr-t>'::'</rr-t><a href="#sigtype">sigtype</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#infixexp">infixexp</a><a href="#exp">exp</a></rr-a>
+                     <rr-a><a href="#infixexp">infixexp</a><rr-t>'-&lt;'</rr-t><a href="#exp">exp</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#infixexp">infixexp</a><a href="#exp">exp</a></rr-a>
+                     <rr-a><a href="#infixexp">infixexp</a><rr-t>'&gt;-'</rr-t><a href="#exp">exp</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#infixexp">infixexp</a><a href="#exp">exp</a></rr-a>
+                     <rr-a><a href="#infixexp">infixexp</a><rr-t>'-&lt;&lt;'</rr-t><a href="#exp">exp</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#infixexp">infixexp</a><a href="#exp">exp</a></rr-a>
+                     <rr-a><a href="#infixexp">infixexp</a><rr-t>'&gt;&gt;-'</rr-t><a href="#exp">exp</a></rr-a>
                   </rr-o>
                </rr-a><a href="#infixexp">infixexp</a></rr-o>
          </rr-rr>
@@ -1872,7 +2228,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#fexp">fexp</a></rr-a>
+               <rr-a>
+                  <rr-t>'-'</rr-t><a href="#fexp">fexp</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1882,7 +2239,8 @@
             <rr-o>
                <rr-a><a href="#aexp">aexp</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#atype">atype</a></rr-a>
+                        <rr-a>
+                           <rr-t>'@'</rr-t><a href="#atype">atype</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1895,57 +2253,67 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#qvar">qvar</a><a href="#aexp">aexp</a></rr-a>
+                     <rr-a><a href="#qvar">qvar</a><rr-t>'@'</rr-t><a href="#aexp">aexp</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#aexp">aexp</a></rr-a>
+                     <rr-a>
+                        <rr-t>'~'</rr-t><a href="#aexp">aexp</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#aexp">aexp</a></rr-a>
+                     <rr-a>
+                        <rr-t>'!'</rr-t><a href="#aexp">aexp</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#apats">apats</a><a href="#exp">exp</a></rr-a>
+                     <rr-a>
+                        <rr-t>'\\'</rr-t><a href="#apats">apats</a><rr-t>'-&gt;'</rr-t><a href="#exp">exp</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#decllist">decllist</a><a href="#exp">exp</a></rr-a>
+                     <rr-a>
+                        <rr-t>'let'</rr-t><a href="#decllist">decllist</a><rr-t>'in'</rr-t><a href="#exp">exp</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#alts">alts</a></rr-a>
+                     <rr-a>
+                        <rr-t>LCASE</rr-t><a href="#alts">alts</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#exp">exp</a><a href="#semi">semi</a><a href="#exp">exp</a><a href="#semi">semi</a><a href="#exp">exp</a></rr-a>
+                     <rr-a>
+                        <rr-t>'if'</rr-t><a href="#exp">exp</a><a href="#semi">semi</a><rr-t>'then'</rr-t><a href="#exp">exp</a><a href="#semi">semi</a><rr-t>'else'</rr-t><a href="#exp">exp</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#ifgdpats">ifgdpats</a></rr-a>
+                     <rr-a>
+                        <rr-t>'if'</rr-t><a href="#ifgdpats">ifgdpats</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#exp">exp</a><a href="#alts">alts</a></rr-a>
+                     <rr-a>
+                        <rr-t>'case'</rr-t><a href="#exp">exp</a><rr-t>'of'</rr-t><a href="#alts">alts</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#stmtlist">stmtlist</a></rr-a>
+                     <rr-a>
+                        <rr-t>'do'</rr-t><a href="#stmtlist">stmtlist</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#stmtlist">stmtlist</a></rr-a>
+                     <rr-a>
+                        <rr-t>'mdo'</rr-t><a href="#stmtlist">stmtlist</a></rr-a>
                   </rr-o>
                </rr-a><a href="#aexp1">aexp1</a></rr-o>
          </rr-rr>
@@ -1956,7 +2324,9 @@
             <rr-o>
                <rr-a><a href="#aexp2">aexp2</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#fbinds">fbinds</a></rr-a>
+                        <rr-a>
+                           <rr-t>'{'</rr-t><a href="#fbinds">fbinds</a><rr-t>'}'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1966,60 +2336,85 @@
       <h2 id="aexp2">aexp2</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#qvar">qvar</a><a href="#qcon">qcon</a><a href="#varid">varid</a><a href="#literal">literal</a><a href="#pstring">pstring</a><a href="#integer">integer</a><a href="#pfloatn____// N.B.: sections get parsed by these next two productions.n____// This allows you to write, e.g., '(+ 3, 4 -)', which isn'tn____// correct Haskell (you'd have to write '((+ 3), (4 -))')n____// but the less cluttered version fell out of having texps.">pfloatn____// N.B.: sections get parsed by these next two productions.n____// This
-                  allows you to write, e.g., '(+ 3, 4 -)', which isn'tn____// correct Haskell (you'd
-                  have to write '((+ 3), (4 -))')n____// but the less cluttered version fell out of
-                  having texps.</a><rr-a>
+            <rr-o><a href="#qvar">qvar</a><a href="#qcon">qcon</a><a href="#varid">varid</a><a href="#literal">literal</a><a href="#pstring">pstring</a><a href="#integer">integer</a><a href="#pfloatn____// N.B.: sections get parsed by these next two productions.n____// This allows you to write, e.g., '(+ 3, 4 -)', which isn'tn____// correct Haskell (you'd have to write '((+ 3), (4 -))')n____// but the less cluttered version fell out of having texps.">pfloat</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#texp">texp</a></rr-a>
+                     <rr-a>
+                        <rr-t>'('</rr-t><a href="#texp">texp</a><rr-t>')'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#tup_exprs">tup_exprs</a></rr-a>
+                     <rr-a>
+                        <rr-t>'('</rr-t><a href="#tup_exprs">tup_exprs</a><rr-t>')'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#texp">texp</a></rr-a>
+                     <rr-a>
+                        <rr-t>'(#'</rr-t><a href="#texp">texp</a><rr-t>'#)'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#tup_exprs">tup_exprs</a></rr-a>
+                     <rr-a>
+                        <rr-t>'(#'</rr-t><a href="#tup_exprs">tup_exprs</a><rr-t>'#)'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#list_">list_</a></rr-a>
+                     <rr-a>
+                        <rr-t>'['</rr-t><a href="#list_">list_</a><rr-t>']'</rr-t>
+                     </rr-a>
                   </rr-o>
-               </rr-a><a href="#splice_untyped">splice_untyped</a><a href="#splice_typed">splice_typed</a><rr-a>
+               </rr-a>
+               <rr-t>'_'</rr-t><a href="#splice_untyped">splice_untyped</a><a href="#splice_typed">splice_typed</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#qvar">qvar</a></rr-a>
+                     <rr-a>
+                        <rr-t>'\''</rr-t><a href="#qvar">qvar</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#qcon">qcon</a></rr-a>
+                     <rr-a>
+                        <rr-t>'\''</rr-t><a href="#qcon">qcon</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#tyvar">tyvar</a></rr-a>
+                     <rr-a>
+                        <rr-t>'\'\''</rr-t><a href="#tyvar">tyvar</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#gtycon">gtycon</a></rr-a>
+                     <rr-a>
+                        <rr-t>'\'\''</rr-t><a href="#gtycon">gtycon</a></rr-a>
                   </rr-o>
                </rr-a>
-               <rr-a><a href="#exp">exp</a></rr-a>
-               <rr-a><a href="#exp">exp</a></rr-a>
-               <rr-a><a href="#ktype">ktype</a></rr-a>
-               <rr-a><a href="#infixexp">infixexp</a></rr-a>
-               <rr-a><a href="#cvtopbody">cvtopbody</a></rr-a><a href="#quasiquote">quasiquote</a><rr-a>
+               <rr-t>'\'\''</rr-t>
+               <rr-a>
+                  <rr-t>'[|'</rr-t><a href="#exp">exp</a><rr-t>'|]'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'[||'</rr-t><a href="#exp">exp</a><rr-t>'||]'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'[t|'</rr-t><a href="#ktype">ktype</a><rr-t>'|]'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'[p|'</rr-t><a href="#infixexp">infixexp</a><rr-t>'|]'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'[d|'</rr-t><a href="#cvtopbody">cvtopbody</a><rr-t>'|]'</rr-t>
+               </rr-a><a href="#quasiquote">quasiquote</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#aexp">aexp</a><a href="#cmdargs">cmdargs</a></rr-a>
+                     <rr-a>
+                        <rr-t>AopenParen</rr-t><a href="#aexp">aexp</a><a href="#cmdargs">cmdargs</a><rr-t>AopenParen</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -2035,7 +2430,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#aexp">aexp</a></rr-a>
+               <rr-a>
+                  <rr-t>'$'</rr-t><a href="#aexp">aexp</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2043,7 +2439,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#aexp">aexp</a></rr-a>
+               <rr-a>
+                  <rr-t>'$$'</rr-t><a href="#aexp">aexp</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2090,7 +2487,7 @@
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#exp">exp</a><a href="#texp">texp</a></rr-a>
+                     <rr-a><a href="#exp">exp</a><rr-t>'-&gt;'</rr-t><a href="#texp">texp</a></rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -2141,11 +2538,13 @@
       <h2 id="list_">list_</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#texp">texp</a><a href="#lexps">lexps</a><rr-a><a href="#texp">texp</a></rr-a>
-               <rr-a><a href="#texp">texp</a><a href="#exp">exp</a></rr-a>
-               <rr-a><a href="#texp">texp</a><a href="#exp">exp</a></rr-a>
-               <rr-a><a href="#texp">texp</a><a href="#exp">exp</a><a href="#exp">exp</a></rr-a>
-               <rr-a><a href="#texp">texp</a><a href="#flattenedpquals">flattenedpquals</a></rr-a>
+            <rr-o><a href="#texp">texp</a><a href="#lexps">lexps</a><rr-a><a href="#texp">texp</a><rr-t>'..'</rr-t>
+               </rr-a>
+               <rr-a><a href="#texp">texp</a><rr-t>','</rr-t><a href="#exp">exp</a><rr-t>'..'</rr-t>
+               </rr-a>
+               <rr-a><a href="#texp">texp</a><rr-t>'..'</rr-t><a href="#exp">exp</a></rr-a>
+               <rr-a><a href="#texp">texp</a><rr-t>','</rr-t><a href="#exp">exp</a><rr-t>'..'</rr-t><a href="#exp">exp</a></rr-a>
+               <rr-a><a href="#texp">texp</a><rr-t>'|'</rr-t><a href="#flattenedpquals">flattenedpquals</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2153,9 +2552,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#texp">texp</a><a href="#texp">texp</a><rr-a data-min="0" data-max="inf">
+               <rr-a><a href="#texp">texp</a><rr-t>','</rr-t><a href="#texp">texp</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#texp">texp</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#texp">texp</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2174,7 +2574,8 @@
             <rr-o>
                <rr-a><a href="#squals">squals</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#squals">squals</a></rr-a>
+                        <rr-a>
+                           <rr-t>'|'</rr-t><a href="#squals">squals</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2187,25 +2588,29 @@
             <rr-o>
                <rr-a><a href="#transformqual">transformqual</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#transformqual">transformqual</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#transformqual">transformqual</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
                <rr-a><a href="#transformqual">transformqual</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#qual">qual</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#qual">qual</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
                <rr-a><a href="#qual">qual</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#transformqual">transformqual</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#transformqual">transformqual</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
                <rr-a><a href="#qual">qual</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#qual">qual</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#qual">qual</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2216,10 +2621,18 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#exp">exp</a></rr-a>
-               <rr-a><a href="#exp">exp</a><a href="#exp">exp</a></rr-a>
-               <rr-a><a href="#exp">exp</a></rr-a>
-               <rr-a><a href="#exp">exp</a><a href="#exp">exp</a></rr-a>
+               <rr-a>
+                  <rr-t>'then'</rr-t><a href="#exp">exp</a></rr-a>
+               <rr-a>
+                  <rr-t>'then'</rr-t><a href="#exp">exp</a><rr-t>'by'</rr-t><a href="#exp">exp</a></rr-a>
+               <rr-a>
+                  <rr-t>'then'</rr-t>
+                  <rr-t>'group'</rr-t>
+                  <rr-t>'using'</rr-t><a href="#exp">exp</a></rr-a>
+               <rr-a>
+                  <rr-t>'then'</rr-t>
+                  <rr-t>'group'</rr-t>
+                  <rr-t>'by'</rr-t><a href="#exp">exp</a><rr-t>'using'</rr-t><a href="#exp">exp</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2229,7 +2642,8 @@
             <rr-o>
                <rr-a><a href="#guard_">guard_</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#guard_">guard_</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#guard_">guard_</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2240,8 +2654,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#pat">pat</a><a href="#infixexp">infixexp</a></rr-a>
-               <rr-a><a href="#decllist">decllist</a></rr-a><a href="#infixexp">infixexp</a></rr-o>
+               <rr-a><a href="#pat">pat</a><rr-t>'&lt;-'</rr-t><a href="#infixexp">infixexp</a></rr-a>
+               <rr-a>
+                  <rr-t>'let'</rr-t><a href="#decllist">decllist</a></rr-a><a href="#infixexp">infixexp</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="alts">alts</h2>
@@ -2287,7 +2702,8 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#exp">exp</a></rr-a>
+                     <rr-a>
+                        <rr-t>'-&gt;'</rr-t><a href="#exp">exp</a></rr-a>
                   </rr-o>
                </rr-a><a href="#gdpats">gdpats</a></rr-o>
          </rr-rr>
@@ -2302,14 +2718,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#gdpats">gdpats</a></rr-a><a href="#gdpats">gdpats</a></rr-o>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#gdpats">gdpats</a><rr-t>'}'</rr-t>
+               </rr-a><a href="#gdpats">gdpats</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="gdpat">gdpat</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#guards">guards</a><a href="#exp">exp</a></rr-a>
+               <rr-a>
+                  <rr-t>'|'</rr-t><a href="#guards">guards</a><rr-t>'-&gt;'</rr-t><a href="#exp">exp</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2341,7 +2760,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#qvar">qvar</a><a href="#pat">pat</a></rr-a>
+               <rr-a><a href="#qvar">qvar</a><rr-t>'='</rr-t><a href="#pat">pat</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2370,7 +2789,8 @@
          <rr-rr>
             <rr-o><a href="#qual">qual</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#stmtlist">stmtlist</a></rr-a>
+                     <rr-a>
+                        <rr-t>'rec'</rr-t><a href="#stmtlist">stmtlist</a></rr-a>
                   </rr-o>
                </rr-a><a href="#semi">semi</a></rr-o>
          </rr-rr>
@@ -2379,7 +2799,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#bindpat">bindpat</a><a href="#exp">exp</a></rr-a><a href="#exp">exp</a><rr-a><a href="#binds">binds</a></rr-a>
+               <rr-a><a href="#bindpat">bindpat</a><rr-t>'&lt;-'</rr-t><a href="#exp">exp</a></rr-a><a href="#exp">exp</a><rr-a>
+                  <rr-t>'let'</rr-t><a href="#binds">binds</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2391,14 +2812,17 @@
                   <rr-o>
                      <rr-a><a href="#fbind">fbind</a><rr-a data-min="0" data-max="inf">
                            <rr-o>
-                              <rr-a><a href="#fbind">fbind</a></rr-a>
+                              <rr-a>
+                                 <rr-t>','</rr-t><a href="#fbind">fbind</a></rr-a>
                            </rr-o>
                         </rr-a>
                      </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
-                  <rr-o></rr-o>
+                  <rr-o>
+                     <rr-t>'..'</rr-t>
+                  </rr-o>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -2409,7 +2833,7 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#qvar">qvar</a><a href="#exp">exp</a></rr-a>
+                     <rr-a><a href="#qvar">qvar</a><rr-t>'='</rr-t><a href="#exp">exp</a></rr-a>
                   </rr-o>
                </rr-a><a href="#qvar">qvar</a></rr-o>
          </rr-rr>
@@ -2430,7 +2854,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#varid">varid</a><a href="#exp">exp</a></rr-a>
+               <rr-a><a href="#varid">varid</a><rr-t>'='</rr-t><a href="#exp">exp</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2440,7 +2864,8 @@
             <rr-o>
                <rr-a><a href="#name_boolformula_and">name_boolformula_and</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#name_boolformula_and">name_boolformula_and</a></rr-a>
+                        <rr-a>
+                           <rr-t>'|'</rr-t><a href="#name_boolformula_and">name_boolformula_and</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2459,7 +2884,8 @@
             <rr-o>
                <rr-a><a href="#name_boolformula_atom">name_boolformula_atom</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#name_boolformula_atom">name_boolformula_atom</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#name_boolformula_atom">name_boolformula_atom</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2472,7 +2898,9 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#name_boolformula_opt">name_boolformula_opt</a></rr-a>
+                     <rr-a>
+                        <rr-t>'('</rr-t><a href="#name_boolformula_opt">name_boolformula_opt</a><rr-t>')'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a><a href="#name_var">name_var</a></rr-o>
          </rr-rr>
@@ -2483,7 +2911,8 @@
             <rr-o>
                <rr-a><a href="#name_var">name_var</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#name_var">name_var</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#name_var">name_var</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2513,7 +2942,9 @@
          <rr-rr>
             <rr-o><a href="#qconid">qconid</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#qconsym">qconsym</a></rr-a>
+                     <rr-a>
+                        <rr-t>'('</rr-t><a href="#qconsym">qconsym</a><rr-t>')'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -2524,7 +2955,9 @@
          <rr-rr>
             <rr-o><a href="#conid">conid</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#consym">consym</a></rr-a>
+                     <rr-a>
+                        <rr-t>'('</rr-t><a href="#consym">consym</a><rr-t>')'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a><a href="#sysdcon">sysdcon</a></rr-o>
          </rr-rr>
@@ -2535,7 +2968,8 @@
             <rr-o>
                <rr-a><a href="#con">con</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#con">con</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#con">con</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2548,22 +2982,32 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'('</rr-t>
+                        <rr-t>')'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#commas">commas</a></rr-a>
+                     <rr-a>
+                        <rr-t>'('</rr-t><a href="#commas">commas</a><rr-t>')'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'(#'</rr-t>
+                        <rr-t>'#)'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#commas">commas</a></rr-a>
+                     <rr-a>
+                        <rr-t>'(#'</rr-t><a href="#commas">commas</a><rr-t>'#)'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -2574,7 +3018,10 @@
          <rr-rr>
             <rr-o><a href="#sysdcon_nolist">sysdcon_nolist</a><rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'['</rr-t>
+                        <rr-t>']'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -2585,7 +3032,9 @@
          <rr-rr>
             <rr-o><a href="#consym">consym</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#conid">conid</a></rr-a>
+                     <rr-a>
+                        <rr-t>'`'</rr-t><a href="#conid">conid</a><rr-t>'`'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -2596,7 +3045,9 @@
          <rr-rr>
             <rr-o><a href="#gconsym">gconsym</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#qconid">qconid</a></rr-a>
+                     <rr-a>
+                        <rr-t>'`'</rr-t><a href="#qconid">qconid</a><rr-t>'`'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -2605,7 +3056,8 @@
       <h2 id="gconsym">gconsym</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#qconsym">qconsym</a></rr-o>
+            <rr-o>
+               <rr-t>':'</rr-t><a href="#qconsym">qconsym</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="gtycon">gtycon</h2>
@@ -2613,12 +3065,18 @@
          <rr-rr>
             <rr-o><a href="#ntgtycon">ntgtycon</a><rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'('</rr-t>
+                        <rr-t>')'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'(#'</rr-t>
+                        <rr-t>'#)'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -2629,22 +3087,33 @@
          <rr-rr>
             <rr-o><a href="#oqtycon">oqtycon</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#commas">commas</a></rr-a>
+                     <rr-a>
+                        <rr-t>'('</rr-t><a href="#commas">commas</a><rr-t>')'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#commas">commas</a></rr-a>
+                     <rr-a>
+                        <rr-t>'(#'</rr-t><a href="#commas">commas</a><rr-t>'#)'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'('</rr-t>
+                        <rr-t>'-&gt;'</rr-t>
+                        <rr-t>')'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'['</rr-t>
+                        <rr-t>']'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -2655,7 +3124,9 @@
          <rr-rr>
             <rr-o><a href="#qtycon">qtycon</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#qtyconsym">qtyconsym</a></rr-a>
+                     <rr-a>
+                        <rr-t>'('</rr-t><a href="#qtyconsym">qtyconsym</a><rr-t>')'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -2666,7 +3137,9 @@
          <rr-rr>
             <rr-o><a href="#qtyconsym">qtyconsym</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#qtycon">qtycon</a></rr-a>
+                     <rr-a>
+                        <rr-t>'`'</rr-t><a href="#qtycon">qtycon</a><rr-t>'`'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -2679,7 +3152,8 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#modid">modid</a></rr-a>
+                        <rr-a><a href="#modid">modid</a><rr-t>'.'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#tycon">tycon</a></rr-a>
             </rr-o>
@@ -2700,7 +3174,10 @@
       <h2 id="tyconsym">tyconsym</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#consym">consym</a><a href="#varsym">varsym</a></rr-o>
+            <rr-o><a href="#consym">consym</a><a href="#varsym">varsym</a><rr-t>':'</rr-t>
+               <rr-t>'-'</rr-t>
+               <rr-t>'.'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="op">op</h2>
@@ -2714,7 +3191,9 @@
          <rr-rr>
             <rr-o><a href="#varsym">varsym</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#varid">varid</a></rr-a>
+                     <rr-a>
+                        <rr-t>'`'</rr-t><a href="#varid">varid</a><rr-t>'`'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -2736,7 +3215,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'`'</rr-t>
+                  <rr-t>'_'</rr-t>
+                  <rr-t>'`'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2745,7 +3228,9 @@
          <rr-rr>
             <rr-o><a href="#qvarsym">qvarsym</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#qvarid">qvarid</a></rr-a>
+                     <rr-a>
+                        <rr-t>'`'</rr-t><a href="#qvarid">qvarid</a><rr-t>'`'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -2756,7 +3241,9 @@
          <rr-rr>
             <rr-o><a href="#qvarsym_no_minus">qvarsym_no_minus</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#qvarid">qvarid</a></rr-a>
+                     <rr-a>
+                        <rr-t>'`'</rr-t><a href="#qvarid">qvarid</a><rr-t>'`'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -2772,14 +3259,19 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tyvarid">tyvarid</a></rr-a>
+               <rr-a>
+                  <rr-t>'`'</rr-t><a href="#tyvarid">tyvarid</a><rr-t>'`'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="tyvarid">tyvarid</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#varid">varid</a><a href="#special_id">special_id</a></rr-o>
+            <rr-o><a href="#varid">varid</a><a href="#special_id">special_id</a><rr-t>'unsafe'</rr-t>
+               <rr-t>'safe'</rr-t>
+               <rr-t>'interruptible'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="tycls">tycls</h2>
@@ -2795,7 +3287,8 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#modid">modid</a></rr-a>
+                        <rr-a><a href="#modid">modid</a><rr-t>'.'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#tycls">tycls</a></rr-a>
             </rr-o>
@@ -2806,7 +3299,9 @@
          <rr-rr>
             <rr-o><a href="#varid">varid</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#varsym">varsym</a></rr-a>
+                     <rr-a>
+                        <rr-t>'('</rr-t><a href="#varsym">varsym</a><rr-t>')'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -2817,7 +3312,9 @@
          <rr-rr>
             <rr-o><a href="#qvarid">qvarid</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#qvarsym">qvarsym</a></rr-a>
+                     <rr-a>
+                        <rr-t>'('</rr-t><a href="#qvarsym">qvarsym</a><rr-t>')'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -2830,7 +3327,8 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#modid">modid</a></rr-a>
+                        <rr-a><a href="#modid">modid</a><rr-t>'.'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#varid">varid</a></rr-a>
             </rr-o>
@@ -2842,8 +3340,10 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o><a href="#special_id">special_id</a></rr-o>
+                     <rr-o>
+                        <rr-t>VARID</rr-t><a href="#special_id">special_id</a></rr-o>
                   </rr-a>
+                  <rr-t>'#'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -2855,7 +3355,8 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#modid">modid</a></rr-a>
+                        <rr-a><a href="#modid">modid</a><rr-t>'.'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#varsym">varsym</a></rr-a>
             </rr-o>
@@ -2870,7 +3371,8 @@
       <h2 id="varsym">varsym</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#varsym_no_minus">varsym_no_minus</a></rr-o>
+            <rr-o><a href="#varsym_no_minus">varsym_no_minus</a><rr-t>'-'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="varsym_no_minus">varsym_no_minus</h2>
@@ -2882,7 +3384,19 @@
       <h2 id="special_id">special_id</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'as'</rr-t>
+               <rr-t>'qualified'</rr-t>
+               <rr-t>'hiding'</rr-t>
+               <rr-t>'export'</rr-t>
+               <rr-t>'stdcall'</rr-t>
+               <rr-t>'ccall'</rr-t>
+               <rr-t>'capi'</rr-t>
+               <rr-t>'javascript'</rr-t>
+               <rr-t>'stock'</rr-t>
+               <rr-t>'anyclass'</rr-t>
+               <rr-t>'via'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="qconid">qconid</h2>
@@ -2892,7 +3406,8 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#modid">modid</a></rr-a>
+                        <rr-a><a href="#modid">modid</a><rr-t>'.'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#conid">conid</a></rr-a>
             </rr-o>
@@ -2902,7 +3417,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>CONID</rr-t>
+                  <rr-t>'#'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2913,7 +3431,8 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#modid">modid</a></rr-a>
+                        <rr-a><a href="#modid">modid</a><rr-t>'.'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#consym">consym</a></rr-a>
             </rr-o>
@@ -2923,7 +3442,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#ascSymbol">ascSymbol</a></rr-a>
+               <rr-a>
+                  <rr-t>':'</rr-t><a href="#ascSymbol">ascSymbol</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2936,19 +3456,28 @@
       <h2 id="open_">open_</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>VOCURLY</rr-t>
+               <rr-t>OCURLY</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="close">close</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>VCCURLY</rr-t>
+               <rr-t>CCURLY</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="semi">semi</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>';'</rr-t>
+               <rr-t>SEMI</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="modid">modid</h2>
@@ -2958,7 +3487,8 @@
                <rr-a>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#conid">conid</a></rr-a>
+                        <rr-a><a href="#conid">conid</a><rr-t>'.'</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#conid">conid</a></rr-a>
             </rr-o>
@@ -2967,19 +3497,33 @@
       <h2 id="commas">commas</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>','</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="bars">bars</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'|'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="special">special</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'('</rr-t>
+               <rr-t>')'</rr-t>
+               <rr-t>','</rr-t>
+               <rr-t>';'</rr-t>
+               <rr-t>'['</rr-t>
+               <rr-t>']'</rr-t>
+               <rr-t>'`'</rr-t>
+               <rr-t>'{'</rr-t>
+               <rr-t>'}'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="symbol">symbol</h2>
@@ -2991,31 +3535,61 @@
       <h2 id="ascSymbol">ascSymbol</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'!'</rr-t>
+               <rr-t>'#'</rr-t>
+               <rr-t>'$'</rr-t>
+               <rr-t>'%'</rr-t>
+               <rr-t>'&amp;'</rr-t>
+               <rr-t>'*'</rr-t>
+               <rr-t>'+'</rr-t>
+               <rr-t>'.'</rr-t>
+               <rr-t>'/'</rr-t>
+               <rr-t>'&lt;'</rr-t>
+               <rr-t>'='</rr-t>
+               <rr-t>'&gt;'</rr-t>
+               <rr-t>'?'</rr-t>
+               <rr-t>'@'</rr-t>
+               <rr-t>'\\'</rr-t>
+               <rr-t>'^'</rr-t>
+               <rr-t>'|'</rr-t>
+               <rr-t>'~'</rr-t>
+               <rr-t>':'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="integer">integer</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>DECIMAL</rr-t>
+               <rr-t>OCTAL</rr-t>
+               <rr-t>HEXADECIMAL</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="pfloat">pfloat</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>FLOAT</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="pchar">pchar</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>CHAR</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="pstring">pstring</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
    </body>

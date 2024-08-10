@@ -5,7 +5,7 @@
       <link rel="stylesheet" type="text/css" href="../../../railroad.css">
    </head>
    <body>
-      <h1><a href="../../../index.html">Railroad</a> sql/hive/v3/HiveParser.ast.xml</h1>
+      <h1>Railroad sql/hive/v3/HiveParser.ast.xml</h1>
       <h1>Rules</h1>
       <h2 id="statements">statements</h2>
       <p>
@@ -17,6 +17,7 @@
                         <rr-a><a href="#statement">statement</a><a href="#statementSeparator">statementSeparator</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>EOF</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -24,7 +25,9 @@
       <h2 id="statementSeparator">statementSeparator</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>SEMICOLON</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="statement">statement</h2>
@@ -38,10 +41,12 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>KW_EXPLAIN</rr-t>
                   <rr-a>
                      <rr-o>
                         <rr-a><a href="#explainOption">explainOption</a><a href="#execStatement">execStatement</a></rr-a>
-                        <rr-a><a href="#queryStatementExpression">queryStatementExpression</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_REWRITE</rr-t><a href="#queryStatementExpression">queryStatementExpression</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -52,9 +57,17 @@
       <p>
          <rr-rr>
             <rr-o>
+               <rr-t>KW_EXTENDED</rr-t>
+               <rr-t>KW_FORMATTED</rr-t>
+               <rr-t>KW_DEPENDENCY</rr-t>
+               <rr-t>KW_LOGICAL</rr-t>
+               <rr-t>KW_AUTHORIZATION</rr-t>
+               <rr-t>KW_ANALYZE</rr-t>
+               <rr-t>KW_REOPTIMIZATION</rr-t>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#vectorizationOnly">vectorizationOnly</a><a href="#vectorizatonDetail">vectorizatonDetail</a></rr-a>
+                     <rr-a>
+                        <rr-t>KW_VECTORIZATION</rr-t><a href="#vectorizationOnly">vectorizationOnly</a><a href="#vectorizatonDetail">vectorizatonDetail</a></rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -63,13 +76,20 @@
       <h2 id="vectorizationOnly">vectorizationOnly</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>KW_ONLY</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="vectorizatonDetail">vectorizatonDetail</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>KW_SUMMARY</rr-t>
+               <rr-t>KW_OPERATOR</rr-t>
+               <rr-t>KW_EXPRESSION</rr-t>
+               <rr-t>KW_DETAIL</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="execStatement">execStatement</h2>
@@ -82,7 +102,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tableOrPartition">tableOrPartition</a><a href="#inputFileFormat">inputFileFormat</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_LOAD</rr-t>
+                  <rr-t>KW_DATA</rr-t>
+                  <rr-t>KW_LOCAL</rr-t>
+                  <rr-t>KW_INPATH</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+                  <rr-t>KW_OVERWRITE</rr-t>
+                  <rr-t>KW_INTO</rr-t>
+                  <rr-t>KW_TABLE</rr-t><a href="#tableOrPartition">tableOrPartition</a><a href="#inputFileFormat">inputFileFormat</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -90,7 +118,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_FOR</rr-t>
+                  <rr-t>KW_METADATA</rr-t>
+                  <rr-t>KW_REPLICATION</rr-t>
+                  <rr-t>LPAREN</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+                  <rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -98,7 +133,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tableOrPartition">tableOrPartition</a><a href="#replicationClause">replicationClause</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_EXPORT</rr-t>
+                  <rr-t>KW_TABLE</rr-t><a href="#tableOrPartition">tableOrPartition</a><rr-t>KW_TO</rr-t>
+                  <rr-t>StringLiteral</rr-t><a href="#replicationClause">replicationClause</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -107,13 +145,19 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>KW_IMPORT</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#tableOrPartition">tableOrPartition</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_EXTERNAL</rr-t>
+                           <rr-t>KW_TABLE</rr-t><a href="#tableOrPartition">tableOrPartition</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>KW_FROM</rr-t>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>StringLiteral</rr-t>
+                     </rr-o>
                   </rr-a><a href="#tableLocation">tableLocation</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -122,22 +166,33 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>KW_REPL</rr-t>
+                  <rr-t>KW_DUMP</rr-t><a href="#identifier">identifier</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#identifier">identifier</a></rr-a>
+                        <rr-a>
+                           <rr-t>DOT</rr-t><a href="#identifier">identifier</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
+                           <rr-t>KW_FROM</rr-t>
+                           <rr-t>Number</rr-t>
                            <rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a></rr-a>
+                                 <rr-a>
+                                    <rr-t>KW_TO</rr-t>
+                                    <rr-t>Number</rr-t>
+                                 </rr-a>
                               </rr-o>
                            </rr-a>
                            <rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a></rr-a>
+                                 <rr-a>
+                                    <rr-t>KW_LIMIT</rr-t>
+                                    <rr-t>Number</rr-t>
+                                 </rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
@@ -145,7 +200,8 @@
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#replConfigs">replConfigs</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_WITH</rr-t><a href="#replConfigs">replConfigs</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -157,19 +213,25 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>KW_REPL</rr-t>
+                  <rr-t>KW_LOAD</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a><a href="#identifier">identifier</a><rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a><a href="#identifier">identifier</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>DOT</rr-t><a href="#identifier">identifier</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>KW_FROM</rr-t>
+                  <rr-t>StringLiteral</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#replConfigs">replConfigs</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_WITH</rr-t><a href="#replConfigs">replConfigs</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -180,7 +242,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#replConfigsList">replConfigsList</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#replConfigsList">replConfigsList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -190,7 +254,8 @@
             <rr-o>
                <rr-a><a href="#keyValueProperty">keyValueProperty</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#keyValueProperty">keyValueProperty</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#keyValueProperty">keyValueProperty</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -201,14 +266,18 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>KW_REPL</rr-t>
+                  <rr-t>KW_STATUS</rr-t><a href="#identifier">identifier</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#identifier">identifier</a></rr-a>
+                        <rr-a>
+                           <rr-t>DOT</rr-t><a href="#identifier">identifier</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#replConfigs">replConfigs</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_WITH</rr-t><a href="#replConfigs">replConfigs</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -225,21 +294,31 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_IF</rr-t>
+                  <rr-t>KW_EXISTS</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="restrictOrCascade">restrictOrCascade</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>KW_RESTRICT</rr-t>
+               <rr-t>KW_CASCADE</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="ifNotExists">ifNotExists</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_IF</rr-t>
+                  <rr-t>KW_NOT</rr-t>
+                  <rr-t>KW_EXISTS</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -247,7 +326,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_ENABLE</rr-t>
+                  <rr-t>KW_REWRITE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -255,7 +337,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_DISABLE</rr-t>
+                  <rr-t>KW_REWRITE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -263,7 +348,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_STORED</rr-t>
+                  <rr-t>KW_AS</rr-t>
+                  <rr-t>KW_DIRECTORIES</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -271,7 +360,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_OR</rr-t>
+                  <rr-t>KW_REPLACE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -280,11 +372,17 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>KW_CREATE</rr-t>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>KW_DATABASE</rr-t>
+                        <rr-t>KW_SCHEMA</rr-t>
+                     </rr-o>
                   </rr-a><a href="#ifNotExists">ifNotExists</a><a href="#identifier">identifier</a><a href="#databaseComment">databaseComment</a><a href="#dbLocation">dbLocation</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#dbProperties">dbProperties</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_WITH</rr-t>
+                           <rr-t>KW_DBPROPERTIES</rr-t><a href="#dbProperties">dbProperties</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -295,7 +393,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_LOCATION</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -303,7 +404,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#dbPropertiesList">dbPropertiesList</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#dbPropertiesList">dbPropertiesList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -313,7 +416,8 @@
             <rr-o>
                <rr-a><a href="#keyValueProperty">keyValueProperty</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#keyValueProperty">keyValueProperty</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#keyValueProperty">keyValueProperty</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -324,7 +428,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_USE</rr-t><a href="#identifier">identifier</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -333,8 +438,12 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>KW_DROP</rr-t>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>KW_DATABASE</rr-t>
+                        <rr-t>KW_SCHEMA</rr-t>
+                     </rr-o>
                   </rr-a><a href="#ifExists">ifExists</a><a href="#identifier">identifier</a><a href="#restrictOrCascade">restrictOrCascade</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -343,7 +452,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_COMMENT</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -351,17 +463,25 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#ifNotExists">ifNotExists</a><a href="#tableName">tableName</a><rr-a>
+               <rr-a>
+                  <rr-t>KW_CREATE</rr-t>
+                  <rr-t>KW_TEMPORARY</rr-t>
+                  <rr-t>KW_EXTERNAL</rr-t>
+                  <rr-t>KW_TABLE</rr-t><a href="#ifNotExists">ifNotExists</a><a href="#tableName">tableName</a><rr-a>
                      <rr-o>
-                        <rr-a><a href="#tableName">tableName</a><a href="#tableRowFormat">tableRowFormat</a><a href="#tableFileFormat">tableFileFormat</a><a href="#tableLocation">tableLocation</a><a href="#tablePropertiesPrefixed">tablePropertiesPrefixed</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_LIKE</rr-t><a href="#tableName">tableName</a><a href="#tableRowFormat">tableRowFormat</a><a href="#tableFileFormat">tableFileFormat</a><a href="#tableLocation">tableLocation</a><a href="#tablePropertiesPrefixed">tablePropertiesPrefixed</a></rr-a>
                         <rr-a>
                            <rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a><a href="#columnNameTypeOrConstraintList">columnNameTypeOrConstraintList</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>LPAREN</rr-t><a href="#columnNameTypeOrConstraintList">columnNameTypeOrConstraintList</a><rr-t>RPAREN</rr-t>
+                                 </rr-a>
                               </rr-o>
                            </rr-a><a href="#tableComment">tableComment</a><a href="#tablePartition">tablePartition</a><a href="#tableBuckets">tableBuckets</a><a href="#tableSkewed">tableSkewed</a><a href="#tableRowFormat">tableRowFormat</a><a href="#tableFileFormat">tableFileFormat</a><a href="#tableLocation">tableLocation</a><a href="#tablePropertiesPrefixed">tablePropertiesPrefixed</a><rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a><a href="#selectStatementWithCTE">selectStatementWithCTE</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>KW_AS</rr-t><a href="#selectStatementWithCTE">selectStatementWithCTE</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
@@ -375,9 +495,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tablePartitionPrefix">tablePartitionPrefix</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>KW_TRUNCATE</rr-t>
+                  <rr-t>KW_TABLE</rr-t><a href="#tablePartitionPrefix">tablePartitionPrefix</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#columnNameList">columnNameList</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_COLUMNS</rr-t>
+                           <rr-t>LPAREN</rr-t><a href="#columnNameList">columnNameList</a><rr-t>RPAREN</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -388,7 +513,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#ifExists">ifExists</a><a href="#tableName">tableName</a><a href="#replicationClause">replicationClause</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_DROP</rr-t>
+                  <rr-t>KW_TABLE</rr-t><a href="#ifExists">ifExists</a><a href="#tableName">tableName</a><rr-t>KW_PURGE</rr-t><a href="#replicationClause">replicationClause</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -396,14 +523,27 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tableName">tableName</a><a href="#alterTableStatementSuffix">alterTableStatementSuffix</a></rr-a>
-               <rr-a><a href="#tableName">tableName</a><a href="#alterViewStatementSuffix">alterViewStatementSuffix</a></rr-a>
-               <rr-a><a href="#tableName">tableName</a><a href="#alterMaterializedViewStatementSuffix">alterMaterializedViewStatementSuffix</a></rr-a>
                <rr-a>
+                  <rr-t>KW_ALTER</rr-t>
+                  <rr-t>KW_TABLE</rr-t><a href="#tableName">tableName</a><a href="#alterTableStatementSuffix">alterTableStatementSuffix</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_ALTER</rr-t>
+                  <rr-t>KW_VIEW</rr-t><a href="#tableName">tableName</a><rr-t>KW_AS</rr-t><a href="#alterViewStatementSuffix">alterViewStatementSuffix</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_ALTER</rr-t>
+                  <rr-t>KW_MATERIALIZED</rr-t>
+                  <rr-t>KW_VIEW</rr-t><a href="#tableName">tableName</a><a href="#alterMaterializedViewStatementSuffix">alterMaterializedViewStatementSuffix</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_ALTER</rr-t>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>KW_DATABASE</rr-t>
+                        <rr-t>KW_SCHEMA</rr-t>
+                     </rr-o>
                   </rr-a><a href="#alterDatabaseStatementSuffix">alterDatabaseStatementSuffix</a></rr-a>
-               <rr-a><a href="#alterIndexStatementSuffix">alterIndexStatementSuffix</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_ALTER</rr-t>
+                  <rr-t>KW_INDEX</rr-t><a href="#alterIndexStatementSuffix">alterIndexStatementSuffix</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -423,7 +563,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#columnNameType">columnNameType</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_PARTITION</rr-t>
+                  <rr-t>KW_COLUMN</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#columnNameType">columnNameType</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -449,7 +593,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a><a href="#dbProperties">dbProperties</a></rr-a>
+               <rr-a><a href="#identifier">identifier</a><rr-t>KW_SET</rr-t>
+                  <rr-t>KW_DBPROPERTIES</rr-t><a href="#dbProperties">dbProperties</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -457,7 +602,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a><a href="#principalName">principalName</a></rr-a>
+               <rr-a><a href="#identifier">identifier</a><rr-t>KW_SET</rr-t>
+                  <rr-t>KW_OWNER</rr-t><a href="#principalName">principalName</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -465,7 +611,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a></rr-a>
+               <rr-a><a href="#identifier">identifier</a><rr-t>KW_SET</rr-t>
+                  <rr-t>KW_LOCATION</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -473,7 +622,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tableName">tableName</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_RENAME</rr-t>
+                  <rr-t>KW_TO</rr-t><a href="#tableName">tableName</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -483,8 +634,13 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
-                  </rr-a><a href="#columnNameTypeList">columnNameTypeList</a><a href="#restrictOrCascade">restrictOrCascade</a></rr-a>
+                     <rr-o>
+                        <rr-t>KW_ADD</rr-t>
+                        <rr-t>KW_REPLACE</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>KW_COLUMNS</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#columnNameTypeList">columnNameTypeList</a><rr-t>RPAREN</rr-t><a href="#restrictOrCascade">restrictOrCascade</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -493,6 +649,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>KW_ADD</rr-t>
                   <rr-a>
                      <rr-o><a href="#alterForeignKeyWithName">alterForeignKeyWithName</a><a href="#alterConstraintWithName">alterConstraintWithName</a></rr-o>
                   </rr-a>
@@ -504,7 +661,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_DROP</rr-t>
+                  <rr-t>KW_CONSTRAINT</rr-t><a href="#identifier">identifier</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -512,9 +671,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a><a href="#identifier">identifier</a><a href="#colType">colType</a><a href="#alterColumnConstraint">alterColumnConstraint</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>KW_CHANGE</rr-t>
+                  <rr-t>KW_COLUMN</rr-t><a href="#identifier">identifier</a><a href="#identifier">identifier</a><a href="#colType">colType</a><a href="#alterColumnConstraint">alterColumnConstraint</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_COMMENT</rr-t>
+                           <rr-t>StringLiteral</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#alterStatementChangeColPosition">alterStatementChangeColPosition</a><a href="#restrictOrCascade">restrictOrCascade</a></rr-a>
             </rr-o>
@@ -524,9 +688,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a><a href="#tableProperties">tableProperties</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>KW_UPDATE</rr-t>
+                  <rr-t>KW_STATISTICS</rr-t>
+                  <rr-t>KW_FOR</rr-t>
+                  <rr-t>KW_COLUMN</rr-t><a href="#identifier">identifier</a><rr-t>KW_SET</rr-t><a href="#tableProperties">tableProperties</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_COMMENT</rr-t>
+                           <rr-t>StringLiteral</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -537,7 +708,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tableProperties">tableProperties</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_UPDATE</rr-t>
+                  <rr-t>KW_STATISTICS</rr-t>
+                  <rr-t>KW_SET</rr-t><a href="#tableProperties">tableProperties</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -545,7 +719,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a></rr-a>
+               <rr-t>KW_FIRST</rr-t>
+               <rr-a>
+                  <rr-t>KW_AFTER</rr-t><a href="#identifier">identifier</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -553,7 +729,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#ifNotExists">ifNotExists</a><a href="#alterStatementSuffixAddPartitionsElement">alterStatementSuffixAddPartitionsElement</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_ADD</rr-t><a href="#ifNotExists">ifNotExists</a><a href="#alterStatementSuffixAddPartitionsElement">alterStatementSuffixAddPartitionsElement</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -569,7 +746,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#partitionSpec">partitionSpec</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_TOUCH</rr-t><a href="#partitionSpec">partitionSpec</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -577,7 +755,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#partitionSpec">partitionSpec</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_ARCHIVE</rr-t><a href="#partitionSpec">partitionSpec</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -585,7 +764,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#partitionSpec">partitionSpec</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_UNARCHIVE</rr-t><a href="#partitionSpec">partitionSpec</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -593,7 +773,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_LOCATION</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -601,11 +784,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#ifExists">ifExists</a><a href="#dropPartitionSpec">dropPartitionSpec</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>KW_DROP</rr-t><a href="#ifExists">ifExists</a><a href="#dropPartitionSpec">dropPartitionSpec</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#dropPartitionSpec">dropPartitionSpec</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#dropPartitionSpec">dropPartitionSpec</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#replicationClause">replicationClause</a></rr-a>
+                  </rr-a>
+                  <rr-t>KW_PURGE</rr-t><a href="#replicationClause">replicationClause</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -613,8 +799,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tableProperties">tableProperties</a></rr-a>
-               <rr-a><a href="#ifExists">ifExists</a><a href="#tableProperties">tableProperties</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_SET</rr-t>
+                  <rr-t>KW_TBLPROPERTIES</rr-t><a href="#tableProperties">tableProperties</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_UNSET</rr-t>
+                  <rr-t>KW_TBLPROPERTIES</rr-t><a href="#ifExists">ifExists</a><a href="#tableProperties">tableProperties</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -622,8 +812,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tableProperties">tableProperties</a></rr-a>
-               <rr-a><a href="#ifExists">ifExists</a><a href="#tableProperties">tableProperties</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_SET</rr-t>
+                  <rr-t>KW_TBLPROPERTIES</rr-t><a href="#tableProperties">tableProperties</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_UNSET</rr-t>
+                  <rr-t>KW_TBLPROPERTIES</rr-t><a href="#ifExists">ifExists</a><a href="#tableProperties">tableProperties</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -640,7 +834,9 @@
       <h2 id="alterMaterializedViewSuffixRebuild">alterMaterializedViewSuffixRebuild</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>KW_REBUILD</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="alterStatementSuffixSerdeProperties">alterStatementSuffixSerdeProperties</h2>
@@ -648,13 +844,20 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>KW_SET</rr-t>
+                  <rr-t>KW_SERDE</rr-t>
+                  <rr-t>StringLiteral</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#tableProperties">tableProperties</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_WITH</rr-t>
+                           <rr-t>KW_SERDEPROPERTIES</rr-t><a href="#tableProperties">tableProperties</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a><a href="#tableProperties">tableProperties</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_SET</rr-t>
+                  <rr-t>KW_SERDEPROPERTIES</rr-t><a href="#tableProperties">tableProperties</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -662,7 +865,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a><a href="#tableName">tableName</a><a href="#partitionSpec">partitionSpec</a></rr-a>
+               <rr-a><a href="#identifier">identifier</a><rr-t>KW_ON</rr-t><a href="#tableName">tableName</a><a href="#partitionSpec">partitionSpec</a><rr-t>KW_REBUILD</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -670,7 +874,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#fileFormat">fileFormat</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_SET</rr-t>
+                  <rr-t>KW_FILEFORMAT</rr-t><a href="#fileFormat">fileFormat</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -678,15 +884,24 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a><a href="#tableBuckets">tableBuckets</a></rr-o>
+               <rr-a>
+                  <rr-t>KW_NOT</rr-t>
+                  <rr-t>KW_CLUSTERED</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_NOT</rr-t>
+                  <rr-t>KW_SORTED</rr-t>
+               </rr-a><a href="#tableBuckets">tableBuckets</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="alterTblPartitionStatementSuffixSkewedLocation">alterTblPartitionStatementSuffixSkewedLocation</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#skewedLocations">skewedLocations</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_SET</rr-t>
+                  <rr-t>KW_SKEWED</rr-t>
+                  <rr-t>KW_LOCATION</rr-t><a href="#skewedLocations">skewedLocations</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -694,7 +909,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#skewedLocationsList">skewedLocationsList</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#skewedLocationsList">skewedLocationsList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -704,7 +921,8 @@
             <rr-o>
                <rr-a><a href="#skewedLocationMap">skewedLocationMap</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#skewedLocationMap">skewedLocationMap</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#skewedLocationMap">skewedLocationMap</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -715,7 +933,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#skewedValueLocationElement">skewedValueLocationElement</a></rr-a>
+               <rr-a><a href="#skewedValueLocationElement">skewedValueLocationElement</a><rr-t>EQUAL</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -723,15 +943,23 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_SET</rr-t>
+                  <rr-t>KW_LOCATION</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="alterStatementSuffixSkewedby">alterStatementSuffixSkewedby</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#tableSkewed">tableSkewed</a><rr-a></rr-a>
-               <rr-a><a href="#storedAsDirs">storedAsDirs</a></rr-a>
+            <rr-o><a href="#tableSkewed">tableSkewed</a><rr-a>
+                  <rr-t>KW_NOT</rr-t>
+                  <rr-t>KW_SKEWED</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_NOT</rr-t><a href="#storedAsDirs">storedAsDirs</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -739,7 +967,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#partitionSpec">partitionSpec</a><a href="#tableName">tableName</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_EXCHANGE</rr-t><a href="#partitionSpec">partitionSpec</a><rr-t>KW_WITH</rr-t>
+                  <rr-t>KW_TABLE</rr-t><a href="#tableName">tableName</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -747,7 +977,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#partitionSpec">partitionSpec</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_RENAME</rr-t>
+                  <rr-t>KW_TO</rr-t><a href="#partitionSpec">partitionSpec</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -755,9 +987,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a><a href="#tableProperties">tableProperties</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>KW_UPDATE</rr-t>
+                  <rr-t>KW_STATISTICS</rr-t>
+                  <rr-t>KW_FOR</rr-t>
+                  <rr-t>KW_COLUMN</rr-t><a href="#identifier">identifier</a><rr-t>KW_SET</rr-t><a href="#tableProperties">tableProperties</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_COMMENT</rr-t>
+                           <rr-t>StringLiteral</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -767,14 +1006,20 @@
       <h2 id="alterStatementSuffixMergeFiles">alterStatementSuffixMergeFiles</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>KW_CONCATENATE</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="alterStatementSuffixBucketNum">alterStatementSuffixBucketNum</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_INTO</rr-t>
+                  <rr-t>Number</rr-t>
+                  <rr-t>KW_BUCKETS</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -782,24 +1027,38 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a><a href="#tableName">tableName</a><a href="#columnParenthesesList">columnParenthesesList</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>KW_CREATE</rr-t>
+                  <rr-t>KW_INDEX</rr-t><a href="#identifier">identifier</a><rr-t>KW_ON</rr-t>
+                  <rr-t>KW_TABLE</rr-t><a href="#tableName">tableName</a><a href="#columnParenthesesList">columnParenthesesList</a><rr-t>KW_AS</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+                  <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_WITH</rr-t>
+                           <rr-t>KW_DEFERRED</rr-t>
+                           <rr-t>KW_REBUILD</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#tableProperties">tableProperties</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_IDXPROPERTIES</rr-t><a href="#tableProperties">tableProperties</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#tableName">tableName</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_IN</rr-t>
+                           <rr-t>KW_TABLE</rr-t><a href="#tableName">tableName</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#columnParenthesesList">columnParenthesesList</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_PARTITIONED</rr-t>
+                           <rr-t>KW_BY</rr-t><a href="#columnParenthesesList">columnParenthesesList</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
@@ -809,7 +1068,8 @@
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#locationPath">locationPath</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_LOCATION</rr-t><a href="#locationPath">locationPath</a></rr-a>
                      </rr-o>
                   </rr-a><a href="#tablePropertiesPrefixed">tablePropertiesPrefixed</a><a href="#tableComment">tableComment</a></rr-a>
             </rr-o>
@@ -821,7 +1081,8 @@
             <rr-o>
                <rr-a><a href="#identifier">identifier</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#identifier">identifier</a></rr-a>
+                        <rr-a>
+                           <rr-t>DOT</rr-t><a href="#identifier">identifier</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -832,7 +1093,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a><a href="#tableName">tableName</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_DROP</rr-t>
+                  <rr-t>KW_INDEX</rr-t><a href="#identifier">identifier</a><rr-t>KW_ON</rr-t><a href="#tableName">tableName</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -848,7 +1111,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_AND</rr-t>
+                  <rr-t>KW_WAIT</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -856,9 +1122,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#blocking">blocking</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>KW_COMPACT</rr-t>
+                  <rr-t>StringLiteral</rr-t><a href="#blocking">blocking</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#tableProperties">tableProperties</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_WITH</rr-t>
+                           <rr-t>KW_OVERWRITE</rr-t>
+                           <rr-t>KW_TBLPROPERTIES</rr-t><a href="#tableProperties">tableProperties</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -869,7 +1140,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#principalName">principalName</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_SET</rr-t>
+                  <rr-t>KW_OWNER</rr-t><a href="#principalName">principalName</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -878,9 +1151,20 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>KW_INPUTFORMAT</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+                  <rr-t>KW_OUTPUTFORMAT</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+                  <rr-t>KW_SERDE</rr-t>
+                  <rr-t>StringLiteral</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_INPUTDRIVER</rr-t>
+                           <rr-t>StringLiteral</rr-t>
+                           <rr-t>KW_OUTPUTDRIVER</rr-t>
+                           <rr-t>StringLiteral</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a><a href="#identifier">identifier</a></rr-o>
@@ -890,7 +1174,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_INPUTFORMAT</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+                  <rr-t>KW_SERDE</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -900,7 +1189,8 @@
             <rr-o>
                <rr-a><a href="#identifier">identifier</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#identifier">identifier</a></rr-a>
+                        <rr-a>
+                           <rr-t>DOT</rr-t><a href="#identifier">identifier</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
@@ -908,8 +1198,12 @@
                         <rr-a><a href="#identifier">identifier</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
                                  <rr-a>
+                                    <rr-t>DOT</rr-t>
                                     <rr-a>
-                                       <rr-o><a href="#identifier">identifier</a></rr-o>
+                                       <rr-o>
+                                          <rr-t>KW_ELEM_TYPE</rr-t>
+                                          <rr-t>KW_KEY_TYPE</rr-t>
+                                          <rr-t>KW_VALUE_TYPE</rr-t><a href="#identifier">identifier</a></rr-o>
                                     </rr-a>
                                  </rr-a>
                               </rr-o>
@@ -943,20 +1237,32 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>KW_DESCRIBE</rr-t>
+                        <rr-t>KW_DESC</rr-t>
+                     </rr-o>
                   </rr-a>
                   <rr-a>
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
-                           </rr-a><a href="#identifier">identifier</a></rr-a>
-                        <rr-a><a href="#descFuncNames">descFuncNames</a></rr-a>
+                              <rr-o>
+                                 <rr-t>KW_DATABASE</rr-t>
+                                 <rr-t>KW_SCHEMA</rr-t>
+                              </rr-o>
+                           </rr-a>
+                           <rr-t>KW_EXTENDED</rr-t><a href="#identifier">identifier</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_FUNCTION</rr-t>
+                           <rr-t>KW_EXTENDED</rr-t><a href="#descFuncNames">descFuncNames</a></rr-a>
                         <rr-a>
                            <rr-o>
                               <rr-a>
                                  <rr-a>
-                                    <rr-o></rr-o>
+                                    <rr-o>
+                                       <rr-t>KW_FORMATTED</rr-t>
+                                       <rr-t>KW_EXTENDED</rr-t>
+                                    </rr-o>
                                  </rr-a><a href="#tabPartColTypeExpr">tabPartColTypeExpr</a></rr-a>
                            </rr-o>
                         </rr-a><a href="#tabPartColTypeExpr">tabPartColTypeExpr</a></rr-o>
@@ -970,23 +1276,33 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>KW_ANALYZE</rr-t>
+                  <rr-t>KW_TABLE</rr-t>
                   <rr-a>
                      <rr-o><a href="#tableOrPartition">tableOrPartition</a></rr-o>
                   </rr-a>
                   <rr-a>
                      <rr-o>
                         <rr-a>
+                           <rr-t>KW_COMPUTE</rr-t>
+                           <rr-t>KW_STATISTICS</rr-t>
                            <rr-a data-min="0" data-max="1">
                               <rr-o>
+                                 <rr-t>KW_NOSCAN</rr-t>
                                  <rr-a>
                                     <rr-o>
-                                       <rr-a><a href="#columnNameList">columnNameList</a></rr-a>
+                                       <rr-a>
+                                          <rr-t>KW_FOR</rr-t>
+                                          <rr-t>KW_COLUMNS</rr-t><a href="#columnNameList">columnNameList</a></rr-a>
                                     </rr-o>
                                  </rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_CACHE</rr-t>
+                           <rr-t>KW_METADATA</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -998,128 +1314,206 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>KW_SHOW</rr-t>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>KW_DATABASES</rr-t>
+                        <rr-t>KW_SCHEMAS</rr-t>
+                     </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#showStmtIdentifier">showStmtIdentifier</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_LIKE</rr-t><a href="#showStmtIdentifier">showStmtIdentifier</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
                <rr-a>
+                  <rr-t>KW_SHOW</rr-t>
+                  <rr-t>KW_TABLES</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>KW_FROM</rr-t>
+                                 <rr-t>KW_IN</rr-t>
+                              </rr-o>
                            </rr-a><a href="#identifier">identifier</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#showStmtIdentifier">showStmtIdentifier</a></rr-a><a href="#showStmtIdentifier">showStmtIdentifier</a></rr-o>
+                        <rr-a>
+                           <rr-t>KW_LIKE</rr-t><a href="#showStmtIdentifier">showStmtIdentifier</a></rr-a><a href="#showStmtIdentifier">showStmtIdentifier</a></rr-o>
                   </rr-a>
                </rr-a>
                <rr-a>
+                  <rr-t>KW_SHOW</rr-t>
+                  <rr-t>KW_VIEWS</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>KW_FROM</rr-t>
+                                 <rr-t>KW_IN</rr-t>
+                              </rr-o>
                            </rr-a><a href="#identifier">identifier</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#showStmtIdentifier">showStmtIdentifier</a></rr-a><a href="#showStmtIdentifier">showStmtIdentifier</a></rr-o>
+                        <rr-a>
+                           <rr-t>KW_LIKE</rr-t><a href="#showStmtIdentifier">showStmtIdentifier</a></rr-a><a href="#showStmtIdentifier">showStmtIdentifier</a></rr-o>
                   </rr-a>
                </rr-a>
                <rr-a>
+                  <rr-t>KW_SHOW</rr-t>
+                  <rr-t>KW_MATERIALIZED</rr-t>
+                  <rr-t>KW_VIEWS</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>KW_FROM</rr-t>
+                                 <rr-t>KW_IN</rr-t>
+                              </rr-o>
                            </rr-a><a href="#identifier">identifier</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#showStmtIdentifier">showStmtIdentifier</a></rr-a><a href="#showStmtIdentifier">showStmtIdentifier</a></rr-o>
+                        <rr-a>
+                           <rr-t>KW_LIKE</rr-t><a href="#showStmtIdentifier">showStmtIdentifier</a></rr-a><a href="#showStmtIdentifier">showStmtIdentifier</a></rr-o>
                   </rr-a>
                </rr-a>
                <rr-a>
+                  <rr-t>KW_SHOW</rr-t>
+                  <rr-t>KW_COLUMNS</rr-t>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>KW_FROM</rr-t>
+                        <rr-t>KW_IN</rr-t>
+                     </rr-o>
                   </rr-a><a href="#tableName">tableName</a><rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>KW_FROM</rr-t>
+                                 <rr-t>KW_IN</rr-t>
+                              </rr-o>
                            </rr-a><a href="#identifier">identifier</a></rr-a>
                      </rr-o>
                   </rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#showStmtIdentifier">showStmtIdentifier</a></rr-a><a href="#showStmtIdentifier">showStmtIdentifier</a></rr-o>
+                        <rr-a>
+                           <rr-t>KW_LIKE</rr-t><a href="#showStmtIdentifier">showStmtIdentifier</a></rr-a><a href="#showStmtIdentifier">showStmtIdentifier</a></rr-o>
                   </rr-a>
                </rr-a>
                <rr-a>
+                  <rr-t>KW_SHOW</rr-t>
+                  <rr-t>KW_FUNCTIONS</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#showFunctionIdentifier">showFunctionIdentifier</a></rr-a><a href="#showFunctionIdentifier">showFunctionIdentifier</a></rr-o>
+                        <rr-a>
+                           <rr-t>KW_LIKE</rr-t><a href="#showFunctionIdentifier">showFunctionIdentifier</a></rr-a><a href="#showFunctionIdentifier">showFunctionIdentifier</a></rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a><a href="#tableName">tableName</a><a href="#partitionSpec">partitionSpec</a></rr-a>
                <rr-a>
+                  <rr-t>KW_SHOW</rr-t>
+                  <rr-t>KW_PARTITIONS</rr-t><a href="#tableName">tableName</a><a href="#partitionSpec">partitionSpec</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_SHOW</rr-t>
+                  <rr-t>KW_CREATE</rr-t>
                   <rr-a>
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>KW_DATABASE</rr-t>
+                                 <rr-t>KW_SCHEMA</rr-t>
+                              </rr-o>
                            </rr-a><a href="#identifier">identifier</a></rr-a>
-                        <rr-a><a href="#tableName">tableName</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_TABLE</rr-t><a href="#tableName">tableName</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
                <rr-a>
+                  <rr-t>KW_SHOW</rr-t>
+                  <rr-t>KW_TABLE</rr-t>
+                  <rr-t>KW_EXTENDED</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>KW_FROM</rr-t>
+                                 <rr-t>KW_IN</rr-t>
+                              </rr-o>
                            </rr-a><a href="#identifier">identifier</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#showStmtIdentifier">showStmtIdentifier</a><a href="#partitionSpec">partitionSpec</a></rr-a>
-               <rr-a><a href="#tableName">tableName</a><rr-a data-min="0" data-max="1">
+                  </rr-a>
+                  <rr-t>KW_LIKE</rr-t><a href="#showStmtIdentifier">showStmtIdentifier</a><a href="#partitionSpec">partitionSpec</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_SHOW</rr-t>
+                  <rr-t>KW_TBLPROPERTIES</rr-t><a href="#tableName">tableName</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>LPAREN</rr-t>
+                           <rr-t>StringLiteral</rr-t>
+                           <rr-t>RPAREN</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
                <rr-a>
+                  <rr-t>KW_SHOW</rr-t>
+                  <rr-t>KW_LOCKS</rr-t>
                   <rr-a>
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
-                           </rr-a><a href="#identifier">identifier</a></rr-a>
-                        <rr-a><a href="#partTypeExpr">partTypeExpr</a></rr-a>
+                              <rr-o>
+                                 <rr-t>KW_DATABASE</rr-t>
+                                 <rr-t>KW_SCHEMA</rr-t>
+                              </rr-o>
+                           </rr-a><a href="#identifier">identifier</a><rr-t>KW_EXTENDED</rr-t>
+                        </rr-a>
+                        <rr-a><a href="#partTypeExpr">partTypeExpr</a><rr-t>KW_EXTENDED</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
                <rr-a>
+                  <rr-t>KW_SHOW</rr-t>
+                  <rr-t>KW_COMPACTIONS</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_SHOW</rr-t>
+                  <rr-t>KW_TRANSACTIONS</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_SHOW</rr-t>
+                  <rr-t>KW_CONF</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_SHOW</rr-t>
+                  <rr-t>KW_RESOURCE</rr-t>
                   <rr-a>
                      <rr-o>
                         <rr-a>
                            <rr-o>
-                              <rr-a><a href="#identifier">identifier</a></rr-a>
+                              <rr-a>
+                                 <rr-t>KW_PLAN</rr-t><a href="#identifier">identifier</a></rr-a>
                            </rr-o>
                         </rr-a>
+                        <rr-t>KW_PLANS</rr-t>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1130,7 +1524,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tableName">tableName</a><a href="#partitionSpec">partitionSpec</a><a href="#lockMode">lockMode</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_LOCK</rr-t>
+                  <rr-t>KW_TABLE</rr-t><a href="#tableName">tableName</a><a href="#partitionSpec">partitionSpec</a><a href="#lockMode">lockMode</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1139,8 +1535,12 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>KW_LOCK</rr-t>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>KW_DATABASE</rr-t>
+                        <rr-t>KW_SCHEMA</rr-t>
+                     </rr-o>
                   </rr-a><a href="#identifier">identifier</a><a href="#lockMode">lockMode</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -1148,14 +1548,19 @@
       <h2 id="lockMode">lockMode</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>KW_SHARED</rr-t>
+               <rr-t>KW_EXCLUSIVE</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="unlockStatement">unlockStatement</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tableName">tableName</a><a href="#partitionSpec">partitionSpec</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_UNLOCK</rr-t>
+                  <rr-t>KW_TABLE</rr-t><a href="#tableName">tableName</a><a href="#partitionSpec">partitionSpec</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1164,8 +1569,12 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>KW_UNLOCK</rr-t>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>KW_DATABASE</rr-t>
+                        <rr-t>KW_SCHEMA</rr-t>
+                     </rr-o>
                   </rr-a><a href="#identifier">identifier</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -1174,7 +1583,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_CREATE</rr-t>
+                  <rr-t>KW_ROLE</rr-t><a href="#identifier">identifier</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1182,7 +1593,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_DROP</rr-t>
+                  <rr-t>KW_ROLE</rr-t><a href="#identifier">identifier</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1190,7 +1603,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#privilegeList">privilegeList</a><a href="#privilegeObject">privilegeObject</a><a href="#principalSpecification">principalSpecification</a><a href="#withGrantOption">withGrantOption</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_GRANT</rr-t><a href="#privilegeList">privilegeList</a><a href="#privilegeObject">privilegeObject</a><rr-t>KW_TO</rr-t><a href="#principalSpecification">principalSpecification</a><a href="#withGrantOption">withGrantOption</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1198,7 +1612,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#grantOptionFor">grantOptionFor</a><a href="#privilegeList">privilegeList</a><a href="#privilegeObject">privilegeObject</a><a href="#principalSpecification">principalSpecification</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_REVOKE</rr-t><a href="#grantOptionFor">grantOptionFor</a><a href="#privilegeList">privilegeList</a><a href="#privilegeObject">privilegeObject</a><rr-t>KW_FROM</rr-t><a href="#principalSpecification">principalSpecification</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1206,11 +1621,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>KW_GRANT</rr-t>
+                  <rr-t>KW_ROLE</rr-t><a href="#identifier">identifier</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#identifier">identifier</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#identifier">identifier</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#principalSpecification">principalSpecification</a><a href="#withAdminOption">withAdminOption</a></rr-a>
+                  </rr-a>
+                  <rr-t>KW_TO</rr-t><a href="#principalSpecification">principalSpecification</a><a href="#withAdminOption">withAdminOption</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1218,11 +1637,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#adminOptionFor">adminOptionFor</a><a href="#identifier">identifier</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>KW_REVOKE</rr-t><a href="#adminOptionFor">adminOptionFor</a><rr-t>KW_ROLE</rr-t><a href="#identifier">identifier</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#identifier">identifier</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#identifier">identifier</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#principalSpecification">principalSpecification</a></rr-a>
+                  </rr-a>
+                  <rr-t>KW_FROM</rr-t><a href="#principalSpecification">principalSpecification</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1230,7 +1652,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#principalName">principalName</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_SHOW</rr-t>
+                  <rr-t>KW_ROLE</rr-t>
+                  <rr-t>KW_GRANT</rr-t><a href="#principalName">principalName</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1238,7 +1663,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_SHOW</rr-t>
+                  <rr-t>KW_ROLES</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1246,7 +1674,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_SHOW</rr-t>
+                  <rr-t>KW_CURRENT</rr-t>
+                  <rr-t>KW_ROLES</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1255,8 +1687,12 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>KW_SET</rr-t>
+                  <rr-t>KW_ROLE</rr-t>
                   <rr-a>
-                     <rr-o><a href="#identifier">identifier</a></rr-o>
+                     <rr-o>
+                        <rr-t>KW_ALL</rr-t>
+                        <rr-t>KW_NONE</rr-t><a href="#identifier">identifier</a></rr-o>
                   </rr-a>
                </rr-a>
             </rr-o>
@@ -1266,9 +1702,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#principalName">principalName</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>KW_SHOW</rr-t>
+                  <rr-t>KW_GRANT</rr-t><a href="#principalName">principalName</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#privilegeIncludeColObject">privilegeIncludeColObject</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_ON</rr-t><a href="#privilegeIncludeColObject">privilegeIncludeColObject</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1279,21 +1718,25 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_SHOW</rr-t>
+                  <rr-t>KW_PRINCIPALS</rr-t><a href="#identifier">identifier</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="privilegeIncludeColObject">privilegeIncludeColObject</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#privObjectCols">privObjectCols</a></rr-o>
+            <rr-o>
+               <rr-t>KW_ALL</rr-t><a href="#privObjectCols">privObjectCols</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="privilegeObject">privilegeObject</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#privObject">privObject</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_ON</rr-t><a href="#privObject">privObject</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1303,11 +1746,19 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>KW_DATABASE</rr-t>
+                        <rr-t>KW_SCHEMA</rr-t>
+                     </rr-o>
                   </rr-a><a href="#identifier">identifier</a></rr-a>
-               <rr-a><a href="#tableName">tableName</a><a href="#partitionSpec">partitionSpec</a></rr-a>
-               <rr-a></rr-a>
-               <rr-a><a href="#identifier">identifier</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_TABLE</rr-t><a href="#tableName">tableName</a><a href="#partitionSpec">partitionSpec</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_URI</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_SERVER</rr-t><a href="#identifier">identifier</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1317,15 +1768,25 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
-                  </rr-a><a href="#identifier">identifier</a></rr-a>
-               <rr-a><a href="#tableName">tableName</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#columnNameList">columnNameList</a></rr-a>
+                        <rr-t>KW_DATABASE</rr-t>
+                        <rr-t>KW_SCHEMA</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#identifier">identifier</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_TABLE</rr-t><a href="#tableName">tableName</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>LPAREN</rr-t><a href="#columnNameList">columnNameList</a><rr-t>RPAREN</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#partitionSpec">partitionSpec</a></rr-a>
-               <rr-a></rr-a>
-               <rr-a><a href="#identifier">identifier</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_URI</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_SERVER</rr-t><a href="#identifier">identifier</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1335,7 +1796,8 @@
             <rr-o>
                <rr-a><a href="#privlegeDef">privlegeDef</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#privlegeDef">privlegeDef</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#privlegeDef">privlegeDef</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1348,7 +1810,9 @@
             <rr-o>
                <rr-a><a href="#privilegeType">privilegeType</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#columnNameList">columnNameList</a></rr-a>
+                        <rr-a>
+                           <rr-t>LPAREN</rr-t><a href="#columnNameList">columnNameList</a><rr-t>RPAREN</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1358,7 +1822,18 @@
       <h2 id="privilegeType">privilegeType</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>KW_ALL</rr-t>
+               <rr-t>KW_ALTER</rr-t>
+               <rr-t>KW_UPDATE</rr-t>
+               <rr-t>KW_CREATE</rr-t>
+               <rr-t>KW_DROP</rr-t>
+               <rr-t>KW_LOCK</rr-t>
+               <rr-t>KW_SELECT</rr-t>
+               <rr-t>KW_SHOW_DATABASE</rr-t>
+               <rr-t>KW_INSERT</rr-t>
+               <rr-t>KW_DELETE</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="principalSpecification">principalSpecification</h2>
@@ -1367,7 +1842,8 @@
             <rr-o>
                <rr-a><a href="#principalName">principalName</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#principalName">principalName</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#principalName">principalName</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1378,9 +1854,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#principalIdentifier">principalIdentifier</a></rr-a>
-               <rr-a><a href="#principalIdentifier">principalIdentifier</a></rr-a>
-               <rr-a><a href="#identifier">identifier</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_USER</rr-t><a href="#principalIdentifier">principalIdentifier</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_GROUP</rr-t><a href="#principalIdentifier">principalIdentifier</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_ROLE</rr-t><a href="#identifier">identifier</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1388,7 +1867,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_WITH</rr-t>
+                  <rr-t>KW_GRANT</rr-t>
+                  <rr-t>KW_OPTION</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1396,7 +1879,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_GRANT</rr-t>
+                  <rr-t>KW_OPTION</rr-t>
+                  <rr-t>KW_FOR</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1404,7 +1891,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_ADMIN</rr-t>
+                  <rr-t>KW_OPTION</rr-t>
+                  <rr-t>KW_FOR</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1412,7 +1903,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_WITH</rr-t>
+                  <rr-t>KW_ADMIN</rr-t>
+                  <rr-t>KW_OPTION</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1421,14 +1916,22 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>KW_MSCK</rr-t>
+                  <rr-t>KW_REPAIR</rr-t>
                   <rr-a>
                      <rr-o>
-                        <rr-a><a href="#tableName">tableName</a><rr-a data-min="0" data-max="1">
+                        <rr-a>
+                           <rr-t>KW_TABLE</rr-t><a href="#tableName">tableName</a><rr-a data-min="0" data-max="1">
                               <rr-o>
                                  <rr-a>
                                     <rr-a>
-                                       <rr-o></rr-o>
+                                       <rr-o>
+                                          <rr-t>KW_ADD</rr-t>
+                                          <rr-t>KW_DROP</rr-t>
+                                          <rr-t>KW_SYNC</rr-t>
+                                       </rr-o>
                                     </rr-a>
+                                    <rr-t>KW_PARTITIONS</rr-t>
                                  </rr-a>
                               </rr-o>
                            </rr-a>
@@ -1444,7 +1947,8 @@
             <rr-o>
                <rr-a><a href="#resource">resource</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#resource">resource</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#resource">resource</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1455,23 +1959,34 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#resourceType">resourceType</a></rr-a>
+               <rr-a><a href="#resourceType">resourceType</a><rr-t>StringLiteral</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="resourceType">resourceType</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>KW_JAR</rr-t>
+               <rr-t>KW_FILE</rr-t>
+               <rr-t>KW_ARCHIVE</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="createFunctionStatement">createFunctionStatement</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#functionIdentifier">functionIdentifier</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>KW_CREATE</rr-t>
+                  <rr-t>KW_TEMPORARY</rr-t>
+                  <rr-t>KW_FUNCTION</rr-t><a href="#functionIdentifier">functionIdentifier</a><rr-t>KW_AS</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+                  <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#resourceList">resourceList</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_USING</rr-t><a href="#resourceList">resourceList</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1482,7 +1997,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#ifExists">ifExists</a><a href="#functionIdentifier">functionIdentifier</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_DROP</rr-t>
+                  <rr-t>KW_TEMPORARY</rr-t>
+                  <rr-t>KW_FUNCTION</rr-t><a href="#ifExists">ifExists</a><a href="#functionIdentifier">functionIdentifier</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1490,7 +2008,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_RELOAD</rr-t>
+                  <rr-t>KW_FUNCTION</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1498,7 +2019,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#columnNameTypeList">columnNameTypeList</a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_CREATE</rr-t>
+                  <rr-t>KW_TEMPORARY</rr-t>
+                  <rr-t>KW_MACRO</rr-t>
+                  <rr-t>Identifier</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#columnNameTypeList">columnNameTypeList</a><rr-t>RPAREN</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1506,7 +2032,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#ifExists">ifExists</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_DROP</rr-t>
+                  <rr-t>KW_TEMPORARY</rr-t>
+                  <rr-t>KW_MACRO</rr-t><a href="#ifExists">ifExists</a><rr-t>Identifier</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1514,11 +2044,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#orReplace">orReplace</a><a href="#ifNotExists">ifNotExists</a><a href="#tableName">tableName</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>KW_CREATE</rr-t><a href="#orReplace">orReplace</a><rr-t>KW_VIEW</rr-t><a href="#ifNotExists">ifNotExists</a><a href="#tableName">tableName</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#columnNameCommentList">columnNameCommentList</a></rr-a>
+                        <rr-a>
+                           <rr-t>LPAREN</rr-t><a href="#columnNameCommentList">columnNameCommentList</a><rr-t>RPAREN</rr-t>
+                        </rr-a>
                      </rr-o>
-                  </rr-a><a href="#tableComment">tableComment</a><a href="#viewPartition">viewPartition</a><a href="#tablePropertiesPrefixed">tablePropertiesPrefixed</a><a href="#selectStatementWithCTE">selectStatementWithCTE</a></rr-a>
+                  </rr-a><a href="#tableComment">tableComment</a><a href="#viewPartition">viewPartition</a><a href="#tablePropertiesPrefixed">tablePropertiesPrefixed</a><rr-t>KW_AS</rr-t><a href="#selectStatementWithCTE">selectStatementWithCTE</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1526,7 +2059,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#ifNotExists">ifNotExists</a><a href="#tableName">tableName</a><a href="#rewriteDisabled">rewriteDisabled</a><a href="#tableComment">tableComment</a><a href="#tableRowFormat">tableRowFormat</a><a href="#tableFileFormat">tableFileFormat</a><a href="#tableLocation">tableLocation</a><a href="#tablePropertiesPrefixed">tablePropertiesPrefixed</a><a href="#selectStatementWithCTE">selectStatementWithCTE</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_CREATE</rr-t>
+                  <rr-t>KW_MATERIALIZED</rr-t>
+                  <rr-t>KW_VIEW</rr-t><a href="#ifNotExists">ifNotExists</a><a href="#tableName">tableName</a><a href="#rewriteDisabled">rewriteDisabled</a><a href="#tableComment">tableComment</a><a href="#tableRowFormat">tableRowFormat</a><a href="#tableFileFormat">tableFileFormat</a><a href="#tableLocation">tableLocation</a><a href="#tablePropertiesPrefixed">tablePropertiesPrefixed</a><rr-t>KW_AS</rr-t><a href="#selectStatementWithCTE">selectStatementWithCTE</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1534,7 +2070,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#columnNameList">columnNameList</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_PARTITIONED</rr-t>
+                  <rr-t>KW_ON</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#columnNameList">columnNameList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1542,7 +2082,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#ifExists">ifExists</a><a href="#viewName">viewName</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_DROP</rr-t>
+                  <rr-t>KW_VIEW</rr-t><a href="#ifExists">ifExists</a><a href="#viewName">viewName</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1550,27 +2092,35 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#ifExists">ifExists</a><a href="#viewName">viewName</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_DROP</rr-t>
+                  <rr-t>KW_MATERIALIZED</rr-t>
+                  <rr-t>KW_VIEW</rr-t><a href="#ifExists">ifExists</a><a href="#viewName">viewName</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="showFunctionIdentifier">showFunctionIdentifier</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#functionIdentifier">functionIdentifier</a></rr-o>
+            <rr-o><a href="#functionIdentifier">functionIdentifier</a><rr-t>StringLiteral</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="showStmtIdentifier">showStmtIdentifier</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#identifier">identifier</a></rr-o>
+            <rr-o><a href="#identifier">identifier</a><rr-t>StringLiteral</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="tableComment">tableComment</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_COMMENT</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1578,11 +2128,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#columnNameTypeConstraint">columnNameTypeConstraint</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>KW_PARTITIONED</rr-t>
+                  <rr-t>KW_BY</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#columnNameTypeConstraint">columnNameTypeConstraint</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#columnNameTypeConstraint">columnNameTypeConstraint</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#columnNameTypeConstraint">columnNameTypeConstraint</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>RPAREN</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1591,11 +2146,22 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#columnNameList">columnNameList</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>KW_CLUSTERED</rr-t>
+                  <rr-t>KW_BY</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#columnNameList">columnNameList</a><rr-t>RPAREN</rr-t>
+                  <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#columnNameOrderList">columnNameOrderList</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_SORTED</rr-t>
+                           <rr-t>KW_BY</rr-t>
+                           <rr-t>LPAREN</rr-t><a href="#columnNameOrderList">columnNameOrderList</a><rr-t>RPAREN</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>KW_INTO</rr-t>
+                  <rr-t>Number</rr-t>
+                  <rr-t>KW_BUCKETS</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1604,7 +2170,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#columnNameList">columnNameList</a><a href="#skewedValueElement">skewedValueElement</a><a href="#storedAsDirs">storedAsDirs</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_SKEWED</rr-t>
+                  <rr-t>KW_BY</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#columnNameList">columnNameList</a><rr-t>RPAREN</rr-t>
+                  <rr-t>KW_ON</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#skewedValueElement">skewedValueElement</a><rr-t>RPAREN</rr-t><a href="#storedAsDirs">storedAsDirs</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1618,7 +2189,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_RECORDREADER</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1626,7 +2200,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_RECORDWRITER</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1635,9 +2212,15 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>KW_ROW</rr-t>
+                  <rr-t>KW_FORMAT</rr-t>
+                  <rr-t>KW_SERDE</rr-t>
+                  <rr-t>StringLiteral</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#tableProperties">tableProperties</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_WITH</rr-t>
+                           <rr-t>KW_SERDEPROPERTIES</rr-t><a href="#tableProperties">tableProperties</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1648,7 +2231,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tableRowFormatFieldIdentifier">tableRowFormatFieldIdentifier</a><a href="#tableRowFormatCollItemsIdentifier">tableRowFormatCollItemsIdentifier</a><a href="#tableRowFormatMapKeysIdentifier">tableRowFormatMapKeysIdentifier</a><a href="#tableRowFormatLinesIdentifier">tableRowFormatLinesIdentifier</a><a href="#tableRowNullFormat">tableRowNullFormat</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_ROW</rr-t>
+                  <rr-t>KW_FORMAT</rr-t>
+                  <rr-t>KW_DELIMITED</rr-t><a href="#tableRowFormatFieldIdentifier">tableRowFormatFieldIdentifier</a><a href="#tableRowFormatCollItemsIdentifier">tableRowFormatCollItemsIdentifier</a><a href="#tableRowFormatMapKeysIdentifier">tableRowFormatMapKeysIdentifier</a><a href="#tableRowFormatLinesIdentifier">tableRowFormatLinesIdentifier</a><a href="#tableRowNullFormat">tableRowNullFormat</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1662,7 +2248,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tableProperties">tableProperties</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_TBLPROPERTIES</rr-t><a href="#tableProperties">tableProperties</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1670,7 +2257,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tablePropertiesList">tablePropertiesList</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#tablePropertiesList">tablePropertiesList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1680,13 +2269,15 @@
             <rr-o>
                <rr-a><a href="#keyValueProperty">keyValueProperty</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#keyValueProperty">keyValueProperty</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#keyValueProperty">keyValueProperty</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
                <rr-a><a href="#keyProperty">keyProperty</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#keyProperty">keyProperty</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#keyProperty">keyProperty</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1697,14 +2288,20 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>StringLiteral</rr-t>
+                  <rr-t>EQUAL</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="keyProperty">keyProperty</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>StringLiteral</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="tableRowFormatFieldIdentifier">tableRowFormatFieldIdentifier</h2>
@@ -1712,9 +2309,17 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>KW_FIELDS</rr-t>
+                  <rr-t>KW_TERMINATED</rr-t>
+                  <rr-t>KW_BY</rr-t>
+                  <rr-t>StringLiteral</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_ESCAPED</rr-t>
+                           <rr-t>KW_BY</rr-t>
+                           <rr-t>StringLiteral</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1725,7 +2330,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_COLLECTION</rr-t>
+                  <rr-t>KW_ITEMS</rr-t>
+                  <rr-t>KW_TERMINATED</rr-t>
+                  <rr-t>KW_BY</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1733,7 +2344,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_MAP</rr-t>
+                  <rr-t>KW_KEYS</rr-t>
+                  <rr-t>KW_TERMINATED</rr-t>
+                  <rr-t>KW_BY</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1741,7 +2358,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_LINES</rr-t>
+                  <rr-t>KW_TERMINATED</rr-t>
+                  <rr-t>KW_BY</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1749,7 +2371,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_NULL</rr-t>
+                  <rr-t>KW_DEFINED</rr-t>
+                  <rr-t>KW_AS</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1758,20 +2385,38 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>KW_STORED</rr-t>
+                  <rr-t>KW_AS</rr-t>
+                  <rr-t>KW_INPUTFORMAT</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+                  <rr-t>KW_OUTPUTFORMAT</rr-t>
+                  <rr-t>StringLiteral</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_INPUTDRIVER</rr-t>
+                           <rr-t>StringLiteral</rr-t>
+                           <rr-t>KW_OUTPUTDRIVER</rr-t>
+                           <rr-t>StringLiteral</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
                <rr-a>
+                  <rr-t>KW_STORED</rr-t>
+                  <rr-t>KW_BY</rr-t>
+                  <rr-t>StringLiteral</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#tableProperties">tableProperties</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_WITH</rr-t>
+                           <rr-t>KW_SERDEPROPERTIES</rr-t><a href="#tableProperties">tableProperties</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a><a href="#identifier">identifier</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_STORED</rr-t>
+                  <rr-t>KW_AS</rr-t><a href="#identifier">identifier</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1779,7 +2424,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_LOCATION</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1789,7 +2437,8 @@
             <rr-o>
                <rr-a><a href="#columnNameType">columnNameType</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#columnNameType">columnNameType</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#columnNameType">columnNameType</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1802,7 +2451,8 @@
             <rr-o>
                <rr-a><a href="#columnNameTypeOrConstraint">columnNameTypeOrConstraint</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#columnNameTypeOrConstraint">columnNameTypeOrConstraint</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#columnNameTypeOrConstraint">columnNameTypeOrConstraint</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1815,7 +2465,8 @@
             <rr-o>
                <rr-a><a href="#columnNameColonType">columnNameColonType</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#columnNameColonType">columnNameColonType</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#columnNameColonType">columnNameColonType</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1828,7 +2479,8 @@
             <rr-o>
                <rr-a><a href="#columnName">columnName</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#columnName">columnName</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#columnName">columnName</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1848,8 +2500,12 @@
                <rr-a><a href="#identifier">identifier</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
                         <rr-a>
+                           <rr-t>DOT</rr-t>
                            <rr-a>
-                              <rr-o><a href="#identifier">identifier</a></rr-o>
+                              <rr-o>
+                                 <rr-t>KW_ELEM_TYPE</rr-t>
+                                 <rr-t>KW_KEY_TYPE</rr-t>
+                                 <rr-t>KW_VALUE_TYPE</rr-t><a href="#identifier">identifier</a></rr-o>
                            </rr-a>
                         </rr-a>
                      </rr-o>
@@ -1864,7 +2520,8 @@
             <rr-o>
                <rr-a><a href="#columnNameOrder">columnNameOrder</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#columnNameOrder">columnNameOrder</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#columnNameOrder">columnNameOrder</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1875,7 +2532,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#columnNameList">columnNameList</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#columnNameList">columnNameList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1889,20 +2548,30 @@
       <h2 id="enableSpecification">enableSpecification</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>KW_ENABLE</rr-t>
+               <rr-t>KW_DISABLE</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="validateSpecification">validateSpecification</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>KW_VALIDATE</rr-t>
+               <rr-t>KW_NOVALIDATE</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="enforcedSpecification">enforcedSpecification</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-t>KW_ENFORCED</rr-t>
+               <rr-a>
+                  <rr-t>KW_NOT</rr-t>
+                  <rr-t>KW_ENFORCED</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1910,8 +2579,11 @@
       <p>
          <rr-rr>
             <rr-o>
+               <rr-t>KW_RELY</rr-t>
                <rr-a data-min="0" data-max="1">
-                  <rr-o></rr-o>
+                  <rr-o>
+                     <rr-t>KW_NORELY</rr-t>
+                  </rr-o>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1923,7 +2595,8 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#identifier">identifier</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_CONSTRAINT</rr-t><a href="#identifier">identifier</a></rr-a>
                      </rr-o>
                   </rr-a><a href="#pkConstraint">pkConstraint</a><a href="#constraintOptsCreate">constraintOptsCreate</a></rr-a>
             </rr-o>
@@ -1933,7 +2606,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a><a href="#pkConstraint">pkConstraint</a><a href="#constraintOptsAlter">constraintOptsAlter</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_CONSTRAINT</rr-t><a href="#identifier">identifier</a><a href="#pkConstraint">pkConstraint</a><a href="#constraintOptsAlter">constraintOptsAlter</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1952,9 +2626,12 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#identifier">identifier</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_CONSTRAINT</rr-t><a href="#identifier">identifier</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#columnParenthesesList">columnParenthesesList</a><a href="#tableName">tableName</a><a href="#columnParenthesesList">columnParenthesesList</a><a href="#constraintOptsCreate">constraintOptsCreate</a></rr-a>
+                  </rr-a>
+                  <rr-t>KW_FOREIGN</rr-t>
+                  <rr-t>KW_KEY</rr-t><a href="#columnParenthesesList">columnParenthesesList</a><rr-t>KW_REFERENCES</rr-t><a href="#tableName">tableName</a><a href="#columnParenthesesList">columnParenthesesList</a><a href="#constraintOptsCreate">constraintOptsCreate</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1962,7 +2639,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a><a href="#columnParenthesesList">columnParenthesesList</a><a href="#tableName">tableName</a><a href="#columnParenthesesList">columnParenthesesList</a><a href="#constraintOptsAlter">constraintOptsAlter</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_CONSTRAINT</rr-t><a href="#identifier">identifier</a><rr-t>KW_FOREIGN</rr-t>
+                  <rr-t>KW_KEY</rr-t><a href="#columnParenthesesList">columnParenthesesList</a><rr-t>KW_REFERENCES</rr-t><a href="#tableName">tableName</a><a href="#columnParenthesesList">columnParenthesesList</a><a href="#constraintOptsAlter">constraintOptsAlter</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1978,7 +2657,8 @@
             <rr-o>
                <rr-a><a href="#skewedColumnValuePair">skewedColumnValuePair</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#skewedColumnValuePair">skewedColumnValuePair</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#skewedColumnValuePair">skewedColumnValuePair</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1989,7 +2669,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#skewedColumnValues">skewedColumnValues</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#skewedColumnValues">skewedColumnValues</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1999,7 +2681,8 @@
             <rr-o>
                <rr-a><a href="#skewedColumnValue">skewedColumnValue</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#skewedColumnValue">skewedColumnValue</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#skewedColumnValue">skewedColumnValue</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2021,15 +2704,24 @@
       <h2 id="orderSpecification">orderSpecification</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>KW_ASC</rr-t>
+               <rr-t>KW_DESC</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="nullOrdering">nullOrdering</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_NULLS</rr-t>
+                  <rr-t>KW_FIRST</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_NULLS</rr-t>
+                  <rr-t>KW_LAST</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2047,7 +2739,8 @@
             <rr-o>
                <rr-a><a href="#columnNameComment">columnNameComment</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#columnNameComment">columnNameComment</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#columnNameComment">columnNameComment</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2060,7 +2753,10 @@
             <rr-o>
                <rr-a><a href="#identifier">identifier</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_COMMENT</rr-t>
+                           <rr-t>StringLiteral</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2081,7 +2777,10 @@
             <rr-o>
                <rr-a><a href="#identifier">identifier</a><a href="#colType">colType</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_COMMENT</rr-t>
+                           <rr-t>StringLiteral</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2120,7 +2819,10 @@
             <rr-o>
                <rr-a><a href="#identifier">identifier</a><a href="#colType">colType</a><a href="#columnConstraint">columnConstraint</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_COMMENT</rr-t>
+                           <rr-t>StringLiteral</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2147,9 +2849,11 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#identifier">identifier</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_CONSTRAINT</rr-t><a href="#identifier">identifier</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#tableName">tableName</a><a href="#columnName">columnName</a><a href="#constraintOptsCreate">constraintOptsCreate</a></rr-a>
+                  </rr-a>
+                  <rr-t>KW_REFERENCES</rr-t><a href="#tableName">tableName</a><rr-t>LPAREN</rr-t><a href="#columnName">columnName</a><rr-t>RPAREN</rr-t><a href="#constraintOptsCreate">constraintOptsCreate</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2160,7 +2864,8 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#identifier">identifier</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_CONSTRAINT</rr-t><a href="#identifier">identifier</a></rr-a>
                      </rr-o>
                   </rr-a><a href="#tableConstraintPrimaryKey">tableConstraintPrimaryKey</a><a href="#constraintOptsCreate">constraintOptsCreate</a></rr-a>
             </rr-o>
@@ -2186,9 +2891,11 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#identifier">identifier</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_CONSTRAINT</rr-t><a href="#identifier">identifier</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#tableName">tableName</a><a href="#columnName">columnName</a><a href="#constraintOptsAlter">constraintOptsAlter</a></rr-a>
+                  </rr-a>
+                  <rr-t>KW_REFERENCES</rr-t><a href="#tableName">tableName</a><rr-t>LPAREN</rr-t><a href="#columnName">columnName</a><rr-t>RPAREN</rr-t><a href="#constraintOptsAlter">constraintOptsAlter</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2199,7 +2906,8 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#identifier">identifier</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_CONSTRAINT</rr-t><a href="#identifier">identifier</a></rr-a>
                      </rr-o>
                   </rr-a><a href="#tableConstraintPrimaryKey">tableConstraintPrimaryKey</a><a href="#constraintOptsAlter">constraintOptsAlter</a></rr-a>
             </rr-o>
@@ -2209,7 +2917,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_PRIMARY</rr-t>
+                  <rr-t>KW_KEY</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2233,9 +2944,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a><a href="#colType">colType</a><rr-a data-min="0" data-max="1">
+               <rr-a><a href="#identifier">identifier</a><rr-t>COLON</rr-t><a href="#colType">colType</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_COMMENT</rr-t>
+                           <rr-t>StringLiteral</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2254,7 +2968,8 @@
             <rr-o>
                <rr-a><a href="#colType">colType</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#colType">colType</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#colType">colType</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2271,23 +2986,61 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-t>KW_TINYINT</rr-t>
+               <rr-t>KW_SMALLINT</rr-t>
+               <rr-t>KW_INT</rr-t>
+               <rr-t>KW_BIGINT</rr-t>
+               <rr-t>KW_BOOLEAN</rr-t>
+               <rr-t>KW_FLOAT</rr-t>
                <rr-a>
+                  <rr-t>KW_DOUBLE</rr-t>
+                  <rr-t>KW_PRECISION</rr-t>
+               </rr-a>
+               <rr-t>KW_DATE</rr-t>
+               <rr-t>KW_DATETIME</rr-t>
+               <rr-t>KW_TIMESTAMP</rr-t>
+               <rr-t>KW_TIMESTAMPLOCALTZ</rr-t>
+               <rr-a>
+                  <rr-t>KW_TIMESTAMP</rr-t>
+                  <rr-t>KW_WITH</rr-t>
+                  <rr-t>KW_LOCAL</rr-t>
+                  <rr-t>KW_TIME</rr-t>
+                  <rr-t>KW_ZONE</rr-t>
+               </rr-a>
+               <rr-t>KW_STRING</rr-t>
+               <rr-t>KW_BINARY</rr-t>
+               <rr-a>
+                  <rr-t>KW_DECIMAL</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
+                           <rr-t>LPAREN</rr-t>
+                           <rr-t>Number</rr-t>
                            <rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t>
+                                    <rr-t>Number</rr-t>
+                                 </rr-a>
                               </rr-o>
                            </rr-a>
+                           <rr-t>RPAREN</rr-t>
                         </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_VARCHAR</rr-t>
+                  <rr-t>LPAREN</rr-t>
+                  <rr-t>Number</rr-t>
+                  <rr-t>RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_CHAR</rr-t>
+                  <rr-t>LPAREN</rr-t>
+                  <rr-t>Number</rr-t>
+                  <rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2295,7 +3048,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#type_db_col">type_db_col</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_ARRAY</rr-t>
+                  <rr-t>LESSTHAN</rr-t><a href="#type_db_col">type_db_col</a><rr-t>GREATERTHAN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2303,7 +3059,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#columnNameColonTypeList">columnNameColonTypeList</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_STRUCT</rr-t>
+                  <rr-t>LESSTHAN</rr-t><a href="#columnNameColonTypeList">columnNameColonTypeList</a><rr-t>GREATERTHAN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2311,7 +3070,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#primitiveType">primitiveType</a><a href="#type_db_col">type_db_col</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_MAP</rr-t>
+                  <rr-t>LESSTHAN</rr-t><a href="#primitiveType">primitiveType</a><rr-t>COMMA</rr-t><a href="#type_db_col">type_db_col</a><rr-t>GREATERTHAN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2319,7 +3081,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#colTypeList">colTypeList</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_UNIONTYPE</rr-t>
+                  <rr-t>LESSTHAN</rr-t><a href="#colTypeList">colTypeList</a><rr-t>GREATERTHAN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2327,20 +3092,48 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_UNION</rr-t>
+                  <rr-t>KW_ALL</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_UNION</rr-t>
+                  <rr-t>KW_DISTINCT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_INTERSECT</rr-t>
+                  <rr-t>KW_ALL</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_INTERSECT</rr-t>
+                  <rr-t>KW_DISTINCT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_EXCEPT</rr-t>
+                  <rr-t>KW_ALL</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_EXCEPT</rr-t>
+                  <rr-t>KW_DISTINCT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_MINUS</rr-t>
+                  <rr-t>KW_ALL</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_MINUS</rr-t>
+                  <rr-t>KW_DISTINCT</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="queryStatementExpression">queryStatementExpression</h2>
       <p>
          <rr-rr>
+            <pre>/* Would be nice to do this as a gated semantic perdicate
+       But the predicate gets pushed as a lookahead decision.
+       Calling rule doesnot know about topLevel
+    */</pre>
             <rr-o>
                <rr-a><a href="#withClause">withClause</a><a href="#queryStatementExpressionBody">queryStatementExpressionBody</a></rr-a>
             </rr-o>
@@ -2356,9 +3149,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#cteStatement">cteStatement</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>KW_WITH</rr-t><a href="#cteStatement">cteStatement</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#cteStatement">cteStatement</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#cteStatement">cteStatement</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2369,7 +3164,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#identifier">identifier</a><a href="#queryStatementExpression">queryStatementExpression</a></rr-a>
+               <rr-a><a href="#identifier">identifier</a><rr-t>KW_AS</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#queryStatementExpression">queryStatementExpression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2396,6 +3193,12 @@
             <rr-o>
                <rr-a><a href="#fromClause">fromClause</a><a href="#body">body</a></rr-a>
             </rr-o>
+            <pre>/*
+The valuesClause rule below ensures that the parse tree for
+"insert into table FOO values (1,2),(3,4)" looks the same as
+"insert into table FOO select a,b from (values(1,2),(3,4)) as BAR(a,b)" which itself is made to look
+very similar to the tree for "insert into table FOO select a,b from BAR".
+*/</pre>
          </rr-rr>
       </p>
       <h2 id="regularBody">regularBody</h2>
@@ -2413,7 +3216,9 @@
          <rr-rr>
             <rr-o>
                <rr-a><a href="#selectClause">selectClause</a><a href="#fromClause">fromClause</a><a href="#whereClause">whereClause</a><a href="#groupByClause">groupByClause</a><a href="#havingClause">havingClause</a><a href="#window_clause">window_clause</a></rr-a>
-               <rr-a><a href="#selectStatement">selectStatement</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#selectStatement">selectStatement</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2458,10 +3263,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#destination">destination</a><a href="#ifNotExists">ifNotExists</a></rr-a>
-               <rr-a><a href="#tableOrPartition">tableOrPartition</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>KW_INSERT</rr-t>
+                  <rr-t>KW_OVERWRITE</rr-t><a href="#destination">destination</a><a href="#ifNotExists">ifNotExists</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_INSERT</rr-t>
+                  <rr-t>KW_INTO</rr-t>
+                  <rr-t>KW_TABLE</rr-t><a href="#tableOrPartition">tableOrPartition</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#columnNameList">columnNameList</a></rr-a>
+                        <rr-a>
+                           <rr-t>LPAREN</rr-t><a href="#columnNameList">columnNameList</a><rr-t>RPAREN</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2472,8 +3284,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tableRowFormat">tableRowFormat</a><a href="#tableFileFormat">tableFileFormat</a></rr-a>
-               <rr-a><a href="#tableOrPartition">tableOrPartition</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_LOCAL</rr-t>
+                  <rr-t>KW_DIRECTORY</rr-t>
+                  <rr-t>StringLiteral</rr-t><a href="#tableRowFormat">tableRowFormat</a><a href="#tableFileFormat">tableFileFormat</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_TABLE</rr-t><a href="#tableOrPartition">tableOrPartition</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2482,19 +3298,29 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>KW_LIMIT</rr-t>
                   <rr-a>
                      <rr-o>
                         <rr-a>
                            <rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a></rr-a>
+                                 <rr-a>
+                                    <rr-t>Number</rr-t>
+                                    <rr-t>COMMA</rr-t>
+                                 </rr-a>
                               </rr-o>
                            </rr-a>
+                           <rr-t>Number</rr-t>
                         </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_LIMIT</rr-t>
+                  <rr-t>Number</rr-t>
+                  <rr-t>KW_OFFSET</rr-t>
+                  <rr-t>Number</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2502,37 +3328,52 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tableName">tableName</a><a href="#whereClause">whereClause</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_DELETE</rr-t>
+                  <rr-t>KW_FROM</rr-t><a href="#tableName">tableName</a><a href="#whereClause">whereClause</a></rr-a>
             </rr-o>
+            <pre>/*SET &lt;columName&gt; = (3 + col2)*/</pre>
          </rr-rr>
       </p>
       <h2 id="columnAssignmentClause">columnAssignmentClause</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tableOrColumn">tableOrColumn</a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#tableOrColumn">tableOrColumn</a><rr-t>EQUAL</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
+            <pre>/*SET col1 = 5, col2 = (4 + col4), ...*/</pre>
          </rr-rr>
       </p>
       <h2 id="setColumnsClause">setColumnsClause</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#columnAssignmentClause">columnAssignmentClause</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>KW_SET</rr-t><a href="#columnAssignmentClause">columnAssignmentClause</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#columnAssignmentClause">columnAssignmentClause</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#columnAssignmentClause">columnAssignmentClause</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
             </rr-o>
+            <pre>/*
+  UPDATE &lt;table&gt;
+  SET col1 = val1, col2 = val2... WHERE ...
+*/</pre>
          </rr-rr>
       </p>
       <h2 id="updateStatement">updateStatement</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tableName">tableName</a><a href="#setColumnsClause">setColumnsClause</a><a href="#whereClause">whereClause</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_UPDATE</rr-t><a href="#tableName">tableName</a><a href="#setColumnsClause">setColumnsClause</a><a href="#whereClause">whereClause</a></rr-a>
             </rr-o>
+            <pre>/*
+BEGIN user defined transaction boundaries; follows SQL 2003 standard exactly except for addition of
+"setAutoCommitStatement" which is not in the standard doc but is supported by most SQL engines.
+*/</pre>
          </rr-rr>
       </p>
       <h2 id="sqlTransactionStatement">sqlTransactionStatement</h2>
@@ -2546,11 +3387,14 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>KW_START</rr-t>
+                  <rr-t>KW_TRANSACTION</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a><a href="#transactionMode">transactionMode</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#transactionMode">transactionMode</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#transactionMode">transactionMode</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
@@ -2570,8 +3414,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_READ</rr-t>
+                  <rr-t>KW_ONLY</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_READ</rr-t>
+                  <rr-t>KW_WRITE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2579,21 +3429,29 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#levelOfIsolation">levelOfIsolation</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_ISOLATION</rr-t>
+                  <rr-t>KW_LEVEL</rr-t><a href="#levelOfIsolation">levelOfIsolation</a></rr-a>
             </rr-o>
+            <pre>/*READ UNCOMMITTED | READ COMMITTED | REPEATABLE READ | SERIALIZABLE may be supported later*/</pre>
          </rr-rr>
       </p>
       <h2 id="levelOfIsolation">levelOfIsolation</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>KW_SNAPSHOT</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="commitStatement">commitStatement</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_COMMIT</rr-t>
+                  <rr-t>KW_WORK</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2601,7 +3459,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_ROLLBACK</rr-t>
+                  <rr-t>KW_WORK</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2609,28 +3470,50 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#booleanValueTok">booleanValueTok</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_SET</rr-t>
+                  <rr-t>KW_AUTOCOMMIT</rr-t><a href="#booleanValueTok">booleanValueTok</a></rr-a>
             </rr-o>
+            <pre>/*
+END user defined transaction boundaries
+*/</pre>
          </rr-rr>
       </p>
       <h2 id="abortTransactionStatement">abortTransactionStatement</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_ABORT</rr-t>
+                  <rr-t>KW_TRANSACTIONS</rr-t>
+                  <rr-t>Number</rr-t>
+               </rr-a>
             </rr-o>
+            <pre>/*
+BEGIN SQL Merge statement
+*/</pre>
          </rr-rr>
       </p>
       <h2 id="mergeStatement">mergeStatement</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tableName">tableName</a><rr-a data-min="0" data-max="1">
+               <rr-a>
+                  <rr-t>KW_MERGE</rr-t>
+                  <rr-t>KW_INTO</rr-t><a href="#tableName">tableName</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#identifier">identifier</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_AS</rr-t><a href="#identifier">identifier</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#joinSourcePart">joinSourcePart</a><a href="#expression">expression</a><a href="#whenClauses">whenClauses</a></rr-a>
+                  </rr-a>
+                  <rr-t>KW_USING</rr-t><a href="#joinSourcePart">joinSourcePart</a><rr-t>KW_ON</rr-t><a href="#expression">expression</a><a href="#whenClauses">whenClauses</a></rr-a>
             </rr-o>
+            <pre>/*
+Allow 0,1 or 2 WHEN MATCHED clauses and 0 or 1 WHEN NOT MATCHED
+Each WHEN clause may have AND &lt;boolean predicate&gt;.
+If 2 WHEN MATCHED clauses are present, 1 must be UPDATE the other DELETE and the 1st one
+must have AND &lt;boolean predicate&gt;
+*/</pre>
          </rr-rr>
       </p>
       <h2 id="whenClauses">whenClauses</h2>
@@ -2649,11 +3532,18 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>KW_WHEN</rr-t>
+                  <rr-t>KW_NOT</rr-t>
+                  <rr-t>KW_MATCHED</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expression">expression</a></rr-a>
+                        <rr-a>
+                           <rr-t>KW_AND</rr-t><a href="#expression">expression</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#valueRowConstructor">valueRowConstructor</a></rr-a>
+                  </rr-a>
+                  <rr-t>KW_THEN</rr-t>
+                  <rr-t>KW_INSERT</rr-t>
+                  <rr-t>KW_VALUES</rr-t><a href="#valueRowConstructor">valueRowConstructor</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2661,7 +3551,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a><a href="#updateOrDelete">updateOrDelete</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_WHEN</rr-t>
+                  <rr-t>KW_MATCHED</rr-t>
+                  <rr-t>KW_AND</rr-t><a href="#expression">expression</a><rr-t>KW_THEN</rr-t><a href="#updateOrDelete">updateOrDelete</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2669,7 +3562,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#updateOrDelete">updateOrDelete</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_WHEN</rr-t>
+                  <rr-t>KW_MATCHED</rr-t>
+                  <rr-t>KW_THEN</rr-t><a href="#updateOrDelete">updateOrDelete</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2677,15 +3573,24 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#setColumnsClause">setColumnsClause</a></rr-a>
+               <rr-a>
+                  <rr-t>KW_UPDATE</rr-t><a href="#setColumnsClause">setColumnsClause</a></rr-a>
+               <rr-t>KW_DELETE</rr-t>
             </rr-o>
+            <pre>/*
+END SQL Merge statement
+*/</pre>
          </rr-rr>
       </p>
       <h2 id="killQueryStatement">killQueryStatement</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>KW_KILL</rr-t>
+                  <rr-t>KW_QUERY</rr-t>
+                  <rr-t>StringLiteral</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>

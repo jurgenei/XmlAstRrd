@@ -5,13 +5,39 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1><a href="../index.html">Railroad</a> snobol/snobol.ast.xml</h1>
+      <h1>Railroad snobol/snobol.ast.xml</h1>
+      <pre>/*
+[The "BSD licence"]
+Copyright (c) 2012 Tom Everett
+All rights reserved.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+1. Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+3. The name of the author may not be used to endorse or promote products
+derived from this software without specific prior written permission.
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
       <h1>Rules</h1>
       <h2 id="prog">prog</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#lin">lin</a></rr-a>
+               <rr-a><a href="#lin">lin</a><rr-t>EOF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -19,7 +45,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#line">line</a></rr-a>
+               <rr-a><a href="#line">line</a><rr-t>EOL</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -31,12 +58,14 @@
                   <rr-o>
                      <rr-a><a href="#label">label</a><a href="#subject">subject</a><a href="#pattern">pattern</a><rr-a data-min="0" data-max="1">
                            <rr-o>
-                              <rr-a><a href="#expression">expression</a></rr-a>
+                              <rr-a>
+                                 <rr-t>EQ</rr-t><a href="#expression">expression</a></rr-a>
                            </rr-o>
                         </rr-a>
                         <rr-a data-min="0" data-max="1">
                            <rr-o>
-                              <rr-a><a href="#transfer">transfer</a></rr-a>
+                              <rr-a>
+                                 <rr-t>COLON</rr-t><a href="#transfer">transfer</a></rr-a>
                            </rr-o>
                         </rr-a>
                      </rr-a>
@@ -44,11 +73,15 @@
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#transfer">transfer</a></rr-a>
+                     <rr-a>
+                        <rr-t>COLON</rr-t><a href="#transfer">transfer</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
-                  <rr-o></rr-o>
+                  <rr-o>
+                     <rr-t>COMMENT</rr-t>
+                     <rr-t>END</rr-t>
+                  </rr-o>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -56,7 +89,9 @@
       <h2 id="label">label</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="subject">subject</h2>
@@ -66,14 +101,22 @@
                <rr-a>
                   <rr-o>
                      <rr-a>
+                        <rr-t>AMP</rr-t>
+                        <rr-t>STRING</rr-t>
                         <rr-a data-min="0" data-max="1">
                            <rr-o>
                               <rr-a>
+                                 <rr-t>'['</rr-t>
+                                 <rr-t>STRING</rr-t>
                                  <rr-a data-min="0" data-max="inf">
                                     <rr-o>
-                                       <rr-a></rr-a>
+                                       <rr-a>
+                                          <rr-t>','</rr-t>
+                                          <rr-t>STRING</rr-t>
+                                       </rr-a>
                                     </rr-o>
                                  </rr-a>
+                                 <rr-t>']'</rr-t>
                               </rr-a>
                            </rr-o>
                         </rr-a>
@@ -86,7 +129,10 @@
       <h2 id="pattern">pattern</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>STRINGLITERAL1</rr-t>
+               <rr-t>STRINGLITERAL2</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="expression">expression</h2>
@@ -97,7 +143,10 @@
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>PLUS</rr-t>
+                                 <rr-t>MINUS</rr-t>
+                              </rr-o>
                            </rr-a><a href="#multiplyingExpression">multiplyingExpression</a></rr-a>
                      </rr-o>
                   </rr-a>
@@ -113,7 +162,10 @@
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>TIMES</rr-t>
+                                 <rr-t>DIV</rr-t>
+                              </rr-o>
                            </rr-a><a href="#powExpression">powExpression</a></rr-a>
                      </rr-o>
                   </rr-a>
@@ -127,7 +179,8 @@
             <rr-o>
                <rr-a><a href="#atom">atom</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#expression">expression</a></rr-a>
+                        <rr-a>
+                           <rr-t>POW</rr-t><a href="#expression">expression</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -139,14 +192,23 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-o></rr-o>
-               </rr-a><a href="#subject">subject</a><a href="#command">command</a><rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="inf">
+                  <rr-o>
+                     <rr-t>STRINGLITERAL1</rr-t>
+                     <rr-t>STRINGLITERAL2</rr-t>
+                     <rr-t>INTEGER</rr-t>
+                  </rr-o>
+               </rr-a><a href="#subject">subject</a><a href="#command">command</a><rr-a>
+                  <rr-t>'['</rr-t><a href="#expression">expression</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#expression">expression</a></rr-a>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#expression">expression</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>']'</rr-t>
                </rr-a>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -160,7 +222,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'ident'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -168,7 +233,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'differ'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -176,7 +244,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'eq'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -184,7 +255,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'ne'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -192,7 +266,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'ge'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -200,7 +277,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'gt'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -208,7 +288,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'le'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -216,7 +299,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'lt'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -224,7 +310,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'integer'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -232,7 +321,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'lgt'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -240,7 +332,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'atan'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -248,7 +343,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'chop'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -256,7 +354,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'cos'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -264,7 +365,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'exp'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -272,7 +376,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'ln'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -280,7 +387,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'remdr'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -288,7 +398,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'sin'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -296,7 +409,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'tan'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -304,7 +420,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'dupl'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>COMMA</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -312,7 +431,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'reverse'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -320,7 +442,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'date'</rr-t>
+                  <rr-t>LPAREN</rr-t>
+                  <rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -328,7 +454,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a><a href="#expression">expression</a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'replace'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>COMMA</rr-t><a href="#expression">expression</a><rr-t>COMMA</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -336,7 +465,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'size'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -344,7 +476,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'trim'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -352,7 +487,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'array'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>COMMA</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -360,7 +498,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'convert'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>COMMA</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -368,7 +509,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'table'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -376,7 +520,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'sort'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -384,7 +531,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'break'</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -394,9 +544,12 @@
             <rr-o>
                <rr-a data-min="0" data-max="1">
                   <rr-o>
-                     <rr-a><a href="#transferpre">transferpre</a><rr-a>
-                           <rr-o><a href="#label">label</a></rr-o>
+                     <rr-a><a href="#transferpre">transferpre</a><rr-t>LPAREN</rr-t>
+                        <rr-a>
+                           <rr-o><a href="#label">label</a><rr-t>END</rr-t>
+                           </rr-o>
                         </rr-a>
+                        <rr-t>RPAREN</rr-t>
                      </rr-a>
                   </rr-o>
                </rr-a>
@@ -408,7 +561,12 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-o></rr-o>
+                  <rr-o>
+                     <rr-t>'f'</rr-t>
+                     <rr-t>'F'</rr-t>
+                     <rr-t>'s'</rr-t>
+                     <rr-t>'S'</rr-t>
+                  </rr-o>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -417,7 +575,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>','</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -425,7 +585,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -433,7 +595,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -441,7 +605,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'&amp;'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -449,7 +615,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'+'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -457,7 +625,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'-'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -465,7 +635,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'*'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -473,7 +645,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'/'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -481,7 +655,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'^'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -489,7 +665,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'='</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -497,7 +675,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>':'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -505,7 +685,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'END'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -513,7 +695,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'"'</rr-t>
+                  <rr-t>'"'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -521,7 +706,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'\''</rr-t>
+                  <rr-t>'\''</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -531,13 +719,23 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-c>'a'..'z'</rr-c>
+                     </rr-a>
+                     <rr-a>
+                        <rr-c>'A'..'Z'</rr-c>
+                     </rr-a>
                   </rr-o>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-c>'0'..'9'</rr-c>
+                     </rr-a>
+                     <rr-a>
+                        <rr-c>'a'..'z'</rr-c>
+                     </rr-a>
+                     <rr-a>
+                        <rr-c>'A'..'Z'</rr-c>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -549,11 +747,17 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'+'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'-'</rr-t>
+                     </rr-a>
                   </rr-o>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-c>'0'..'9'</rr-c>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -565,25 +769,39 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                  </rr-o>
-                  <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'+'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'-'</rr-t>
+                     </rr-a>
                   </rr-o>
                   <rr-o>
                      <rr-a>
+                        <rr-c>'0'..'9'</rr-c>
+                     </rr-a>
+                  </rr-o>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t>'.'</rr-t>
                         <rr-o>
-                           <rr-a></rr-a>
+                           <rr-a>
+                              <rr-c>'0'..'9'</rr-c>
+                           </rr-a>
                         </rr-o>
                      </rr-a>
                   </rr-o>
                   <rr-o>
                      <rr-a>
                         <rr-o>
-                           <rr-a></rr-a>
-                           <rr-a></rr-a>
+                           <rr-a>
+                              <rr-t>'e'</rr-t>
+                           </rr-a>
+                           <rr-a>
+                              <rr-t>'E'</rr-t>
+                           </rr-a>
                         </rr-o>
+                        <rr-t>REAL</rr-t>
                      </rr-a>
                   </rr-o>
                </rr-a>
@@ -596,8 +814,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'a'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'A'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -609,8 +831,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'b'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'B'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -622,8 +848,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'c'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'C'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -635,8 +865,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'d'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'D'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -648,8 +882,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'e'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'E'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -661,8 +899,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'f'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'F'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -674,8 +916,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'g'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'G'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -687,8 +933,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'h'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'H'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -700,8 +950,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'i'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'I'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -713,8 +967,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'j'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'J'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -726,8 +984,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'k'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'K'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -739,8 +1001,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'l'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'L'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -752,8 +1018,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'m'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'M'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -765,8 +1035,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'n'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'N'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -778,8 +1052,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'o'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'O'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -791,8 +1069,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'p'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'P'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -804,8 +1086,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'q'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'Q'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -817,8 +1103,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'r'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'R'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -830,8 +1120,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'s'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'S'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -843,8 +1137,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'t'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'T'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -856,8 +1154,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'u'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'U'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -869,8 +1171,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'v'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'V'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -882,8 +1188,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'w'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'W'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -895,8 +1205,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'x'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'X'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -908,8 +1222,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'y'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'Y'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -921,8 +1239,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'z'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'Z'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -932,7 +1254,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'*'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -941,7 +1265,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[\r\n]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -952,8 +1276,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>' '</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'\t'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>

@@ -5,13 +5,45 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1><a href="../index.html">Railroad</a> joss/joss.ast.xml</h1>
+      <h1>Railroad joss/joss.ast.xml</h1>
+      <pre>/*
+BSD License
+
+Copyright (c) 2020, Tom Everett
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. Neither the name of Tom Everett nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
       <h1>Rules</h1>
       <h2 id="prog">prog</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#statement">statement</a></rr-a>
+               <rr-a><a href="#statement">statement</a><rr-t>EOF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -19,8 +51,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#direct">direct</a></rr-a>
-               <rr-a><a href="#indirect_">indirect_</a></rr-a><a href="#formCMD">formCMD</a><a href="#assignment">assignment</a></rr-o>
+               <rr-a><a href="#direct">direct</a><rr-t>'.'</rr-t>
+               </rr-a>
+               <rr-a><a href="#indirect_">indirect_</a><rr-t>'.'</rr-t>
+               </rr-a><a href="#formCMD">formCMD</a><a href="#assignment">assignment</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="direct">direct</h2>
@@ -33,7 +67,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#indirectCMD">indirectCMD</a></rr-a>
+               <rr-a>
+                  <rr-t>STEPNUMBER</rr-t><a href="#indirectCMD">indirectCMD</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -46,26 +81,33 @@
       <h2 id="arbitraryCMD">arbitraryCMD</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#setCMD">setCMD</a><a href="#doCMD">doCMD</a><a href="#typeCMD">typeCMD</a><a href="#deleteValCMD">deleteValCMD</a></rr-o>
+            <rr-o><a href="#setCMD">setCMD</a><a href="#doCMD">doCMD</a><a href="#typeCMD">typeCMD</a><a href="#deleteValCMD">deleteValCMD</a><rr-t>LINECMD</rr-t>
+               <rr-t>PAGECMD</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="goCMD">goCMD</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'Go'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="cancelCMD">cancelCMD</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'Cancel'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="deleteCmdCMD">deleteCmdCMD</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#delCmdSel">delCmdSel</a></rr-a>
+               <rr-a>
+                  <rr-t>'Delete'</rr-t><a href="#delCmdSel">delCmdSel</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -79,33 +121,44 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#delCmdAllType">delCmdAllType</a></rr-a>
+               <rr-t>'all'</rr-t>
+               <rr-a>
+                  <rr-t>'all'</rr-t><a href="#delCmdAllType">delCmdAllType</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="delCmdAllType">delCmdAllType</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'steps'</rr-t>
+               <rr-t>'parts'</rr-t>
+               <rr-t>'forms'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="doneCMD">doneCMD</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'Done'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="stopCMD">stopCMD</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'Stop'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="demandCMD">demandCMD</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#variable">variable</a></rr-a>
+               <rr-a>
+                  <rr-t>'Demand'</rr-t><a href="#variable">variable</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -113,7 +166,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#toSel">toSel</a></rr-a>
+               <rr-a>
+                  <rr-t>'To'</rr-t><a href="#toSel">toSel</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -127,7 +181,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#assignment">assignment</a></rr-a>
+               <rr-a>
+                  <rr-t>'Set'</rr-t><a href="#assignment">assignment</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -135,8 +190,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#doSel">doSel</a></rr-a>
-               <rr-a><a href="#doSel">doSel</a><a href="#conditional">conditional</a></rr-a>
+               <rr-a>
+                  <rr-t>'Do'</rr-t><a href="#doSel">doSel</a></rr-a>
+               <rr-a>
+                  <rr-t>'Do'</rr-t><a href="#doSel">doSel</a><a href="#conditional">conditional</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -150,7 +207,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#typeContent">typeContent</a></rr-a>
+               <rr-a>
+                  <rr-t>'Type'</rr-t><a href="#typeContent">typeContent</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -163,21 +221,25 @@
       <h2 id="typeSys">typeSys</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'size'</rr-t>
+               <rr-t>'time'</rr-t>
+               <rr-t>'users'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="typeForm">typeForm</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#varList">varList</a><a href="#formSel">formSel</a></rr-a>
+               <rr-a><a href="#varList">varList</a><rr-t>'in'</rr-t><a href="#formSel">formSel</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="typeData">typeData</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#typeElem">typeElem</a><rr-a><a href="#typeElem">typeElem</a><a href="#typeData">typeData</a></rr-a>
+            <rr-o><a href="#typeElem">typeElem</a><rr-a><a href="#typeElem">typeElem</a><rr-t>','</rr-t><a href="#typeData">typeData</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -185,7 +247,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a><a href="#variable">variable</a></rr-o>
+               <rr-a>
+                  <rr-t>'\''</rr-t>
+                  <rr-t>STRING</rr-t>
+                  <rr-t>'\''</rr-t>
+               </rr-a><a href="#variable">variable</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="typeSel">typeSel</h2>
@@ -198,20 +264,30 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#typeAllType">typeAllType</a></rr-a>
+               <rr-t>'all'</rr-t>
+               <rr-a>
+                  <rr-t>'all'</rr-t><a href="#typeAllType">typeAllType</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="typeAllType">typeAllType</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'steps'</rr-t>
+               <rr-t>'parts'</rr-t>
+               <rr-t>'forms'</rr-t>
+               <rr-t>'values'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="deleteValCMD">deleteValCMD</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#varList">varList</a><rr-a></rr-a>
+            <rr-o><a href="#varList">varList</a><rr-a>
+                  <rr-t>'all'</rr-t>
+                  <rr-t>'values'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -219,7 +295,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'Form'</rr-t>
+                  <rr-t>PARTNUMBER</rr-t>
+                  <rr-t>':'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -233,7 +313,8 @@
       <h2 id="formObject">formObject</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#formPH">formPH</a></rr-o>
+            <rr-o><a href="#formPH">formPH</a><rr-t>STRING</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="formPH">formPH</h2>
@@ -246,7 +327,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#dot">dot</a></rr-a>
+               <rr-a>
+                  <rr-t>'..'</rr-t><a href="#dot">dot</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -254,7 +336,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#dot">dot</a></rr-a>
+               <rr-t>'.'</rr-t>
+               <rr-a>
+                  <rr-t>'.'</rr-t><a href="#dot">dot</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -262,21 +346,27 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#uScore">uScore</a><a href="#uScore">uScore</a></rr-a>
+               <rr-a>
+                  <rr-t>'__'</rr-t><a href="#uScore">uScore</a><rr-t>'.__'</rr-t><a href="#uScore">uScore</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="uScore">uScore</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'_'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="stepSel">stepSel</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'step'</rr-t>
+                  <rr-t>STEPNUMBER</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -284,7 +374,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'part'</rr-t>
+                  <rr-t>PARTNUMBER</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -292,7 +385,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'form'</rr-t>
+                  <rr-t>PARTNUMBER</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -306,7 +402,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#boolExp">boolExp</a></rr-a>
+               <rr-a>
+                  <rr-t>'if'</rr-t><a href="#boolExp">boolExp</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -314,15 +411,22 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#boolExp">boolExp</a></rr-a>
-               <rr-a><a href="#boolExp">boolExp</a></rr-a><a href="#comparison">comparison</a><rr-a><a href="#comparison">comparison</a><a href="#boolOp">boolOp</a><a href="#boolExp">boolExp</a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#boolExp">boolExp</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#boolExp">boolExp</a><rr-t>']'</rr-t>
+               </rr-a><a href="#comparison">comparison</a><rr-a><a href="#comparison">comparison</a><a href="#boolOp">boolOp</a><a href="#boolExp">boolExp</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="boolOp">boolOp</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'and'</rr-t>
+               <rr-t>'or'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="comparison">comparison</h2>
@@ -336,14 +440,22 @@
       <h2 id="boolComp">boolComp</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>'='</rr-t>
+               <rr-t>'!='</rr-t>
+               <rr-t>'&lt;='</rr-t>
+               <rr-t>'=&gt;'</rr-t>
+               <rr-t>'&lt;'</rr-t>
+               <rr-t>'&gt;'</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="for_">for_</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#range_">range_</a></rr-a>
+               <rr-a>
+                  <rr-t>'for'</rr-t><a href="#range_">range_</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -351,14 +463,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#variable">variable</a><a href="#rangeExp">rangeExp</a></rr-a>
+               <rr-a><a href="#variable">variable</a><rr-t>'='</rr-t><a href="#rangeExp">rangeExp</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="rangeExp">rangeExp</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#rangeVal">rangeVal</a><rr-a><a href="#rangeVal">rangeVal</a><a href="#rangeExp">rangeExp</a></rr-a>
+            <rr-o><a href="#rangeVal">rangeVal</a><rr-a><a href="#rangeVal">rangeVal</a><rr-t>','</rr-t><a href="#rangeExp">rangeExp</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -366,20 +478,20 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#mathExp">mathExp</a><a href="#mathExp">mathExp</a><a href="#rangeVal">rangeVal</a></rr-a><a href="#mathExp">mathExp</a></rr-o>
+               <rr-a><a href="#mathExp">mathExp</a><rr-t>'('</rr-t><a href="#mathExp">mathExp</a><rr-t>')'</rr-t><a href="#rangeVal">rangeVal</a></rr-a><a href="#mathExp">mathExp</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="mathExp">mathExp</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#term">term</a><rr-a><a href="#term">term</a><a href="#mathExp">mathExp</a></rr-a>
+            <rr-o><a href="#term">term</a><rr-a><a href="#term">term</a><rr-t>ADDOP</rr-t><a href="#mathExp">mathExp</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="term">term</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#factor">factor</a><rr-a><a href="#factor">factor</a><a href="#term">term</a></rr-a>
+            <rr-o><a href="#factor">factor</a><rr-a><a href="#factor">factor</a><rr-t>MULOP</rr-t><a href="#term">term</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -387,22 +499,27 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#mathExp">mathExp</a></rr-a>
-               <rr-a><a href="#mathExp">mathExp</a></rr-a><a href="#value">value</a></rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#mathExp">mathExp</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#mathExp">mathExp</a><rr-t>']'</rr-t>
+               </rr-a><a href="#value">value</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="assignment">assignment</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#variable">variable</a><a href="#mathExp">mathExp</a></rr-a>
+               <rr-a><a href="#variable">variable</a><rr-t>'='</rr-t><a href="#mathExp">mathExp</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="value">value</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#variable">variable</a><a href="#function_">function_</a></rr-o>
+            <rr-o>
+               <rr-t>NUMBER</rr-t><a href="#variable">variable</a><a href="#function_">function_</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="function_">function_</h2>
@@ -415,7 +532,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#mathExp">mathExp</a></rr-a>
+               <rr-a>
+                  <rr-t>'sqrt('</rr-t><a href="#mathExp">mathExp</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -423,7 +542,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#mathExp">mathExp</a></rr-a>
+               <rr-a>
+                  <rr-t>'log('</rr-t><a href="#mathExp">mathExp</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -431,7 +552,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#mathExp">mathExp</a></rr-a>
+               <rr-a>
+                  <rr-t>'exp('</rr-t><a href="#mathExp">mathExp</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -439,7 +562,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#mathExp">mathExp</a></rr-a>
+               <rr-a>
+                  <rr-t>'sin('</rr-t><a href="#mathExp">mathExp</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -447,7 +572,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#mathExp">mathExp</a></rr-a>
+               <rr-a>
+                  <rr-t>'cos('</rr-t><a href="#mathExp">mathExp</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -455,7 +582,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#mathExp">mathExp</a></rr-a>
+               <rr-a>
+                  <rr-t>'ip('</rr-t><a href="#mathExp">mathExp</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -463,7 +592,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#mathExp">mathExp</a></rr-a>
+               <rr-a>
+                  <rr-t>'fp('</rr-t><a href="#mathExp">mathExp</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -471,7 +602,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#mathExp">mathExp</a></rr-a>
+               <rr-a>
+                  <rr-t>'dp('</rr-t><a href="#mathExp">mathExp</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -479,7 +612,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#mathExp">mathExp</a></rr-a>
+               <rr-a>
+                  <rr-t>'xp('</rr-t><a href="#mathExp">mathExp</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -487,7 +622,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#mathExp">mathExp</a></rr-a>
+               <rr-a>
+                  <rr-t>'sgn('</rr-t><a href="#mathExp">mathExp</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -495,7 +632,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#mathExp">mathExp</a><a href="#argList">argList</a></rr-a>
+               <rr-a>
+                  <rr-t>'max('</rr-t><a href="#mathExp">mathExp</a><rr-t>','</rr-t><a href="#argList">argList</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -503,14 +642,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#mathExp">mathExp</a><a href="#argList">argList</a></rr-a>
+               <rr-a>
+                  <rr-t>'min('</rr-t><a href="#mathExp">mathExp</a><rr-t>','</rr-t><a href="#argList">argList</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="argList">argList</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#mathExp">mathExp</a><rr-a><a href="#mathExp">mathExp</a><a href="#argList">argList</a></rr-a>
+            <rr-o><a href="#mathExp">mathExp</a><rr-a><a href="#mathExp">mathExp</a><rr-t>','</rr-t><a href="#argList">argList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -518,14 +659,18 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#mathExp">mathExp</a></rr-a>
+               <rr-t>ALPHA</rr-t>
+               <rr-a>
+                  <rr-t>ALPHA</rr-t>
+                  <rr-t>'('</rr-t><a href="#mathExp">mathExp</a><rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="varList">varList</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#variable">variable</a><rr-a><a href="#variable">variable</a><a href="#varList">varList</a></rr-a>
+            <rr-o><a href="#variable">variable</a><rr-a><a href="#variable">variable</a><rr-t>','</rr-t><a href="#varList">varList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -533,7 +678,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'Line'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -541,7 +688,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'Page'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -549,8 +698,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'*'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'/'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -558,8 +711,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'+'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'-'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -567,7 +724,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>CHAR</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -575,9 +734,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>ALPHA</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>DIGIT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>SPECIALCHAR</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -586,7 +751,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[A-Za-z]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -595,15 +760,33 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'.'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>','</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>':'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'\''</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>' '</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'#'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'$'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'?'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -611,7 +794,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>SIGN</rr-t>
+                  <rr-t>NUMBERPART</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -619,8 +805,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>INTPART</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>INTPART</rr-t>
+                  <rr-t>'.'</rr-t>
+                  <rr-t>DECIMALPART</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -628,9 +820,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>NZDIGIT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>NZDIGIT</rr-t>
+                  <rr-t>DECIMALPART</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -638,7 +837,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>DIGIT</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -646,8 +847,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>NZDIGIT</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -656,7 +861,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[1-9]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -665,8 +870,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'+'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'-'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -674,8 +883,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>NZDIGIT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>NZDIGIT</rr-t>
+                  <rr-t>INTPART</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -683,7 +897,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>PARTNUMBER</rr-t>
+                  <rr-t>'.'</rr-t>
+                  <rr-t>PARTNUMBER</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -692,7 +910,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>[ \r\n\t]</rr-c>
+                  <rr-c></rr-c>
                </rr-a>
             </rr-o>
          </rr-rr>

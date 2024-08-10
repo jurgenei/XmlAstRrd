@@ -5,7 +5,11 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1><a href="../index.html">Railroad</a> fol/fol.ast.xml</h1>
+      <h1>Railroad fol/fol.ast.xml</h1>
+      <pre>/*
+* FOL rewritten for Antlr4 by Kamil Kapałka
+*
+*/</pre>
       <h1>Rules</h1>
       <h2 id="condition">condition</h2>
       <p>
@@ -13,9 +17,12 @@
             <rr-o>
                <rr-a><a href="#formula">formula</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#formula">formula</a></rr-a>
+                        <rr-a>
+                           <rr-t>ENDLINE</rr-t><a href="#formula">formula</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>ENDLINE</rr-t>
+                  <rr-t>EOF</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -25,28 +32,36 @@
          <rr-rr>
             <rr-o>
                <rr-a><a href="#formula">formula</a><a href="#bin_connective">bin_connective</a><a href="#formula">formula</a></rr-a>
-               <rr-a><a href="#formula">formula</a><a href="#bin_connective">bin_connective</a><a href="#formula">formula</a></rr-a>
-               <rr-a><a href="#formula">formula</a></rr-a>
-               <rr-a><a href="#variable">variable</a><a href="#formula">formula</a></rr-a>
-               <rr-a><a href="#variable">variable</a><a href="#formula">formula</a></rr-a>
-               <rr-a><a href="#pred_constant">pred_constant</a><a href="#term">term</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>NOT</rr-t><a href="#formula">formula</a><a href="#bin_connective">bin_connective</a><a href="#formula">formula</a></rr-a>
+               <rr-a>
+                  <rr-t>NOT</rr-t><a href="#formula">formula</a></rr-a>
+               <rr-a>
+                  <rr-t>FORALL</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#variable">variable</a><rr-t>RPAREN</rr-t><a href="#formula">formula</a></rr-a>
+               <rr-a>
+                  <rr-t>EXISTS</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#variable">variable</a><rr-t>RPAREN</rr-t><a href="#formula">formula</a></rr-a>
+               <rr-a><a href="#pred_constant">pred_constant</a><rr-t>LPAREN</rr-t><a href="#term">term</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
                         <rr-a><a href="#separator">separator</a><a href="#term">term</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>RPAREN</rr-t>
                </rr-a>
-               <rr-a><a href="#term">term</a><a href="#term">term</a></rr-a>
+               <rr-a><a href="#term">term</a><rr-t>EQUAL</rr-t><a href="#term">term</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="term">term</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#ind_constant">ind_constant</a><a href="#variable">variable</a><rr-a><a href="#func_constant">func_constant</a><a href="#term">term</a><rr-a data-min="0" data-max="inf">
+            <rr-o><a href="#ind_constant">ind_constant</a><a href="#variable">variable</a><rr-a><a href="#func_constant">func_constant</a><rr-t>LPAREN</rr-t><a href="#term">term</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
                         <rr-a><a href="#separator">separator</a><a href="#term">term</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>RPAREN</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -54,14 +69,22 @@
       <h2 id="bin_connective">bin_connective</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>CONJ</rr-t>
+               <rr-t>DISJ</rr-t>
+               <rr-t>IMPL</rr-t>
+               <rr-t>BICOND</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="variable">variable</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'?'</rr-t>
+                  <rr-t>CHARACTER</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -69,7 +92,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'_'</rr-t>
+                  <rr-t>CHARACTER</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -77,7 +103,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'#'</rr-t>
+                  <rr-t>CHARACTER</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -85,7 +114,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'.'</rr-t>
+                  <rr-t>CHARACTER</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -93,7 +125,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -101,21 +135,27 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="separator">separator</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>','</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="EQUAL">EQUAL</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'='</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -123,7 +163,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'!'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -131,7 +173,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'Forall'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -139,7 +183,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'Exists'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -149,9 +195,15 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-c>'0'..'9'</rr-c>
+                     </rr-a>
+                     <rr-a>
+                        <rr-c>'a'..'z'</rr-c>
+                     </rr-a>
+                     <rr-a>
+                        <rr-c>'A'..'Z'</rr-c>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -161,7 +213,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'\\/'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -169,7 +223,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'^'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -177,7 +233,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'-&gt;'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -185,7 +243,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'&lt;-&gt;'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -195,8 +255,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'\r'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'\n'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -208,8 +272,12 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>' '</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'\t'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>

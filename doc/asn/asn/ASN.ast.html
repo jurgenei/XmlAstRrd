@@ -5,13 +5,56 @@
       <link rel="stylesheet" type="text/css" href="../../railroad.css">
    </head>
    <body>
-      <h1><a href="../../index.html">Railroad</a> asn/asn/ASN.ast.xml</h1>
+      <h1>Railroad asn/asn/ASN.ast.xml</h1>
+      <pre>/*
+ [The "BSD licence"]
+ Copyright (c) 2007-2008 Terence Parr
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+ 3. The name of the author may not be used to endorse or promote products
+    derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
+      <pre>/*
+author: Stefan Taranu
+mail: stefan.taranu@gmail.com
+Built with : java org.antlr.Tool ASN.g
+antlr version: 3.1.1
+
+The grammar is by far not complete. I have no experience in ANTLR, still
+it was not so difficult to write this grammar.
+
+In broad lines it is copied  from the ASN specification files (from the Annex):
+X.680, X.681, X.682, X.683 and compiled it into one file. I removed some
+of the predicates since it was too much ambiguity.
+
+If you have some comments/improvements, send me an e-mail.
+*/</pre>
       <h1>Rules</h1>
       <h2 id="modules">modules</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#moduleDefinition">moduleDefinition</a></rr-a>
+               <rr-a><a href="#moduleDefinition">moduleDefinition</a><rr-t>EOF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -20,17 +63,28 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
+                           <rr-t>L_BRACE</rr-t>
                            <rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a></rr-a>
+                                 <rr-a>
+                                    <rr-t>IDENTIFIER</rr-t>
+                                    <rr-t>L_PARAN</rr-t>
+                                    <rr-t>NUMBER</rr-t>
+                                    <rr-t>R_PARAN</rr-t>
+                                 </rr-a>
                               </rr-o>
                            </rr-a>
+                           <rr-t>R_BRACE</rr-t>
                         </rr-a>
                      </rr-o>
-                  </rr-a><a href="#tagDefault">tagDefault</a><a href="#extensionDefault">extensionDefault</a><a href="#moduleBody">moduleBody</a></rr-a>
+                  </rr-a>
+                  <rr-t>DEFINITIONS_LITERAL</rr-t><a href="#tagDefault">tagDefault</a><a href="#extensionDefault">extensionDefault</a><rr-t>ASSIGN_OP</rr-t>
+                  <rr-t>BEGIN_LITERAL</rr-t><a href="#moduleBody">moduleBody</a><rr-t>END_LITERAL</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -42,8 +96,13 @@
                   <rr-o>
                      <rr-a>
                         <rr-a>
-                           <rr-o></rr-o>
+                           <rr-o>
+                              <rr-t>EXPLICIT_LITERAL</rr-t>
+                              <rr-t>IMPLICIT_LITERAL</rr-t>
+                              <rr-t>AUTOMATIC_LITERAL</rr-t>
+                           </rr-o>
                         </rr-a>
+                        <rr-t>TAGS_LITERAL</rr-t>
                      </rr-a>
                   </rr-o>
                </rr-a>
@@ -56,7 +115,10 @@
             <rr-o>
                <rr-a data-min="0" data-max="1">
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>EXTENSIBILITY_LITERAL</rr-t>
+                        <rr-t>IMPLIED_LITERAL</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -80,8 +142,14 @@
             <rr-o>
                <rr-a data-min="0" data-max="1">
                   <rr-o>
-                     <rr-a><a href="#symbolsExported">symbolsExported</a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>EXPORTS_LITERAL</rr-t><a href="#symbolsExported">symbolsExported</a><rr-t>SEMI_COLON</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>EXPORTS_LITERAL</rr-t>
+                        <rr-t>ALL_LITERAL</rr-t>
+                        <rr-t>SEMI_COLON</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -99,7 +167,9 @@
             <rr-o>
                <rr-a data-min="0" data-max="1">
                   <rr-o>
-                     <rr-a><a href="#symbolsImported">symbolsImported</a></rr-a>
+                     <rr-a>
+                        <rr-t>IMPORTS_LITERAL</rr-t><a href="#symbolsImported">symbolsImported</a><rr-t>SEMI_COLON</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -123,7 +193,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#symbolList">symbolList</a><a href="#globalModuleReference">globalModuleReference</a></rr-a>
+               <rr-a><a href="#symbolList">symbolList</a><rr-t>FROM_LITERAL</rr-t><a href="#globalModuleReference">globalModuleReference</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -131,7 +201,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#assignedIdentifier">assignedIdentifier</a></rr-a>
+               <rr-a>
+                  <rr-t>IDENTIFIER</rr-t><a href="#assignedIdentifier">assignedIdentifier</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -147,7 +218,8 @@
             <rr-o>
                <rr-a><a href="#symbol">symbol</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#symbol">symbol</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#symbol">symbol</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -159,9 +231,13 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>L_BRACE</rr-t>
+                           <rr-t>R_BRACE</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -179,6 +255,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
                   <rr-a>
                      <rr-o><a href="#valueAssignment">valueAssignment</a><a href="#typeAssignment">typeAssignment</a><a href="#parameterizedAssignment">parameterizedAssignment</a><a href="#objectClassAssignment">objectClassAssignment</a></rr-o>
                   </rr-a>
@@ -191,10 +268,13 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>SEQUENCE_LITERAL</rr-t>
+                  <rr-t>L_BRACE</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a><a href="#extensionAndException">extensionAndException</a><a href="#optionalExtensionMarker">optionalExtensionMarker</a></rr-a><a href="#componentTypeLists">componentTypeLists</a></rr-o>
                   </rr-a>
+                  <rr-t>R_BRACE</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -203,7 +283,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#exceptionSpec">exceptionSpec</a></rr-a>
+               <rr-a>
+                  <rr-t>ELLIPSIS</rr-t><a href="#exceptionSpec">exceptionSpec</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -213,7 +294,10 @@
             <rr-o>
                <rr-a data-min="0" data-max="1">
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>COMMA</rr-t>
+                        <rr-t>ELLIPSIS</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -225,8 +309,11 @@
             <rr-o>
                <rr-a><a href="#rootComponentTypeList">rootComponentTypeList</a><rr-a>
                      <rr-o>
-                        <rr-a><a href="#extensionAndException">extensionAndException</a><a href="#extensionAdditions">extensionAdditions</a><rr-a>
-                              <rr-o><a href="#optionalExtensionMarker">optionalExtensionMarker</a><rr-a><a href="#rootComponentTypeList">rootComponentTypeList</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#extensionAndException">extensionAndException</a><a href="#extensionAdditions">extensionAdditions</a><rr-a>
+                              <rr-o><a href="#optionalExtensionMarker">optionalExtensionMarker</a><rr-a>
+                                    <rr-t>EXTENSTIONENDMARKER</rr-t>
+                                    <rr-t>COMMA</rr-t><a href="#rootComponentTypeList">rootComponentTypeList</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
@@ -234,7 +321,9 @@
                   </rr-a>
                </rr-a>
                <rr-a><a href="#extensionAndException">extensionAndException</a><a href="#extensionAdditions">extensionAdditions</a><rr-a>
-                     <rr-o><a href="#optionalExtensionMarker">optionalExtensionMarker</a><rr-a><a href="#rootComponentTypeList">rootComponentTypeList</a></rr-a>
+                     <rr-o><a href="#optionalExtensionMarker">optionalExtensionMarker</a><rr-a>
+                           <rr-t>EXTENSTIONENDMARKER</rr-t>
+                           <rr-t>COMMA</rr-t><a href="#rootComponentTypeList">rootComponentTypeList</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -253,7 +342,8 @@
             <rr-o>
                <rr-a><a href="#componentType">componentType</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#componentType">componentType</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#componentType">componentType</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -266,11 +356,15 @@
             <rr-o>
                <rr-a><a href="#namedType">namedType</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#value">value</a></rr-a>
+                        <rr-t>OPTIONAL_LITERAL</rr-t>
+                        <rr-a>
+                           <rr-t>DEFAULT_LITERAL</rr-t><a href="#value">value</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a><a href="#asnType">asnType</a></rr-a>
+               <rr-a>
+                  <rr-t>COMPONENTS_LITERAL</rr-t>
+                  <rr-t>OF_LITERAL</rr-t><a href="#asnType">asnType</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -280,7 +374,8 @@
             <rr-o>
                <rr-a data-min="0" data-max="1">
                   <rr-o>
-                     <rr-a><a href="#extensionAdditionList">extensionAdditionList</a></rr-a>
+                     <rr-a>
+                        <rr-t>COMMA</rr-t><a href="#extensionAdditionList">extensionAdditionList</a></rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -292,7 +387,8 @@
             <rr-o>
                <rr-a><a href="#extensionAddition">extensionAddition</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#extensionAddition">extensionAddition</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#extensionAddition">extensionAddition</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -309,7 +405,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#versionNumber">versionNumber</a><a href="#componentTypeList">componentTypeList</a></rr-a>
+               <rr-a>
+                  <rr-t>DOUBLE_L_BRACKET</rr-t><a href="#versionNumber">versionNumber</a><a href="#componentTypeList">componentTypeList</a><rr-t>DOUBLE_R_BRACKET</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -319,7 +417,10 @@
             <rr-o>
                <rr-a data-min="0" data-max="1">
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>NUMBER</rr-t>
+                        <rr-t>COLON</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -330,15 +431,19 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>SEQUENCE_LITERAL</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
+                           <rr-t>L_PARAN</rr-t>
                            <rr-a>
                               <rr-o><a href="#constraint">constraint</a><a href="#sizeConstraint">sizeConstraint</a></rr-o>
                            </rr-a>
+                           <rr-t>R_PARAN</rr-t>
                         </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>OF_LITERAL</rr-t>
                   <rr-a>
                      <rr-o><a href="#asnType">asnType</a><a href="#namedType">namedType</a></rr-o>
                   </rr-a>
@@ -350,7 +455,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#constraint">constraint</a></rr-a>
+               <rr-a>
+                  <rr-t>SIZE_LITERAL</rr-t><a href="#constraint">constraint</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -358,11 +464,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#parameterList">parameterList</a><rr-a>
+               <rr-a><a href="#parameterList">parameterList</a><rr-t>ASSIGN_OP</rr-t>
+                  <rr-a>
                      <rr-o><a href="#asnType">asnType</a><a href="#value">value</a><a href="#valueSet">valueSet</a></rr-o>
                   </rr-a>
                </rr-a>
-               <rr-a><a href="#definedObjectClass">definedObjectClass</a><rr-a>
+               <rr-a><a href="#definedObjectClass">definedObjectClass</a><rr-t>ASSIGN_OP</rr-t>
+                  <rr-a>
                      <rr-o><a href="#object_">object_</a><a href="#objectClass">objectClass</a><a href="#objectSet">objectSet</a></rr-o>
                   </rr-a>
                </rr-a>
@@ -373,11 +481,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#parameter">parameter</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>L_BRACE</rr-t><a href="#parameter">parameter</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#parameter">parameter</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#parameter">parameter</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>R_BRACE</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -389,9 +500,11 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#paramGovernor">paramGovernor</a></rr-a>
+                        <rr-a><a href="#paramGovernor">paramGovernor</a><rr-t>COLON</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -399,7 +512,8 @@
       <h2 id="paramGovernor">paramGovernor</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#governor">governor</a></rr-o>
+            <rr-o><a href="#governor">governor</a><rr-t>IDENTIFIER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="governor">governor</h2>
@@ -411,15 +525,17 @@
       <h2 id="objectClassAssignment">objectClassAssignment</h2>
       <p>
          <rr-rr>
+            <pre>/*IDENTIFIER*/</pre>
             <rr-o>
-               <rr-a><a href="#objectClass">objectClass</a></rr-a>
+               <rr-a>
+                  <rr-t>ASSIGN_OP</rr-t><a href="#objectClass">objectClass</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="objectClass">objectClass</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#definedObjectClass">definedObjectClass</a><a href="#objectClassDefn_/*| parameterizedObjectClass */">objectClassDefn_/*| parameterizedObjectClass */</a></rr-o>
+            <rr-o><a href="#definedObjectClass">definedObjectClass</a><a href="#objectClassDefn_/*| parameterizedObjectClass */">objectClassDefn</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="definedObjectClass">definedObjectClass</h2>
@@ -429,24 +545,37 @@
                <rr-a>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>IDENTIFIER</rr-t>
+                           <rr-t>DOT</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
                </rr-a>
+               <rr-t>TYPE_IDENTIFIER_LITERAL</rr-t>
+               <rr-t>ABSTRACT_SYNTAX_LITERAL</rr-t>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="usefulObjectClassReference">usefulObjectClassReference</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TYPE_IDENTIFIER_LITERAL</rr-t>
+               <rr-t>ABSTRACT_SYNTAX_LITERAL</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="externalObjectClassReference">externalObjectClassReference</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>DOT</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -454,11 +583,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#fieldSpec">fieldSpec</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>CLASS_LITERAL</rr-t>
+                  <rr-t>L_BRACE</rr-t><a href="#fieldSpec">fieldSpec</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#fieldSpec">fieldSpec</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#fieldSpec">fieldSpec</a></rr-a>
                      </rr-o>
-                  </rr-a><a href="#withSyntaxSpec">withSyntaxSpec</a></rr-a>
+                  </rr-a>
+                  <rr-t>R_BRACE</rr-t><a href="#withSyntaxSpec">withSyntaxSpec</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -466,7 +599,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#syntaxList">syntaxList</a></rr-a>
+               <rr-a>
+                  <rr-t>WITH_LITERAL</rr-t>
+                  <rr-t>SYNTAX_LITERAL</rr-t><a href="#syntaxList">syntaxList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -474,7 +609,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tokenOrGroupSpec">tokenOrGroupSpec</a></rr-a>
+               <rr-a>
+                  <rr-t>L_BRACE</rr-t><a href="#tokenOrGroupSpec">tokenOrGroupSpec</a><rr-t>R_BRACE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -488,7 +625,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#tokenOrGroupSpec">tokenOrGroupSpec</a></rr-a>
+               <rr-a>
+                  <rr-t>L_BRACKET</rr-t><a href="#tokenOrGroupSpec">tokenOrGroupSpec</a><rr-t>R_BRACKET</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -501,14 +640,20 @@
       <h2 id="literal">literal</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+               <rr-t>COMMA</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="primitiveFieldName">primitiveFieldName</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>AMPERSAND</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -517,15 +662,20 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>AMPERSAND</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
                   <rr-a>
                      <rr-o><a href="#typeOptionalitySpec">typeOptionalitySpec</a><rr-a><a href="#asnType">asnType</a><rr-a>
-                              <rr-o><a href="#valueSetOptionalitySpec">valueSetOptionalitySpec</a><rr-a><a href="#valueOptionalitySpec">valueOptionalitySpec</a></rr-a>
+                              <rr-o><a href="#valueSetOptionalitySpec">valueSetOptionalitySpec</a><rr-a>
+                                    <rr-t>UNIQUE_LITERAL</rr-t><a href="#valueOptionalitySpec">valueOptionalitySpec</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
                         <rr-a><a href="#fieldName">fieldName</a><rr-a data-min="0" data-max="1">
                               <rr-o>
+                                 <rr-t>OPTIONAL_LITERAL</rr-t>
                                  <rr-a>
+                                    <rr-t>DEFAULT_LITERAL</rr-t>
                                     <rr-a>
                                        <rr-o><a href="#valueSet">valueSet</a><a href="#value">value</a></rr-o>
                                     </rr-a>
@@ -535,7 +685,9 @@
                         </rr-a>
                         <rr-a><a href="#definedObjectClass">definedObjectClass</a><rr-a data-min="0" data-max="1">
                               <rr-o>
+                                 <rr-t>OPTIONAL_LITERAL</rr-t>
                                  <rr-a>
+                                    <rr-t>DEFAULT_LITERAL</rr-t>
                                     <rr-a>
                                        <rr-o><a href="#objectSet">objectSet</a><a href="#object_">object_</a></rr-o>
                                     </rr-a>
@@ -553,7 +705,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#typeOptionalitySpec">typeOptionalitySpec</a></rr-a>
+               <rr-a>
+                  <rr-t>AMPERSAND</rr-t>
+                  <rr-t>IDENTIFIER</rr-t><a href="#typeOptionalitySpec">typeOptionalitySpec</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -561,7 +715,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#asnType">asnType</a></rr-a>
+               <rr-t>OPTIONAL_LITERAL</rr-t>
+               <rr-a>
+                  <rr-t>DEFAULT_LITERAL</rr-t><a href="#asnType">asnType</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -569,7 +725,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#asnType">asnType</a><a href="#valueOptionalitySpec">valueOptionalitySpec</a></rr-a>
+               <rr-a>
+                  <rr-t>AMPERSAND</rr-t>
+                  <rr-t>IDENTIFIER</rr-t><a href="#asnType">asnType</a><rr-t>UNIQUE_LITERAL</rr-t><a href="#valueOptionalitySpec">valueOptionalitySpec</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -577,7 +735,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#value">value</a></rr-a>
+               <rr-t>OPTIONAL_LITERAL</rr-t>
+               <rr-a>
+                  <rr-t>DEFAULT_LITERAL</rr-t><a href="#value">value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -585,7 +745,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#fieldName">fieldName</a><a href="#valueOptionalitySpec">valueOptionalitySpec</a></rr-a>
+               <rr-a>
+                  <rr-t>AMPERSAND</rr-t>
+                  <rr-t>IDENTIFIER</rr-t><a href="#fieldName">fieldName</a><a href="#valueOptionalitySpec">valueOptionalitySpec</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -593,7 +755,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#asnType">asnType</a><a href="#valueSetOptionalitySpec">valueSetOptionalitySpec</a></rr-a>
+               <rr-a>
+                  <rr-t>AMPERSAND</rr-t>
+                  <rr-t>IDENTIFIER</rr-t><a href="#asnType">asnType</a><a href="#valueSetOptionalitySpec">valueSetOptionalitySpec</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -601,14 +765,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#valueSet">valueSet</a></rr-a>
+               <rr-t>OPTIONAL_LITERAL</rr-t>
+               <rr-a>
+                  <rr-t>DEFAULT_LITERAL</rr-t><a href="#valueSet">valueSet</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="object_">object_</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#definedObject_/*| objectDefn | objectFromObject */">definedObject_/*| objectDefn | objectFromObject */</a><a href="#parameterizedObject">parameterizedObject</a></rr-o>
+            <rr-o><a href="#definedObject_/*| objectDefn | objectFromObject */">definedObject</a><a href="#parameterizedObject">parameterizedObject</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="parameterizedObject">parameterizedObject</h2>
@@ -623,7 +789,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>DOT</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -631,7 +800,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#objectSetSpec">objectSetSpec</a></rr-a>
+               <rr-a>
+                  <rr-t>L_BRACE</rr-t><a href="#objectSetSpec">objectSetSpec</a><rr-t>R_BRACE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -642,9 +813,12 @@
                <rr-a><a href="#rootElementSetSpec">rootElementSetSpec</a><rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
+                           <rr-t>COMMA</rr-t>
+                           <rr-t>ELLIPSIS</rr-t>
                            <rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a><a href="#additionalElementSetSpec">additionalElementSetSpec</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#additionalElementSetSpec">additionalElementSetSpec</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
@@ -652,9 +826,11 @@
                   </rr-a>
                </rr-a>
                <rr-a>
+                  <rr-t>ELLIPSIS</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#additionalElementSetSpec">additionalElementSetSpec</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#additionalElementSetSpec">additionalElementSetSpec</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -666,9 +842,15 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>AMPERSAND</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
                   <rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>AMPERSAND</rr-t>
+                           <rr-t>IDENTIFIER</rr-t>
+                           <rr-t>DOT</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -679,7 +861,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#elementSetSpecs">elementSetSpecs</a></rr-a>
+               <rr-a>
+                  <rr-t>L_BRACE</rr-t><a href="#elementSetSpecs">elementSetSpecs</a><rr-t>R_BRACE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -690,9 +874,12 @@
                <rr-a><a href="#rootElementSetSpec">rootElementSetSpec</a><rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
+                           <rr-t>COMMA</rr-t>
+                           <rr-t>ELLIPSIS</rr-t>
                            <rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a><a href="#additionalElementSetSpec">additionalElementSetSpec</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#additionalElementSetSpec">additionalElementSetSpec</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
@@ -717,7 +904,8 @@
       <h2 id="elementSetSpec">elementSetSpec</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#unions">unions</a><rr-a><a href="#exclusions">exclusions</a></rr-a>
+            <rr-o><a href="#unions">unions</a><rr-a>
+                  <rr-t>ALL_LITERAL</rr-t><a href="#exclusions">exclusions</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -738,7 +926,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#elements">elements</a></rr-a>
+               <rr-a>
+                  <rr-t>EXCEPT_LITERAL</rr-t><a href="#elements">elements</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -758,25 +947,31 @@
       <h2 id="unionMark">unionMark</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>PIPE</rr-t>
+               <rr-t>UNION_LITERAL</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="intersectionMark">intersectionMark</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>POWER</rr-t>
+               <rr-t>INTERSECTION_LITERAL</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="elements">elements</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#subtypeElementsn____// |  objectSetElementsn____// |  L_PARAN elementSetSpec R_PARAN">subtypeElementsn____// |  objectSetElementsn____// |  L_PARAN elementSetSpec R_PARAN</a></rr-o>
+            <rr-o><a href="#subtypeElementsn____// |  objectSetElementsn____// |  L_PARAN elementSetSpec R_PARAN">subtypeElements</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="objectSetElements">objectSetElements</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#object_">object_</a><a href="#definedObject_/*| objectSetFromObjects | parameterizedObjectSet      */">definedObject_/*| objectSetFromObjects | parameterizedObjectSet      */</a></rr-o>
+            <rr-o><a href="#object_">object_</a><a href="#definedObject_/*| objectSetFromObjects | parameterizedObjectSet      */">definedObject</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="intersectionElements">intersectionElements</h2>
@@ -793,19 +988,27 @@
             <rr-o>
                <rr-a>
                   <rr-a>
-                     <rr-o><a href="#value">value</a></rr-o>
+                     <rr-o><a href="#value">value</a><rr-t>MIN_LITERAL</rr-t>
+                     </rr-o>
                   </rr-a>
+                  <rr-t>LESS_THAN</rr-t>
+                  <rr-t>DOUBLE_DOT</rr-t>
+                  <rr-t>LESS_THAN</rr-t>
                   <rr-a>
-                     <rr-o><a href="#value">value</a></rr-o>
+                     <rr-o><a href="#value">value</a><rr-t>MAX_LITERAL</rr-t>
+                     </rr-o>
                   </rr-a>
-               </rr-a><a href="#sizeConstraint">sizeConstraint</a><rr-a><a href="#value">value</a></rr-a><a href="#value">value</a></rr-o>
+               </rr-a><a href="#sizeConstraint">sizeConstraint</a><rr-a>
+                  <rr-t>PATTERN_LITERAL</rr-t><a href="#value">value</a></rr-a><a href="#value">value</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="variableTypeValueSetFieldSpec">variableTypeValueSetFieldSpec</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#fieldName">fieldName</a><a href="#valueSetOptionalitySpec">valueSetOptionalitySpec</a></rr-a>
+               <rr-a>
+                  <rr-t>AMPERSAND</rr-t>
+                  <rr-t>IDENTIFIER</rr-t><a href="#fieldName">fieldName</a><a href="#valueSetOptionalitySpec">valueSetOptionalitySpec</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -813,7 +1016,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#definedObjectClass">definedObjectClass</a><a href="#objectOptionalitySpec">objectOptionalitySpec</a></rr-a>
+               <rr-a>
+                  <rr-t>AMPERSAND</rr-t>
+                  <rr-t>IDENTIFIER</rr-t><a href="#definedObjectClass">definedObjectClass</a><a href="#objectOptionalitySpec">objectOptionalitySpec</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -821,7 +1026,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#object_">object_</a></rr-a>
+               <rr-t>OPTIONAL_LITERAL</rr-t>
+               <rr-a>
+                  <rr-t>DEFAULT_LITERAL</rr-t><a href="#object_">object_</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -829,7 +1036,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#definedObjectClass">definedObjectClass</a><a href="#objectSetOptionalitySpec">objectSetOptionalitySpec</a></rr-a>
+               <rr-a>
+                  <rr-t>AMPERSAND</rr-t>
+                  <rr-t>IDENTIFIER</rr-t><a href="#definedObjectClass">definedObjectClass</a><a href="#objectSetOptionalitySpec">objectSetOptionalitySpec</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -837,7 +1046,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#objectSet">objectSet</a></rr-a>
+               <rr-t>OPTIONAL_LITERAL</rr-t>
+               <rr-a>
+                  <rr-t>DEFAULT_LITERAL</rr-t><a href="#objectSet">objectSet</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -845,7 +1056,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#asnType">asnType</a></rr-a>
+               <rr-a>
+                  <rr-t>ASSIGN_OP</rr-t><a href="#asnType">asnType</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -853,7 +1065,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#asnType">asnType</a><a href="#value">value</a></rr-a>
+               <rr-a><a href="#asnType">asnType</a><rr-t>ASSIGN_OP</rr-t><a href="#value">value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -871,14 +1083,16 @@
       <h2 id="builtinType">builtinType</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#octetStringType">octetStringType</a><a href="#bitStringType">bitStringType</a><a href="#choiceType">choiceType</a><a href="#enumeratedType">enumeratedType</a><a href="#integerType">integerType</a><a href="#sequenceType">sequenceType</a><a href="#sequenceOfType">sequenceOfType</a><a href="#setType">setType</a><a href="#setOfType">setOfType</a><a href="#objectidentifiertype">objectidentifiertype</a><a href="#objectClassFieldType">objectClassFieldType</a></rr-o>
+            <rr-o><a href="#octetStringType">octetStringType</a><a href="#bitStringType">bitStringType</a><a href="#choiceType">choiceType</a><a href="#enumeratedType">enumeratedType</a><a href="#integerType">integerType</a><a href="#sequenceType">sequenceType</a><a href="#sequenceOfType">sequenceOfType</a><a href="#setType">setType</a><a href="#setOfType">setOfType</a><a href="#objectidentifiertype">objectidentifiertype</a><a href="#objectClassFieldType">objectClassFieldType</a><rr-t>BOOLEAN_LITERAL</rr-t>
+               <rr-t>NULL_LITERAL</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="objectClassFieldType">objectClassFieldType</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#definedObjectClass">definedObjectClass</a><a href="#fieldName">fieldName</a></rr-a>
+               <rr-a><a href="#definedObjectClass">definedObjectClass</a><rr-t>DOT</rr-t><a href="#fieldName">fieldName</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -887,10 +1101,13 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>SET_LITERAL</rr-t>
+                  <rr-t>L_BRACE</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a><a href="#extensionAndException">extensionAndException</a><a href="#optionalExtensionMarker">optionalExtensionMarker</a></rr-a><a href="#componentTypeLists">componentTypeLists</a></rr-o>
                   </rr-a>
+                  <rr-t>R_BRACE</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -900,9 +1117,11 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>SET_LITERAL</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o><a href="#constraint">constraint</a><a href="#sizeConstraint">sizeConstraint</a></rr-o>
                   </rr-a>
+                  <rr-t>OF_LITERAL</rr-t>
                   <rr-a>
                      <rr-o><a href="#asnType">asnType</a><a href="#namedType">namedType</a></rr-o>
                   </rr-a>
@@ -913,7 +1132,7 @@
       <h2 id="referencedType">referencedType</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#definedTypen____// | selectionTypen____// | typeFromObjectn____// | valueSetFromObjects">definedTypen____// | selectionTypen____// | typeFromObjectn____// | valueSetFromObjects</a></rr-o>
+            <rr-o><a href="#definedTypen____// | selectionTypen____// | typeFromObjectn____// | valueSetFromObjects">definedType</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="definedType">definedType</h2>
@@ -921,9 +1140,13 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>DOT</rr-t>
+                           <rr-t>IDENTIFIER</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#actualParameterList">actualParameterList</a></rr-a>
             </rr-o>
@@ -933,7 +1156,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#constraintSpec">constraintSpec</a><a href="#exceptionSpec">exceptionSpec</a></rr-a>
+               <rr-a>
+                  <rr-t>L_PARAN</rr-t><a href="#constraintSpec">constraintSpec</a><a href="#exceptionSpec">exceptionSpec</a><rr-t>R_PARAN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -947,11 +1172,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#userDefinedConstraintParameter">userDefinedConstraintParameter</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>CONSTRAINED_LITERAL</rr-t>
+                  <rr-t>BY_LITERAL</rr-t>
+                  <rr-t>L_BRACE</rr-t><a href="#userDefinedConstraintParameter">userDefinedConstraintParameter</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#userDefinedConstraintParameter">userDefinedConstraintParameter</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#userDefinedConstraintParameter">userDefinedConstraintParameter</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>R_BRACE</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -968,7 +1198,8 @@
             <rr-o>
                <rr-a><a href="#governor">governor</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#value">value</a></rr-a><a href="#valueSet">valueSet</a><a href="#object_">object_</a><a href="#objectSet">objectSet</a></rr-o>
+                        <rr-a>
+                           <rr-t>COLON</rr-t><a href="#value">value</a></rr-a><a href="#valueSet">valueSet</a><a href="#object_">object_</a><a href="#objectSet">objectSet</a></rr-o>
                   </rr-a>
                </rr-a>
             </rr-o>
@@ -977,6 +1208,7 @@
       <h2 id="tableConstraint">tableConstraint</h2>
       <p>
          <rr-rr>
+            <pre>/*simpleTableConstraint |*/</pre>
             <rr-o><a href="#componentRelationConstraint">componentRelationConstraint</a></rr-o>
          </rr-rr>
       </p>
@@ -990,10 +1222,19 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#asnType">asnType</a></rr-a>
-               <rr-a><a href="#value">value</a></rr-a>
-               <rr-a><a href="#asnType">asnType</a><a href="#value">value</a></rr-a>
-               <rr-a><a href="#componentPresenceLists">componentPresenceLists</a></rr-a>
+               <rr-a>
+                  <rr-t>CONTAINING_LITERAL</rr-t><a href="#asnType">asnType</a></rr-a>
+               <rr-a>
+                  <rr-t>ENCODED_LITERAL</rr-t>
+                  <rr-t>BY_LITERAL</rr-t><a href="#value">value</a></rr-a>
+               <rr-a>
+                  <rr-t>CONTAINING_LITERAL</rr-t><a href="#asnType">asnType</a><rr-t>ENCODED_LITERAL</rr-t>
+                  <rr-t>BY_LITERAL</rr-t><a href="#value">value</a></rr-a>
+               <rr-a>
+                  <rr-t>WITH_LITERAL</rr-t>
+                  <rr-t>COMPONENTS_LITERAL</rr-t>
+                  <rr-t>L_BRACE</rr-t><a href="#componentPresenceLists">componentPresenceLists</a><rr-t>R_BRACE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1004,9 +1245,12 @@
                <rr-a><a href="#componentPresenceList">componentPresenceList</a><rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
+                           <rr-t>COMMA</rr-t>
+                           <rr-t>ELLIPSIS</rr-t>
                            <rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a><a href="#componentPresenceList">componentPresenceList</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#componentPresenceList">componentPresenceList</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
@@ -1014,9 +1258,11 @@
                   </rr-a>
                </rr-a>
                <rr-a>
+                  <rr-t>ELLIPSIS</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#componentPresenceList">componentPresenceList</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#componentPresenceList">componentPresenceList</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1029,7 +1275,8 @@
             <rr-o>
                <rr-a><a href="#componentPresence">componentPresence</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#componentPresence">componentPresence</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#componentPresence">componentPresence</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1041,8 +1288,12 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>ABSENT_LITERAL</rr-t>
+                        <rr-t>PRESENT_LITERAL</rr-t>
+                     </rr-o>
                   </rr-a>
                </rr-a>
             </rr-o>
@@ -1051,8 +1302,7 @@
       <h2 id="subtypeConstraint">subtypeConstraint</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#elementSetSpecsn____//((value | MIN_LITERAL) LESS_THAN? DOUBLE_DOT LESS_THAN?  (value | MAX_LITERAL) )n____//%09| sizeConstraintn____//%09| value">elementSetSpecsn____//((value | MIN_LITERAL) LESS_THAN? DOUBLE_DOT LESS_THAN?  (value
-                  | MAX_LITERAL) )n____//	| sizeConstraintn____//	| value</a></rr-o>
+            <rr-o><a href="#elementSetSpecsn____//((value | MIN_LITERAL) LESS_THAN? DOUBLE_DOT LESS_THAN?  (value | MAX_LITERAL) )n____//%09| sizeConstraintn____//%09| value">elementSetSpecs</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="value">value</h2>
@@ -1064,14 +1314,18 @@
       <h2 id="builtinValue">builtinValue</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#enumeratedValue">enumeratedValue</a><a href="#integerValue">integerValue</a><a href="#choiceValue">choiceValue</a><a href="#objectIdentifierValue">objectIdentifierValue</a><a href="#booleanValue">booleanValue</a></rr-o>
+            <rr-o><a href="#enumeratedValue">enumeratedValue</a><a href="#integerValue">integerValue</a><a href="#choiceValue">choiceValue</a><a href="#objectIdentifierValue">objectIdentifierValue</a><a href="#booleanValue">booleanValue</a><rr-t>CSTRING</rr-t>
+               <rr-t>BSTRING</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="objectIdentifierValue">objectIdentifierValue</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#objIdComponentsList">objIdComponentsList</a></rr-a>
+               <rr-a>
+                  <rr-t>L_BRACE</rr-t><a href="#objIdComponentsList">objIdComponentsList</a><rr-t>R_BRACE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1087,13 +1341,18 @@
       <p>
          <rr-rr>
             <rr-o>
+               <rr-t>NUMBER</rr-t>
                <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
+                           <rr-t>L_PARAN</rr-t>
                            <rr-a>
-                              <rr-o><a href="#definedValue">definedValue</a></rr-o>
+                              <rr-o>
+                                 <rr-t>NUMBER</rr-t><a href="#definedValue">definedValue</a></rr-o>
                            </rr-a>
+                           <rr-t>R_PARAN</rr-t>
                         </rr-a>
                      </rr-o>
                   </rr-a>
@@ -1103,28 +1362,36 @@
       <h2 id="integerValue">integerValue</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#signedNumber">signedNumber</a></rr-o>
+            <rr-o><a href="#signedNumber">signedNumber</a><rr-t>IDENTIFIER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="choiceValue">choiceValue</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#value">value</a></rr-a>
+               <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>COLON</rr-t><a href="#value">value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="enumeratedValue">enumeratedValue</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="signedNumber">signedNumber</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>NUMBER</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1132,7 +1399,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#alternativeTypeLists">alternativeTypeLists</a></rr-a>
+               <rr-a>
+                  <rr-t>CHOICE_LITERAL</rr-t>
+                  <rr-t>L_BRACE</rr-t><a href="#alternativeTypeLists">alternativeTypeLists</a><rr-t>R_BRACE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1142,7 +1412,8 @@
             <rr-o>
                <rr-a><a href="#rootAlternativeTypeList">rootAlternativeTypeList</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#extensionAndException">extensionAndException</a><a href="#extensionAdditionAlternatives">extensionAdditionAlternatives</a><a href="#optionalExtensionMarker">optionalExtensionMarker</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#extensionAndException">extensionAndException</a><a href="#extensionAdditionAlternatives">extensionAdditionAlternatives</a><a href="#optionalExtensionMarker">optionalExtensionMarker</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1155,7 +1426,8 @@
             <rr-o>
                <rr-a data-min="0" data-max="1">
                   <rr-o>
-                     <rr-a><a href="#extensionAdditionAlternativesList">extensionAdditionAlternativesList</a></rr-a>
+                     <rr-a>
+                        <rr-t>COMMA</rr-t><a href="#extensionAdditionAlternativesList">extensionAdditionAlternativesList</a></rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -1167,7 +1439,8 @@
             <rr-o>
                <rr-a><a href="#extensionAdditionAlternative">extensionAdditionAlternative</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#extensionAdditionAlternative">extensionAdditionAlternative</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#extensionAdditionAlternative">extensionAdditionAlternative</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1184,7 +1457,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#versionNumber">versionNumber</a><a href="#alternativeTypeList">alternativeTypeList</a></rr-a>
+               <rr-a>
+                  <rr-t>DOUBLE_L_BRACKET</rr-t><a href="#versionNumber">versionNumber</a><a href="#alternativeTypeList">alternativeTypeList</a><rr-t>DOUBLE_R_BRACKET</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1200,7 +1475,8 @@
             <rr-o>
                <rr-a><a href="#namedType">namedType</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#namedType">namedType</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#namedType">namedType</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1211,7 +1487,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#asnType">asnType</a></rr-a>
+               <rr-a>
+                  <rr-t>IDENTIFIER</rr-t><a href="#asnType">asnType</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1219,7 +1496,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#enumerations">enumerations</a></rr-a>
+               <rr-a>
+                  <rr-t>ENUMERATED_LITERAL</rr-t>
+                  <rr-t>L_BRACE</rr-t><a href="#enumerations">enumerations</a><rr-t>R_BRACE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1229,9 +1509,12 @@
             <rr-o>
                <rr-a><a href="#rootEnumeration">rootEnumeration</a><rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#exceptionSpec">exceptionSpec</a><rr-a data-min="0" data-max="1">
+                        <rr-a>
+                           <rr-t>COMMA</rr-t>
+                           <rr-t>ELLIPSIS</rr-t><a href="#exceptionSpec">exceptionSpec</a><rr-a data-min="0" data-max="1">
                               <rr-o>
-                                 <rr-a><a href="#additionalEnumeration">additionalEnumeration</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#additionalEnumeration">additionalEnumeration</a></rr-a>
                               </rr-o>
                            </rr-a>
                         </rr-a>
@@ -1253,7 +1536,8 @@
             <rr-o>
                <rr-a><a href="#enumerationItem">enumerationItem</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#enumerationItem">enumerationItem</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#enumerationItem">enumerationItem</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1263,7 +1547,8 @@
       <h2 id="enumerationItem">enumerationItem</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#namedNumber">namedNumber</a><a href="#value">value</a></rr-o>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t><a href="#namedNumber">namedNumber</a><a href="#value">value</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="namedNumber">namedNumber</h2>
@@ -1271,9 +1556,12 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>L_PARAN</rr-t>
                   <rr-a>
                      <rr-o><a href="#signedNumber">signedNumber</a><a href="#definedValue">definedValue</a></rr-o>
                   </rr-a>
+                  <rr-t>R_PARAN</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1297,9 +1585,13 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>DOT</rr-t>
+                           <rr-t>IDENTIFIER</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1310,11 +1602,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#actualParameter">actualParameter</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>L_BRACE</rr-t><a href="#actualParameter">actualParameter</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#actualParameter">actualParameter</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#actualParameter">actualParameter</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>R_BRACE</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1322,21 +1617,22 @@
       <h2 id="actualParameter">actualParameter</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#asnType">asnType</a><a href="#value_/*| valueSet | definedObjectClass | object_ | objectSet*/">value_/*| valueSet | definedObjectClass | object_ | objectSet*/</a></rr-o>
+            <rr-o><a href="#asnType">asnType</a><a href="#value_/*| valueSet | definedObjectClass | object_ | objectSet*/">value</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="exceptionSpec">exceptionSpec</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#exceptionIdentification">exceptionIdentification</a></rr-a>
+               <rr-a>
+                  <rr-t>EXCLAM</rr-t><a href="#exceptionIdentification">exceptionIdentification</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="exceptionIdentification">exceptionIdentification</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#signedNumber">signedNumber</a><a href="#definedValue">definedValue</a><rr-a><a href="#asnType">asnType</a><a href="#value">value</a></rr-a>
+            <rr-o><a href="#signedNumber">signedNumber</a><a href="#definedValue">definedValue</a><rr-a><a href="#asnType">asnType</a><rr-t>COLON</rr-t><a href="#value">value</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1351,9 +1647,12 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>INTEGER_LITERAL</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#namedNumberList">namedNumberList</a></rr-a>
+                        <rr-a>
+                           <rr-t>L_BRACE</rr-t><a href="#namedNumberList">namedNumberList</a><rr-t>R_BRACE</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1366,7 +1665,8 @@
             <rr-o>
                <rr-a><a href="#namedNumber">namedNumber</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#namedNumber">namedNumber</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#namedNumber">namedNumber</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1377,7 +1677,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>OBJECT_LITERAL</rr-t>
+                  <rr-t>IDENTIFIER_LITERAL</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1386,18 +1689,27 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>L_BRACE</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>DOT</rr-t>
+                           <rr-t>IDENTIFIER</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>R_BRACE</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#atNotation">atNotation</a><rr-a data-min="0" data-max="inf">
+                        <rr-a>
+                           <rr-t>L_BRACE</rr-t><a href="#atNotation">atNotation</a><rr-a data-min="0" data-max="inf">
                               <rr-o>
-                                 <rr-a><a href="#atNotation">atNotation</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#atNotation">atNotation</a></rr-a>
                               </rr-o>
                            </rr-a>
+                           <rr-t>R_BRACE</rr-t>
                         </rr-a>
                      </rr-o>
                   </rr-a>
@@ -1412,7 +1724,9 @@
                <rr-a>
                   <rr-a>
                      <rr-o>
-                        <rr-a><a href="#level">level</a></rr-a>
+                        <rr-t>A_ROND</rr-t>
+                        <rr-a>
+                           <rr-t>A_ROND_DOT</rr-t><a href="#level">level</a></rr-a>
                      </rr-o>
                   </rr-a><a href="#componentIdList">componentIdList</a></rr-a>
             </rr-o>
@@ -1424,7 +1738,8 @@
             <rr-o>
                <rr-a data-min="0" data-max="1">
                   <rr-o>
-                     <rr-a><a href="#level">level</a></rr-a>
+                     <rr-a>
+                        <rr-t>DOT</rr-t><a href="#level">level</a></rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -1435,9 +1750,13 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
                   <rr-a>
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>DOT</rr-t>
+                           <rr-t>IDENTIFIER</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1448,7 +1767,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>OCTET_LITERAL</rr-t>
+                  <rr-t>STRING_LITERAL</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1457,9 +1779,13 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>BIT_LITERAL</rr-t>
+                  <rr-t>STRING_LITERAL</rr-t>
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
-                        <rr-a><a href="#namedBitList">namedBitList</a></rr-a>
+                        <rr-a>
+                           <rr-t>L_BRACE</rr-t><a href="#namedBitList">namedBitList</a><rr-t>R_BRACE</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1472,7 +1798,8 @@
             <rr-o>
                <rr-a><a href="#namedBit">namedBit</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#namedBit">namedBit</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#namedBit">namedBit</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1484,9 +1811,13 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>L_PARAN</rr-t>
                   <rr-a>
-                     <rr-o><a href="#definedValue">definedValue</a></rr-o>
+                     <rr-o>
+                        <rr-t>NUMBER</rr-t><a href="#definedValue">definedValue</a></rr-o>
                   </rr-a>
+                  <rr-t>R_PARAN</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1494,14 +1825,21 @@
       <h2 id="booleanValue">booleanValue</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>TRUE_LITERAL</rr-t>
+               <rr-t>FALSE_LITERAL</rr-t>
+               <rr-t>TRUE_SMALL_LITERAL</rr-t>
+               <rr-t>FALSE_SMALL_LITERAL</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="A_ROND">A_ROND</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'@'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1509,7 +1847,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'*'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1517,7 +1857,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'::='</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1525,7 +1867,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'BOOLEAN'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1533,7 +1877,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'TRUE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1541,7 +1887,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'FALSE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1549,7 +1897,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'.'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1557,7 +1907,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'..'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1565,7 +1917,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'...'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1573,7 +1927,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'\''</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1581,7 +1937,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'&amp;'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1589,7 +1947,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'&lt;'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1597,7 +1957,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'&gt;'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1605,7 +1967,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'&lt;/'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1613,7 +1977,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'/&gt;'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1621,7 +1987,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'true'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1629,7 +1997,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'false'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1637,7 +2007,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'INTEGER'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1645,7 +2017,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'{'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1653,7 +2027,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'}'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1661,7 +2037,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>','</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1669,7 +2047,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1677,7 +2057,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1685,7 +2067,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'-'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1693,7 +2077,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ENUMERATED'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1701,7 +2087,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'REAL'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1709,7 +2097,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'PLUS-INFINITY'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1717,7 +2107,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'MINUS-INFINITY'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1725,7 +2117,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'BIT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1733,7 +2127,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'STRING'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1741,7 +2137,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'CONTAINING'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1749,7 +2147,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'OCTET'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1757,7 +2157,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'NULL'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1765,7 +2167,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SEQUENCE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1773,7 +2177,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'OPTIONAL'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1781,7 +2187,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'DEFAULT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1789,7 +2197,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'COMPONENTS'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1797,7 +2207,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'OF'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1805,7 +2217,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SET'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1813,7 +2227,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'!'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1821,7 +2237,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ALL'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1829,7 +2247,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'EXCEPT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1837,7 +2257,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'^'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1845,7 +2267,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'|'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1853,7 +2277,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'UNION'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1861,7 +2287,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'INTERSECTION'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1869,7 +2297,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'INCLUDES'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1877,7 +2307,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'MIN'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1885,7 +2317,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'MAX'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1893,7 +2327,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SIZE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1901,7 +2337,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'FROM'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1909,7 +2347,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'WITH'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1917,7 +2357,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'COMPONENT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1925,7 +2367,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'PRESENT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1933,7 +2377,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ABSENT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1941,7 +2387,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'PATTERN'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1949,7 +2397,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'TYPE-Identifier'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1957,7 +2407,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ABSTRACT-SYNTAX'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1965,7 +2417,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'CLASS'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1973,7 +2427,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'UNIQUE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1981,7 +2437,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'SYNTAX'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1989,7 +2447,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1997,7 +2457,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>']'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2005,7 +2467,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'INSTANCE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2013,7 +2477,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>';'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2021,7 +2487,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'IMPORTS'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2029,7 +2497,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'EXPORTS'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2037,7 +2507,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'EXTENSIBILITY'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2045,7 +2517,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'IMPLIED'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2053,7 +2527,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'EXPLICIT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2061,7 +2537,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'TAGS'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2069,7 +2547,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'IMPLICIT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2077,7 +2557,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'AUTOMATIC'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2085,7 +2567,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'DEFINITIONS'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2093,7 +2577,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'BEGIN'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2101,7 +2587,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'END'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2109,7 +2597,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'[['</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2117,7 +2607,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>']]'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2125,7 +2617,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>':'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2133,7 +2627,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'CHOICE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2141,7 +2637,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'UNIVERSAL'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2149,7 +2647,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'APPLICATION'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2157,7 +2657,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'PRIVATE'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2165,7 +2667,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'EMBEDDED'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2173,7 +2677,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'PDV'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2181,7 +2687,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'EXTERNAL'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2189,7 +2697,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'OBJECT'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2197,7 +2707,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'IDENTIFIER'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2205,7 +2717,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'RELATIVE-OID'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2213,7 +2727,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'CHARACTER'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2221,7 +2737,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'CONSTRAINED'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2229,7 +2747,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'BY'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2237,7 +2757,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'@.'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2245,7 +2767,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'ENCODED'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2253,7 +2777,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'--'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2261,7 +2787,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>CHARACTER_LITERAL</rr-t>
+                  <rr-t>STRING_LITERAL</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2269,7 +2798,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>COMMA</rr-t>
+                  <rr-t>ELLIPSIS</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2277,7 +2809,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-c>'0'..'9'</rr-c>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2285,7 +2819,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-c>'A'..'Z'</rr-c>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2293,7 +2829,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-c>'a'..'z'</rr-c>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2301,7 +2839,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>DIGIT</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2311,11 +2851,21 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>' '</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'\r'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'\t'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'\u000C'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'\n'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -2327,13 +2877,22 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'e'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'E'</rr-t>
+                     </rr-a>
                   </rr-o>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'+'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'-'</rr-t>
+                     </rr-a>
                   </rr-o>
+                  <rr-t>NUMBER</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -2342,7 +2901,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'--'</rr-t>
+                  <rr-t>'\r'</rr-t>
+                  <rr-t>'\n'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2351,9 +2914,13 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>APOSTROPHE</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-c>'0'..'1'</rr-c>
+                     </rr-a>
                   </rr-o>
+                  <rr-t>'\'B'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -2362,9 +2929,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>DIGIT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'a'..'f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'A'..'F'</rr-c>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2372,7 +2945,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>APOSTROPHE</rr-t>
+                  <rr-t>HEXDIGIT</rr-t>
+                  <rr-t>'\'H'</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2381,10 +2958,14 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'"'</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>EscapeSequence</rr-t>
+                     </rr-a>
                      <rr-a></rr-a>
                   </rr-o>
+                  <rr-t>'"'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -2394,15 +2975,32 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>'\\'</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>'b'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'t'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'n'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'f'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'r'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'"'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>APOSTROPHE</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'\\'</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -2412,20 +3010,48 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>'\u0024'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'\u002d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0041'..'\u005a'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'\u005f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0061'..'\u007a'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u00c0'..'\u00d6'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u00d8'..'\u00f6'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u00f8'..'\u00ff'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0100'..'\u1fff'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u3040'..'\u318f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u3300'..'\u337f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u3400'..'\u3d2d'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u4e00'..'\u9fff'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\uf900'..'\ufaff'</rr-c>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2433,21 +3059,51 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-c>'\u0030'..'\u0039'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0660'..'\u0669'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u06f0'..'\u06f9'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0966'..'\u096f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u09e6'..'\u09ef'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0a66'..'\u0a6f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0ae6'..'\u0aef'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0b66'..'\u0b6f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0be7'..'\u0bef'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0c66'..'\u0c6f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0ce6'..'\u0cef'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0d66'..'\u0d6f'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0e50'..'\u0e59'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u0ed0'..'\u0ed9'</rr-c>
+               </rr-a>
+               <rr-a>
+                  <rr-c>'\u1040'..'\u1049'</rr-c>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2456,9 +3112,14 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>LETTER</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>LETTER</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>JavaIDDigit</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>

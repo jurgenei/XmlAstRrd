@@ -5,13 +5,34 @@
       <link rel="stylesheet" type="text/css" href="../../railroad.css">
    </head>
    <body>
-      <h1><a href="../../index.html">Railroad</a> fortran/fortran90/Fortran90Parser.ast.xml</h1>
+      <h1>Railroad fortran/fortran90/Fortran90Parser.ast.xml</h1>
+      <pre>/*
+ * Fortran 90 grammar for ANTLR 4.8
+ * Adadpted from Fortran 90 PCCTS grammar by Cyrille MIDINGOYI
+ * Original PCCTS grammar by Terence Parr
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * INRA - CIRAD, Montpellier - FRANCE
+ *
+ */</pre>
       <h1>Rules</h1>
       <h2 id="program">program</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#executableProgram">executableProgram</a></rr-a>
+               <rr-a><a href="#executableProgram">executableProgram</a><rr-t>EOF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -39,7 +60,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>PROGRAM</rr-t>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -86,10 +110,27 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a><a href="#renameList">renameList</a></rr-a>
-               <rr-a><a href="#onlyList">onlyList</a></rr-a>
+               <rr-a>
+                  <rr-t>USE</rr-t>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>USE</rr-t>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>COMMA</rr-t>
+                  <rr-t>ONLY</rr-t>
+                  <rr-t>COLON</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>USE</rr-t>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>COMMA</rr-t><a href="#renameList">renameList</a></rr-a>
+               <rr-a>
+                  <rr-t>USE</rr-t>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>COMMA</rr-t>
+                  <rr-t>ONLY</rr-t>
+                  <rr-t>COLON</rr-t><a href="#onlyList">onlyList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -99,7 +140,8 @@
             <rr-o>
                <rr-a><a href="#onlyStmt">onlyStmt</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#onlyStmt">onlyStmt</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#onlyStmt">onlyStmt</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -109,7 +151,7 @@
       <h2 id="onlyStmt">onlyStmt</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#genericSpec">genericSpec</a><rr-a><a href="#ident">ident</a><a href="#useName">useName</a></rr-a><a href="#useName">useName</a></rr-o>
+            <rr-o><a href="#genericSpec">genericSpec</a><rr-a><a href="#ident">ident</a><rr-t>IMPLIEDT</rr-t><a href="#useName">useName</a></rr-a><a href="#useName">useName</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="renameList">renameList</h2>
@@ -118,7 +160,8 @@
             <rr-o>
                <rr-a><a href="#rename">rename</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#rename">rename</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#rename">rename</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -129,7 +172,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#ident">ident</a><a href="#useName">useName</a></rr-a>
+               <rr-a><a href="#ident">ident</a><rr-t>IMPLIEDT</rr-t><a href="#useName">useName</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -143,7 +186,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#namedConstantDefList">namedConstantDefList</a></rr-a>
+               <rr-a>
+                  <rr-t>PARAMETER</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#namedConstantDefList">namedConstantDefList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -157,7 +203,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -165,7 +213,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-t>END</rr-t>
+               <rr-a>
+                  <rr-t>END</rr-t>
+                  <rr-t>PROGRAM</rr-t>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -182,8 +235,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>BLOCKDATA</rr-t>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>BLOCK</rr-t>
+                  <rr-t>DATA</rr-t>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -204,10 +264,27 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>ENDBLOCKDATA</rr-t>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>END</rr-t>
+                  <rr-t>BLOCKDATA</rr-t>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>ENDBLOCK</rr-t>
+                  <rr-t>DATA</rr-t>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>END</rr-t>
+                  <rr-t>BLOCK</rr-t>
+                  <rr-t>DATA</rr-t>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
+               <rr-t>END</rr-t>
             </rr-o>
          </rr-rr>
       </p>
@@ -215,35 +292,57 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#fmtSpec">fmtSpec</a></rr-a>
+               <rr-a>
+                  <rr-t>ICON</rr-t>
+                  <rr-t>FORMAT</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#fmtSpec">fmtSpec</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="fmtSpec">fmtSpec</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#formatedit">formatedit</a><rr-a><a href="#formatedit">formatedit</a></rr-a>
-               <rr-a><a href="#fmtSpec">fmtSpec</a></rr-a>
-               <rr-a><a href="#fmtSpec">fmtSpec</a><a href="#formatedit">formatedit</a></rr-a>
-               <rr-a><a href="#fmtSpec">fmtSpec</a><a href="#formatedit">formatedit</a></rr-a>
-               <rr-a><a href="#fmtSpec">fmtSpec</a></rr-a>
-               <rr-a><a href="#fmtSpec">fmtSpec</a><a href="#formatedit">formatedit</a></rr-a>
+            <rr-o><a href="#formatedit">formatedit</a><rr-t>FORMATSEP</rr-t>
+               <rr-a>
+                  <rr-t>FORMATSEP</rr-t><a href="#formatedit">formatedit</a></rr-a>
+               <rr-a><a href="#fmtSpec">fmtSpec</a><rr-t>FORMATSEP</rr-t>
+               </rr-a>
+               <rr-a><a href="#fmtSpec">fmtSpec</a><rr-t>FORMATSEP</rr-t><a href="#formatedit">formatedit</a></rr-a>
+               <rr-a><a href="#fmtSpec">fmtSpec</a><rr-t>COMMA</rr-t><a href="#formatedit">formatedit</a></rr-a>
+               <rr-a><a href="#fmtSpec">fmtSpec</a><rr-t>COMMA</rr-t>
+                  <rr-t>FORMATSEP</rr-t>
+               </rr-a>
+               <rr-a><a href="#fmtSpec">fmtSpec</a><rr-t>COMMA</rr-t>
+                  <rr-t>FORMATSEP</rr-t><a href="#formatedit">formatedit</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="formatedit">formatedit</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#editElement">editElement</a><rr-a><a href="#editElement">editElement</a></rr-a>
-               <rr-a><a href="#editElement">editElement</a></rr-a>
-               <rr-a><a href="#editElement">editElement</a></rr-a>
+            <rr-o><a href="#editElement">editElement</a><rr-a>
+                  <rr-t>ICON</rr-t><a href="#editElement">editElement</a></rr-a>
+               <rr-t>XCON</rr-t>
+               <rr-t>PCON</rr-t>
+               <rr-a>
+                  <rr-t>PCON</rr-t><a href="#editElement">editElement</a></rr-a>
+               <rr-a>
+                  <rr-t>PCON</rr-t>
+                  <rr-t>ICON</rr-t><a href="#editElement">editElement</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="editElement">editElement</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#mislexedFcon">mislexedFcon</a><rr-a><a href="#fmtSpec">fmtSpec</a></rr-a>
+            <rr-o>
+               <rr-t>FCON</rr-t><a href="#mislexedFcon">mislexedFcon</a><rr-t>SCON</rr-t>
+               <rr-t>HOLLERITH</rr-t>
+               <rr-t>NAME</rr-t>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#fmtSpec">fmtSpec</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -251,8 +350,18 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>RDCON</rr-t>
+                  <rr-t>SPOFF</rr-t>
+                  <rr-t>RDCON</rr-t>
+                  <rr-t>SPON</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>SPOFF</rr-t>
+                  <rr-t>RDCON</rr-t>
+                  <rr-t>SPON</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -269,8 +378,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>END</rr-t>
+                  <rr-t>MODULE</rr-t>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>ENDMODULE</rr-t>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
+               <rr-t>END</rr-t>
             </rr-o>
          </rr-rr>
       </p>
@@ -278,7 +395,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#subroutineParList">subroutineParList</a></rr-a>
+               <rr-a>
+                  <rr-t>ENTRY</rr-t>
+                  <rr-t>NAME</rr-t><a href="#subroutineParList">subroutineParList</a><rr-t>RESULT</rr-t>
+                  <rr-t>LPAREN</rr-t>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -288,7 +411,9 @@
             <rr-o>
                <rr-a data-min="0" data-max="1">
                   <rr-o>
-                     <rr-a><a href="#subroutinePars">subroutinePars</a></rr-a>
+                     <rr-a>
+                        <rr-t>LPAREN</rr-t><a href="#subroutinePars">subroutinePars</a><rr-t>RPAREN</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -300,7 +425,8 @@
             <rr-o>
                <rr-a><a href="#subroutinePar">subroutinePar</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#subroutinePar">subroutinePar</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#subroutinePar">subroutinePar</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -310,7 +436,8 @@
       <h2 id="subroutinePar">subroutinePar</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#dummyArgName">dummyArgName</a></rr-o>
+            <rr-o><a href="#dummyArgName">dummyArgName</a><rr-t>STAR</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="declarationConstruct">declarationConstruct</h2>
@@ -329,7 +456,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#targetObjectList">targetObjectList</a></rr-a>
+               <rr-a>
+                  <rr-t>TARGET</rr-t>
+                  <rr-t>DOUBLECOLON</rr-t><a href="#targetObjectList">targetObjectList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -339,7 +468,8 @@
             <rr-o>
                <rr-a><a href="#targetObject">targetObject</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#targetObject">targetObject</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#targetObject">targetObject</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -349,7 +479,8 @@
       <h2 id="targetObject">targetObject</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#objectName">objectName</a><rr-a><a href="#objectName">objectName</a><a href="#arraySpec">arraySpec</a></rr-a>
+            <rr-o><a href="#objectName">objectName</a><rr-a><a href="#objectName">objectName</a><rr-t>LPAREN</rr-t><a href="#arraySpec">arraySpec</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -357,7 +488,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#pointerStmtObjectList">pointerStmtObjectList</a></rr-a>
+               <rr-a>
+                  <rr-t>POINTER</rr-t>
+                  <rr-t>DOUBLECOLON</rr-t><a href="#pointerStmtObjectList">pointerStmtObjectList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -367,7 +500,8 @@
             <rr-o>
                <rr-a><a href="#pointerStmtObject">pointerStmtObject</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#pointerStmtObject">pointerStmtObject</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#pointerStmtObject">pointerStmtObject</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -377,7 +511,8 @@
       <h2 id="pointerStmtObject">pointerStmtObject</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#objectName">objectName</a><rr-a><a href="#objectName">objectName</a><a href="#deferredShapeSpecList">deferredShapeSpecList</a></rr-a>
+            <rr-o><a href="#objectName">objectName</a><rr-a><a href="#objectName">objectName</a><rr-t>LPAREN</rr-t><a href="#deferredShapeSpecList">deferredShapeSpecList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -385,7 +520,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#optionalParList">optionalParList</a></rr-a>
+               <rr-a>
+                  <rr-t>OPTIONAL</rr-t>
+                  <rr-t>DOUBLECOLON</rr-t><a href="#optionalParList">optionalParList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -395,7 +532,8 @@
             <rr-o>
                <rr-a><a href="#optionalPar">optionalPar</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#optionalPar">optionalPar</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#optionalPar">optionalPar</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -412,7 +550,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#namelistGroups">namelistGroups</a></rr-a>
+               <rr-a>
+                  <rr-t>NAMELIST</rr-t><a href="#namelistGroups">namelistGroups</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -420,17 +559,21 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#namelistGroupName">namelistGroupName</a><a href="#namelistGroupObject">namelistGroupObject</a></rr-a>
-               <rr-a><a href="#namelistGroups">namelistGroups</a><a href="#namelistGroupName">namelistGroupName</a><a href="#namelistGroupObject">namelistGroupObject</a></rr-a>
-               <rr-a><a href="#namelistGroups">namelistGroups</a><a href="#namelistGroupName">namelistGroupName</a><a href="#namelistGroupObject">namelistGroupObject</a></rr-a>
-               <rr-a><a href="#namelistGroups">namelistGroups</a><a href="#namelistGroupObject">namelistGroupObject</a></rr-a>
+               <rr-a>
+                  <rr-t>DIV</rr-t><a href="#namelistGroupName">namelistGroupName</a><rr-t>DIV</rr-t><a href="#namelistGroupObject">namelistGroupObject</a></rr-a>
+               <rr-a><a href="#namelistGroups">namelistGroups</a><rr-t>DIV</rr-t><a href="#namelistGroupName">namelistGroupName</a><rr-t>DIV</rr-t><a href="#namelistGroupObject">namelistGroupObject</a></rr-a>
+               <rr-a><a href="#namelistGroups">namelistGroups</a><rr-t>COMMA</rr-t>
+                  <rr-t>DIV</rr-t><a href="#namelistGroupName">namelistGroupName</a><rr-t>DIV</rr-t><a href="#namelistGroupObject">namelistGroupObject</a></rr-a>
+               <rr-a><a href="#namelistGroups">namelistGroups</a><rr-t>COMMA</rr-t><a href="#namelistGroupObject">namelistGroupObject</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="namelistGroupName">namelistGroupName</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NAME</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="namelistGroupObject">namelistGroupObject</h2>
@@ -443,7 +586,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#intentSpec">intentSpec</a><a href="#intentParList">intentParList</a></rr-a>
+               <rr-a>
+                  <rr-t>INTENT</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#intentSpec">intentSpec</a><rr-t>RPAREN</rr-t>
+                  <rr-t>DOUBLECOLON</rr-t><a href="#intentParList">intentParList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -453,7 +599,8 @@
             <rr-o>
                <rr-a><a href="#intentPar">intentPar</a><rr-a>
                      <rr-o>
-                        <rr-a><a href="#intentPar">intentPar</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#intentPar">intentPar</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -469,7 +616,9 @@
       <h2 id="dummyArgName">dummyArgName</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NAME</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="intentSpec">intentSpec</h2>
@@ -477,7 +626,11 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-o></rr-o>
+                  <rr-o>
+                     <rr-t>IN</rr-t>
+                     <rr-t>OUT</rr-t>
+                     <rr-t>INOUT</rr-t>
+                  </rr-o>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -486,7 +639,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#arrayAllocationList">arrayAllocationList</a></rr-a>
+               <rr-a>
+                  <rr-t>ALLOCATABLE</rr-t>
+                  <rr-t>DOUBLECOLON</rr-t><a href="#arrayAllocationList">arrayAllocationList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -496,7 +651,8 @@
             <rr-o>
                <rr-a><a href="#arrayAllocation">arrayAllocation</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#arrayAllocation">arrayAllocation</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#arrayAllocation">arrayAllocation</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -506,7 +662,8 @@
       <h2 id="arrayAllocation">arrayAllocation</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#arrayName">arrayName</a><rr-a><a href="#arrayName">arrayName</a><a href="#deferredShapeSpecList">deferredShapeSpecList</a></rr-a>
+            <rr-o><a href="#arrayName">arrayName</a><rr-a><a href="#arrayName">arrayName</a><rr-t>LPAREN</rr-t><a href="#deferredShapeSpecList">deferredShapeSpecList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -520,7 +677,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#accessIdList">accessIdList</a></rr-a>
+               <rr-a>
+                  <rr-t>ACCESSSPEC</rr-t>
+                  <rr-t>DOUBLECOLON</rr-t><a href="#accessIdList">accessIdList</a></rr-a>
+               <rr-t>ACCESSSPEC</rr-t>
             </rr-o>
          </rr-rr>
       </p>
@@ -530,7 +690,8 @@
             <rr-o>
                <rr-a><a href="#accessId">accessId</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#accessId">accessId</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#accessId">accessId</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -553,8 +714,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#savedEntityList">savedEntityList</a></rr-a>
-               <rr-a><a href="#savedEntityList">savedEntityList</a></rr-a>
+               <rr-t>SAVE</rr-t>
+               <rr-a>
+                  <rr-t>SAVE</rr-t><a href="#savedEntityList">savedEntityList</a></rr-a>
+               <rr-a>
+                  <rr-t>SAVE</rr-t>
+                  <rr-t>DOUBLECOLON</rr-t><a href="#savedEntityList">savedEntityList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -574,7 +739,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#commonBlockName">commonBlockName</a></rr-a>
+               <rr-a>
+                  <rr-t>DIV</rr-t><a href="#commonBlockName">commonBlockName</a><rr-t>DIV</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -582,7 +749,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#intrinsicList">intrinsicList</a></rr-a>
+               <rr-a>
+                  <rr-t>INTRINSIC</rr-t><a href="#intrinsicList">intrinsicList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -595,14 +763,17 @@
       <h2 id="intrinsicProcedureName">intrinsicProcedureName</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NAME</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="externalStmt">externalStmt</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#externalNameList">externalNameList</a></rr-a>
+               <rr-a>
+                  <rr-t>EXTERNAL</rr-t><a href="#externalNameList">externalNameList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -615,14 +786,17 @@
       <h2 id="externalName">externalName</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NAME</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="equivalenceStmt">equivalenceStmt</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#equivalenceSetList">equivalenceSetList</a></rr-a>
+               <rr-a>
+                  <rr-t>EQUIVALENCE</rr-t><a href="#equivalenceSetList">equivalenceSetList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -636,7 +810,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#equivalenceObject">equivalenceObject</a><a href="#equivalenceObjectList">equivalenceObjectList</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#equivalenceObject">equivalenceObject</a><rr-t>COMMA</rr-t><a href="#equivalenceObjectList">equivalenceObjectList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -656,8 +832,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#arrayDeclaratorList">arrayDeclaratorList</a></rr-a>
-               <rr-a><a href="#arrayDeclaratorList">arrayDeclaratorList</a></rr-a>
+               <rr-a>
+                  <rr-t>DIMENSION</rr-t><a href="#arrayDeclaratorList">arrayDeclaratorList</a></rr-a>
+               <rr-a>
+                  <rr-t>DIMENSION</rr-t>
+                  <rr-t>DOUBLECOLON</rr-t><a href="#arrayDeclaratorList">arrayDeclaratorList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -671,7 +850,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#comlist">comlist</a></rr-a>
+               <rr-a>
+                  <rr-t>COMMON</rr-t><a href="#comlist">comlist</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -680,7 +860,7 @@
          <rr-rr>
             <rr-o>
                <rr-a><a href="#comblock">comblock</a><a href="#commonBlockObject">commonBlockObject</a></rr-a>
-               <rr-a><a href="#comlist">comlist</a><a href="#comblock">comblock</a><a href="#commonBlockObject">commonBlockObject</a></rr-a>
+               <rr-a><a href="#comlist">comlist</a><rr-t>COMMA</rr-t><a href="#comblock">comblock</a><a href="#commonBlockObject">commonBlockObject</a></rr-a>
                <rr-a><a href="#comlist">comlist</a><a href="#comblock">comblock</a><a href="#commonBlockObject">commonBlockObject</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -695,7 +875,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#variableName">variableName</a><a href="#arraySpec">arraySpec</a></rr-a>
+               <rr-a><a href="#variableName">variableName</a><rr-t>LPAREN</rr-t><a href="#arraySpec">arraySpec</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -703,15 +884,24 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a><a href="#commonBlockName">commonBlockName</a></rr-a>
+               <rr-a>
+                  <rr-t>DIV</rr-t>
+                  <rr-t>SPOFF</rr-t>
+                  <rr-t>DIV</rr-t>
+                  <rr-t>SPON</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>DIV</rr-t><a href="#commonBlockName">commonBlockName</a><rr-t>DIV</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="commonBlockName">commonBlockName</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NAME</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="typeDeclarationStmt">typeDeclarationStmt</h2>
@@ -719,7 +909,7 @@
          <rr-rr>
             <rr-o>
                <rr-a><a href="#typeSpec">typeSpec</a><a href="#entityDeclList">entityDeclList</a></rr-a>
-               <rr-a><a href="#typeSpec">typeSpec</a><a href="#attrSpecSeq">attrSpecSeq</a><a href="#entityDeclList">entityDeclList</a></rr-a>
+               <rr-a><a href="#typeSpec">typeSpec</a><a href="#attrSpecSeq">attrSpecSeq</a><rr-t>DOUBLECOLON</rr-t><a href="#entityDeclList">entityDeclList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -727,8 +917,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#attrSpec">attrSpec</a></rr-a>
-               <rr-a><a href="#attrSpecSeq">attrSpecSeq</a><a href="#attrSpec">attrSpec</a></rr-a>
+               <rr-a>
+                  <rr-t>COMMA</rr-t><a href="#attrSpec">attrSpec</a></rr-a>
+               <rr-a><a href="#attrSpecSeq">attrSpecSeq</a><rr-t>COMMA</rr-t><a href="#attrSpec">attrSpec</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -736,8 +927,23 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#arraySpec">arraySpec</a></rr-a>
-               <rr-a><a href="#intentSpec">intentSpec</a></rr-a>
+               <rr-t>PARAMETER</rr-t>
+               <rr-t>ACCESSSPEC</rr-t>
+               <rr-t>ALLOCATABLE</rr-t>
+               <rr-a>
+                  <rr-t>DIMENSION</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#arraySpec">arraySpec</a><rr-t>RPAREN</rr-t>
+               </rr-a>
+               <rr-t>EXTERNAL</rr-t>
+               <rr-a>
+                  <rr-t>INTENT</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#intentSpec">intentSpec</a><rr-t>RPAREN</rr-t>
+               </rr-a>
+               <rr-t>INTRINSIC</rr-t>
+               <rr-t>OPTIONAL</rr-t>
+               <rr-t>POINTER</rr-t>
+               <rr-t>SAVE</rr-t>
+               <rr-t>TARGET</rr-t>
             </rr-o>
          </rr-rr>
       </p>
@@ -747,7 +953,8 @@
             <rr-o>
                <rr-a><a href="#entityDecl">entityDecl</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#entityDecl">entityDecl</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#entityDecl">entityDecl</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -757,13 +964,17 @@
       <h2 id="entityDecl">entityDecl</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#objectName">objectName</a><rr-a><a href="#objectName">objectName</a><a href="#arraySpec">arraySpec</a></rr-a>
-               <rr-a><a href="#objectName">objectName</a><a href="#charLength">charLength</a></rr-a>
-               <rr-a><a href="#objectName">objectName</a><a href="#arraySpec">arraySpec</a><a href="#charLength">charLength</a></rr-a>
-               <rr-a><a href="#objectName">objectName</a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#objectName">objectName</a><a href="#arraySpec">arraySpec</a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#objectName">objectName</a><a href="#charLength">charLength</a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#objectName">objectName</a><a href="#charLength">charLength</a><a href="#arraySpec">arraySpec</a><a href="#expression">expression</a></rr-a>
+            <rr-o><a href="#objectName">objectName</a><rr-a><a href="#objectName">objectName</a><rr-t>LPAREN</rr-t><a href="#arraySpec">arraySpec</a><rr-t>RPAREN</rr-t>
+               </rr-a>
+               <rr-a><a href="#objectName">objectName</a><rr-t>STAR</rr-t><a href="#charLength">charLength</a></rr-a>
+               <rr-a><a href="#objectName">objectName</a><rr-t>LPAREN</rr-t><a href="#arraySpec">arraySpec</a><rr-t>RPAREN</rr-t>
+                  <rr-t>STAR</rr-t><a href="#charLength">charLength</a></rr-a>
+               <rr-a><a href="#objectName">objectName</a><rr-t>ASSIGN</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#objectName">objectName</a><rr-t>LPAREN</rr-t><a href="#arraySpec">arraySpec</a><rr-t>RPAREN</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#objectName">objectName</a><rr-t>STAR</rr-t><a href="#charLength">charLength</a><rr-t>ASSIGN</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#objectName">objectName</a><rr-t>STAR</rr-t><a href="#charLength">charLength</a><rr-t>LPAREN</rr-t><a href="#arraySpec">arraySpec</a><rr-t>RPAREN</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -776,7 +987,150 @@
       <h2 id="name">name</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NAME</rr-t>
+               <rr-t>ACCESS</rr-t>
+               <rr-t>ACCESSSPEC</rr-t>
+               <rr-t>ACTION</rr-t>
+               <rr-t>ADVANCE</rr-t>
+               <rr-t>AIF</rr-t>
+               <rr-t>ALLOCATABLE</rr-t>
+               <rr-t>ALLOCATE</rr-t>
+               <rr-t>ASSIGNMENT</rr-t>
+               <rr-t>ASSIGNSTMT</rr-t>
+               <rr-t>BACKSPACE</rr-t>
+               <rr-t>BLOCK</rr-t>
+               <rr-t>BLOCKDATA</rr-t>
+               <rr-t>CALL</rr-t>
+               <rr-t>CASE</rr-t>
+               <rr-t>CCON</rr-t>
+               <rr-t>CHARACTER</rr-t>
+               <rr-t>CLOSE</rr-t>
+               <rr-t>CODEROOT</rr-t>
+               <rr-t>COMMON</rr-t>
+               <rr-t>COMPLEX</rr-t>
+               <rr-t>CONCATOP</rr-t>
+               <rr-t>CONTAINS</rr-t>
+               <rr-t>CONTINUE</rr-t>
+               <rr-t>CTRLDIRECT</rr-t>
+               <rr-t>CTRLREC</rr-t>
+               <rr-t>CYCLE</rr-t>
+               <rr-t>DATA</rr-t>
+               <rr-t>DEALLOCATE</rr-t>
+               <rr-t>DEFAULT</rr-t>
+               <rr-t>DELIM</rr-t>
+               <rr-t>DIMENSION</rr-t>
+               <rr-t>DIRECT</rr-t>
+               <rr-t>DO</rr-t>
+               <rr-t>DOBLOCK</rr-t>
+               <rr-t>DOUBLE</rr-t>
+               <rr-t>DOUBLEPRECISION</rr-t>
+               <rr-t>ELSE</rr-t>
+               <rr-t>ELSEBLOCK</rr-t>
+               <rr-t>ELSEIF</rr-t>
+               <rr-t>ELSEWHERE</rr-t>
+               <rr-t>END</rr-t>
+               <rr-t>ENDBLOCK</rr-t>
+               <rr-t>ENDBLOCKDATA</rr-t>
+               <rr-t>ENDDO</rr-t>
+               <rr-t>ENDFILE</rr-t>
+               <rr-t>ENDIF</rr-t>
+               <rr-t>ENDINTERFACE</rr-t>
+               <rr-t>ENDMODULE</rr-t>
+               <rr-t>ENDSELECT</rr-t>
+               <rr-t>ENDTYPE</rr-t>
+               <rr-t>ENDWHERE</rr-t>
+               <rr-t>ENTRY</rr-t>
+               <rr-t>EQUIVALENCE</rr-t>
+               <rr-t>ERR</rr-t>
+               <rr-t>EXIST</rr-t>
+               <rr-t>EXTERNAL</rr-t>
+               <rr-t>FILE</rr-t>
+               <rr-t>FMT</rr-t>
+               <rr-t>FORM</rr-t>
+               <rr-t>FORMAT</rr-t>
+               <rr-t>FORMATTED</rr-t>
+               <rr-t>FUNCTION</rr-t>
+               <rr-t>GO</rr-t>
+               <rr-t>GOTO</rr-t>
+               <rr-t>HOLLERITH</rr-t>
+               <rr-t>IF</rr-t>
+               <rr-t>IMPLICIT</rr-t>
+               <rr-t>IN</rr-t>
+               <rr-t>INCLUDE</rr-t>
+               <rr-t>INOUT</rr-t>
+               <rr-t>INQUIRE</rr-t>
+               <rr-t>INTEGER</rr-t>
+               <rr-t>INTENT</rr-t>
+               <rr-t>INTERFACE</rr-t>
+               <rr-t>INTRINSIC</rr-t>
+               <rr-t>IOLENGTH</rr-t>
+               <rr-t>IOSTART</rr-t>
+               <rr-t>IOSTAT</rr-t>
+               <rr-t>KIND</rr-t>
+               <rr-t>LABEL</rr-t>
+               <rr-t>LEN</rr-t>
+               <rr-t>LET</rr-t>
+               <rr-t>LOGICAL</rr-t>
+               <rr-t>MODULE</rr-t>
+               <rr-t>NAME_</rr-t>
+               <rr-t>NAMED</rr-t>
+               <rr-t>NAMELIST</rr-t>
+               <rr-t>NEXTREC</rr-t>
+               <rr-t>NML</rr-t>
+               <rr-t>NONE</rr-t>
+               <rr-t>NULLIFY</rr-t>
+               <rr-t>NUMBER</rr-t>
+               <rr-t>ONLY</rr-t>
+               <rr-t>OPEN</rr-t>
+               <rr-t>OPENED</rr-t>
+               <rr-t>OPERATOR</rr-t>
+               <rr-t>OPTIONAL</rr-t>
+               <rr-t>OUT</rr-t>
+               <rr-t>PAD</rr-t>
+               <rr-t>PARAMETER</rr-t>
+               <rr-t>PAUSE</rr-t>
+               <rr-t>POINTER</rr-t>
+               <rr-t>POSITION</rr-t>
+               <rr-t>PRECISION</rr-t>
+               <rr-t>PRINT</rr-t>
+               <rr-t>PRIVATE</rr-t>
+               <rr-t>PROCEDURE</rr-t>
+               <rr-t>PROGRAM</rr-t>
+               <rr-t>READ</rr-t>
+               <rr-t>READWRITE</rr-t>
+               <rr-t>REAL</rr-t>
+               <rr-t>REC</rr-t>
+               <rr-t>RECL</rr-t>
+               <rr-t>RECURSIVE</rr-t>
+               <rr-t>RESULT</rr-t>
+               <rr-t>RETURN</rr-t>
+               <rr-t>REWIND</rr-t>
+               <rr-t>SAVE</rr-t>
+               <rr-t>SELECT</rr-t>
+               <rr-t>SELECTCASE</rr-t>
+               <rr-t>SEQUENCE</rr-t>
+               <rr-t>SEQUENTIAL</rr-t>
+               <rr-t>SIZE</rr-t>
+               <rr-t>SPOFF</rr-t>
+               <rr-t>SPON</rr-t>
+               <rr-t>STAT</rr-t>
+               <rr-t>STATUS</rr-t>
+               <rr-t>STOP</rr-t>
+               <rr-t>SUBPROGRAMBLOCK</rr-t>
+               <rr-t>SUBROUTINE</rr-t>
+               <rr-t>TARGET</rr-t>
+               <rr-t>THEN</rr-t>
+               <rr-t>THENBLOCK</rr-t>
+               <rr-t>TO</rr-t>
+               <rr-t>TYPE</rr-t>
+               <rr-t>UNFORMATTED</rr-t>
+               <rr-t>UNIT</rr-t>
+               <rr-t>USE</rr-t>
+               <rr-t>WHERE</rr-t>
+               <rr-t>WHILE</rr-t>
+               <rr-t>WRITE</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="arraySpec">arraySpec</h2>
@@ -789,9 +1143,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#lowerBound">lowerBound</a></rr-a>
-               <rr-a><a href="#deferredShapeSpecList">deferredShapeSpecList</a><a href="#lowerBound">lowerBound</a></rr-a>
-               <rr-a><a href="#assumedShapeSpecList">assumedShapeSpecList</a><a href="#assumedShapeSpec">assumedShapeSpec</a></rr-a>
+               <rr-a><a href="#lowerBound">lowerBound</a><rr-t>COLON</rr-t>
+               </rr-a>
+               <rr-a><a href="#deferredShapeSpecList">deferredShapeSpecList</a><rr-t>COMMA</rr-t><a href="#lowerBound">lowerBound</a><rr-t>COLON</rr-t>
+               </rr-a>
+               <rr-a><a href="#assumedShapeSpecList">assumedShapeSpecList</a><rr-t>COMMA</rr-t><a href="#assumedShapeSpec">assumedShapeSpec</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -799,7 +1155,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#lowerBound">lowerBound</a></rr-a>
+               <rr-a><a href="#lowerBound">lowerBound</a><rr-t>COLON</rr-t>
+               </rr-a>
+               <rr-t>COLON</rr-t>
             </rr-o>
          </rr-rr>
       </p>
@@ -807,9 +1165,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#lowerBound">lowerBound</a></rr-a>
-               <rr-a><a href="#explicitShapeSpecList">explicitShapeSpecList</a></rr-a>
-               <rr-a><a href="#explicitShapeSpecList">explicitShapeSpecList</a><a href="#lowerBound">lowerBound</a></rr-a>
+               <rr-t>STAR</rr-t>
+               <rr-a><a href="#lowerBound">lowerBound</a><rr-t>COLON</rr-t>
+                  <rr-t>STAR</rr-t>
+               </rr-a>
+               <rr-a><a href="#explicitShapeSpecList">explicitShapeSpecList</a><rr-t>COMMA</rr-t>
+                  <rr-t>STAR</rr-t>
+               </rr-a>
+               <rr-a><a href="#explicitShapeSpecList">explicitShapeSpecList</a><rr-t>COMMA</rr-t><a href="#lowerBound">lowerBound</a><rr-t>COLON</rr-t>
+                  <rr-t>STAR</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -828,9 +1193,14 @@
                <rr-a>
                   <rr-a>
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-t>ENDINTERFACE</rr-t>
+                        <rr-a>
+                           <rr-t>END</rr-t>
+                           <rr-t>INTERFACE</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>NAME</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -839,8 +1209,13 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a><a href="#genericSpec">genericSpec</a></rr-a>
+               <rr-a>
+                  <rr-t>INTERFACE</rr-t>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>INTERFACE</rr-t><a href="#genericSpec">genericSpec</a></rr-a>
+               <rr-t>INTERFACE</rr-t>
             </rr-o>
          </rr-rr>
       </p>
@@ -848,8 +1223,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#definedOperator">definedOperator</a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>OPERATOR</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#definedOperator">definedOperator</a><rr-t>RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>ASSIGNMENT</rr-t>
+                  <rr-t>LPAREN</rr-t>
+                  <rr-t>ASSIGN</rr-t>
+                  <rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -857,15 +1240,39 @@
       <p>
          <rr-rr>
             <rr-o>
+               <rr-t>DOP</rr-t>
+               <rr-t>POWER</rr-t>
+               <rr-t>STAR</rr-t>
                <rr-a>
-                  <rr-o></rr-o>
+                  <rr-o>
+                     <rr-t>PLUS</rr-t>
+                     <rr-t>MINUS</rr-t>
+                  </rr-o>
                </rr-a>
                <rr-a>
-                  <rr-o></rr-o>
+                  <rr-o>
+                     <rr-t>LT</rr-t>
+                     <rr-t>LE</rr-t>
+                     <rr-t>EQ</rr-t>
+                     <rr-t>NE</rr-t>
+                     <rr-t>GT</rr-t>
+                     <rr-t>GE</rr-t>
+                  </rr-o>
                </rr-a>
-               <rr-a></rr-a>
                <rr-a>
-                  <rr-o></rr-o>
+                  <rr-t>DIV</rr-t>
+                  <rr-t>SPOFF</rr-t>
+                  <rr-t>DIV</rr-t>
+                  <rr-t>SPON</rr-t>
+               </rr-a>
+               <rr-t>LNOT</rr-t>
+               <rr-t>LAND</rr-t>
+               <rr-t>LOR</rr-t>
+               <rr-a>
+                  <rr-o>
+                     <rr-t>NEQV</rr-t>
+                     <rr-t>EQV</rr-t>
+                  </rr-o>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -887,7 +1294,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#procedureNameList">procedureNameList</a></rr-a>
+               <rr-a>
+                  <rr-t>MODULE</rr-t>
+                  <rr-t>PROCEDURE</rr-t><a href="#procedureNameList">procedureNameList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -897,7 +1306,8 @@
             <rr-o>
                <rr-a><a href="#procedureName">procedureName</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#procedureName">procedureName</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#procedureName">procedureName</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -914,8 +1324,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#functionPrefix">functionPrefix</a><a href="#functionInterfaceRange">functionInterfaceRange</a></rr-a>
-               <rr-a><a href="#subroutineInterfaceRange">subroutineInterfaceRange</a></rr-a>
+               <rr-a><a href="#functionPrefix">functionPrefix</a><rr-t>NAME</rr-t><a href="#functionInterfaceRange">functionInterfaceRange</a></rr-a>
+               <rr-a>
+                  <rr-t>SUBROUTINE</rr-t>
+                  <rr-t>NAME</rr-t><a href="#subroutineInterfaceRange">subroutineInterfaceRange</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -931,22 +1343,32 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-t>END</rr-t>
+               <rr-a>
+                  <rr-t>END</rr-t>
+                  <rr-t>SUBROUTINE</rr-t>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="recursive">recursive</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>RECURSIVE</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="functionPrefix">functionPrefix</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#recursive">recursive</a><a href="#typeSpec">typeSpec</a></rr-a>
-               <rr-a><a href="#typeSpec">typeSpec</a></rr-a>
+               <rr-a><a href="#recursive">recursive</a><a href="#typeSpec">typeSpec</a><rr-t>FUNCTION</rr-t>
+               </rr-a>
+               <rr-a><a href="#typeSpec">typeSpec</a><rr-t>RECURSIVE</rr-t>
+                  <rr-t>FUNCTION</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -962,7 +1384,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#functionPars">functionPars</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#functionPars">functionPars</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -972,7 +1396,8 @@
             <rr-o>
                <rr-a><a href="#functionPar">functionPar</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#functionPar">functionPar</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#functionPar">functionPar</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -996,7 +1421,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-t>END</rr-t>
+               <rr-a>
+                  <rr-t>END</rr-t>
+                  <rr-t>FUNCTION</rr-t>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1012,9 +1442,20 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>ENDTYPE</rr-t>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
+               <rr-t>ENDTYPE</rr-t>
+               <rr-a>
+                  <rr-t>END</rr-t>
+                  <rr-t>TYPE</rr-t>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>END</rr-t>
+                  <rr-t>TYPE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1022,9 +1463,22 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>TYPE</rr-t>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TYPE</rr-t>
+                  <rr-t>DOUBLECOLON</rr-t>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TYPE</rr-t>
+                  <rr-t>COMMA</rr-t>
+                  <rr-t>ACCESSSPEC</rr-t>
+                  <rr-t>DOUBLECOLON</rr-t>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1044,15 +1498,18 @@
       <h2 id="privateSequenceStmt">privateSequenceStmt</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>PRIVATE</rr-t>
+               <rr-t>SEQUENCE</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="componentDefStmt">componentDefStmt</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#typeSpec">typeSpec</a><a href="#componentAttrSpecList">componentAttrSpecList</a><a href="#componentDeclList">componentDeclList</a></rr-a>
-               <rr-a><a href="#typeSpec">typeSpec</a><a href="#componentDeclList">componentDeclList</a></rr-a>
+               <rr-a><a href="#typeSpec">typeSpec</a><rr-t>COMMA</rr-t><a href="#componentAttrSpecList">componentAttrSpecList</a><rr-t>DOUBLECOLON</rr-t><a href="#componentDeclList">componentDeclList</a></rr-a>
+               <rr-a><a href="#typeSpec">typeSpec</a><rr-t>DOUBLECOLON</rr-t><a href="#componentDeclList">componentDeclList</a></rr-a>
                <rr-a><a href="#typeSpec">typeSpec</a><a href="#componentDeclList">componentDeclList</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -1063,7 +1520,8 @@
             <rr-o>
                <rr-a><a href="#componentDecl">componentDecl</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#componentDecl">componentDecl</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#componentDecl">componentDecl</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1074,19 +1532,25 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#componentName">componentName</a><a href="#componentArraySpec">componentArraySpec</a><a href="#charLength">charLength</a></rr-a>
-               <rr-a><a href="#componentName">componentName</a><a href="#componentArraySpec">componentArraySpec</a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#componentName">componentName</a><a href="#componentArraySpec">componentArraySpec</a></rr-a>
-               <rr-a><a href="#componentName">componentName</a><a href="#charLength">charLength</a></rr-a>
-               <rr-a><a href="#componentName">componentName</a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#componentName">componentName</a><a href="#charLength">charLength</a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#componentName">componentName</a><a href="#charLength">charLength</a><a href="#componentArraySpec">componentArraySpec</a><a href="#expression">expression</a></rr-a><a href="#componentName">componentName</a></rr-o>
+               <rr-a><a href="#componentName">componentName</a><rr-t>LPAREN</rr-t><a href="#componentArraySpec">componentArraySpec</a><rr-t>RPAREN</rr-t>
+                  <rr-t>STAR</rr-t><a href="#charLength">charLength</a></rr-a>
+               <rr-a><a href="#componentName">componentName</a><rr-t>LPAREN</rr-t><a href="#componentArraySpec">componentArraySpec</a><rr-t>RPAREN</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#componentName">componentName</a><rr-t>LPAREN</rr-t><a href="#componentArraySpec">componentArraySpec</a><rr-t>RPAREN</rr-t>
+               </rr-a>
+               <rr-a><a href="#componentName">componentName</a><rr-t>STAR</rr-t><a href="#charLength">charLength</a></rr-a>
+               <rr-a><a href="#componentName">componentName</a><rr-t>ASSIGN</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#componentName">componentName</a><rr-t>STAR</rr-t><a href="#charLength">charLength</a><rr-t>ASSIGN</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#componentName">componentName</a><rr-t>STAR</rr-t><a href="#charLength">charLength</a><rr-t>LPAREN</rr-t><a href="#componentArraySpec">componentArraySpec</a><rr-t>RPAREN</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#expression">expression</a></rr-a><a href="#componentName">componentName</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="componentName">componentName</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NAME</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="componentAttrSpecList">componentAttrSpecList</h2>
@@ -1095,7 +1559,8 @@
             <rr-o>
                <rr-a><a href="#componentAttrSpec">componentAttrSpec</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#componentAttrSpec">componentAttrSpec</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#componentAttrSpec">componentAttrSpec</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1106,7 +1571,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#componentArraySpec">componentArraySpec</a></rr-a>
+               <rr-t>POINTER</rr-t>
+               <rr-a>
+                  <rr-t>DIMENSION</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#componentArraySpec">componentArraySpec</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1122,7 +1591,8 @@
             <rr-o>
                <rr-a><a href="#explicitShapeSpec">explicitShapeSpec</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#explicitShapeSpec">explicitShapeSpec</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#explicitShapeSpec">explicitShapeSpec</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1135,7 +1605,7 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#lowerBound">lowerBound</a><a href="#upperBound">upperBound</a></rr-a>
+                     <rr-a><a href="#lowerBound">lowerBound</a><rr-t>COLON</rr-t><a href="#upperBound">upperBound</a></rr-a>
                   </rr-o>
                </rr-a><a href="#upperBound">upperBound</a></rr-o>
          </rr-rr>
@@ -1158,7 +1628,8 @@
             <rr-o>
                <rr-a><a href="#deferredShapeSpec">deferredShapeSpec</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#deferredShapeSpec">deferredShapeSpec</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#deferredShapeSpec">deferredShapeSpec</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1168,21 +1639,41 @@
       <h2 id="deferredShapeSpec">deferredShapeSpec</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>COLON</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="typeSpec">typeSpec</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#lengthSelector">lengthSelector</a></rr-a>
-               <rr-a><a href="#kindSelector">kindSelector</a></rr-a>
-               <rr-a><a href="#kindSelector">kindSelector</a></rr-a>
-               <rr-a></rr-a>
-               <rr-a><a href="#kindSelector">kindSelector</a></rr-a>
-               <rr-a><a href="#charSelector">charSelector</a></rr-a>
-               <rr-a><a href="#kindSelector">kindSelector</a></rr-a>
-               <rr-a><a href="#typeName">typeName</a></rr-a>
+               <rr-t>INTEGER</rr-t>
+               <rr-t>REAL</rr-t>
+               <rr-t>DOUBLEPRECISION</rr-t>
+               <rr-t>COMPLEX</rr-t>
+               <rr-t>LOGICAL</rr-t>
+               <rr-t>CHARACTER</rr-t>
+               <rr-a>
+                  <rr-t>CHARACTER</rr-t><a href="#lengthSelector">lengthSelector</a></rr-a>
+               <rr-a>
+                  <rr-t>INTEGER</rr-t><a href="#kindSelector">kindSelector</a></rr-a>
+               <rr-a>
+                  <rr-t>REAL</rr-t><a href="#kindSelector">kindSelector</a></rr-a>
+               <rr-a>
+                  <rr-t>DOUBLE</rr-t>
+                  <rr-t>PRECISION</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>COMPLEX</rr-t><a href="#kindSelector">kindSelector</a></rr-a>
+               <rr-a>
+                  <rr-t>CHARACTER</rr-t><a href="#charSelector">charSelector</a></rr-a>
+               <rr-a>
+                  <rr-t>LOGICAL</rr-t><a href="#kindSelector">kindSelector</a></rr-a>
+               <rr-a>
+                  <rr-t>TYPE</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#typeName">typeName</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1190,8 +1681,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t>
+                  <rr-t>KIND</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1205,11 +1702,31 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#typeParamValue">typeParamValue</a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#typeParamValue">typeParamValue</a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#typeParamValue">typeParamValue</a></rr-a>
-               <rr-a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t>
+                  <rr-t>LEN</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#typeParamValue">typeParamValue</a><rr-t>COMMA</rr-t>
+                  <rr-t>KIND</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t>
+                  <rr-t>LEN</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#typeParamValue">typeParamValue</a><rr-t>COMMA</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t>
+                  <rr-t>LEN</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#typeParamValue">typeParamValue</a><rr-t>RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t>
+                  <rr-t>KIND</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1217,8 +1734,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#charLength">charLength</a></rr-a>
-               <rr-a><a href="#typeParamValue">typeParamValue</a></rr-a>
+               <rr-a>
+                  <rr-t>STAR</rr-t><a href="#charLength">charLength</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#typeParamValue">typeParamValue</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1226,7 +1746,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#typeParamValue">typeParamValue</a></rr-a><a href="#constant">constant</a></rr-o>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#typeParamValue">typeParamValue</a><rr-t>RPAREN</rr-t>
+               </rr-a><a href="#constant">constant</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="constant">constant</h2>
@@ -1234,22 +1756,38 @@
          <rr-rr>
             <rr-o><a href="#namedConstantUse">namedConstantUse</a><rr-a>
                   <rr-a data-min="0" data-max="1">
-                     <rr-o></rr-o>
-                  </rr-a><a href="#unsignedArithmeticConstant">unsignedArithmeticConstant</a></rr-a><a href="#logicalConstant">logicalConstant</a><rr-a></rr-a>
-               <rr-a><a href="#namedConstantUse">namedConstantUse</a></rr-a><a href="#structureConstructor">structureConstructor</a><a href="#bozLiteralConstant">bozLiteralConstant</a></rr-o>
+                     <rr-o>
+                        <rr-t>PLUS</rr-t>
+                        <rr-t>MINUS</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#unsignedArithmeticConstant">unsignedArithmeticConstant</a></rr-a>
+               <rr-t>SCON</rr-t>
+               <rr-t>HOLLERITH</rr-t><a href="#logicalConstant">logicalConstant</a><rr-a>
+                  <rr-t>ICON</rr-t>
+                  <rr-t>UNDERSCORE</rr-t>
+                  <rr-t>SCON</rr-t>
+               </rr-a>
+               <rr-a><a href="#namedConstantUse">namedConstantUse</a><rr-t>UNDERSCORE</rr-t>
+                  <rr-t>SCON</rr-t>
+               </rr-a><a href="#structureConstructor">structureConstructor</a><a href="#bozLiteralConstant">bozLiteralConstant</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="bozLiteralConstant">bozLiteralConstant</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>BCON</rr-t>
+               <rr-t>OCON</rr-t>
+               <rr-t>ZCON</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="structureConstructor">structureConstructor</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#typeName">typeName</a><a href="#exprList">exprList</a></rr-a>
+               <rr-a><a href="#typeName">typeName</a><rr-t>LPAREN</rr-t><a href="#exprList">exprList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1259,7 +1797,8 @@
             <rr-o>
                <rr-a><a href="#expression">expression</a><rr-a>
                      <rr-o>
-                        <rr-a><a href="#expression">expression</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#expression">expression</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1269,20 +1808,24 @@
       <h2 id="namedConstantUse">namedConstantUse</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NAME</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="typeParamValue">typeParamValue</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#expression">expression</a></rr-o>
+            <rr-o><a href="#expression">expression</a><rr-t>STAR</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="moduleStmt">moduleStmt</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#moduleName">moduleName</a></rr-a>
+               <rr-a>
+                  <rr-t>MODULE</rr-t><a href="#moduleName">moduleName</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1295,7 +1838,9 @@
       <h2 id="ident">ident</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NAME</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="moduleBody">moduleBody</h2>
@@ -1315,7 +1860,9 @@
       <h2 id="containsStmt">containsStmt</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>CONTAINS</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="moduleSubprogram">moduleSubprogram</h2>
@@ -1335,7 +1882,9 @@
       <h2 id="functionName">functionName</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NAME</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="functionRange">functionRange</h2>
@@ -1343,8 +1892,14 @@
          <rr-rr>
             <rr-o>
                <rr-a><a href="#functionParList">functionParList</a><a href="#body">body</a><a href="#endFunctionStmt">endFunctionStmt</a></rr-a>
-               <rr-a><a href="#functionParList">functionParList</a><a href="#body">body</a><a href="#endFunctionStmt">endFunctionStmt</a></rr-a>
-               <rr-a><a href="#functionParList">functionParList</a><a href="#bodyPlusInternals">bodyPlusInternals</a><a href="#endFunctionStmt">endFunctionStmt</a></rr-a>
+               <rr-a><a href="#functionParList">functionParList</a><rr-t>RESULT</rr-t>
+                  <rr-t>LPAREN</rr-t>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>RPAREN</rr-t><a href="#body">body</a><a href="#endFunctionStmt">endFunctionStmt</a></rr-a>
+               <rr-a><a href="#functionParList">functionParList</a><rr-t>RESULT</rr-t>
+                  <rr-t>LPAREN</rr-t>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>RPAREN</rr-t><a href="#bodyPlusInternals">bodyPlusInternals</a><a href="#endFunctionStmt">endFunctionStmt</a></rr-a>
                <rr-a><a href="#functionParList">functionParList</a><a href="#bodyPlusInternals">bodyPlusInternals</a><a href="#endFunctionStmt">endFunctionStmt</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -1388,14 +1943,20 @@
       <h2 id="elsewhereStmt">elsewhereStmt</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>ELSEWHERE</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="endWhereStmt">endWhereStmt</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-t>ENDWHERE</rr-t>
+               <rr-a>
+                  <rr-t>END</rr-t>
+                  <rr-t>WHERE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1410,7 +1971,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#maskExpr">maskExpr</a></rr-a>
+               <rr-a>
+                  <rr-t>WHERE</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#maskExpr">maskExpr</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1424,10 +1988,24 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a><a href="#selectCaseRange">selectCaseRange</a></rr-a>
-               <rr-a><a href="#expression">expression</a><a href="#selectCaseRange">selectCaseRange</a></rr-a>
-               <rr-a><a href="#expression">expression</a><a href="#selectCaseRange">selectCaseRange</a></rr-a>
-               <rr-a><a href="#expression">expression</a><a href="#selectCaseRange">selectCaseRange</a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>COLON</rr-t>
+                  <rr-t>SELECTCASE</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t><a href="#selectCaseRange">selectCaseRange</a></rr-a>
+               <rr-a>
+                  <rr-t>SELECTCASE</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t><a href="#selectCaseRange">selectCaseRange</a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>COLON</rr-t>
+                  <rr-t>SELECT</rr-t>
+                  <rr-t>CASE</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t><a href="#selectCaseRange">selectCaseRange</a></rr-a>
+               <rr-a>
+                  <rr-t>SELECT</rr-t>
+                  <rr-t>CASE</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t><a href="#selectCaseRange">selectCaseRange</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1444,12 +2022,19 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>ENDSELECT</rr-t>
+                        <rr-t>NAME</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>END</rr-t>
+                        <rr-t>SELECT</rr-t>
+                        <rr-t>NAME</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -1472,8 +2057,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#caseSelector">caseSelector</a></rr-a>
-               <rr-a><a href="#caseSelector">caseSelector</a></rr-a>
+               <rr-a>
+                  <rr-t>CASE</rr-t><a href="#caseSelector">caseSelector</a></rr-a>
+               <rr-a>
+                  <rr-t>CASE</rr-t><a href="#caseSelector">caseSelector</a><rr-t>NAME</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1481,7 +2069,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#caseValueRangeList">caseValueRangeList</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#caseValueRangeList">caseValueRangeList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
+               <rr-t>DEFAULT</rr-t>
             </rr-o>
          </rr-rr>
       </p>
@@ -1494,9 +2085,11 @@
       <h2 id="caseValueRange">caseValueRange</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#expression">expression</a><rr-a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#expression">expression</a><a href="#expression">expression</a></rr-a>
+            <rr-o><a href="#expression">expression</a><rr-a><a href="#expression">expression</a><rr-t>COLON</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>COLON</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>COLON</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1512,7 +2105,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>IF</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+                  <rr-t>THEN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1534,8 +2131,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>ELSEIF</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+                  <rr-t>THEN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>ELSE</rr-t>
+                  <rr-t>IF</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+                  <rr-t>THEN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1550,14 +2156,20 @@
       <h2 id="elseStmt">elseStmt</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>ELSE</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="endIfStmt">endIfStmt</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-t>ENDIF</rr-t>
+               <rr-a>
+                  <rr-t>END</rr-t>
+                  <rr-t>IF</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1571,7 +2183,7 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#nameColon">nameColon</a><a href="#commaLoopControl">commaLoopControl</a><a href="#executionPartConstruct">executionPartConstruct</a><a href="#endDoStmt">endDoStmt</a></rr-a>
+               <rr-a><a href="#nameColon">nameColon</a><rr-t>DO</rr-t><a href="#commaLoopControl">commaLoopControl</a><a href="#executionPartConstruct">executionPartConstruct</a><a href="#endDoStmt">endDoStmt</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1579,8 +2191,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#endName">endName</a></rr-a>
-               <rr-a><a href="#endName">endName</a></rr-a>
+               <rr-a>
+                  <rr-t>ENDDO</rr-t><a href="#endName">endName</a></rr-a>
+               <rr-a>
+                  <rr-t>END</rr-t>
+                  <rr-t>DO</rr-t><a href="#endName">endName</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1594,7 +2209,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>COLON</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1602,20 +2220,25 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#doLblRef">doLblRef</a><a href="#commaLoopControl">commaLoopControl</a><a href="#executionPartConstruct">executionPartConstruct</a><a href="#doLblDef">doLblDef</a><a href="#doLabelStmt">doLabelStmt</a></rr-a>
+               <rr-a>
+                  <rr-t>DO</rr-t><a href="#doLblRef">doLblRef</a><a href="#commaLoopControl">commaLoopControl</a><a href="#executionPartConstruct">executionPartConstruct</a><a href="#doLblDef">doLblDef</a><a href="#doLabelStmt">doLabelStmt</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="doLblRef">doLblRef</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>ICON</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="doLblDef">doLblDef</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>ICON</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="doLabelStmt">doLabelStmt</h2>
@@ -1634,7 +2257,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#lblRef">lblRef</a><a href="#commaLoopControl">commaLoopControl</a></rr-a>
+               <rr-a>
+                  <rr-t>DO</rr-t><a href="#lblRef">lblRef</a><a href="#commaLoopControl">commaLoopControl</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1642,11 +2266,14 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#dataStmtSet">dataStmtSet</a><rr-a data-min="0" data-max="inf">
+               <rr-a>
+                  <rr-t>DATA</rr-t><a href="#dataStmtSet">dataStmtSet</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
                         <rr-a>
                            <rr-a data-min="0" data-max="1">
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>COMMA</rr-t>
+                              </rr-o>
                            </rr-a><a href="#dataStmtSet">dataStmtSet</a></rr-a>
                      </rr-o>
                   </rr-a>
@@ -1668,9 +2295,11 @@
             <rr-o>
                <rr-a><a href="#dataStmtObject">dataStmtObject</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#dataStmtObject">dataStmtObject</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#dataStmtObject">dataStmtObject</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>DIV</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1681,9 +2310,11 @@
             <rr-o>
                <rr-a><a href="#dataStmtValue">dataStmtValue</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#dataStmtValue">dataStmtValue</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#dataStmtValue">dataStmtValue</a></rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>DIV</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1691,8 +2322,8 @@
       <h2 id="dataStmtValue">dataStmtValue</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#constant">constant</a><rr-a><a href="#constant">constant</a><a href="#constant">constant</a></rr-a>
-               <rr-a><a href="#namedConstantUse">namedConstantUse</a><a href="#constant">constant</a></rr-a>
+            <rr-o><a href="#constant">constant</a><rr-a><a href="#constant">constant</a><rr-t>STAR</rr-t><a href="#constant">constant</a></rr-a>
+               <rr-a><a href="#namedConstantUse">namedConstantUse</a><rr-t>STAR</rr-t><a href="#constant">constant</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1714,7 +2345,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#subscriptList">subscriptList</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#subscriptList">subscriptList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1734,7 +2367,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a><a href="#subscriptTripletTail">subscriptTripletTail</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><a href="#subscriptTripletTail">subscriptTripletTail</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1742,8 +2377,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#dataIDoObjectList">dataIDoObjectList</a><a href="#impliedDoVariable">impliedDoVariable</a><a href="#expression">expression</a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#dataIDoObjectList">dataIDoObjectList</a><a href="#impliedDoVariable">impliedDoVariable</a><a href="#expression">expression</a><a href="#expression">expression</a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#dataIDoObjectList">dataIDoObjectList</a><rr-t>COMMA</rr-t><a href="#impliedDoVariable">impliedDoVariable</a><rr-t>ASSIGN</rr-t><a href="#expression">expression</a><rr-t>COMMA</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#dataIDoObjectList">dataIDoObjectList</a><rr-t>COMMA</rr-t><a href="#impliedDoVariable">impliedDoVariable</a><rr-t>ASSIGN</rr-t><a href="#expression">expression</a><rr-t>COMMA</rr-t><a href="#expression">expression</a><rr-t>COMMA</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1772,8 +2411,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#sectionSubscriptList">sectionSubscriptList</a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#sectionSubscriptList">sectionSubscriptList</a><rr-t>RPAREN</rr-t>
+                  <rr-t>PCT</rr-t>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>PCT</rr-t>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1781,22 +2427,27 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#variableName">variableName</a><a href="#sectionSubscriptList">sectionSubscriptList</a></rr-a>
-               <rr-a><a href="#structureComponent">structureComponent</a><a href="#sectionSubscriptList">sectionSubscriptList</a></rr-a>
+               <rr-a><a href="#variableName">variableName</a><rr-t>LPAREN</rr-t><a href="#sectionSubscriptList">sectionSubscriptList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
+               <rr-a><a href="#structureComponent">structureComponent</a><rr-t>LPAREN</rr-t><a href="#sectionSubscriptList">sectionSubscriptList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="impliedDoVariable">impliedDoVariable</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NAME</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="commaLoopControl">commaLoopControl</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#loopControl">loopControl</a></rr-a>
+               <rr-a>
+                  <rr-t>COMMA</rr-t><a href="#loopControl">loopControl</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1804,22 +2455,28 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#variableName">variableName</a><a href="#expression">expression</a><a href="#expression">expression</a><a href="#commaExpr">commaExpr</a></rr-a>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#variableName">variableName</a><rr-t>ASSIGN</rr-t><a href="#expression">expression</a><rr-t>COMMA</rr-t><a href="#expression">expression</a><a href="#commaExpr">commaExpr</a></rr-a>
+               <rr-a>
+                  <rr-t>WHILE</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="variableName">variableName</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NAME</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="commaExpr">commaExpr</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>COMMA</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1827,7 +2484,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#actionStmt">actionStmt</a></rr-a>
+               <rr-a>
+                  <rr-t>SEMICOLON</rr-t><a href="#actionStmt">actionStmt</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1841,7 +2499,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#maskExpr">maskExpr</a><a href="#assignmentStmt">assignmentStmt</a></rr-a>
+               <rr-a>
+                  <rr-t>WHERE</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#maskExpr">maskExpr</a><rr-t>RPAREN</rr-t><a href="#assignmentStmt">assignmentStmt</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1849,8 +2509,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#target">target</a></rr-a>
-               <rr-a><a href="#sFExprListRef">sFExprListRef</a><a href="#nameDataRef">nameDataRef</a><a href="#target">target</a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>IMPLIEDT</rr-t><a href="#target">target</a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t><a href="#sFExprListRef">sFExprListRef</a><rr-t>PCT</rr-t><a href="#nameDataRef">nameDataRef</a><rr-t>IMPLIEDT</rr-t><a href="#target">target</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1864,7 +2527,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#pointerObjectList">pointerObjectList</a></rr-a>
+               <rr-a>
+                  <rr-t>NULLIFY</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#pointerObjectList">pointerObjectList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1874,7 +2540,8 @@
             <rr-o>
                <rr-a><a href="#pointerObject">pointerObject</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#pointerObject">pointerObject</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#pointerObject">pointerObject</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1884,14 +2551,18 @@
       <h2 id="pointerObject">pointerObject</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#pointerField">pointerField</a></rr-o>
+            <rr-o>
+               <rr-t>NAME</rr-t><a href="#pointerField">pointerField</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="pointerField">pointerField</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#sFExprListRef">sFExprListRef</a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t><a href="#sFExprListRef">sFExprListRef</a><rr-t>PCT</rr-t>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
                <rr-a><a href="#pointerField">pointerField</a><a href="#fieldSelector">fieldSelector</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -1900,7 +2571,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#endName">endName</a></rr-a>
+               <rr-a>
+                  <rr-t>EXIT</rr-t><a href="#endName">endName</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1908,8 +2580,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#allocateObjectList">allocateObjectList</a><a href="#variable">variable</a></rr-a>
-               <rr-a><a href="#allocateObjectList">allocateObjectList</a></rr-a>
+               <rr-a>
+                  <rr-t>DEALLOCATE</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#allocateObjectList">allocateObjectList</a><rr-t>COMMA</rr-t>
+                  <rr-t>STAT</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#variable">variable</a><rr-t>RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>DEALLOCATE</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#allocateObjectList">allocateObjectList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1919,7 +2599,8 @@
             <rr-o>
                <rr-a><a href="#allocateObject">allocateObject</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#allocateObject">allocateObject</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#allocateObject">allocateObject</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1930,7 +2611,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#endName">endName</a></rr-a>
+               <rr-a>
+                  <rr-t>CYCLE</rr-t><a href="#endName">endName</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1938,8 +2620,16 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#allocationList">allocationList</a><a href="#variable">variable</a></rr-a>
-               <rr-a><a href="#allocationList">allocationList</a></rr-a>
+               <rr-a>
+                  <rr-t>ALLOCATE</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#allocationList">allocationList</a><rr-t>COMMA</rr-t>
+                  <rr-t>STAT</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#variable">variable</a><rr-t>RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>ALLOCATE</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#allocationList">allocationList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1949,7 +2639,8 @@
             <rr-o>
                <rr-a><a href="#allocation">allocation</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#allocation">allocation</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#allocation">allocation</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -1974,7 +2665,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#sectionSubscriptList">sectionSubscriptList</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#sectionSubscriptList">sectionSubscriptList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -1983,8 +2676,12 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>STOP</rr-t>
                   <rr-a data-min="0" data-max="1">
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>ICON</rr-t>
+                        <rr-t>SCON</rr-t>
+                     </rr-o>
                   </rr-a>
                </rr-a>
             </rr-o>
@@ -1994,7 +2691,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#ioControlSpecList">ioControlSpecList</a><a href="#outputItemList">outputItemList</a></rr-a>
+               <rr-a>
+                  <rr-t>WRITE</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#ioControlSpecList">ioControlSpecList</a><rr-t>RPAREN</rr-t><a href="#outputItemList">outputItemList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2002,9 +2701,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#unitIdentifier">unitIdentifier</a></rr-a>
-               <rr-a><a href="#unitIdentifier">unitIdentifier</a><a href="#formatIdentifier">formatIdentifier</a></rr-a>
-               <rr-a><a href="#unitIdentifier">unitIdentifier</a><a href="#ioControlSpec">ioControlSpec</a></rr-a><a href="#ioControlSpec">ioControlSpec</a><rr-a><a href="#ioControlSpecList">ioControlSpecList</a><a href="#ioControlSpec">ioControlSpec</a></rr-a>
+               <rr-a><a href="#unitIdentifier">unitIdentifier</a><rr-t>DOLLAR</rr-t>
+                  <rr-t>COMMA</rr-t>
+               </rr-a>
+               <rr-a><a href="#unitIdentifier">unitIdentifier</a><rr-t>COMMA</rr-t><a href="#formatIdentifier">formatIdentifier</a></rr-a>
+               <rr-a><a href="#unitIdentifier">unitIdentifier</a><rr-t>COMMA</rr-t><a href="#ioControlSpec">ioControlSpec</a></rr-a><a href="#ioControlSpec">ioControlSpec</a><rr-a><a href="#ioControlSpecList">ioControlSpecList</a><rr-t>COMMA</rr-t><a href="#ioControlSpec">ioControlSpec</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2012,7 +2713,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#stmtFunctionRange">stmtFunctionRange</a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t><a href="#stmtFunctionRange">stmtFunctionRange</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2020,7 +2722,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#sFDummyArgNameList">sFDummyArgNameList</a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#sFDummyArgNameList">sFDummyArgNameList</a><rr-t>RPAREN</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2030,7 +2734,8 @@
             <rr-o>
                <rr-a><a href="#sFDummyArgName">sFDummyArgName</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#sFDummyArgName">sFDummyArgName</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#sFDummyArgName">sFDummyArgName</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2040,14 +2745,17 @@
       <h2 id="sFDummyArgName">sFDummyArgName</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NAME</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="returnStmt">returnStmt</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>RETURN</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2057,12 +2765,16 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#unitIdentifier">unitIdentifier</a></rr-a>
+                     <rr-a>
+                        <rr-t>REWIND</rr-t><a href="#unitIdentifier">unitIdentifier</a></rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#positionSpecList">positionSpecList</a></rr-a>
+                     <rr-a>
+                        <rr-t>REWIND</rr-t>
+                        <rr-t>LPAREN</rr-t><a href="#positionSpecList">positionSpecList</a><rr-t>RPAREN</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -2072,8 +2784,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#rdCtlSpec">rdCtlSpec</a><a href="#inputItemList">inputItemList</a></rr-a>
-               <rr-a><a href="#rdFmtId">rdFmtId</a><a href="#commaInputItemList">commaInputItemList</a></rr-a>
+               <rr-a>
+                  <rr-t>READ</rr-t><a href="#rdCtlSpec">rdCtlSpec</a><a href="#inputItemList">inputItemList</a></rr-a>
+               <rr-a>
+                  <rr-t>READ</rr-t><a href="#rdFmtId">rdFmtId</a><a href="#commaInputItemList">commaInputItemList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2081,15 +2795,22 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#inputItemList">inputItemList</a></rr-a>
+               <rr-a>
+                  <rr-t>COMMA</rr-t><a href="#inputItemList">inputItemList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="rdFmtId">rdFmtId</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#lblRef">lblRef</a><a href="#cOperand">cOperand</a><rr-a><a href="#cOperand">cOperand</a><a href="#cPrimary">cPrimary</a></rr-a>
-               <rr-a><a href="#rdFmtIdExpr">rdFmtIdExpr</a><a href="#cPrimary">cPrimary</a></rr-a>
+            <rr-o><a href="#lblRef">lblRef</a><rr-t>STAR</rr-t><a href="#cOperand">cOperand</a><rr-a><a href="#cOperand">cOperand</a><rr-t>DIV</rr-t>
+                  <rr-t>SPOFF</rr-t>
+                  <rr-t>DIV</rr-t>
+                  <rr-t>SPON</rr-t><a href="#cPrimary">cPrimary</a></rr-a>
+               <rr-a><a href="#rdFmtIdExpr">rdFmtIdExpr</a><rr-t>DIV</rr-t>
+                  <rr-t>SPOFF</rr-t>
+                  <rr-t>DIV</rr-t>
+                  <rr-t>SPON</rr-t><a href="#cPrimary">cPrimary</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2097,7 +2818,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#uFExpr">uFExpr</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#uFExpr">uFExpr</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2107,7 +2830,8 @@
             <rr-o>
                <rr-a><a href="#inputItem">inputItem</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#inputItem">inputItem</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#inputItem">inputItem</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2124,7 +2848,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#inputItemList">inputItemList</a><a href="#impliedDoVariable">impliedDoVariable</a><a href="#expression">expression</a><a href="#expression">expression</a><a href="#commaExpr">commaExpr</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#inputItemList">inputItemList</a><rr-t>COMMA</rr-t><a href="#impliedDoVariable">impliedDoVariable</a><rr-t>ASSIGN</rr-t><a href="#expression">expression</a><rr-t>COMMA</rr-t><a href="#expression">expression</a><a href="#commaExpr">commaExpr</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2133,7 +2859,9 @@
          <rr-rr>
             <rr-o><a href="#rdUnitId">rdUnitId</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#rdIoCtlSpecList">rdIoCtlSpecList</a></rr-a>
+                     <rr-a>
+                        <rr-t>LPAREN</rr-t><a href="#rdIoCtlSpecList">rdIoCtlSpecList</a><rr-t>RPAREN</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -2145,12 +2873,18 @@
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a><a href="#uFExpr">uFExpr</a></rr-a>
+                     <rr-a>
+                        <rr-t>LPAREN</rr-t><a href="#uFExpr">uFExpr</a><rr-t>RPAREN</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t>LPAREN</rr-t>
+                        <rr-t>STAR</rr-t>
+                        <rr-t>RPAREN</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -2160,8 +2894,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#unitIdentifier">unitIdentifier</a><a href="#ioControlSpec">ioControlSpec</a></rr-a>
-               <rr-a><a href="#unitIdentifier">unitIdentifier</a><a href="#formatIdentifier">formatIdentifier</a></rr-a><a href="#ioControlSpec">ioControlSpec</a><rr-a><a href="#rdIoCtlSpecList">rdIoCtlSpecList</a><a href="#ioControlSpec">ioControlSpec</a></rr-a>
+               <rr-a><a href="#unitIdentifier">unitIdentifier</a><rr-t>COMMA</rr-t><a href="#ioControlSpec">ioControlSpec</a></rr-a>
+               <rr-a><a href="#unitIdentifier">unitIdentifier</a><rr-t>COMMA</rr-t><a href="#formatIdentifier">formatIdentifier</a></rr-a><a href="#ioControlSpec">ioControlSpec</a><rr-a><a href="#rdIoCtlSpecList">rdIoCtlSpecList</a><rr-t>COMMA</rr-t><a href="#ioControlSpec">ioControlSpec</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2169,16 +2903,36 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#formatIdentifier">formatIdentifier</a></rr-a>
-               <rr-a><a href="#unitIdentifier">unitIdentifier</a></rr-a>
-               <rr-a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#lblRef">lblRef</a></rr-a>
-               <rr-a><a href="#lblRef">lblRef</a></rr-a>
-               <rr-a><a href="#scalarVariable">scalarVariable</a></rr-a>
-               <rr-a><a href="#namelistGroupName">namelistGroupName</a></rr-a>
-               <rr-a><a href="#cExpression">cExpression</a></rr-a>
-               <rr-a><a href="#variable">variable</a></rr-a>
-               <rr-a><a href="#lblRef">lblRef</a></rr-a>
+               <rr-a>
+                  <rr-t>FMT</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#formatIdentifier">formatIdentifier</a></rr-a>
+               <rr-a>
+                  <rr-t>UNIT</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#unitIdentifier">unitIdentifier</a></rr-a>
+               <rr-a>
+                  <rr-t>REC</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>END</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#lblRef">lblRef</a></rr-a>
+               <rr-a>
+                  <rr-t>ERR</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#lblRef">lblRef</a></rr-a>
+               <rr-a>
+                  <rr-t>IOSTAT</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#scalarVariable">scalarVariable</a></rr-a>
+               <rr-a>
+                  <rr-t>NML</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#namelistGroupName">namelistGroupName</a></rr-a>
+               <rr-a>
+                  <rr-t>ADVANCE</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#cExpression">cExpression</a></rr-a>
+               <rr-a>
+                  <rr-t>SIZE</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#variable">variable</a></rr-a>
+               <rr-a>
+                  <rr-t>EOR</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#lblRef">lblRef</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2186,8 +2940,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#formatIdentifier">formatIdentifier</a><a href="#outputItemList">outputItemList</a></rr-a>
-               <rr-a><a href="#formatIdentifier">formatIdentifier</a></rr-a>
+               <rr-a>
+                  <rr-t>PRINT</rr-t><a href="#formatIdentifier">formatIdentifier</a><rr-t>COMMA</rr-t><a href="#outputItemList">outputItemList</a></rr-a>
+               <rr-a>
+                  <rr-t>PRINT</rr-t><a href="#formatIdentifier">formatIdentifier</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2201,9 +2957,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#expression">expression</a><a href="#outputImpliedDo">outputImpliedDo</a></rr-a><a href="#outputImpliedDo">outputImpliedDo</a><rr-a><a href="#outputItemList1">outputItemList1</a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#outputItemList1">outputItemList1</a><a href="#outputImpliedDo">outputImpliedDo</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>COMMA</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>COMMA</rr-t><a href="#outputImpliedDo">outputImpliedDo</a></rr-a><a href="#outputImpliedDo">outputImpliedDo</a><rr-a><a href="#outputItemList1">outputItemList1</a><rr-t>COMMA</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#outputItemList1">outputItemList1</a><rr-t>COMMA</rr-t><a href="#outputImpliedDo">outputImpliedDo</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2211,15 +2967,20 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a><a href="#impliedDoVariable">impliedDoVariable</a><a href="#expression">expression</a><a href="#expression">expression</a><a href="#commaExpr">commaExpr</a></rr-a>
-               <rr-a><a href="#outputItemList1">outputItemList1</a><a href="#impliedDoVariable">impliedDoVariable</a><a href="#expression">expression</a><a href="#expression">expression</a><a href="#commaExpr">commaExpr</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>COMMA</rr-t><a href="#impliedDoVariable">impliedDoVariable</a><rr-t>ASSIGN</rr-t><a href="#expression">expression</a><rr-t>COMMA</rr-t><a href="#expression">expression</a><a href="#commaExpr">commaExpr</a><rr-t>RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#outputItemList1">outputItemList1</a><rr-t>COMMA</rr-t><a href="#impliedDoVariable">impliedDoVariable</a><rr-t>ASSIGN</rr-t><a href="#expression">expression</a><rr-t>COMMA</rr-t><a href="#expression">expression</a><a href="#commaExpr">commaExpr</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="formatIdentifier">formatIdentifier</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#lblRef">lblRef</a><a href="#cExpression">cExpression</a></rr-o>
+            <rr-o><a href="#lblRef">lblRef</a><a href="#cExpression">cExpression</a><rr-t>STAR</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="pauseStmt">pauseStmt</h2>
@@ -2227,8 +2988,12 @@
          <rr-rr>
             <rr-o>
                <rr-a>
+                  <rr-t>PAUSE</rr-t>
                   <rr-a data-min="0" data-max="1">
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>ICON</rr-t>
+                        <rr-t>SCON</rr-t>
+                     </rr-o>
                   </rr-a>
                </rr-a>
             </rr-o>
@@ -2238,7 +3003,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#connectSpecList">connectSpecList</a></rr-a>
+               <rr-a>
+                  <rr-t>OPEN</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#connectSpecList">connectSpecList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2248,7 +3016,8 @@
             <rr-o>
                <rr-a><a href="#unitIdentifierComma">unitIdentifierComma</a><a href="#connectSpec">connectSpec</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#connectSpec">connectSpec</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#connectSpec">connectSpec</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2259,19 +3028,45 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#unitIdentifier">unitIdentifier</a></rr-a>
-               <rr-a><a href="#lblRef">lblRef</a></rr-a>
-               <rr-a><a href="#cExpression">cExpression</a></rr-a>
-               <rr-a><a href="#cExpression">cExpression</a></rr-a>
-               <rr-a><a href="#cExpression">cExpression</a></rr-a>
-               <rr-a><a href="#cExpression">cExpression</a></rr-a>
-               <rr-a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#cExpression">cExpression</a></rr-a>
-               <rr-a><a href="#scalarVariable">scalarVariable</a></rr-a>
-               <rr-a><a href="#cExpression">cExpression</a></rr-a>
-               <rr-a><a href="#cExpression">cExpression</a></rr-a>
-               <rr-a><a href="#cExpression">cExpression</a></rr-a>
-               <rr-a><a href="#cExpression">cExpression</a></rr-a>
+               <rr-a>
+                  <rr-t>UNIT</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#unitIdentifier">unitIdentifier</a></rr-a>
+               <rr-a>
+                  <rr-t>ERR</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#lblRef">lblRef</a></rr-a>
+               <rr-a>
+                  <rr-t>FILE</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#cExpression">cExpression</a></rr-a>
+               <rr-a>
+                  <rr-t>STATUS</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#cExpression">cExpression</a></rr-a>
+               <rr-a>
+                  <rr-t>ACCESS</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#cExpression">cExpression</a></rr-a>
+               <rr-a>
+                  <rr-t>FORM</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#cExpression">cExpression</a></rr-a>
+               <rr-a>
+                  <rr-t>RECL</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>BLANK</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#cExpression">cExpression</a></rr-a>
+               <rr-a>
+                  <rr-t>IOSTAT</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#scalarVariable">scalarVariable</a></rr-a>
+               <rr-a>
+                  <rr-t>POSITION</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#cExpression">cExpression</a></rr-a>
+               <rr-a>
+                  <rr-t>ACTION</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#cExpression">cExpression</a></rr-a>
+               <rr-a>
+                  <rr-t>DELIM</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#cExpression">cExpression</a></rr-a>
+               <rr-a>
+                  <rr-t>PAD</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#cExpression">cExpression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2279,8 +3074,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#inquireSpecList">inquireSpecList</a></rr-a>
-               <rr-a><a href="#scalarVariable">scalarVariable</a><a href="#outputItemList">outputItemList</a></rr-a>
+               <rr-a>
+                  <rr-t>INQUIRE</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#inquireSpecList">inquireSpecList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>INQUIRE</rr-t>
+                  <rr-t>LPAREN</rr-t>
+                  <rr-t>IOLENGTH</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#scalarVariable">scalarVariable</a><rr-t>RPAREN</rr-t><a href="#outputItemList">outputItemList</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2290,7 +3092,8 @@
             <rr-o>
                <rr-a><a href="#unitIdentifier">unitIdentifier</a><a href="#inquireSpec">inquireSpec</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#inquireSpec">inquireSpec</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#inquireSpec">inquireSpec</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2301,31 +3104,81 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#unitIdentifier">unitIdentifier</a></rr-a>
-               <rr-a><a href="#cExpression">cExpression</a></rr-a>
-               <rr-a><a href="#lblRef">lblRef</a></rr-a>
-               <rr-a><a href="#scalarVariable">scalarVariable</a></rr-a>
-               <rr-a><a href="#scalarVariable">scalarVariable</a></rr-a>
-               <rr-a><a href="#scalarVariable">scalarVariable</a></rr-a>
-               <rr-a><a href="#scalarVariable">scalarVariable</a></rr-a>
-               <rr-a><a href="#scalarVariable">scalarVariable</a></rr-a>
-               <rr-a><a href="#scalarVariable">scalarVariable</a></rr-a>
-               <rr-a><a href="#scalarVariable">scalarVariable</a></rr-a>
-               <rr-a><a href="#scalarVariable">scalarVariable</a></rr-a>
-               <rr-a><a href="#scalarVariable">scalarVariable</a></rr-a>
-               <rr-a><a href="#scalarVariable">scalarVariable</a></rr-a>
-               <rr-a><a href="#scalarVariable">scalarVariable</a></rr-a>
-               <rr-a><a href="#scalarVariable">scalarVariable</a></rr-a>
-               <rr-a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#scalarVariable">scalarVariable</a></rr-a>
-               <rr-a><a href="#scalarVariable">scalarVariable</a></rr-a>
-               <rr-a><a href="#scalarVariable">scalarVariable</a></rr-a>
-               <rr-a><a href="#scalarVariable">scalarVariable</a></rr-a>
-               <rr-a><a href="#scalarVariable">scalarVariable</a></rr-a>
-               <rr-a><a href="#scalarVariable">scalarVariable</a></rr-a>
-               <rr-a><a href="#scalarVariable">scalarVariable</a></rr-a>
-               <rr-a><a href="#scalarVariable">scalarVariable</a></rr-a>
-               <rr-a><a href="#scalarVariable">scalarVariable</a></rr-a>
+               <rr-a>
+                  <rr-t>UNIT</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#unitIdentifier">unitIdentifier</a></rr-a>
+               <rr-a>
+                  <rr-t>FILE</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#cExpression">cExpression</a></rr-a>
+               <rr-a>
+                  <rr-t>ERR</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#lblRef">lblRef</a></rr-a>
+               <rr-a>
+                  <rr-t>IOSTAT</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#scalarVariable">scalarVariable</a></rr-a>
+               <rr-a>
+                  <rr-t>EXIST</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#scalarVariable">scalarVariable</a></rr-a>
+               <rr-a>
+                  <rr-t>OPENED</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#scalarVariable">scalarVariable</a></rr-a>
+               <rr-a>
+                  <rr-t>NUMBER</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#scalarVariable">scalarVariable</a></rr-a>
+               <rr-a>
+                  <rr-t>NAMED</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#scalarVariable">scalarVariable</a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#scalarVariable">scalarVariable</a></rr-a>
+               <rr-a>
+                  <rr-t>ACCESS</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#scalarVariable">scalarVariable</a></rr-a>
+               <rr-a>
+                  <rr-t>SEQUENTIAL</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#scalarVariable">scalarVariable</a></rr-a>
+               <rr-a>
+                  <rr-t>DIRECT</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#scalarVariable">scalarVariable</a></rr-a>
+               <rr-a>
+                  <rr-t>FORM</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#scalarVariable">scalarVariable</a></rr-a>
+               <rr-a>
+                  <rr-t>FORMATTED</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#scalarVariable">scalarVariable</a></rr-a>
+               <rr-a>
+                  <rr-t>UNFORMATTED</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#scalarVariable">scalarVariable</a></rr-a>
+               <rr-a>
+                  <rr-t>RECL</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>NEXTREC</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#scalarVariable">scalarVariable</a></rr-a>
+               <rr-a>
+                  <rr-t>BLANK</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#scalarVariable">scalarVariable</a></rr-a>
+               <rr-a>
+                  <rr-t>POSITION</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#scalarVariable">scalarVariable</a></rr-a>
+               <rr-a>
+                  <rr-t>ACTION</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#scalarVariable">scalarVariable</a></rr-a>
+               <rr-a>
+                  <rr-t>READ</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#scalarVariable">scalarVariable</a></rr-a>
+               <rr-a>
+                  <rr-t>WRITE</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#scalarVariable">scalarVariable</a></rr-a>
+               <rr-a>
+                  <rr-t>READWRITE</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#scalarVariable">scalarVariable</a></rr-a>
+               <rr-a>
+                  <rr-t>DELIM</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#scalarVariable">scalarVariable</a></rr-a>
+               <rr-a>
+                  <rr-t>PAD</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#scalarVariable">scalarVariable</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2336,21 +3189,35 @@
                <rr-a>
                   <rr-a>
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-t>GOTO</rr-t>
+                        <rr-a>
+                           <rr-t>GO</rr-t>
+                           <rr-t>TO</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#variableName">variableName</a></rr-a>
                <rr-a>
                   <rr-a>
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-t>GOTO</rr-t>
+                        <rr-a>
+                           <rr-t>GO</rr-t>
+                           <rr-t>TO</rr-t>
+                        </rr-a>
                      </rr-o>
-                  </rr-a><a href="#variableName">variableName</a><a href="#lblRefList">lblRefList</a></rr-a>
+                  </rr-a><a href="#variableName">variableName</a><rr-t>LPAREN</rr-t><a href="#lblRefList">lblRefList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
                <rr-a>
                   <rr-a>
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-t>GOTO</rr-t>
+                        <rr-a>
+                           <rr-t>GO</rr-t>
+                           <rr-t>TO</rr-t>
+                        </rr-a>
                      </rr-o>
-                  </rr-a><a href="#variableComma">variableComma</a><a href="#lblRefList">lblRefList</a></rr-a>
+                  </rr-a><a href="#variableComma">variableComma</a><rr-t>LPAREN</rr-t><a href="#lblRefList">lblRefList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2358,7 +3225,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#variableName">variableName</a></rr-a>
+               <rr-a><a href="#variableName">variableName</a><rr-t>COMMA</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2369,7 +3237,11 @@
                <rr-a>
                   <rr-a>
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-t>GOTO</rr-t>
+                        <rr-a>
+                           <rr-t>GO</rr-t>
+                           <rr-t>TO</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#lblRef">lblRef</a></rr-a>
             </rr-o>
@@ -2379,7 +3251,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#lblRefList">lblRefList</a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>GOTO</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#lblRefList">lblRefList</a><rr-t>RPAREN</rr-t>
+                  <rr-t>COMMA</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2389,7 +3264,8 @@
             <rr-o>
                <rr-a><a href="#lblRef">lblRef</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#lblRef">lblRef</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#lblRef">lblRef</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2405,7 +3281,11 @@
                      <rr-a>
                         <rr-a>
                            <rr-o>
-                              <rr-a></rr-a>
+                              <rr-t>ENDFILE</rr-t>
+                              <rr-a>
+                                 <rr-t>END</rr-t>
+                                 <rr-t>FILE</rr-t>
+                              </rr-a>
                            </rr-o>
                         </rr-a><a href="#unitIdentifier">unitIdentifier</a></rr-a>
                   </rr-o>
@@ -2415,9 +3295,15 @@
                      <rr-a>
                         <rr-a>
                            <rr-o>
-                              <rr-a></rr-a>
+                              <rr-t>ENDFILE</rr-t>
+                              <rr-a>
+                                 <rr-t>END</rr-t>
+                                 <rr-t>FILE</rr-t>
+                              </rr-a>
                            </rr-o>
-                        </rr-a><a href="#positionSpecList">positionSpecList</a></rr-a>
+                        </rr-a>
+                        <rr-t>LPAREN</rr-t><a href="#positionSpecList">positionSpecList</a><rr-t>RPAREN</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -2426,14 +3312,19 @@
       <h2 id="continueStmt">continueStmt</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>CONTINUE</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="closeStmt">closeStmt</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#closeSpecList">closeSpecList</a></rr-a>
+               <rr-a>
+                  <rr-t>CLOSE</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#closeSpecList">closeSpecList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2443,7 +3334,8 @@
             <rr-o>
                <rr-a><a href="#unitIdentifierComma">unitIdentifierComma</a><a href="#closeSpec">closeSpec</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#closeSpec">closeSpec</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#closeSpec">closeSpec</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2454,10 +3346,17 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#unitIdentifier">unitIdentifier</a></rr-a>
-               <rr-a><a href="#lblRef">lblRef</a></rr-a>
-               <rr-a><a href="#cExpression">cExpression</a></rr-a>
-               <rr-a><a href="#scalarVariable">scalarVariable</a></rr-a>
+               <rr-a>
+                  <rr-t>UNIT</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#unitIdentifier">unitIdentifier</a></rr-a>
+               <rr-a>
+                  <rr-t>ERR</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#lblRef">lblRef</a></rr-a>
+               <rr-a>
+                  <rr-t>STATUS</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#cExpression">cExpression</a></rr-a>
+               <rr-a>
+                  <rr-t>IOSTAT</rr-t><a href="#scalarVariable">scalarVariable</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2474,7 +3373,9 @@
          <rr-rr>
             <rr-o><a href="#cOperand">cOperand</a><rr-a>
                   <rr-o>
-                     <rr-a><a href="#cExpression">cExpression</a></rr-a>
+                     <rr-a>
+                        <rr-t>LPAREN</rr-t><a href="#cExpression">cExpression</a><rr-t>RPAREN</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -2483,14 +3384,19 @@
       <h2 id="cOperand">cOperand</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#nameDataRef">nameDataRef</a><a href="#functionReference">functionReference</a></rr-o>
+            <rr-o>
+               <rr-t>SCON</rr-t><a href="#nameDataRef">nameDataRef</a><a href="#functionReference">functionReference</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="cPrimaryConcatOp">cPrimaryConcatOp</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#cPrimary">cPrimary</a></rr-a>
+               <rr-a><a href="#cPrimary">cPrimary</a><rr-t>DIV</rr-t>
+                  <rr-t>SPOFF</rr-t>
+                  <rr-t>DIV</rr-t>
+                  <rr-t>SPON</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2498,15 +3404,20 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#subroutineNameUse">subroutineNameUse</a></rr-a>
-               <rr-a><a href="#subroutineNameUse">subroutineNameUse</a><a href="#subroutineArgList">subroutineArgList</a></rr-a>
+               <rr-a>
+                  <rr-t>CALL</rr-t><a href="#subroutineNameUse">subroutineNameUse</a></rr-a>
+               <rr-a>
+                  <rr-t>CALL</rr-t><a href="#subroutineNameUse">subroutineNameUse</a><rr-t>LPAREN</rr-t><a href="#subroutineArgList">subroutineArgList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="subroutineNameUse">subroutineNameUse</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NAME</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="subroutineArgList">subroutineArgList</h2>
@@ -2515,7 +3426,8 @@
             <rr-o>
                <rr-a><a href="#subroutineArg">subroutineArg</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#subroutineArg">subroutineArg</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#subroutineArg">subroutineArg</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2525,10 +3437,21 @@
       <h2 id="subroutineArg">subroutineArg</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#expression">expression</a><rr-a><a href="#lblRef">lblRef</a></rr-a>
-               <rr-a><a href="#expression">expression</a></rr-a>
-               <rr-a></rr-a>
-               <rr-a><a href="#lblRef">lblRef</a></rr-a>
+            <rr-o><a href="#expression">expression</a><rr-t>HOLLERITH</rr-t>
+               <rr-a>
+                  <rr-t>STAR</rr-t><a href="#lblRef">lblRef</a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>ASSIGN</rr-t>
+                  <rr-t>HOLLERITH</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>ASSIGN</rr-t>
+                  <rr-t>STAR</rr-t><a href="#lblRef">lblRef</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2536,7 +3459,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a><a href="#lblRef">lblRef</a><a href="#lblRef">lblRef</a><a href="#lblRef">lblRef</a></rr-a>
+               <rr-a>
+                  <rr-t>IF</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t><a href="#lblRef">lblRef</a><rr-t>COMMA</rr-t><a href="#lblRef">lblRef</a><rr-t>COMMA</rr-t><a href="#lblRef">lblRef</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2549,16 +3474,22 @@
       <h2 id="label">label</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>ICON</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="assignmentStmt">assignmentStmt</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#label">label</a><a href="#sFExprListRef">sFExprListRef</a><a href="#substringRange">substringRange</a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#sFExprListRef">sFExprListRef</a><a href="#nameDataRef">nameDataRef</a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#sFDummyArgNameList">sFDummyArgNameList</a><a href="#nameDataRef">nameDataRef</a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#label">label</a><rr-t>NAME</rr-t><a href="#sFExprListRef">sFExprListRef</a><a href="#substringRange">substringRange</a><rr-t>ASSIGN</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t><a href="#sFExprListRef">sFExprListRef</a><rr-t>PCT</rr-t><a href="#nameDataRef">nameDataRef</a><rr-t>ASSIGN</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#sFDummyArgNameList">sFDummyArgNameList</a><rr-t>RPAREN</rr-t>
+                  <rr-t>PCT</rr-t><a href="#nameDataRef">nameDataRef</a><rr-t>ASSIGN</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2566,7 +3497,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#sFExprList">sFExprList</a><a href="#commaSectionSubscript">commaSectionSubscript</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#sFExprList">sFExprList</a><a href="#commaSectionSubscript">commaSectionSubscript</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2574,10 +3507,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#expression">expression</a><a href="#expression">expression</a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#expression">expression</a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>COLON</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>COLON</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>COLON</rr-t><a href="#expression">expression</a><rr-t>COLON</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>DOUBLECOLON</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2585,7 +3519,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#sectionSubscript">sectionSubscript</a></rr-a>
+               <rr-a>
+                  <rr-t>COMMA</rr-t><a href="#sectionSubscript">sectionSubscript</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2593,7 +3528,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#lblRef">lblRef</a><a href="#variableName">variableName</a></rr-a>
+               <rr-a>
+                  <rr-t>ASSIGNSTMT</rr-t><a href="#lblRef">lblRef</a><rr-t>TO</rr-t><a href="#variableName">variableName</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2601,15 +3537,20 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#unitIdentifier">unitIdentifier</a></rr-a>
-               <rr-a><a href="#positionSpecList">positionSpecList</a></rr-a>
+               <rr-a>
+                  <rr-t>BACKSPACE</rr-t><a href="#unitIdentifier">unitIdentifier</a></rr-a>
+               <rr-a>
+                  <rr-t>BACKSPACE</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#positionSpecList">positionSpecList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="unitIdentifier">unitIdentifier</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#uFExpr">uFExpr</a></rr-o>
+            <rr-o><a href="#uFExpr">uFExpr</a><rr-t>STAR</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="positionSpecList">positionSpecList</h2>
@@ -2624,7 +3565,8 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#unitIdentifier">unitIdentifier</a></rr-a>
+               <rr-a><a href="#unitIdentifier">unitIdentifier</a><rr-t>COMMA</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2632,9 +3574,15 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#unitIdentifier">unitIdentifier</a></rr-a>
-               <rr-a><a href="#lblRef">lblRef</a></rr-a>
-               <rr-a><a href="#scalarVariable">scalarVariable</a></rr-a>
+               <rr-a>
+                  <rr-t>UNIT</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#unitIdentifier">unitIdentifier</a></rr-a>
+               <rr-a>
+                  <rr-t>ERR</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#lblRef">lblRef</a></rr-a>
+               <rr-a>
+                  <rr-t>IOSTAT</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#scalarVariable">scalarVariable</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2649,10 +3597,16 @@
          <rr-rr>
             <rr-o><a href="#uFTerm">uFTerm</a><rr-a>
                   <rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>PLUS</rr-t>
+                        <rr-t>MINUS</rr-t>
+                     </rr-o>
                   </rr-a><a href="#uFTerm">uFTerm</a></rr-a>
                <rr-a><a href="#uFExpr">uFExpr</a><rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>PLUS</rr-t>
+                        <rr-t>MINUS</rr-t>
+                     </rr-o>
                   </rr-a><a href="#uFTerm">uFTerm</a></rr-a>
             </rr-o>
          </rr-rr>
@@ -2661,11 +3615,17 @@
       <p>
          <rr-rr>
             <rr-o><a href="#uFFactor">uFFactor</a><rr-a><a href="#uFTerm">uFTerm</a><rr-a>
-                     <rr-o></rr-o>
+                     <rr-o>
+                        <rr-t>STAR</rr-t>
+                        <rr-t>DIV</rr-t>
+                     </rr-o>
                   </rr-a><a href="#uFFactor">uFFactor</a></rr-a>
                <rr-a><a href="#uFTerm">uFTerm</a><rr-a>
                      <rr-o>
-                        <rr-a></rr-a>
+                        <rr-a>
+                           <rr-t>DIV</rr-t>
+                           <rr-t>DIV</rr-t>
+                        </rr-a>
                      </rr-o>
                   </rr-a><a href="#uFPrimary">uFPrimary</a></rr-a>
             </rr-o>
@@ -2674,14 +3634,18 @@
       <h2 id="uFFactor">uFFactor</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#uFPrimary">uFPrimary</a><rr-a><a href="#uFPrimary">uFPrimary</a><a href="#uFFactor">uFFactor</a></rr-a>
+            <rr-o><a href="#uFPrimary">uFPrimary</a><rr-a><a href="#uFPrimary">uFPrimary</a><rr-t>POWER</rr-t><a href="#uFFactor">uFFactor</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="uFPrimary">uFPrimary</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#nameDataRef">nameDataRef</a><a href="#functionReference">functionReference</a><rr-a><a href="#uFExpr">uFExpr</a></rr-a>
+            <rr-o>
+               <rr-t>ICON</rr-t>
+               <rr-t>SCON</rr-t><a href="#nameDataRef">nameDataRef</a><a href="#functionReference">functionReference</a><rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#uFExpr">uFExpr</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2689,15 +3653,20 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#subroutineName">subroutineName</a><a href="#subroutineRange">subroutineRange</a></rr-a>
-               <rr-a><a href="#subroutineName">subroutineName</a><a href="#subroutineRange">subroutineRange</a></rr-a>
+               <rr-a>
+                  <rr-t>SUBROUTINE</rr-t><a href="#subroutineName">subroutineName</a><a href="#subroutineRange">subroutineRange</a></rr-a>
+               <rr-a>
+                  <rr-t>RECURSIVE</rr-t>
+                  <rr-t>SUBROUTINE</rr-t><a href="#subroutineName">subroutineName</a><a href="#subroutineRange">subroutineRange</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="subroutineName">subroutineName</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>NAME</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="subroutineRange">subroutineRange</h2>
@@ -2713,7 +3682,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>INCLUDE</rr-t>
+                  <rr-t>SCON</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2721,8 +3693,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#implicitSpecList">implicitSpecList</a></rr-a>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>IMPLICIT</rr-t><a href="#implicitSpecList">implicitSpecList</a></rr-a>
+               <rr-a>
+                  <rr-t>IMPLICIT</rr-t>
+                  <rr-t>NONE</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2732,7 +3708,8 @@
             <rr-o>
                <rr-a><a href="#implicitSpec">implicitSpec</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#implicitSpec">implicitSpec</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#implicitSpec">implicitSpec</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2744,7 +3721,8 @@
          <rr-rr>
             <rr-o>
                <rr-a><a href="#typeSpec">typeSpec</a><a href="#implicitRanges">implicitRanges</a></rr-a>
-               <rr-a><a href="#typeSpec">typeSpec</a><a href="#implicitRanges">implicitRanges</a></rr-a>
+               <rr-a><a href="#typeSpec">typeSpec</a><rr-t>LPAREN</rr-t><a href="#implicitRanges">implicitRanges</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2754,7 +3732,8 @@
             <rr-o>
                <rr-a><a href="#implicitRange">implicitRange</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#implicitRange">implicitRange</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#implicitRange">implicitRange</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2765,7 +3744,11 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2779,7 +3762,9 @@
       <h2 id="definedBinaryOp">definedBinaryOp</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>DOP</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="level5Expr">level5Expr</h2>
@@ -2790,7 +3775,10 @@
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>NEQV</rr-t>
+                                 <rr-t>EQV</rr-t>
+                              </rr-o>
                            </rr-a><a href="#equivOperand">equivOperand</a></rr-a>
                      </rr-o>
                   </rr-a>
@@ -2804,7 +3792,8 @@
             <rr-o>
                <rr-a><a href="#orOperand">orOperand</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#orOperand">orOperand</a></rr-a>
+                        <rr-a>
+                           <rr-t>LOR</rr-t><a href="#orOperand">orOperand</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2817,7 +3806,8 @@
             <rr-o>
                <rr-a><a href="#andOperand">andOperand</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#andOperand">andOperand</a></rr-a>
+                        <rr-a>
+                           <rr-t>LAND</rr-t><a href="#andOperand">andOperand</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2828,14 +3818,23 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#level4Expr">level4Expr</a></rr-a>
+               <rr-a>
+                  <rr-t>LNOT</rr-t><a href="#level4Expr">level4Expr</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="relOp">relOp</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>LT</rr-t>
+               <rr-t>LE</rr-t>
+               <rr-t>EQ</rr-t>
+               <rr-t>NE</rr-t>
+               <rr-t>GT</rr-t>
+               <rr-t>GE</rr-t>
+               <rr-t>OP</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="level4Expr">level4Expr</h2>
@@ -2857,7 +3856,11 @@
             <rr-o>
                <rr-a><a href="#level2Expr">level2Expr</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#level2Expr">level2Expr</a></rr-a>
+                        <rr-a>
+                           <rr-t>DIV</rr-t>
+                           <rr-t>SPOFF</rr-t>
+                           <rr-t>DIV</rr-t>
+                           <rr-t>SPON</rr-t><a href="#level2Expr">level2Expr</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2872,7 +3875,10 @@
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>PLUS</rr-t>
+                                 <rr-t>MINUS</rr-t>
+                              </rr-o>
                            </rr-a><a href="#addOperand">addOperand</a></rr-a>
                      </rr-o>
                   </rr-a>
@@ -2883,7 +3889,10 @@
       <h2 id="sign">sign</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>PLUS</rr-t>
+               <rr-t>MINUS</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="addOperand">addOperand</h2>
@@ -2894,7 +3903,10 @@
                      <rr-o>
                         <rr-a>
                            <rr-a>
-                              <rr-o></rr-o>
+                              <rr-o>
+                                 <rr-t>STAR</rr-t>
+                                 <rr-t>DIV</rr-t>
+                              </rr-o>
                            </rr-a><a href="#multOperand">multOperand</a></rr-a>
                      </rr-o>
                   </rr-a>
@@ -2908,7 +3920,8 @@
             <rr-o>
                <rr-a><a href="#level1Expr">level1Expr</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#level1Expr">level1Expr</a></rr-a>
+                        <rr-a>
+                           <rr-t>POWER</rr-t><a href="#level1Expr">level1Expr</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -2925,20 +3938,27 @@
       <h2 id="definedUnaryOp">definedUnaryOp</h2>
       <p>
          <rr-rr>
-            <rr-o></rr-o>
+            <rr-o>
+               <rr-t>DOP</rr-t>
+            </rr-o>
          </rr-rr>
       </p>
       <h2 id="primary">primary</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#unsignedArithmeticConstant">unsignedArithmeticConstant</a><a href="#nameDataRef">nameDataRef</a><a href="#functionReference">functionReference</a><rr-a><a href="#expression">expression</a></rr-a><a href="#logicalConstant">logicalConstant</a><a href="#arrayConstructor">arrayConstructor</a></rr-o>
+            <rr-o><a href="#unsignedArithmeticConstant">unsignedArithmeticConstant</a><a href="#nameDataRef">nameDataRef</a><a href="#functionReference">functionReference</a><rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
+               <rr-t>SCON</rr-t><a href="#logicalConstant">logicalConstant</a><a href="#arrayConstructor">arrayConstructor</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="arrayConstructor">arrayConstructor</h2>
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#acValueList">acValueList</a></rr-a>
+               <rr-a>
+                  <rr-t>OBRACKETSLASH</rr-t><a href="#acValueList">acValueList</a><rr-t>CBRACKETSLASH</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2952,9 +3972,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#expression">expression</a><a href="#acImpliedDo">acImpliedDo</a></rr-a><a href="#acImpliedDo">acImpliedDo</a><rr-a><a href="#acValueList1">acValueList1</a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#acValueList1">acValueList1</a><a href="#acImpliedDo">acImpliedDo</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>COMMA</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>COMMA</rr-t><a href="#acImpliedDo">acImpliedDo</a></rr-a><a href="#acImpliedDo">acImpliedDo</a><rr-a><a href="#acValueList1">acValueList1</a><rr-t>COMMA</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#acValueList1">acValueList1</a><rr-t>COMMA</rr-t><a href="#acImpliedDo">acImpliedDo</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2962,10 +3982,18 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a><a href="#impliedDoVariable">impliedDoVariable</a><a href="#expression">expression</a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#expression">expression</a><a href="#impliedDoVariable">impliedDoVariable</a><a href="#expression">expression</a><a href="#expression">expression</a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#acImpliedDo">acImpliedDo</a><a href="#impliedDoVariable">impliedDoVariable</a><a href="#expression">expression</a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#acImpliedDo">acImpliedDo</a><a href="#impliedDoVariable">impliedDoVariable</a><a href="#expression">expression</a><a href="#expression">expression</a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>COMMA</rr-t><a href="#impliedDoVariable">impliedDoVariable</a><rr-t>ASSIGN</rr-t><a href="#expression">expression</a><rr-t>COMMA</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>COMMA</rr-t><a href="#impliedDoVariable">impliedDoVariable</a><rr-t>ASSIGN</rr-t><a href="#expression">expression</a><rr-t>COMMA</rr-t><a href="#expression">expression</a><rr-t>COMMA</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#acImpliedDo">acImpliedDo</a><rr-t>COMMA</rr-t><a href="#impliedDoVariable">impliedDoVariable</a><rr-t>ASSIGN</rr-t><a href="#expression">expression</a><rr-t>COMMA</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#acImpliedDo">acImpliedDo</a><rr-t>COMMA</rr-t><a href="#impliedDoVariable">impliedDoVariable</a><rr-t>ASSIGN</rr-t><a href="#expression">expression</a><rr-t>COMMA</rr-t><a href="#expression">expression</a><rr-t>COMMA</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2973,16 +4001,23 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
-               <rr-a><a href="#functionArgList">functionArgList</a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>LPAREN</rr-t>
+                  <rr-t>RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#functionArgList">functionArgList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="functionArgList">functionArgList</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#functionArg">functionArg</a><rr-a><a href="#functionArgList">functionArgList</a><a href="#functionArg">functionArg</a></rr-a>
-               <rr-a><a href="#sectionSubscriptList">sectionSubscriptList</a><a href="#functionArg">functionArg</a></rr-a>
+            <rr-o><a href="#functionArg">functionArg</a><rr-a><a href="#functionArgList">functionArgList</a><rr-t>COMMA</rr-t><a href="#functionArg">functionArg</a></rr-a>
+               <rr-a><a href="#sectionSubscriptList">sectionSubscriptList</a><rr-t>COMMA</rr-t><a href="#functionArg">functionArg</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -2990,7 +4025,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3005,7 +4042,10 @@
       <h2 id="complexDataRefTail">complexDataRefTail</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#sectionSubscriptRef">sectionSubscriptRef</a><rr-a></rr-a>
+            <rr-o><a href="#sectionSubscriptRef">sectionSubscriptRef</a><rr-a>
+                  <rr-t>PCT</rr-t>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3013,7 +4053,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#sectionSubscriptList">sectionSubscriptList</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#sectionSubscriptList">sectionSubscriptList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3023,7 +4065,8 @@
             <rr-o>
                <rr-a><a href="#sectionSubscript">sectionSubscript</a><rr-a data-min="0" data-max="inf">
                      <rr-o>
-                        <rr-a><a href="#sectionSubscript">sectionSubscript</a></rr-a>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#sectionSubscript">sectionSubscript</a></rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
@@ -3041,9 +4084,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#expression">expression</a><a href="#expression">expression</a></rr-a>
-               <rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>COLON</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>COLON</rr-t><a href="#expression">expression</a><rr-t>COLON</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>DOUBLECOLON</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3052,17 +4098,26 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-o></rr-o>
+                  <rr-o>
+                     <rr-t>TRUE</rr-t>
+                     <rr-t>FALSE</rr-t>
+                  </rr-o>
                </rr-a>
-               <rr-a><a href="#kindParam">kindParam</a></rr-a>
-               <rr-a><a href="#kindParam">kindParam</a></rr-a>
+               <rr-a>
+                  <rr-t>TRUE</rr-t>
+                  <rr-t>UNDERSCORE</rr-t><a href="#kindParam">kindParam</a></rr-a>
+               <rr-a>
+                  <rr-t>FALSE</rr-t>
+                  <rr-t>UNDERSCORE</rr-t><a href="#kindParam">kindParam</a><rr-t>DOT</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <h2 id="kindParam">kindParam</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#namedConstantUse">namedConstantUse</a></rr-o>
+            <rr-o>
+               <rr-t>ICON</rr-t><a href="#namedConstantUse">namedConstantUse</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="unsignedArithmeticConstant">unsignedArithmeticConstant</h2>
@@ -3070,9 +4125,16 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-o></rr-o>
-               </rr-a><a href="#complexConst">complexConst</a><rr-a><a href="#kindParam">kindParam</a></rr-a>
-               <rr-a><a href="#kindParam">kindParam</a></rr-a>
+                  <rr-o>
+                     <rr-t>ICON</rr-t>
+                     <rr-t>RDCON</rr-t>
+                  </rr-o>
+               </rr-a><a href="#complexConst">complexConst</a><rr-a>
+                  <rr-t>ICON</rr-t>
+                  <rr-t>UNDERSCORE</rr-t><a href="#kindParam">kindParam</a></rr-a>
+               <rr-a>
+                  <rr-t>RDCON</rr-t>
+                  <rr-t>UNDERSCORE</rr-t><a href="#kindParam">kindParam</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3080,7 +4142,10 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#complexComponent">complexComponent</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#complexComponent">complexComponent</a><rr-t>COMMA</rr-t>
+                  <rr-t>RPAREN</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -3092,11 +4157,17 @@
                   <rr-a data-min="0" data-max="1">
                      <rr-o>
                         <rr-a>
-                           <rr-o></rr-o>
+                           <rr-o>
+                              <rr-t>PLUS</rr-t>
+                              <rr-t>MINUS</rr-t>
+                           </rr-o>
                         </rr-a>
                      </rr-o>
                   </rr-a>
+                  <rr-t>ICON</rr-t>
                </rr-a>
+               <rr-t>RDCON</rr-t>
+               <rr-t>NAME</rr-t>
             </rr-o>
          </rr-rr>
       </p>
@@ -3110,7 +4181,9 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a><a href="#expression">expression</a><a href="#actionStmt">actionStmt</a></rr-a>
+               <rr-a>
+                  <rr-t>IF</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t><a href="#actionStmt">actionStmt</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
