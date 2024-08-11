@@ -44,16 +44,17 @@
     <xsl:variable name="root" select="f:path($filedir)"/>
     
     <xsl:template match="g:ast">
+        <xsl:variable name="root" select="f:path($filedir)"/>
         <html class="rr-root">
             <head>
                 <meta charset="utf-8" />
-                <link rel="stylesheet" type="text/css" href="{f:path($filedir)}/railroad.css" />
+                <link rel="stylesheet" type="text/css" href="{$root}/railroad.css" />
                 <!--
                      <link rel="stylesheet" type="text/css" href="ast.css" />
                 -->
             </head>
             <body>
-                <h1>Railroad {$filedir}/{replace($filename,'\..*$','')}</h1>      
+                <h1><a href="{$root}/index.html">Railroad</a> {$filedir}/{replace($filename,'\..*$','')}</h1>      
                 <xsl:apply-templates select="node()"/>
             </body>
         </html>
