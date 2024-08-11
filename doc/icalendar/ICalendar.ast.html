@@ -1,0 +1,5786 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../index.html">Railroad</a> icalendar/ICalendar</h1>
+      <pre>/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2013-2014 by Bart Kiers
+ * 
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ * 
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ */</pre>
+      <pre>/*
+ * An iCalendar grammar for ANTLR v4 based on:
+ * https://tools.ietf.org/html/rfc5545
+ *
+ * For more information, and unit tests, see the GitHub repository:
+ * https://github.com/bkiers/ICalParser
+ */</pre>
+      <h1>Grammar Decl</h1>
+      <pre>grammar ICalendar;
+
+////////////////////////////// parser rules //////////////////////////////</pre>
+      <h1>Rules</h1>
+      <h2 id="parse">parse</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#icalstream">icalstream</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="icalstream">icalstream</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>CRLF</rr-t><a href="#icalobject">icalobject</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>CRLF</rr-t><a href="#icalobject">icalobject</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="icalobject">icalobject</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_begin">k_begin</a><rr-t>COL</rr-t><a href="#k_vcalendar">k_vcalendar</a><rr-t>CRLF</rr-t><a href="#calprop">calprop</a><a href="#component">component</a><a href="#k_end">k_end</a><rr-t>COL</rr-t><a href="#k_vcalendar">k_vcalendar</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="calprop">calprop</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#prodid">prodid</a><a href="#version">version</a><a href="#calscale">calscale</a><a href="#method">method</a><a href="#x_prop">x_prop</a><a href="#iana_prop">iana_prop</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="calscale">calscale</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_calscale">k_calscale</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#k_gregorian">k_gregorian</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="method">method</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_method">k_method</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#iana_token">iana_token</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="prodid">prodid</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_prodid">k_prodid</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#text">text</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="version">version</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_version">k_version</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#vervalue">vervalue</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="vervalue">vervalue</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#float_num">float_num</a><rr-t>SCOL</rr-t><a href="#float_num">float_num</a></rr-a><a href="#float_num">float_num</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="component">component</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#eventc">eventc</a><a href="#todoc">todoc</a><a href="#journalc">journalc</a><a href="#freebusyc">freebusyc</a><a href="#timezonec">timezonec</a><a href="#iana_comp">iana_comp</a><a href="#x_comp">x_comp</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="iana_comp">iana_comp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_begin">k_begin</a><rr-t>COL</rr-t><a href="#iana_token">iana_token</a><rr-t>CRLF</rr-t><a href="#contentline">contentline</a><a href="#k_end">k_end</a><rr-t>COL</rr-t><a href="#iana_token">iana_token</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="x_comp">x_comp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_begin">k_begin</a><rr-t>COL</rr-t><a href="#x_name">x_name</a><rr-t>CRLF</rr-t><a href="#contentline">contentline</a><a href="#k_end">k_end</a><rr-t>COL</rr-t><a href="#x_name">x_name</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="contentline">contentline</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#name">name</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#icalparameter">icalparameter</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#value">value</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="name">name</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#iana_token">iana_token</a><a href="#x_name">x_name</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="value">value</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#value_char">value_char</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="eventc">eventc</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_begin">k_begin</a><rr-t>COL</rr-t><a href="#k_vevent">k_vevent</a><rr-t>CRLF</rr-t><a href="#eventprop">eventprop</a><a href="#alarmc">alarmc</a><a href="#k_end">k_end</a><rr-t>COL</rr-t><a href="#k_vevent">k_vevent</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="todoc">todoc</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_begin">k_begin</a><rr-t>COL</rr-t><a href="#k_vtodo">k_vtodo</a><rr-t>CRLF</rr-t><a href="#todoprop">todoprop</a><a href="#alarmc">alarmc</a><a href="#k_end">k_end</a><rr-t>COL</rr-t><a href="#k_vtodo">k_vtodo</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="journalc">journalc</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_begin">k_begin</a><rr-t>COL</rr-t><a href="#k_vjournal">k_vjournal</a><rr-t>CRLF</rr-t><a href="#jourprop">jourprop</a><a href="#k_end">k_end</a><rr-t>COL</rr-t><a href="#k_vjournal">k_vjournal</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="freebusyc">freebusyc</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_begin">k_begin</a><rr-t>COL</rr-t><a href="#k_vfreebusy">k_vfreebusy</a><rr-t>CRLF</rr-t><a href="#fbprop">fbprop</a><a href="#k_end">k_end</a><rr-t>COL</rr-t><a href="#k_vfreebusy">k_vfreebusy</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="timezonec">timezonec</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_begin">k_begin</a><rr-t>COL</rr-t><a href="#k_vtimezone">k_vtimezone</a><rr-t>CRLF</rr-t><a href="#timezoneprop">timezoneprop</a><a href="#k_end">k_end</a><rr-t>COL</rr-t><a href="#k_vtimezone">k_vtimezone</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="alarmc">alarmc</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_begin">k_begin</a><rr-t>COL</rr-t><a href="#k_valarm">k_valarm</a><rr-t>CRLF</rr-t><a href="#alarmprop">alarmprop</a><a href="#k_end">k_end</a><rr-t>COL</rr-t><a href="#k_valarm">k_valarm</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="eventprop">eventprop</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#dtstamp">dtstamp</a><a href="#uid">uid</a><a href="#dtstart">dtstart</a><a href="#clazz">clazz</a><a href="#created">created</a><a href="#description">description</a><a href="#geo">geo</a><a href="#last_mod">last_mod</a><a href="#location">location</a><a href="#organizer">organizer</a><a href="#priority">priority</a><a href="#seq">seq</a><a href="#status">status</a><a href="#summary">summary</a><a href="#transp">transp</a><a href="#url">url</a><a href="#recurid">recurid</a><a href="#rrule">rrule</a><a href="#dtend">dtend</a><a href="#duration">duration</a><a href="#attach">attach</a><a href="#attendee">attendee</a><a href="#categories">categories</a><a href="#comment">comment</a><a href="#contact">contact</a><a href="#exdate">exdate</a><a href="#rstatus">rstatus</a><a href="#related">related</a><a href="#resources">resources</a><a href="#rdate">rdate</a><a href="#x_prop">x_prop</a><a href="#iana_prop">iana_prop</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="todoprop">todoprop</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#dtstamp">dtstamp</a><a href="#uid">uid</a><a href="#clazz">clazz</a><a href="#completed">completed</a><a href="#created">created</a><a href="#description">description</a><a href="#dtstart">dtstart</a><a href="#geo">geo</a><a href="#last_mod">last_mod</a><a href="#location">location</a><a href="#organizer">organizer</a><a href="#percent">percent</a><a href="#priority">priority</a><a href="#recurid">recurid</a><a href="#seq">seq</a><a href="#status">status</a><a href="#summary">summary</a><a href="#url">url</a><a href="#rrule">rrule</a><a href="#due">due</a><a href="#duration">duration</a><a href="#attach">attach</a><a href="#attendee">attendee</a><a href="#categories">categories</a><a href="#comment">comment</a><a href="#contact">contact</a><a href="#exdate">exdate</a><a href="#rstatus">rstatus</a><a href="#related">related</a><a href="#resources">resources</a><a href="#rdate">rdate</a><a href="#x_prop">x_prop</a><a href="#iana_prop">iana_prop</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="jourprop">jourprop</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#dtstamp">dtstamp</a><a href="#uid">uid</a><a href="#clazz">clazz</a><a href="#created">created</a><a href="#dtstart">dtstart</a><a href="#last_mod">last_mod</a><a href="#organizer">organizer</a><a href="#recurid">recurid</a><a href="#seq">seq</a><a href="#status">status</a><a href="#summary">summary</a><a href="#url">url</a><a href="#rrule">rrule</a><a href="#attach">attach</a><a href="#attendee">attendee</a><a href="#categories">categories</a><a href="#comment">comment</a><a href="#contact">contact</a><a href="#description">description</a><a href="#exdate">exdate</a><a href="#related">related</a><a href="#rdate">rdate</a><a href="#rstatus">rstatus</a><a href="#x_prop">x_prop</a><a href="#iana_prop">iana_prop</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="fbprop">fbprop</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#dtstamp">dtstamp</a><a href="#uid">uid</a><a href="#contact">contact</a><a href="#dtstart">dtstart</a><a href="#dtend">dtend</a><a href="#organizer">organizer</a><a href="#url">url</a><a href="#attendee">attendee</a><a href="#comment">comment</a><a href="#freebusy">freebusy</a><a href="#rstatus">rstatus</a><a href="#x_prop">x_prop</a><a href="#iana_prop">iana_prop</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="timezoneprop">timezoneprop</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#tzid">tzid</a><a href="#last_mod">last_mod</a><a href="#tzurl">tzurl</a><a href="#standardc">standardc</a><a href="#daylightc">daylightc</a><a href="#x_prop">x_prop</a><a href="#iana_prop">iana_prop</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tzprop">tzprop</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#dtstart">dtstart</a><a href="#tzoffsetto">tzoffsetto</a><a href="#tzoffsetfrom">tzoffsetfrom</a><a href="#rrule">rrule</a><a href="#comment">comment</a><a href="#rdate">rdate</a><a href="#tzname">tzname</a><a href="#x_prop">x_prop</a><a href="#iana_prop">iana_prop</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="alarmprop">alarmprop</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#action">action</a><a href="#description">description</a><a href="#trigger">trigger</a><a href="#summary">summary</a><a href="#attendee">attendee</a><a href="#duration">duration</a><a href="#repeat_">repeat_</a><a href="#attach">attach</a><a href="#x_prop">x_prop</a><a href="#iana_prop">iana_prop</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="standardc">standardc</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_begin">k_begin</a><rr-t>COL</rr-t><a href="#k_standard">k_standard</a><rr-t>CRLF</rr-t><a href="#tzprop">tzprop</a><a href="#k_end">k_end</a><rr-t>COL</rr-t><a href="#k_standard">k_standard</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="daylightc">daylightc</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_begin">k_begin</a><rr-t>COL</rr-t><a href="#k_daylight">k_daylight</a><rr-t>CRLF</rr-t><a href="#tzprop">tzprop</a><a href="#k_end">k_end</a><rr-t>COL</rr-t><a href="#k_daylight">k_daylight</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="attach">attach</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_attach">k_attach</a><a href="#attachparam">attachparam</a><rr-t>COL</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#binary">binary</a><a href="#uri">uri</a></rr-o>
+                  </rr-a>
+                  <rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="attachparam">attachparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_encoding">k_encoding</a><rr-t>ASSIGN</rr-t><a href="#k_base">k_base</a><rr-t>D6</rr-t>
+                  <rr-t>D4</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_binary">k_binary</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#fmttypeparam">fmttypeparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="categories">categories</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_categories">k_categories</a><a href="#catparam">catparam</a><rr-t>COL</rr-t><a href="#text">text</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#text">text</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="catparam">catparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#languageparam">languageparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="clazz">clazz</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_class">k_class</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#classvalue">classvalue</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="classvalue">classvalue</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#k_public">k_public</a><a href="#k_private">k_private</a><a href="#k_confidential">k_confidential</a><a href="#iana_token">iana_token</a><a href="#x_name">x_name</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="comment">comment</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_comment">k_comment</a><a href="#commparam">commparam</a><rr-t>COL</rr-t><a href="#text">text</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="commparam">commparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#altrepparam">altrepparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#languageparam">languageparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="description">description</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_description">k_description</a><a href="#descparam">descparam</a><rr-t>COL</rr-t><a href="#text">text</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="descparam">descparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#altrepparam">altrepparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#languageparam">languageparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="geo">geo</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_geo">k_geo</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#geovalue">geovalue</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="geovalue">geovalue</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#float_num">float_num</a><rr-t>SCOL</rr-t><a href="#float_num">float_num</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="location">location</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_location">k_location</a><a href="#locparam">locparam</a><rr-t>COL</rr-t><a href="#text">text</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="locparam">locparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#altrepparam">altrepparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#languageparam">languageparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="percent">percent</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_percent_complete">k_percent_complete</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#integer">integer</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="priority">priority</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_priority">k_priority</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#priovalue">priovalue</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="priovalue">priovalue</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#integer">integer</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="resources">resources</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_resources">k_resources</a><a href="#resrcparam">resrcparam</a><rr-t>COL</rr-t><a href="#text">text</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#text">text</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="resrcparam">resrcparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#altrepparam">altrepparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#languageparam">languageparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="status">status</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_status">k_status</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#statvalue">statvalue</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="statvalue">statvalue</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#statvalue_event">statvalue_event</a><a href="#statvalue_todo">statvalue_todo</a><a href="#statvalue_jour">statvalue_jour</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="statvalue_event">statvalue_event</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#k_tentative">k_tentative</a><a href="#k_confirmed">k_confirmed</a><a href="#k_cancelled">k_cancelled</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="statvalue_todo">statvalue_todo</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#k_needs_action">k_needs_action</a><a href="#k_completed">k_completed</a><a href="#k_in_process">k_in_process</a><a href="#k_cancelled">k_cancelled</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="statvalue_jour">statvalue_jour</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#k_draft">k_draft</a><a href="#k_final">k_final</a><a href="#k_cancelled">k_cancelled</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="summary">summary</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_summary">k_summary</a><a href="#summparam">summparam</a><rr-t>COL</rr-t><a href="#text">text</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="summparam">summparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#altrepparam">altrepparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#languageparam">languageparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="completed">completed</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_completed">k_completed</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#date_time">date_time</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="dtend">dtend</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_dtend">k_dtend</a><a href="#dtendparam">dtendparam</a><rr-t>COL</rr-t><a href="#date_time_date">date_time_date</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="dtendparam">dtendparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_date_time">k_date_time</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_date">k_date</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#tzidparam">tzidparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="due">due</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_due">k_due</a><a href="#dueparam">dueparam</a><rr-t>COL</rr-t><a href="#date_time_date">date_time_date</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="dueparam">dueparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_date_time">k_date_time</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_date">k_date</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#tzidparam">tzidparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="dtstart">dtstart</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_dtstart">k_dtstart</a><a href="#dtstparam">dtstparam</a><rr-t>COL</rr-t><a href="#date_time_date">date_time_date</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="dtstparam">dtstparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_date_time">k_date_time</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_date">k_date</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#tzidparam">tzidparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="duration">duration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_duration">k_duration</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#dur_value">dur_value</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="freebusy">freebusy</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_freebusy">k_freebusy</a><a href="#fbparam">fbparam</a><rr-t>COL</rr-t><a href="#fbvalue">fbvalue</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="fbparam">fbparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#fbtypeparam">fbtypeparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="fbvalue">fbvalue</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#period">period</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#period">period</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="transp">transp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_transp">k_transp</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#transvalue">transvalue</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="transvalue">transvalue</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#k_opaque">k_opaque</a><a href="#k_transparent">k_transparent</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tzid">tzid</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_tzid">k_tzid</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t>
+                  <rr-t>FSLASH</rr-t><a href="#text">text</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tzname">tzname</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_tzname">k_tzname</a><a href="#tznparam">tznparam</a><rr-t>COL</rr-t><a href="#text">text</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tznparam">tznparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#languageparam">languageparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tzoffsetfrom">tzoffsetfrom</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_tzoffsetfrom">k_tzoffsetfrom</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#utc_offset">utc_offset</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tzoffsetto">tzoffsetto</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_tzoffsetto">k_tzoffsetto</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#utc_offset">utc_offset</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tzurl">tzurl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_tzurl">k_tzurl</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#uri">uri</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="attendee">attendee</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_attendee">k_attendee</a><a href="#attparam">attparam</a><rr-t>COL</rr-t><a href="#cal_address">cal_address</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="attparam">attparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#cutypeparam">cutypeparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#memberparam">memberparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#roleparam">roleparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#partstatparam">partstatparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#rsvpparam">rsvpparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#deltoparam">deltoparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#delfromparam">delfromparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#sentbyparam">sentbyparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#cnparam">cnparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#dirparam">dirparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#languageparam">languageparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="contact">contact</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_contact">k_contact</a><a href="#contparam">contparam</a><rr-t>COL</rr-t><a href="#text">text</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="contparam">contparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#altrepparam">altrepparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#languageparam">languageparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="organizer">organizer</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_organizer">k_organizer</a><a href="#orgparam">orgparam</a><rr-t>COL</rr-t><a href="#cal_address">cal_address</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="orgparam">orgparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#cnparam">cnparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#dirparam">dirparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#sentbyparam">sentbyparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#languageparam">languageparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="recurid">recurid</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_recurrence_id">k_recurrence_id</a><a href="#ridparam">ridparam</a><rr-t>COL</rr-t><a href="#date_time_date">date_time_date</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ridparam">ridparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_date_time">k_date_time</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_date">k_date</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#tzidparam">tzidparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#rangeparam">rangeparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="related">related</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_related_to">k_related_to</a><a href="#relparam">relparam</a><rr-t>COL</rr-t><a href="#text">text</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="relparam">relparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#reltypeparam">reltypeparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="url">url</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_url">k_url</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#uri">uri</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="uid">uid</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_uid">k_uid</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#text">text</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="exdate">exdate</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_exdate">k_exdate</a><a href="#exdtparam">exdtparam</a><rr-t>COL</rr-t><a href="#date_time_date">date_time_date</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#date_time_date">date_time_date</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="exdtparam">exdtparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_date_time">k_date_time</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_date">k_date</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#tzidparam">tzidparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="rdate">rdate</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_rdate">k_rdate</a><a href="#rdtparam">rdtparam</a><rr-t>COL</rr-t><a href="#rdtval">rdtval</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#rdtval">rdtval</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="rdtparam">rdtparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_date_time">k_date_time</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_date">k_date</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_period">k_period</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#tzidparam">tzidparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="rdtval">rdtval</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#date_time">date_time</a><a href="#date">date</a><a href="#period">period</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="date_time_date">date_time_date</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#date_time">date_time</a><a href="#date">date</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="rrule">rrule</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_rrule">k_rrule</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#recur">recur</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="action">action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_action">k_action</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#actionvalue">actionvalue</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="actionvalue">actionvalue</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#k_audio">k_audio</a><a href="#k_display">k_display</a><a href="#k_email">k_email</a><a href="#iana_token">iana_token</a><a href="#x_name">x_name</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="repeat_">repeat_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_repeat">k_repeat</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#integer">integer</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="trigger">trigger</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_trigger">k_trigger</a><a href="#trigrel">trigrel</a><rr-t>COL</rr-t><a href="#dur_value">dur_value</a><rr-t>CRLF</rr-t>
+               </rr-a>
+               <rr-a><a href="#k_trigger">k_trigger</a><a href="#trigabs">trigabs</a><rr-t>COL</rr-t><a href="#date_time">date_time</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="trigrel">trigrel</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_duration">k_duration</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#trigrelparam">trigrelparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="trigabs">trigabs</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#k_date_time">k_date_time</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="created">created</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_created">k_created</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#date_time">date_time</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="dtstamp">dtstamp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_dtstamp">k_dtstamp</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#date_time">date_time</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="last_mod">last_mod</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_last_modified">k_last_modified</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#date_time">date_time</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="seq">seq</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_sequence">k_sequence</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#integer">integer</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="iana_prop">iana_prop</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#iana_token">iana_token</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#icalparameter">icalparameter</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#value">value</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="x_prop">x_prop</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#x_name">x_name</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#icalparameter">icalparameter</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#value">value</a><rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="rstatus">rstatus</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_request_status">k_request_status</a><a href="#rstatparam">rstatparam</a><rr-t>COL</rr-t><a href="#statcode">statcode</a><rr-t>SCOL</rr-t><a href="#text">text</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#text">text</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CRLF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="rstatparam">rstatparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#languageparam">languageparam</a></rr-a>
+               <rr-a>
+                  <rr-t>SCOL</rr-t><a href="#other_param">other_param</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="statcode">statcode</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#digit">digit</a><rr-t>DOT</rr-t><a href="#digit">digit</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>DOT</rr-t><a href="#digit">digit</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="param_name">param_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#iana_token">iana_token</a><a href="#x_name">x_name</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="param_value">param_value</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#paramtext">paramtext</a><a href="#quoted_string">quoted_string</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="paramtext">paramtext</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#safe_char">safe_char</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="quoted_string">quoted_string</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>DQUOTE</rr-t><a href="#qsafe_char">qsafe_char</a><rr-t>DQUOTE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="iana_token">iana_token</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="1" data-max="inf">
+                  <rr-o><a href="#alpha">alpha</a><rr-t>MINUS</rr-t>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="icalparameter">icalparameter</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#altrepparam">altrepparam</a><a href="#cnparam">cnparam</a><a href="#cutypeparam">cutypeparam</a><a href="#delfromparam">delfromparam</a><a href="#deltoparam">deltoparam</a><a href="#dirparam">dirparam</a><a href="#encodingparam">encodingparam</a><a href="#fmttypeparam">fmttypeparam</a><a href="#fbtypeparam">fbtypeparam</a><a href="#languageparam">languageparam</a><a href="#memberparam">memberparam</a><a href="#partstatparam">partstatparam</a><a href="#rangeparam">rangeparam</a><a href="#trigrelparam">trigrelparam</a><a href="#reltypeparam">reltypeparam</a><a href="#roleparam">roleparam</a><a href="#rsvpparam">rsvpparam</a><a href="#sentbyparam">sentbyparam</a><a href="#tzidparam">tzidparam</a><a href="#valuetypeparam">valuetypeparam</a><a href="#other_param">other_param</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="altrepparam">altrepparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_altrep">k_altrep</a><rr-t>ASSIGN</rr-t>
+                  <rr-t>DQUOTE</rr-t><a href="#uri">uri</a><rr-t>DQUOTE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="cnparam">cnparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_cn">k_cn</a><rr-t>ASSIGN</rr-t><a href="#param_value">param_value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="cutypeparam">cutypeparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_cutype">k_cutype</a><rr-t>ASSIGN</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#k_individual">k_individual</a><a href="#k_group">k_group</a><a href="#k_resource">k_resource</a><a href="#k_room">k_room</a><a href="#k_unknown">k_unknown</a><a href="#x_name">x_name</a><a href="#iana_token">iana_token</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="delfromparam">delfromparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_delegated_from">k_delegated_from</a><rr-t>ASSIGN</rr-t>
+                  <rr-t>DQUOTE</rr-t><a href="#cal_address">cal_address</a><rr-t>DQUOTE</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t>
+                           <rr-t>DQUOTE</rr-t><a href="#cal_address">cal_address</a><rr-t>DQUOTE</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="deltoparam">deltoparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_delegated_to">k_delegated_to</a><rr-t>ASSIGN</rr-t>
+                  <rr-t>DQUOTE</rr-t><a href="#cal_address">cal_address</a><rr-t>DQUOTE</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t>
+                           <rr-t>DQUOTE</rr-t><a href="#cal_address">cal_address</a><rr-t>DQUOTE</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="dirparam">dirparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_dir">k_dir</a><rr-t>ASSIGN</rr-t>
+                  <rr-t>DQUOTE</rr-t><a href="#uri">uri</a><rr-t>DQUOTE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="encodingparam">encodingparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_encoding">k_encoding</a><rr-t>ASSIGN</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>D8</rr-t><a href="#k_bit">k_bit</a></rr-a>
+                        <rr-a><a href="#k_base">k_base</a><rr-t>D6</rr-t>
+                           <rr-t>D4</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="fmttypeparam">fmttypeparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_fmttype">k_fmttype</a><rr-t>ASSIGN</rr-t><a href="#type_name">type_name</a><rr-t>FSLASH</rr-t><a href="#subtype_name">subtype_name</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="fbtypeparam">fbtypeparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_fbtype">k_fbtype</a><rr-t>ASSIGN</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#k_free">k_free</a><a href="#k_busy">k_busy</a><a href="#k_busy_unavailable">k_busy_unavailable</a><a href="#k_busy_tentative">k_busy_tentative</a><a href="#x_name">x_name</a><a href="#iana_token">iana_token</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="languageparam">languageparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_language">k_language</a><rr-t>ASSIGN</rr-t><a href="#language">language</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="memberparam">memberparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_member">k_member</a><rr-t>ASSIGN</rr-t>
+                  <rr-t>DQUOTE</rr-t><a href="#cal_address">cal_address</a><rr-t>DQUOTE</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t>
+                           <rr-t>DQUOTE</rr-t><a href="#cal_address">cal_address</a><rr-t>DQUOTE</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="partstatparam">partstatparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_partstat">k_partstat</a><rr-t>ASSIGN</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#partstat_event">partstat_event</a><a href="#partstat_todo">partstat_todo</a><a href="#partstat_jour">partstat_jour</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="rangeparam">rangeparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_range">k_range</a><rr-t>ASSIGN</rr-t><a href="#k_thisandfuture">k_thisandfuture</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="trigrelparam">trigrelparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_related">k_related</a><rr-t>ASSIGN</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#k_start">k_start</a><a href="#k_end">k_end</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="reltypeparam">reltypeparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_reltype">k_reltype</a><rr-t>ASSIGN</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#k_parent">k_parent</a><a href="#k_child">k_child</a><a href="#k_sibling">k_sibling</a><a href="#x_name">x_name</a><a href="#iana_token">iana_token</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="roleparam">roleparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_role">k_role</a><rr-t>ASSIGN</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#k_chair">k_chair</a><a href="#k_req_participant">k_req_participant</a><a href="#k_opt_participant">k_opt_participant</a><a href="#k_non_participant">k_non_participant</a><a href="#iana_token">iana_token</a><a href="#x_name">x_name</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="rsvpparam">rsvpparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_rsvp">k_rsvp</a><rr-t>ASSIGN</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#k_true">k_true</a><a href="#k_false">k_false</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sentbyparam">sentbyparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_sent_by">k_sent_by</a><rr-t>ASSIGN</rr-t>
+                  <rr-t>DQUOTE</rr-t><a href="#cal_address">cal_address</a><rr-t>DQUOTE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tzidparam">tzidparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_tzid">k_tzid</a><rr-t>ASSIGN</rr-t>
+                  <rr-t>FSLASH</rr-t><a href="#paramtext">paramtext</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="valuetypeparam">valuetypeparam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_value">k_value</a><rr-t>ASSIGN</rr-t><a href="#valuetype">valuetype</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="valuetype">valuetype</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#k_binary">k_binary</a><a href="#k_boolean">k_boolean</a><a href="#k_cal_address">k_cal_address</a><a href="#k_date">k_date</a><a href="#k_date_time">k_date_time</a><a href="#k_duration">k_duration</a><a href="#k_float">k_float</a><a href="#k_integer">k_integer</a><a href="#k_period">k_period</a><a href="#k_recur">k_recur</a><a href="#k_text">k_text</a><a href="#k_time">k_time</a><a href="#k_uri">k_uri</a><a href="#k_utc_offset">k_utc_offset</a><a href="#x_name">x_name</a><a href="#iana_token">iana_token</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="binary">binary</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#b_chars">b_chars</a><a href="#b_end">b_end</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="b_chars">b_chars</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#b_char">b_char</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="b_end">b_end</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>ASSIGN</rr-t>
+                  <rr-t>ASSIGN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="bool_">bool_</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#k_true">k_true</a><a href="#k_false">k_false</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="cal_address">cal_address</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#uri">uri</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="date">date</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#date_value">date_value</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="date_time">date_time</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#date">date</a><rr-t>T</rr-t><a href="#time">time</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="dur_value">dur_value</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#dur_date">dur_date</a><a href="#dur_time">dur_time</a><a href="#dur_week">dur_week</a></rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>PLUS</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#dur_date">dur_date</a><a href="#dur_time">dur_time</a><a href="#dur_week">dur_week</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="float_num">float_num</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>MINUS</rr-t><a href="#digits">digits</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>DOT</rr-t><a href="#digits">digits</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>PLUS</rr-t><a href="#digits">digits</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>DOT</rr-t><a href="#digits">digits</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="digits">digits</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#digit">digit</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="integer">integer</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>MINUS</rr-t><a href="#digits">digits</a></rr-a>
+               <rr-a>
+                  <rr-t>PLUS</rr-t><a href="#digits">digits</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="period">period</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#period_explicit">period_explicit</a><a href="#period_start">period_start</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="recur">recur</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#recur_rule_part">recur_rule_part</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SCOL</rr-t><a href="#recur_rule_part">recur_rule_part</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="text">text</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="0" data-max="inf">
+                  <rr-o><a href="#tsafe_char">tsafe_char</a><rr-t>COL</rr-t>
+                     <rr-t>DQUOTE</rr-t>
+                     <rr-t>ESCAPED_CHAR</rr-t>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="time">time</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#time_hour">time_hour</a><a href="#time_minute">time_minute</a><a href="#time_second">time_second</a><rr-t>Z</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="uri">uri</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#qsafe_char">qsafe_char</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="utc_offset">utc_offset</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#time_numzone">time_numzone</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="other_param">other_param</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#iana_param">iana_param</a><a href="#x_param">x_param</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="iana_param">iana_param</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#iana_token">iana_token</a><rr-t>ASSIGN</rr-t><a href="#param_value">param_value</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#param_value">param_value</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="x_param">x_param</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#x_name">x_name</a><rr-t>ASSIGN</rr-t><a href="#param_value">param_value</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#param_value">param_value</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="type_name">type_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#reg_name">reg_name</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="subtype_name">subtype_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#reg_name">reg_name</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="reg_name">reg_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#reg_name_char">reg_name_char</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="language">language</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#language_char">language_char</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="partstat_event">partstat_event</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#k_needs_action">k_needs_action</a><a href="#k_accepted">k_accepted</a><a href="#k_declined">k_declined</a><a href="#k_tentative">k_tentative</a><a href="#k_delegated">k_delegated</a><a href="#x_name">x_name</a><a href="#iana_token">iana_token</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="partstat_todo">partstat_todo</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#k_needs_action">k_needs_action</a><a href="#k_accepted">k_accepted</a><a href="#k_declined">k_declined</a><a href="#k_tentative">k_tentative</a><a href="#k_delegated">k_delegated</a><a href="#k_completed">k_completed</a><a href="#k_in_process">k_in_process</a><a href="#x_name">x_name</a><a href="#iana_token">iana_token</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="partstat_jour">partstat_jour</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#k_needs_action">k_needs_action</a><a href="#k_accepted">k_accepted</a><a href="#k_declined">k_declined</a><a href="#x_name">x_name</a><a href="#iana_token">iana_token</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="b_char">b_char</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#alpha">alpha</a><a href="#digit">digit</a><rr-t>PLUS</rr-t>
+               <rr-t>FSLASH</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="date_value">date_value</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#date_fullyear">date_fullyear</a><a href="#date_month">date_month</a><a href="#date_mday">date_mday</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="date_fullyear">date_fullyear</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#digits_2">digits_2</a><a href="#digits_2">digits_2</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="date_month">date_month</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#digits_2">digits_2</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="date_mday">date_mday</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#digits_2">digits_2</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="time_hour">time_hour</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#digits_2">digits_2</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="time_minute">time_minute</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#digits_2">digits_2</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="time_second">time_second</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#digits_2">digits_2</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="dur_date">dur_date</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#dur_day">dur_day</a><a href="#dur_time">dur_time</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="dur_day">dur_day</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#digit">digit</a><rr-t>D</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="dur_time">dur_time</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#dur_hour">dur_hour</a><a href="#dur_minute">dur_minute</a><a href="#dur_second">dur_second</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="dur_week">dur_week</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#digit">digit</a><rr-t>W</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="dur_hour">dur_hour</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#digit">digit</a><rr-t>H</rr-t><a href="#dur_minute">dur_minute</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="dur_minute">dur_minute</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#digit">digit</a><rr-t>M</rr-t><a href="#dur_second">dur_second</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="dur_second">dur_second</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#digit">digit</a><rr-t>S</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="period_explicit">period_explicit</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#date_time">date_time</a><rr-t>FSLASH</rr-t><a href="#date_time">date_time</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="period_start">period_start</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#date_time">date_time</a><rr-t>FSLASH</rr-t><a href="#dur_value">dur_value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="recur_rule_part">recur_rule_part</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#k_freq">k_freq</a><rr-t>ASSIGN</rr-t><a href="#freq">freq</a></rr-a>
+               <rr-a><a href="#k_until">k_until</a><rr-t>ASSIGN</rr-t><a href="#enddate">enddate</a></rr-a>
+               <rr-a><a href="#k_count">k_count</a><rr-t>ASSIGN</rr-t><a href="#count">count</a></rr-a>
+               <rr-a><a href="#k_interval">k_interval</a><rr-t>ASSIGN</rr-t><a href="#interval">interval</a></rr-a>
+               <rr-a><a href="#k_bysecond">k_bysecond</a><rr-t>ASSIGN</rr-t><a href="#byseclist">byseclist</a></rr-a>
+               <rr-a><a href="#k_byminute">k_byminute</a><rr-t>ASSIGN</rr-t><a href="#byminlist">byminlist</a></rr-a>
+               <rr-a><a href="#k_byhour">k_byhour</a><rr-t>ASSIGN</rr-t><a href="#byhrlist">byhrlist</a></rr-a>
+               <rr-a><a href="#k_byday">k_byday</a><rr-t>ASSIGN</rr-t><a href="#bywdaylist">bywdaylist</a></rr-a>
+               <rr-a><a href="#k_bymonthday">k_bymonthday</a><rr-t>ASSIGN</rr-t><a href="#bymodaylist">bymodaylist</a></rr-a>
+               <rr-a><a href="#k_byyearday">k_byyearday</a><rr-t>ASSIGN</rr-t><a href="#byyrdaylist">byyrdaylist</a></rr-a>
+               <rr-a><a href="#k_byweekno">k_byweekno</a><rr-t>ASSIGN</rr-t><a href="#bywknolist">bywknolist</a></rr-a>
+               <rr-a><a href="#k_bymonth">k_bymonth</a><rr-t>ASSIGN</rr-t><a href="#bymolist">bymolist</a></rr-a>
+               <rr-a><a href="#k_bysetpos">k_bysetpos</a><rr-t>ASSIGN</rr-t><a href="#bysplist">bysplist</a></rr-a>
+               <rr-a><a href="#k_wkst">k_wkst</a><rr-t>ASSIGN</rr-t><a href="#weekday">weekday</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="freq">freq</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#k_secondly">k_secondly</a><a href="#k_minutely">k_minutely</a><a href="#k_hourly">k_hourly</a><a href="#k_daily">k_daily</a><a href="#k_weekly">k_weekly</a><a href="#k_monthly">k_monthly</a><a href="#k_yearly">k_yearly</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="enddate">enddate</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#date">date</a><a href="#date_time">date_time</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="count">count</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#digits">digits</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="interval">interval</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#digits">digits</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="byseclist">byseclist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#digits_1_2">digits_1_2</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#digits_1_2">digits_1_2</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="byminlist">byminlist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#digits_1_2">digits_1_2</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#digits_1_2">digits_1_2</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="byhrlist">byhrlist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#digits_1_2">digits_1_2</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#digits_1_2">digits_1_2</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="bywdaylist">bywdaylist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#weekdaynum">weekdaynum</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#weekdaynum">weekdaynum</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="weekdaynum">weekdaynum</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-t>PLUS</rr-t>
+                                 <rr-t>MINUS</rr-t>
+                              </rr-o>
+                           </rr-a><a href="#digits_1_2">digits_1_2</a></rr-a>
+                     </rr-o>
+                  </rr-a><a href="#weekday">weekday</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="weekday">weekday</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>S</rr-t>
+                  <rr-t>U</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>M</rr-t>
+                  <rr-t>O</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>U</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>W</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>H</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>F</rr-t>
+                  <rr-t>R</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>S</rr-t>
+                  <rr-t>A</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="bymodaylist">bymodaylist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#monthdaynum">monthdaynum</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#monthdaynum">monthdaynum</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="monthdaynum">monthdaynum</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>PLUS</rr-t>
+                        <rr-t>MINUS</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#digits_1_2">digits_1_2</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="byyrdaylist">byyrdaylist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#yeardaynum">yeardaynum</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#yeardaynum">yeardaynum</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="yeardaynum">yeardaynum</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>PLUS</rr-t>
+                        <rr-t>MINUS</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#ordyrday">ordyrday</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ordyrday">ordyrday</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#digit">digit</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#digit">digit</a><a href="#digit">digit</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="bywknolist">bywknolist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#weeknum">weeknum</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#weeknum">weeknum</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="weeknum">weeknum</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>PLUS</rr-t>
+                        <rr-t>MINUS</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#digits_1_2">digits_1_2</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="bymolist">bymolist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#digits_1_2">digits_1_2</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#digits_1_2">digits_1_2</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="bysplist">bysplist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#yeardaynum">yeardaynum</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#yeardaynum">yeardaynum</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="digits_2">digits_2</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#digit">digit</a><a href="#digit">digit</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="digits_1_2">digits_1_2</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#digit">digit</a><a href="#digit">digit</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="safe_char">safe_char</h2>
+      <p>
+         <rr-rr>
+            <rr-o></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="value_char">value_char</h2>
+      <p>
+         <rr-rr>
+            <rr-o></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="qsafe_char">qsafe_char</h2>
+      <p>
+         <rr-rr>
+            <rr-o></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tsafe_char">tsafe_char</h2>
+      <p>
+         <rr-rr>
+            <rr-o></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="time_numzone">time_numzone</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>PLUS</rr-t>
+                        <rr-t>MINUS</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#time_hour">time_hour</a><a href="#time_minute">time_minute</a><a href="#time_second">time_second</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="reg_name_char">reg_name_char</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#alpha">alpha</a><a href="#digit">digit</a><rr-t>EXCLAMATION</rr-t>
+               <rr-t>HASH</rr-t>
+               <rr-t>DOLLAR</rr-t>
+               <rr-t>AMP</rr-t>
+               <rr-t>DOT</rr-t>
+               <rr-t>PLUS</rr-t>
+               <rr-t>MINUS</rr-t>
+               <rr-t>CARET</rr-t>
+               <rr-t>USCORE</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="language_char">language_char</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#alpha">alpha</a><a href="#digit">digit</a><rr-t>MINUS</rr-t>
+               <rr-t>COL</rr-t>
+               <rr-t>WSP</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="x_name">x_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>X</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#alpha_num">alpha_num</a><a href="#alpha_num">alpha_num</a><a href="#alpha_num">alpha_num</a><rr-t>MINUS</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="1" data-max="inf">
+                     <rr-o><a href="#alpha_num">alpha_num</a><rr-t>MINUS</rr-t>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="alpha_num">alpha_num</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#alpha">alpha</a><a href="#digit">digit</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="digit">digit</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>D0</rr-t>
+               <rr-t>D1</rr-t>
+               <rr-t>D2</rr-t>
+               <rr-t>D3</rr-t>
+               <rr-t>D4</rr-t>
+               <rr-t>D5</rr-t>
+               <rr-t>D6</rr-t>
+               <rr-t>D7</rr-t>
+               <rr-t>D8</rr-t>
+               <rr-t>D9</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="alpha">alpha</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>A</rr-t>
+               <rr-t>B</rr-t>
+               <rr-t>C</rr-t>
+               <rr-t>D</rr-t>
+               <rr-t>E</rr-t>
+               <rr-t>F</rr-t>
+               <rr-t>G</rr-t>
+               <rr-t>H</rr-t>
+               <rr-t>I</rr-t>
+               <rr-t>J</rr-t>
+               <rr-t>K</rr-t>
+               <rr-t>L</rr-t>
+               <rr-t>M</rr-t>
+               <rr-t>N</rr-t>
+               <rr-t>O</rr-t>
+               <rr-t>P</rr-t>
+               <rr-t>Q</rr-t>
+               <rr-t>R</rr-t>
+               <rr-t>S</rr-t>
+               <rr-t>T</rr-t>
+               <rr-t>U</rr-t>
+               <rr-t>V</rr-t>
+               <rr-t>W</rr-t>
+               <rr-t>X</rr-t>
+               <rr-t>Y</rr-t>
+               <rr-t>Z</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_accepted">k_accepted</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>A</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_action">k_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>A</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_address">k_address</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>A</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>S</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_altrep">k_altrep</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>A</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>P</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_attach">k_attach</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>H</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_attendee">k_attendee</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_audio">k_audio</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>A</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>O</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_base">k_base</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_begin">k_begin</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>N</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_binary">k_binary</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_bit">k_bit</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_boolean">k_boolean</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_busy">k_busy</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_busy_unavailable">k_busy_unavailable</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>V</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>B</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_busy_tentative">k_busy_tentative</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>V</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_byday">k_byday</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_byhour">k_byhour</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>H</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>R</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_byminute">k_byminute</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_bymonth">k_bymonth</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>H</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_bymonthday">k_bymonthday</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>H</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_bysecond">k_bysecond</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_bysetpos">k_bysetpos</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>S</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_byweekno">k_byweekno</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>W</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>K</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>O</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_byyearday">k_byyearday</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>B</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_cal_address">k_cal_address</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>S</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_calscale">k_calscale</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_cancelled">k_cancelled</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_categories">k_categories</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>S</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_chair">k_chair</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>H</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>R</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_child">k_child</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>H</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_class">k_class</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>S</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_cn">k_cn</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>N</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_comment">k_comment</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_completed">k_completed</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_confidential">k_confidential</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>L</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_confirmed">k_confirmed</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_contact">k_contact</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_count">k_count</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_created">k_created</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_cutype">k_cutype</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_daily">k_daily</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_date">k_date</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_date_time">k_date_time</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_daylight">k_daylight</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>H</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_declined">k_declined</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_delegated">k_delegated</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_delegated_from">k_delegated_from</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>M</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_delegated_to">k_delegated_to</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>O</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_description">k_description</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_dir">k_dir</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>R</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_display">k_display</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_draft">k_draft</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_dtend">k_dtend</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_dtstamp">k_dtstamp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>P</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_dtstart">k_dtstart</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_due">k_due</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_duration">k_duration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>D</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_email">k_email</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>E</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>L</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_encoding">k_encoding</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>G</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_end">k_end</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_exdate">k_exdate</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>E</rr-t>
+                  <rr-t>X</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_false">k_false</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>F</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_fbtype">k_fbtype</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>F</rr-t>
+                  <rr-t>B</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_final">k_final</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>F</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>L</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_float">k_float</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>F</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_fmttype">k_fmttype</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>F</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_fr">k_fr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>F</rr-t>
+                  <rr-t>R</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_free">k_free</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>F</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_freebusy">k_freebusy</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>F</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>B</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_freq">k_freq</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>F</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>Q</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_geo">k_geo</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>G</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>O</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_gregorian">k_gregorian</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>G</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_group">k_group</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>G</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>P</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_hourly">k_hourly</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>H</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_in_process">k_in_process</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>I</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>S</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_individual">k_individual</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>I</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>V</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>L</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_integer">k_integer</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>I</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>R</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_interval">k_interval</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>I</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>V</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>L</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_language">k_language</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>L</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_last_modified">k_last_modified</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>L</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_location">k_location</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>L</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_member">k_member</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>M</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>B</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>R</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_method">k_method</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>M</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>H</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_minutely">k_minutely</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>M</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_mo">k_mo</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>M</rr-t>
+                  <rr-t>O</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_monthly">k_monthly</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>M</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>H</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_needs_action">k_needs_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>N</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_non_participant">k_non_participant</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>N</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_opaque">k_opaque</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>O</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>Q</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_opt_participant">k_opt_participant</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>O</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_organizer">k_organizer</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>O</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>Z</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>R</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_parent">k_parent</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>P</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_participant">k_participant</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>P</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_partstat">k_partstat</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>P</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_percent_complete">k_percent_complete</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>P</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_period">k_period</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>P</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_priority">k_priority</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>P</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_private">k_private</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>P</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>V</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_process">k_process</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>P</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>S</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_prodid">k_prodid</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>P</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_public">k_public</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>P</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>B</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>C</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_range">k_range</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_rdate">k_rdate</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_recur">k_recur</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>R</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_recurrence_id">k_recurrence_id</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_relat">k_relat</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_related">k_related</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_related_to">k_related_to</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>O</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_reltype">k_reltype</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>Y</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_repeat">k_repeat</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_req_participant">k_req_participant</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>Q</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_request_status">k_request_status</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>Q</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>S</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_resource">k_resource</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_resources">k_resources</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>S</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_role">k_role</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_room">k_room</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>M</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_rrule">k_rrule</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_rsvp">k_rsvp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>R</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>V</rr-t>
+                  <rr-t>P</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_sa">k_sa</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>S</rr-t>
+                  <rr-t>A</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_secondly">k_secondly</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>S</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_sent_by">k_sent_by</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>S</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>B</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_sequence">k_sequence</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>S</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>Q</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_sibling">k_sibling</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>S</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>B</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>G</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_standard">k_standard</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>S</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_start">k_start</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>S</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_status">k_status</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>S</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>S</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_su">k_su</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>S</rr-t>
+                  <rr-t>U</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_summary">k_summary</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>S</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_tentative">k_tentative</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>V</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_text">k_text</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>X</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_th">k_th</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>H</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_thisandfuture">k_thisandfuture</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>H</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_time">k_time</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_transp">k_transp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>P</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_transparent">k_transparent</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_trigger">k_trigger</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>G</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>R</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_true">k_true</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_tu">k_tu</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>U</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_tzid">k_tzid</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>Z</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_tzname">k_tzname</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>Z</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_tzoffsetfrom">k_tzoffsetfrom</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>Z</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>M</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_tzoffsetto">k_tzoffsetto</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>Z</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>O</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_tzurl">k_tzurl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>T</rr-t>
+                  <rr-t>Z</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>L</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_uid">k_uid</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>U</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>D</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_unknown">k_unknown</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>U</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>K</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>W</rr-t>
+                  <rr-t>N</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_until">k_until</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>U</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>L</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_uri">k_uri</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>U</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>I</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_url">k_url</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>U</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>L</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_utc_offset">k_utc_offset</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>U</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_valarm">k_valarm</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>V</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>M</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_value">k_value</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>V</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_vcalendar">k_vcalendar</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>V</rr-t>
+                  <rr-t>C</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_version">k_version</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>V</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_vevent">k_vevent</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>V</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>V</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_vfreebusy">k_vfreebusy</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>V</rr-t>
+                  <rr-t>F</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>B</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_vjournal">k_vjournal</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>V</rr-t>
+                  <rr-t>J</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>U</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>L</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_vtimezone">k_vtimezone</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>V</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>M</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>Z</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_vtodo">k_vtodo</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>V</rr-t>
+                  <rr-t>T</rr-t>
+                  <rr-t>O</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>O</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_we">k_we</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>W</rr-t>
+                  <rr-t>E</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_weekly">k_weekly</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>W</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>K</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_wkst">k_wkst</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>W</rr-t>
+                  <rr-t>K</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>T</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="k_yearly">k_yearly</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Y</rr-t>
+                  <rr-t>E</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-t>L</rr-t>
+                  <rr-t>Y</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="LINE_FOLD">LINE_FOLD</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">CRLF</rr-t>
+                  <rr-t data-min="1" data-max="1">WSP</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="WSP">WSP</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">' '</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\t'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ESCAPED_CHAR">ESCAPED_CHAR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\\'</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">CRLF</rr-t>
+                        <rr-t data-min="1" data-max="1">WSP</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-t data-min="1" data-max="1">'\\'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\\'</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">CRLF</rr-t>
+                        <rr-t data-min="1" data-max="1">WSP</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-t data-min="1" data-max="1">';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\\'</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">CRLF</rr-t>
+                        <rr-t data-min="1" data-max="1">WSP</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-t data-min="1" data-max="1">','</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\\'</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">CRLF</rr-t>
+                        <rr-t data-min="1" data-max="1">WSP</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-t data-min="1" data-max="1">N</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CRLF">CRLF</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="0" data-max="1">'\r'</rr-t>
+                  <rr-t data-min="1" data-max="1">'\n'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\r'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CONTROL">CONTROL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[\u0000-\u0008]</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[\u000B-\u000C]</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[\u000E-\u001F]</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[\u007F]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="A">A</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[aA]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="B">B</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[bB]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="C">C</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[cC]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="D">D</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[dD]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="E">E</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[eE]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="F">F</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[fF]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="G">G</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[gG]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="H">H</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[hH]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="I">I</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[iI]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="J">J</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[jJ]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="K">K</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[kK]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="L">L</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[lL]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="M">M</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[mM]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="N">N</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[nN]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="O">O</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[oO]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="P">P</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[pP]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="Q">Q</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[qQ]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="R">R</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[rR]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="S">S</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[sS]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="T">T</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[tT]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="U">U</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[uU]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="V">V</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[vV]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="W">W</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[wW]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="X">X</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[xX]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="Y">Y</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[yY]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="Z">Z</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[zZ]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="EXCLAMATION">EXCLAMATION</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'!'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="DQUOTE">DQUOTE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="HASH">HASH</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'#'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="DOLLAR">DOLLAR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'$'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="X25">X25</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'%'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="AMP">AMP</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&amp;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="X27">X27</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\''</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="X28">X28</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'('</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="X29">X29</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="X2A">X2A</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'*'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="PLUS">PLUS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'+'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="COMMA">COMMA</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">','</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="MINUS">MINUS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'-'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="DOT">DOT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'.'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="FSLASH">FSLASH</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'/'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="D0">D0</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'0'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="D1">D1</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'1'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="D2">D2</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'2'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="D3">D3</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'3'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="D4">D4</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'4'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="D5">D5</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'5'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="D6">D6</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'6'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="D7">D7</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'7'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="D8">D8</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'8'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="D9">D9</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'9'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="COL">COL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">':'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="SCOL">SCOL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">';'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="X3C">X3C</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&lt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ASSIGN">ASSIGN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'='</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="X3E">X3E</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&gt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="X3F">X3F</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'?'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="X40">X40</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'@'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="X5B">X5B</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'['</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="BSLASH">BSLASH</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\\'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="X5D">X5D</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">']'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CARET">CARET</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'^'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="USCORE">USCORE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'_'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="X60">X60</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'`'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="X7B">X7B</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'{'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="X7C">X7C</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'|'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="X7D">X7D</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="X7E">X7E</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'~'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="NON_US_ASCII">NON_US_ASCII</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">.</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

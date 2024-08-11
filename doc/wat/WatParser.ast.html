@@ -1,0 +1,978 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../index.html">Railroad</a> wat/WatParser</h1>
+      <pre>/*
+Copyright (c) 2019 Renata Hodovan.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
+      <h1>Grammar Decl</h1>
+      <pre>parser grammar WatParser;</pre>
+      <h1>Rules</h1>
+      <h2 id="value">value</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>INT</rr-t>
+               <rr-t>FLOAT</rr-t>
+            </rr-o>
+            <pre>/* Auxiliaries */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="name">name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>STRING_</rr-t>
+            </rr-o>
+            <pre>/* Types */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="value_type">value_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>VALUE_TYPE</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="elem_type">elem_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>FUNCREF</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="global_type">global_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#value_type">value_type</a><rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>MUT</rr-t><a href="#value_type">value_type</a><rr-t>RPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="def_type">def_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>FUNC</rr-t><a href="#func_type">func_type</a><rr-t>RPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="func_type">func_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="0" data-max="inf">
+                  <rr-o>
+                     <rr-a>
+                        <rr-t>LPAR</rr-t>
+                        <rr-a>
+                           <rr-o>
+                              <rr-a>
+                                 <rr-t>RESULT</rr-t><a href="#value_type">value_type</a></rr-a>
+                              <rr-a>
+                                 <rr-t>PARAM</rr-t><a href="#value_type">value_type</a></rr-a>
+                              <rr-a>
+                                 <rr-t>PARAM</rr-t><a href="#bind_var">bind_var</a><a href="#value_type">value_type</a></rr-a>
+                           </rr-o>
+                        </rr-a>
+                        <rr-t>RPAR</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="table_type">table_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>NAT</rr-t>
+                  <rr-t>NAT</rr-t><a href="#elem_type">elem_type</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="memory_type">memory_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>NAT</rr-t>
+                  <rr-t>NAT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="type_use">type_use</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>TYPE</rr-t><a href="#var_">var_</a><rr-t>RPAR</rr-t>
+               </rr-a>
+            </rr-o>
+            <pre>/* Immediates */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="literal">literal</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>NAT</rr-t>
+               <rr-t>INT</rr-t>
+               <rr-t>FLOAT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="var_">var_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>NAT</rr-t>
+               <rr-t>VAR</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="bind_var">bind_var</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>VAR</rr-t>
+            </rr-o>
+            <pre>/* Instructions &amp; Expressions */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="instr">instr</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#plain_instr">plain_instr</a><a href="#call_instr_instr">call_instr_instr</a><a href="#block_instr">block_instr</a><a href="#expr">expr</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="plain_instr">plain_instr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>UNREACHABLE</rr-t>
+               <rr-t>NOP</rr-t>
+               <rr-t>DROP</rr-t>
+               <rr-t>SELECT</rr-t>
+               <rr-a>
+                  <rr-t>BR</rr-t><a href="#var_">var_</a></rr-a>
+               <rr-a>
+                  <rr-t>BR_IF</rr-t><a href="#var_">var_</a></rr-a>
+               <rr-a>
+                  <rr-t>BR_TABLE</rr-t><a href="#var_">var_</a></rr-a>
+               <rr-t>RETURN</rr-t>
+               <rr-a>
+                  <rr-t>CALL</rr-t><a href="#var_">var_</a></rr-a>
+               <rr-a>
+                  <rr-t>LOCAL_GET</rr-t><a href="#var_">var_</a></rr-a>
+               <rr-a>
+                  <rr-t>LOCAL_SET</rr-t><a href="#var_">var_</a></rr-a>
+               <rr-a>
+                  <rr-t>LOCAL_TEE</rr-t><a href="#var_">var_</a></rr-a>
+               <rr-a>
+                  <rr-t>GLOBAL_GET</rr-t><a href="#var_">var_</a></rr-a>
+               <rr-a>
+                  <rr-t>GLOBAL_SET</rr-t><a href="#var_">var_</a></rr-a>
+               <rr-a>
+                  <rr-t>LOAD</rr-t>
+                  <rr-t>OFFSET_EQ_NAT</rr-t>
+                  <rr-t>ALIGN_EQ_NAT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>STORE</rr-t>
+                  <rr-t>OFFSET_EQ_NAT</rr-t>
+                  <rr-t>ALIGN_EQ_NAT</rr-t>
+               </rr-a>
+               <rr-t>MEMORY_SIZE</rr-t>
+               <rr-t>MEMORY_GROW</rr-t>
+               <rr-a>
+                  <rr-t>CONST</rr-t><a href="#literal">literal</a></rr-a>
+               <rr-t>TEST</rr-t>
+               <rr-t>COMPARE</rr-t>
+               <rr-t>UNARY</rr-t>
+               <rr-t>BINARY</rr-t>
+               <rr-t>CONVERT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="call_instr">call_instr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>CALL_INDIRECT</rr-t><a href="#type_use">type_use</a><a href="#call_instr_params">call_instr_params</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="call_instr_params">call_instr_params</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>LPAR</rr-t>
+                           <rr-t>PARAM</rr-t><a href="#value_type">value_type</a><rr-t>RPAR</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>LPAR</rr-t>
+                           <rr-t>RESULT</rr-t><a href="#value_type">value_type</a><rr-t>RPAR</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="call_instr_instr">call_instr_instr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>CALL_INDIRECT</rr-t><a href="#type_use">type_use</a><a href="#call_instr_params_instr">call_instr_params_instr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="call_instr_params_instr">call_instr_params_instr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>LPAR</rr-t>
+                           <rr-t>PARAM</rr-t><a href="#value_type">value_type</a><rr-t>RPAR</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#call_instr_results_instr">call_instr_results_instr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="call_instr_results_instr">call_instr_results_instr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>LPAR</rr-t>
+                           <rr-t>RESULT</rr-t><a href="#value_type">value_type</a><rr-t>RPAR</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#instr">instr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="block_instr">block_instr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>BLOCK</rr-t>
+                        <rr-t>LOOP</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#bind_var">bind_var</a><a href="#block">block</a><rr-t>END</rr-t><a href="#bind_var">bind_var</a></rr-a>
+               <rr-a>
+                  <rr-t>IF</rr-t><a href="#bind_var">bind_var</a><a href="#block">block</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>ELSE</rr-t><a href="#bind_var">bind_var</a><a href="#instr_list">instr_list</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>END</rr-t><a href="#bind_var">bind_var</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="block_type">block_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>RESULT</rr-t><a href="#value_type">value_type</a><rr-t>RPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="block">block</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#block_type">block_type</a><a href="#instr_list">instr_list</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expr">expr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAR</rr-t><a href="#expr1">expr1</a><rr-t>RPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expr1">expr1</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#plain_instr">plain_instr</a><a href="#expr">expr</a></rr-a>
+               <rr-a>
+                  <rr-t>CALL_INDIRECT</rr-t><a href="#call_expr_type">call_expr_type</a></rr-a>
+               <rr-a>
+                  <rr-t>BLOCK</rr-t><a href="#bind_var">bind_var</a><a href="#block">block</a></rr-a>
+               <rr-a>
+                  <rr-t>LOOP</rr-t><a href="#bind_var">bind_var</a><a href="#block">block</a></rr-a>
+               <rr-a>
+                  <rr-t>IF</rr-t><a href="#bind_var">bind_var</a><a href="#if_block">if_block</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="call_expr_type">call_expr_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#type_use">type_use</a><a href="#call_expr_params">call_expr_params</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="call_expr_params">call_expr_params</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>LPAR</rr-t>
+                           <rr-t>PARAM</rr-t><a href="#value_type">value_type</a><rr-t>RPAR</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#call_expr_results">call_expr_results</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="call_expr_results">call_expr_results</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>LPAR</rr-t>
+                           <rr-t>RESULT</rr-t><a href="#value_type">value_type</a><rr-t>RPAR</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#expr">expr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="if_block">if_block</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#block_type">block_type</a><a href="#if_block">if_block</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>LPAR</rr-t>
+                  <rr-t>THEN</rr-t><a href="#instr_list">instr_list</a><rr-t>RPAR</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>LPAR</rr-t>
+                           <rr-t>ELSE</rr-t><a href="#instr_list">instr_list</a><rr-t>RPAR</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="instr_list">instr_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#instr">instr</a><a href="#call_instr">call_instr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="const_expr">const_expr</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#instr_list">instr_list</a></rr-o>
+            <pre>/* Functions */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="func_">func_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>FUNC</rr-t><a href="#bind_var">bind_var</a><a href="#func_fields">func_fields</a><rr-t>RPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="func_fields">func_fields</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#type_use">type_use</a><a href="#func_fields_body">func_fields_body</a></rr-a>
+               <rr-a><a href="#inline_import">inline_import</a><a href="#type_use">type_use</a><a href="#func_fields_import">func_fields_import</a></rr-a>
+               <rr-a><a href="#inline_export">inline_export</a><a href="#func_fields">func_fields</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="func_fields_import">func_fields_import</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>LPAR</rr-t>
+                           <rr-t>PARAM</rr-t><a href="#value_type">value_type</a><rr-t>RPAR</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>LPAR</rr-t>
+                           <rr-t>PARAM</rr-t><a href="#bind_var">bind_var</a><a href="#value_type">value_type</a><rr-t>RPAR</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#func_fields_import_result">func_fields_import_result</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="func_fields_import_result">func_fields_import_result</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="0" data-max="inf">
+                  <rr-o>
+                     <rr-a>
+                        <rr-t>LPAR</rr-t>
+                        <rr-t>RESULT</rr-t><a href="#value_type">value_type</a><rr-t>RPAR</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="func_fields_body">func_fields_body</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>LPAR</rr-t>
+                           <rr-t>PARAM</rr-t><a href="#value_type">value_type</a><rr-t>RPAR</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>LPAR</rr-t>
+                           <rr-t>PARAM</rr-t><a href="#bind_var">bind_var</a><a href="#value_type">value_type</a><rr-t>RPAR</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#func_result_body">func_result_body</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="func_result_body">func_result_body</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>LPAR</rr-t>
+                           <rr-t>RESULT</rr-t><a href="#value_type">value_type</a><rr-t>RPAR</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#func_body">func_body</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="func_body">func_body</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>LPAR</rr-t>
+                           <rr-t>LOCAL</rr-t><a href="#value_type">value_type</a><rr-t>RPAR</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>LPAR</rr-t>
+                           <rr-t>LOCAL</rr-t><a href="#bind_var">bind_var</a><a href="#value_type">value_type</a><rr-t>RPAR</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#instr_list">instr_list</a></rr-a>
+            </rr-o>
+            <pre>/* Tables, Memories &amp; Globals */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="offset">offset</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>OFFSET</rr-t><a href="#const_expr">const_expr</a><rr-t>RPAR</rr-t>
+               </rr-a><a href="#expr">expr</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="elem">elem</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>ELEM</rr-t><a href="#var_">var_</a><a href="#offset">offset</a><a href="#var_">var_</a><rr-t>RPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="table">table</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>TABLE</rr-t><a href="#bind_var">bind_var</a><a href="#table_fields">table_fields</a><rr-t>RPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="table_fields">table_fields</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#table_type">table_type</a><rr-a><a href="#inline_import">inline_import</a><a href="#table_type">table_type</a></rr-a>
+               <rr-a><a href="#inline_export">inline_export</a><a href="#table_fields">table_fields</a></rr-a>
+               <rr-a><a href="#elem_type">elem_type</a><rr-t>LPAR</rr-t>
+                  <rr-t>ELEM</rr-t><a href="#var_">var_</a><rr-t>RPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="data">data</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>DATA</rr-t><a href="#var_">var_</a><a href="#offset">offset</a><rr-t>STRING_</rr-t>
+                  <rr-t>RPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="memory">memory</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>MEMORY</rr-t><a href="#bind_var">bind_var</a><a href="#memory_fields">memory_fields</a><rr-t>RPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="memory_fields">memory_fields</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#memory_type">memory_type</a><rr-a><a href="#inline_import">inline_import</a><a href="#memory_type">memory_type</a></rr-a>
+               <rr-a><a href="#inline_export">inline_export</a><a href="#memory_fields">memory_fields</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>DATA</rr-t>
+                  <rr-t>STRING_</rr-t>
+                  <rr-t>RPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sglobal">sglobal</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>GLOBAL</rr-t><a href="#bind_var">bind_var</a><a href="#global_fields">global_fields</a><rr-t>RPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="global_fields">global_fields</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#global_type">global_type</a><a href="#const_expr">const_expr</a></rr-a>
+               <rr-a><a href="#inline_import">inline_import</a><a href="#global_type">global_type</a></rr-a>
+               <rr-a><a href="#inline_export">inline_export</a><a href="#global_fields">global_fields</a></rr-a>
+            </rr-o>
+            <pre>/* Imports &amp; Exports */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="import_desc">import_desc</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>FUNC</rr-t><a href="#bind_var">bind_var</a><a href="#type_use">type_use</a><rr-t>RPAR</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>FUNC</rr-t><a href="#bind_var">bind_var</a><a href="#func_type">func_type</a><rr-t>RPAR</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>TABLE</rr-t><a href="#bind_var">bind_var</a><a href="#table_type">table_type</a><rr-t>RPAR</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>MEMORY</rr-t><a href="#bind_var">bind_var</a><a href="#memory_type">memory_type</a><rr-t>RPAR</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>GLOBAL</rr-t><a href="#bind_var">bind_var</a><a href="#global_type">global_type</a><rr-t>RPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="simport">simport</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>IMPORT</rr-t><a href="#name">name</a><a href="#name">name</a><a href="#import_desc">import_desc</a><rr-t>RPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="inline_import">inline_import</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>IMPORT</rr-t><a href="#name">name</a><a href="#name">name</a><rr-t>RPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="export_desc">export_desc</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>FUNC</rr-t><a href="#var_">var_</a><rr-t>RPAR</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>TABLE</rr-t><a href="#var_">var_</a><rr-t>RPAR</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>MEMORY</rr-t><a href="#var_">var_</a><rr-t>RPAR</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>GLOBAL</rr-t><a href="#var_">var_</a><rr-t>RPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="export_">export_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>EXPORT</rr-t><a href="#name">name</a><a href="#export_desc">export_desc</a><rr-t>RPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="inline_export">inline_export</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>EXPORT</rr-t><a href="#name">name</a><rr-t>RPAR</rr-t>
+               </rr-a>
+            </rr-o>
+            <pre>/* Modules */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="type_">type_</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#def_type">def_type</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="type_def">type_def</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>TYPE</rr-t><a href="#bind_var">bind_var</a><a href="#type_">type_</a><rr-t>RPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="start_">start_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>START_</rr-t><a href="#var_">var_</a><rr-t>RPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="module_field">module_field</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#type_def">type_def</a><a href="#sglobal">sglobal</a><a href="#table">table</a><a href="#memory">memory</a><a href="#func_">func_</a><a href="#elem">elem</a><a href="#data">data</a><a href="#start_">start_</a><a href="#simport">simport</a><a href="#export_">export_</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="module_">module_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>MODULE</rr-t>
+                  <rr-t>VAR</rr-t><a href="#module_field">module_field</a><rr-t>RPAR</rr-t>
+               </rr-a>
+            </rr-o>
+            <pre>/* Scripts */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="script_module">script_module</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#module_">module_</a><rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>MODULE</rr-t>
+                  <rr-t>VAR</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>BIN</rr-t>
+                        <rr-t>QUOTE</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>STRING_</rr-t>
+                  <rr-t>RPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="action_">action_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>INVOKE</rr-t>
+                  <rr-t>VAR</rr-t><a href="#name">name</a><a href="#const_list">const_list</a><rr-t>RPAR</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>GET</rr-t>
+                  <rr-t>VAR</rr-t><a href="#name">name</a><rr-t>RPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="assertion">assertion</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>ASSERT_MALFORMED</rr-t><a href="#script_module">script_module</a><rr-t>STRING_</rr-t>
+                  <rr-t>RPAR</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>ASSERT_INVALID</rr-t><a href="#script_module">script_module</a><rr-t>STRING_</rr-t>
+                  <rr-t>RPAR</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>ASSERT_UNLINKABLE</rr-t><a href="#script_module">script_module</a><rr-t>STRING_</rr-t>
+                  <rr-t>RPAR</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>ASSERT_TRAP</rr-t><a href="#script_module">script_module</a><rr-t>STRING_</rr-t>
+                  <rr-t>RPAR</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>ASSERT_RETURN</rr-t><a href="#action_">action_</a><a href="#const_list">const_list</a><rr-t>RPAR</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>ASSERT_RETURN_CANONICAL_NAN</rr-t><a href="#action_">action_</a><rr-t>RPAR</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>ASSERT_RETURN_ARITHMETIC_NAN</rr-t><a href="#action_">action_</a><rr-t>RPAR</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>ASSERT_TRAP</rr-t><a href="#action_">action_</a><rr-t>STRING_</rr-t>
+                  <rr-t>RPAR</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>ASSERT_EXHAUSTION</rr-t><a href="#action_">action_</a><rr-t>STRING_</rr-t>
+                  <rr-t>RPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="cmd">cmd</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#action_">action_</a><a href="#assertion">assertion</a><a href="#script_module">script_module</a><rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>REGISTER</rr-t><a href="#name">name</a><rr-t>VAR</rr-t>
+                  <rr-t>RPAR</rr-t>
+               </rr-a><a href="#meta">meta</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="meta">meta</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>SCRIPT</rr-t>
+                  <rr-t>VAR</rr-t><a href="#cmd">cmd</a><rr-t>RPAR</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>INPUT</rr-t>
+                  <rr-t>VAR</rr-t>
+                  <rr-t>STRING_</rr-t>
+                  <rr-t>RPAR</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>OUTPUT</rr-t>
+                  <rr-t>VAR</rr-t>
+                  <rr-t>STRING_</rr-t>
+                  <rr-t>RPAR</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>OUTPUT</rr-t>
+                  <rr-t>VAR</rr-t>
+                  <rr-t>RPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="wconst">wconst</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAR</rr-t>
+                  <rr-t>CONST</rr-t><a href="#literal">literal</a><rr-t>RPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="const_list">const_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#wconst">wconst</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="script">script</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#cmd">cmd</a><rr-t>EOF</rr-t>
+               </rr-a>
+               <rr-a><a href="#module_field">module_field</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="module">module</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#module_">module_</a><rr-t>EOF</rr-t>
+               </rr-a>
+               <rr-a><a href="#module_field">module_field</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

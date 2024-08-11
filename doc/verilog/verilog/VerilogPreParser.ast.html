@@ -1,0 +1,491 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../../index.html">Railroad</a> verilog/verilog/VerilogPreParser</h1>
+      <pre>/*
+MIT License
+
+Copyright (c) 2022 Mustafa Said Ağca
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/</pre>
+      <h1>Grammar Decl</h1>
+      <pre>parser grammar VerilogPreParser;</pre>
+      <h1>Rules</h1>
+      <h2 id="source_text">source_text</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#compiler_directive">compiler_directive</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="compiler_directive">compiler_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#begin_keywords_directive">begin_keywords_directive</a><a href="#celldefine_directive">celldefine_directive</a><a href="#default_nettype_directive">default_nettype_directive</a><a href="#end_keywords_directive">end_keywords_directive</a><a href="#endcelldefine_directive">endcelldefine_directive</a><a href="#ifdef_directive">ifdef_directive</a><a href="#ifndef_directive">ifndef_directive</a><a href="#include_directive">include_directive</a><a href="#line_directive">line_directive</a><a href="#nounconnected_drive_directive">nounconnected_drive_directive</a><a href="#pragma_directive">pragma_directive</a><a href="#resetall_directive">resetall_directive</a><a href="#text_macro_definition">text_macro_definition</a><a href="#text_macro_usage">text_macro_usage</a><a href="#timescale_directive">timescale_directive</a><a href="#unconnected_drive_directive">unconnected_drive_directive</a><a href="#undef_directive">undef_directive</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="begin_keywords_directive">begin_keywords_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GA</rr-t>
+                  <rr-t>BEGIN_KEYWORDS_DIRECTIVE</rr-t>
+                  <rr-t>DQ</rr-t><a href="#version_specifier">version_specifier</a><rr-t>DQ</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="celldefine_directive">celldefine_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GA</rr-t>
+                  <rr-t>CELLDEFINE_DIRECTIVE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="default_nettype_directive">default_nettype_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GA</rr-t>
+                  <rr-t>DEFAULT_NETTYPE_DIRECTIVE</rr-t><a href="#default_nettype_value">default_nettype_value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="default_nettype_value">default_nettype_value</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>DEFAULT_NETTYPE_VALUE</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="else_directive">else_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GA</rr-t>
+                  <rr-t>ELSE_DIRECTIVE</rr-t><a href="#group_of_lines">group_of_lines</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="elsif_directive">elsif_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GA</rr-t>
+                  <rr-t>ELSIF_DIRECTIVE</rr-t><a href="#macro_identifier">macro_identifier</a><a href="#group_of_lines">group_of_lines</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="end_keywords_directive">end_keywords_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GA</rr-t>
+                  <rr-t>END_KEYWORDS_DIRECTIVE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="endcelldefine_directive">endcelldefine_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GA</rr-t>
+                  <rr-t>ENDCELLDEFINE_DIRECTIVE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="endif_directive">endif_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GA</rr-t>
+                  <rr-t>ENDIF_DIRECTIVE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="filename">filename</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>FILENAME</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="group_of_lines">group_of_lines</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="0" data-max="inf">
+                  <rr-o><a href="#source_text_">source_text_</a><a href="#compiler_directive">compiler_directive</a></rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="identifier">identifier</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>SIMPLE_IDENTIFIER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ifdef_directive">ifdef_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GA</rr-t>
+                  <rr-t>IFDEF_DIRECTIVE</rr-t><a href="#macro_identifier">macro_identifier</a><a href="#group_of_lines">group_of_lines</a><a href="#elsif_directive">elsif_directive</a><a href="#else_directive">else_directive</a><a href="#endif_directive">endif_directive</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ifndef_directive">ifndef_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GA</rr-t>
+                  <rr-t>IFNDEF_DIRECTIVE</rr-t><a href="#macro_identifier">macro_identifier</a><a href="#group_of_lines">group_of_lines</a><a href="#elsif_directive">elsif_directive</a><a href="#else_directive">else_directive</a><a href="#endif_directive">endif_directive</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="include_directive">include_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GA</rr-t>
+                  <rr-t>INCLUDE_DIRECTIVE</rr-t>
+                  <rr-t>DQ</rr-t><a href="#filename">filename</a><rr-t>DQ</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="level">level</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>UNSIGNED_NUMBER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="line_directive">line_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GA</rr-t>
+                  <rr-t>LINE_DIRECTIVE</rr-t><a href="#number">number</a><rr-t>DQ</rr-t><a href="#filename">filename</a><rr-t>DQ</rr-t><a href="#level">level</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macro_delimiter">macro_delimiter</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>MACRO_DELIMITER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macro_esc_newline">macro_esc_newline</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>MACRO_ESC_NEWLINE</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macro_esc_quote">macro_esc_quote</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>MACRO_ESC_QUOTE</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macro_identifier">macro_identifier</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>MACRO_IDENTIFIER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macro_name">macro_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>MACRO_NAME</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macro_quote">macro_quote</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>MACRO_QUOTE</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macro_text">macro_text</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="0" data-max="inf">
+                  <rr-o><a href="#macro_text_">macro_text_</a><a href="#macro_delimiter">macro_delimiter</a><a href="#macro_esc_newline">macro_esc_newline</a><a href="#macro_esc_quote">macro_esc_quote</a><a href="#macro_quote">macro_quote</a><a href="#string_">string_</a></rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macro_text_">macro_text_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>MACRO_TEXT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macro_usage">macro_usage</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>MACRO_USAGE</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="nounconnected_drive_directive">nounconnected_drive_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GA</rr-t>
+                  <rr-t>NOUNCONNECTED_DRIVE_DIRECTIVE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="number">number</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>UNSIGNED_NUMBER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pragma_directive">pragma_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GA</rr-t>
+                  <rr-t>PRAGMA_DIRECTIVE</rr-t><a href="#pragma_name">pragma_name</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#pragma_expression">pragma_expression</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>CO</rr-t><a href="#pragma_expression">pragma_expression</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pragma_expression">pragma_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#pragma_keyword">pragma_keyword</a><rr-t>EQ</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#pragma_value">pragma_value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pragma_keyword">pragma_keyword</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>SIMPLE_IDENTIFIER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pragma_name">pragma_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>SIMPLE_IDENTIFIER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pragma_value">pragma_value</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LP</rr-t><a href="#pragma_expression">pragma_expression</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>CO</rr-t><a href="#pragma_expression">pragma_expression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>RP</rr-t>
+               </rr-a><a href="#number">number</a><a href="#string_">string_</a><a href="#identifier">identifier</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="resetall_directive">resetall_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GA</rr-t>
+                  <rr-t>RESETALL_DIRECTIVE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="source_text_">source_text_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>SOURCE_TEXT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="string_">string_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="text_macro_definition">text_macro_definition</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GA</rr-t>
+                  <rr-t>DEFINE_DIRECTIVE</rr-t><a href="#macro_name">macro_name</a><a href="#macro_text">macro_text</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="text_macro_usage">text_macro_usage</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GA</rr-t><a href="#macro_usage">macro_usage</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="time_precision">time_precision</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TIME_VALUE</rr-t>
+                  <rr-t>TIME_UNIT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="time_unit">time_unit</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TIME_VALUE</rr-t>
+                  <rr-t>TIME_UNIT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="timescale_directive">timescale_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GA</rr-t>
+                  <rr-t>TIMESCALE_DIRECTIVE</rr-t><a href="#time_unit">time_unit</a><rr-t>SL</rr-t><a href="#time_precision">time_precision</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="unconnected_drive_directive">unconnected_drive_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GA</rr-t>
+                  <rr-t>UNCONNECTED_DRIVE_DIRECTIVE</rr-t><a href="#unconnected_drive_value">unconnected_drive_value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="unconnected_drive_value">unconnected_drive_value</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>UNCONNECTED_DRIVE_VALUE</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="undef_directive">undef_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GA</rr-t>
+                  <rr-t>UNDEF_DIRECTIVE</rr-t><a href="#macro_identifier">macro_identifier</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="version_specifier">version_specifier</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>VERSION_SPECIFIER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

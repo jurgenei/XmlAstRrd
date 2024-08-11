@@ -1,0 +1,3919 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../index.html">Railroad</a> ruleworks/ruleworks</h1>
+      <pre>/*
+* This grammar is derived from yacc grammar contained in the freeware software 
+* sources. See the README.md file.
+*
+* William H. Cox 
+*/</pre>
+      <h1>Grammar Decl</h1>
+      <pre>grammar ruleworks;</pre>
+      <h1>Rules</h1>
+      <h2 id="program">program</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#program_construct">program_construct</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="program_construct">program_construct</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#program_line">program_line</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="program_line">program_line</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#declaration_block">declaration_block</a><a href="#entry_block">entry_block</a><a href="#rule_block">rule_block</a><a href="#end_block">end_block</a><a href="#rule_group_declaration">rule_group_declaration</a><a href="#end_rule_group">end_rule_group</a><a href="#object_class_declaration">object_class_declaration</a><a href="#method_declaration">method_declaration</a><a href="#generic_method_declaration">generic_method_declaration</a><a href="#external_routine_declaration">external_routine_declaration</a><a href="#on_entry">on_entry</a><a href="#on_empty">on_empty</a><a href="#on_exit">on_exit</a><a href="#on_every">on_every</a><a href="#rw_rule">rw_rule</a><a href="#catcher">catcher</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="declaration_block">declaration_block</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_DECLARATION_BLOCK</rr-t><a href="#name">name</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="entry_block">entry_block</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_ENTRY_BLOCK</rr-t><a href="#name">name</a><a href="#opt_entry_block_clauses">opt_entry_block_clauses</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_entry_block_clauses">opt_entry_block_clauses</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o>
+               <rr-a><a href="#opt_entry_block_clauses">opt_entry_block_clauses</a><rr-t>TOK_LPAREN</rr-t><a href="#entry_block_clause">entry_block_clause</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="entry_block_clause">entry_block_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#accepts_clause">accepts_clause</a><a href="#returns_clause">returns_clause</a><a href="#activates_clause">activates_clause</a><a href="#uses_clause">uses_clause</a><a href="#strategy_clause">strategy_clause</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="activates_clause">activates_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_ACTIVATES</rr-t><a href="#names">names</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="uses_clause">uses_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_USES</rr-t><a href="#names">names</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="strategy_clause">strategy_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_STRATEGY</rr-t><a href="#strategy_name">strategy_name</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="on_entry">on_entry</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_ON_ENTRY</rr-t><a href="#startup_actions">startup_actions</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_STARTUP</rr-t><a href="#startup_actions">startup_actions</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="on_empty">on_empty</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_ON_EMPTY</rr-t><a href="#actions">actions</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="on_exit">on_exit</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_ON_EXIT</rr-t><a href="#actions">actions</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="on_every">on_every</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_ON_EVERY</rr-t><a href="#actions">actions</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="startup_actions">startup_actions</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#startup_action">startup_action</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a><a href="#startup_actions">startup_actions</a><rr-t>TOK_LPAREN</rr-t><a href="#startup_action">startup_action</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="startup_action">startup_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#action_">action_</a><a href="#at_commandn____//              |  disable_commandn____//              |  enable_commandn____//              |  trace_commandn____//">at_command</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="at_command">at_command</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_AT</rr-t><a href="#name">name</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_actions">opt_actions</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o><a href="#actions">actions</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_method_actions">opt_method_actions</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o><a href="#actions">actions</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="actions">actions</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#action_line">action_line</a><rr-a><a href="#actions">actions</a><a href="#action_line">action_line</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="action_line">action_line</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#action_">action_</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#construct_keyword">construct_keyword</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="action_">action_</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#addstate_action">addstate_action</a><a href="#after_action">after_action</a><a href="#bind_action">bind_action</a><a href="#call_inherited">call_inherited</a><a href="#closefile_action">closefile_action</a><a href="#copy_action">copy_action</a><a href="#debug_action">debug_action</a><a href="#default_action">default_action</a><a href="#for_each_action">for_each_action</a><a href="#function_call">function_call</a><a href="#if_action">if_action</a><a href="#make_action">make_action</a><a href="#modify_action">modify_action</a><a href="#openfile_action">openfile_action</a><a href="#quit_action">quit_action</a><a href="#remove_action">remove_action</a><a href="#remove_every_action">remove_every_action</a><a href="#restorestate_action">restorestate_action</a><a href="#return_action">return_action</a><a href="#savestate_action">savestate_action</a><a href="#specialize_action">specialize_action</a><a href="#trace_action">trace_action</a><a href="#while_action">while_action</a><a href="#write_action">write_action</a><a href="#sql_attach_action">sql_attach_action</a><a href="#sql_commit_action">sql_commit_action</a><a href="#sql_delete_action">sql_delete_action</a><a href="#sql_detach_action">sql_detach_action</a><a href="#sql_fetch_each_action">sql_fetch_each_action</a><a href="#sql_fetch_as_object_action">sql_fetch_as_object_action</a><a href="#sql_insert_action">sql_insert_action</a><a href="#sql_insert_from_object_action">sql_insert_from_object_action</a><a href="#sql_rollback_action">sql_rollback_action</a><a href="#sql_start_action">sql_start_action</a><a href="#sql_update_action">sql_update_action</a><a href="#sql_update_from_object_action">sql_update_from_object_action</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="addstate_action">addstate_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_ADDSTATE</rr-t><a href="#value">value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="after_action">after_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_AFTER</rr-t><a href="#value">value</a><a href="#name">name</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="bind_action">bind_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_BIND</rr-t><a href="#variable">variable</a><a href="#value">value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="call_inherited">call_inherited</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_CALL_INHERITED</rr-t><a href="#variables">variables</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="closefile_action">closefile_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_CLOSEFILE</rr-t><a href="#value_list">value_list</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="copy_action">copy_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_COPY</rr-t><a href="#variable">variable</a><a href="#opt_rhs_terms">opt_rhs_terms</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="debug_action">debug_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TOK_DEBUG</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="default_action">default_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_DEFAULT</rr-t><a href="#value">value</a><a href="#value">value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="for_each_action">for_each_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_FOR_EACH</rr-t><a href="#variable">variable</a><rr-t>TOK_IN</rr-t><a href="#value">value</a><a href="#actions">actions</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="if_action">if_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_IF</rr-t><a href="#expression">expression</a><rr-t>TOK_THEN</rr-t><a href="#actions">actions</a><a href="#opt_else">opt_else</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="make_action">make_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_MAKE</rr-t><a href="#rclass">rclass</a><a href="#opt_rhs_terms">opt_rhs_terms</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="modify_action">modify_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_MODIFY</rr-t><a href="#variable">variable</a><a href="#opt_rhs_terms">opt_rhs_terms</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="openfile_action">openfile_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_OPENFILE</rr-t><a href="#value">value</a><a href="#value">value</a><a href="#value">value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="quit_action">quit_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_QUIT</rr-t><a href="#opt_quit_value">opt_quit_value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_quit_value">opt_quit_value</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#arith_value">arith_value</a><rr-t>TOK_FAILURE</rr-t>
+               <rr-t>TOK_SUCCESS</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="remove_action">remove_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_REMOVE</rr-t><a href="#variables">variables</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="remove_every_action">remove_every_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_REMOVE_EVERY</rr-t><a href="#classes">classes</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="restorestate_action">restorestate_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_RESTORESTATE</rr-t><a href="#value">value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="return_action">return_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_RETURN</rr-t><a href="#opt_value">opt_value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="savestate_action">savestate_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_SAVESTATE</rr-t><a href="#value">value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="specialize_action">specialize_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_SPECIALIZE</rr-t><a href="#variable">variable</a><a href="#rclass">rclass</a><a href="#opt_rhs_terms">opt_rhs_terms</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="trace_action">trace_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_TRACE</rr-t><a href="#on_off">on_off</a><a href="#trace_options">trace_options</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="while_action">while_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_WHILE</rr-t><a href="#expression">expression</a><rr-t>TOK_DO</rr-t><a href="#actions">actions</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="write_action">write_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_WRITE</rr-t><a href="#opt_values">opt_values</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sql_attach_action">sql_attach_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_SQL_ATTACH</rr-t><a href="#db_spec">db_spec</a><a href="#opt_db_scope">opt_db_scope</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sql_commit_action">sql_commit_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TOK_SQL_COMMIT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sql_delete_action">sql_delete_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_SQL_DELETE</rr-t><a href="#db_table">db_table</a><a href="#opt_sql_rse">opt_sql_rse</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sql_detach_action">sql_detach_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TOK_SQL_DETACH</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sql_fetch_each_action">sql_fetch_each_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_SQL_FETCH_EACH</rr-t><a href="#db_vars">db_vars</a><rr-t>TOK_LPAREN</rr-t><a href="#sql_rse">sql_rse</a><rr-t>TOK_RPAREN</rr-t><a href="#sql_actions">sql_actions</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sql_fetch_as_object_action">sql_fetch_as_object_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_SQL_FETCH_AS_OBJECT</rr-t><a href="#sql_rse">sql_rse</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sql_insert_action">sql_insert_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_SQL_INSERT</rr-t><a href="#db_table">db_table</a><a href="#sql_rse">sql_rse</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sql_insert_from_object_action">sql_insert_from_object_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_SQL_INSERT_FROM_OBJECT</rr-t><a href="#variable">variable</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sql_rollback_action">sql_rollback_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TOK_SQL_ROLLBACK</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sql_start_action">sql_start_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_SQL_START</rr-t><a href="#opt_sql_rse">opt_sql_rse</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sql_update_action">sql_update_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_SQL_UPDATE</rr-t><a href="#db_table">db_table</a><a href="#sql_rse">sql_rse</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sql_update_from_object_action">sql_update_from_object_action</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_SQL_UPDATE_FROM_OBJECT</rr-t><a href="#variable">variable</a><a href="#opt_sql_rse">opt_sql_rse</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="db_spec">db_spec</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_FILENAME</rr-t><a href="#name">name</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_PATHNAME</rr-t><a href="#name">name</a></rr-a><a href="#db_spec_name">db_spec_name</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_db_scope">opt_db_scope</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o><a href="#db_scope">db_scope</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="db_scope">db_scope</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#name">name</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="db_table">db_table</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#name">name</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="db_vars">db_vars</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#variables">variables</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_sql_rse">opt_sql_rse</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o><a href="#sql_rse">sql_rse</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sql_actions">sql_actions</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#actions">actions</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sql_rse">sql_rse</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#sql_rse_list">sql_rse_list</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sql_rse_list">sql_rse_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#sql_rse_list">sql_rse_list</a><a href="#sql_rse_element">sql_rse_element</a></rr-a><a href="#sql_rse_element">sql_rse_element</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sql_rse_element">sql_rse_element</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#constant">constant</a><a href="#variable">variable</a><a href="#quoted_var">quoted_var</a><rr-t>TOK_EQUAL</rr-t>
+               <rr-t>TOK_EQUAL_EQUAL</rr-t>
+               <rr-t>TOK_APPROX_EQUAL</rr-t>
+               <rr-t>TOK_NOT_APPROX_EQUAL</rr-t>
+               <rr-t>TOK_NOT_EQ</rr-t>
+               <rr-t>TOK_NOT_EQUAL</rr-t>
+               <rr-t>TOK_GREATER</rr-t>
+               <rr-t>TOK_GREATER_EQUAL</rr-t>
+               <rr-t>TOK_LESS</rr-t>
+               <rr-t>TOK_LESS_EQUAL</rr-t>
+               <rr-t>TOK_PLUS</rr-t>
+               <rr-t>TOK_MINUS</rr-t>
+               <rr-t>TOK_TIMES</rr-t>
+               <rr-t>TOK_DIVIDE</rr-t>
+               <rr-t>TOK_MODULUS</rr-t>
+               <rr-t>TOK_ARROW</rr-t>
+               <rr-t>TOK_START_DISJUNCTION</rr-t>
+               <rr-t>TOK_END_DISJUNCTION</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_rhs_terms">opt_rhs_terms</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o>
+               <rr-a><a href="#opt_rhs_terms">opt_rhs_terms</a><a href="#rhs_term">rhs_term</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="rhs_term">rhs_term</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_HAT</rr-t><a href="#attribute">attribute</a><a href="#opt_ca_access">opt_ca_access</a><a href="#value">value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="rclass">rclass</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#name">name</a><a href="#variable">variable</a><rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#accept_atom_bti">accept_atom_bti</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#concat_bti">concat_bti</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#get_bti">get_bti</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#nth_bti">nth_bti</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#symbol_bti">symbol_bti</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#function_call">function_call</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="classes">classes</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#classes">classes</a><a href="#rclass">rclass</a></rr-a><a href="#rclass">rclass</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="attribute">attribute</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#name">name</a><a href="#variable">variable</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="catcher">catcher</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_CATCH</rr-t><a href="#name">name</a><a href="#opt_actions">opt_actions</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expression">expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#cmplx_expre">cmplx_expre</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="cmplx_expre">cmplx_expre</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expre_value">expre_value</a><rr-a><a href="#cmplx_expre">cmplx_expre</a><rr-t>TOK_AND</rr-t><a href="#cmplx_expre">cmplx_expre</a></rr-a>
+               <rr-a><a href="#cmplx_expre">cmplx_expre</a><rr-t>TOK_OR</rr-t><a href="#cmplx_expre">cmplx_expre</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_NOT</rr-t><a href="#expre_value">expre_value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expre_value">expre_value</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#value_non_sql">value_non_sql</a><a href="#predicate">predicate</a><a href="#value_non_sql">value_non_sql</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#cmplx_expre">cmplx_expre</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_else">opt_else</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_ELSE</rr-t><a href="#actions">actions</a></rr-a>
+            </rr-o>
+            <pre>/*
+ * BUILT-IN FUNCTIONS
+ */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="built_ins">built_ins</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#accept_atom_bti">accept_atom_bti</a><a href="#acceptline_compound_bti">acceptline_compound_bti</a><a href="#compound_bti">compound_bti</a><a href="#concat_bti">concat_bti</a><a href="#crlf_bti">crlf_bti</a><a href="#every_bti">every_bti</a><a href="#float_bti">float_bti</a><a href="#genatom_bti">genatom_bti</a><a href="#genint_bti">genint_bti</a><a href="#get_bti">get_bti</a><a href="#integer_bti">integer_bti</a><a href="#is_open_bti">is_open_bti</a><a href="#length_bti">length_bti</a><a href="#max_bti">max_bti</a><a href="#min_bti">min_bti</a><a href="#nth_bti">nth_bti</a><a href="#position_bti">position_bti</a><a href="#rjust_bti">rjust_bti</a><a href="#subcompound_bti">subcompound_bti</a><a href="#subsymbol_bti">subsymbol_bti</a><a href="#symbol_bti">symbol_bti</a><a href="#symbol_len_bti">symbol_len_bti</a><a href="#tabto_bti">tabto_bti</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="accept_atom_bti">accept_atom_bti</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_ACCEPT_ATOM</rr-t><a href="#opt_value">opt_value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="acceptline_compound_bti">acceptline_compound_bti</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_ACCEPTLINE_COMPOUND</rr-t><a href="#opt_accpt_compound">opt_accpt_compound</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_accpt_compound">opt_accpt_compound</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o>
+               <rr-a><a href="#value">value</a><a href="#opt_value">opt_value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="compound_bti">compound_bti</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_COMPOUND</rr-t><a href="#opt_values">opt_values</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="concat_bti">concat_bti</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_CONCAT</rr-t><a href="#opt_values">opt_values</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="crlf_bti">crlf_bti</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TOK_CRLF</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="every_bti">every_bti</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_EVERY</rr-t><a href="#rclass">rclass</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="float_bti">float_bti</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_FLOAT</rr-t><a href="#value">value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="genatom_bti">genatom_bti</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_GENATOM</rr-t><a href="#opt_value">opt_value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="genint_bti">genint_bti</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TOK_GENINT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="get_bti">get_bti</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_GET</rr-t><a href="#value">value</a><rr-t>TOK_HAT</rr-t><a href="#attribute">attribute</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="integer_bti">integer_bti</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_INTEGER</rr-t><a href="#value">value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="is_open_bti">is_open_bti</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_IS_OPEN</rr-t><a href="#value">value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="length_bti">length_bti</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_LENGTH</rr-t><a href="#value">value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="max_bti">max_bti</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_MAX</rr-t><a href="#opt_values">opt_values</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="min_bti">min_bti</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_MIN</rr-t><a href="#opt_values">opt_values</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="nth_bti">nth_bti</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_NTH</rr-t><a href="#value">value</a><a href="#index_num">index_num</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="position_bti">position_bti</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_POSITION</rr-t><a href="#value">value</a><a href="#opt_predicate">opt_predicate</a><a href="#value">value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="rjust_bti">rjust_bti</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_RJUST</rr-t><a href="#value">value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="subcompound_bti">subcompound_bti</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_SUBCOMPOUND</rr-t><a href="#value">value</a><a href="#index_num">index_num</a><a href="#index_num">index_num</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="subsymbol_bti">subsymbol_bti</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_SUBSYMBOL</rr-t><a href="#value">value</a><a href="#index_num">index_num</a><a href="#index_num">index_num</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="symbol_bti">symbol_bti</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_SYMBOL</rr-t><a href="#value">value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="symbol_len_bti">symbol_len_bti</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_SYMBOL_LENGTH</rr-t><a href="#value">value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tabto_bti">tabto_bti</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_TABTO</rr-t><a href="#value">value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="rule_block">rule_block</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_RULE_BLOCK</rr-t><a href="#name">name</a><a href="#opt_rule_block_clauses">opt_rule_block_clauses</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_rule_block_clauses">opt_rule_block_clauses</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o>
+               <rr-a><a href="#opt_rule_block_clauses">opt_rule_block_clauses</a><rr-t>TOK_LPAREN</rr-t><a href="#rule_block_clause">rule_block_clause</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="rule_block_clause">rule_block_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#uses_clause">uses_clause</a><a href="#strategy_clause">strategy_clause</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="strategy_name">strategy_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TOK_LEX</rr-t>
+               <rr-t>TOK_MEA</rr-t>
+            </rr-o>
+            <pre>/*
+ * END BLOCK
+ */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="end_block">end_block</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_END_BLOCK</rr-t><a href="#opt_name">opt_name</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="rule_group_declaration">rule_group_declaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_RULE_GROUP</rr-t><a href="#name">name</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="end_rule_group">end_rule_group</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_END_GROUP</rr-t><a href="#opt_name">opt_name</a></rr-a>
+            </rr-o>
+            <pre>/*
+ * OBJECT CLASS
+ */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="object_class_declaration">object_class_declaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_OBJECT_CLASS</rr-t><a href="#name">name</a><a href="#opt_object_class_modifier">opt_object_class_modifier</a><a href="#opt_attribute_declarations">opt_attribute_declarations</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_object_class_modifier">opt_object_class_modifier</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t>
+                  <rr-t>TOK_INHERITS_FROM</rr-t><a href="#name">name</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_attribute_declarations">opt_attribute_declarations</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o>
+               <rr-a><a href="#opt_attribute_declarations">opt_attribute_declarations</a><a href="#attribute_declaration">attribute_declaration</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="attribute_declaration">attribute_declaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_HAT</rr-t><a href="#attribute_name">attribute_name</a><a href="#opt_compound_flag">opt_compound_flag</a><a href="#opt_domain_restriction">opt_domain_restriction</a><a href="#opt_attribute_modifiers">opt_attribute_modifiers</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="attribute_name">attribute_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#name">name</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_compound_flag">opt_compound_flag</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o>
+               <rr-t>TOK_COMPOUND</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_domain_restriction">opt_domain_restriction</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o>
+               <rr-t>TOK_ANY</rr-t>
+               <rr-a>
+                  <rr-t>TOK_INSTANCE</rr-t><a href="#opt_domain_class">opt_domain_class</a></rr-a>
+               <rr-t>TOK_INTEGER</rr-t>
+               <rr-t>TOK_FLOAT</rr-t>
+               <rr-t>TOK_OPAQUE</rr-t>
+               <rr-t>TOK_SYMBOL</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_domain_class">opt_domain_class</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_OF</rr-t><a href="#name">name</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_attribute_modifiers">opt_attribute_modifiers</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o>
+               <rr-a><a href="#opt_attribute_modifiers">opt_attribute_modifiers</a><a href="#attribute_modifier">attribute_modifier</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="attribute_modifier">attribute_modifier</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t>
+                  <rr-t>TOK_DEFAULT</rr-t><a href="#constant">constant</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t>
+                  <rr-t>TOK_DEFAULT</rr-t><a href="#compound_const">compound_const</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t>
+                  <rr-t>TOK_FILL</rr-t><a href="#constant">constant</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+            </rr-o>
+            <pre>/*
+ * GENERIC-METHOD-DECLARATION
+ */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="generic_method_declaration">generic_method_declaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_GENERIC_METHOD</rr-t><a href="#allowable_func_name">allowable_func_name</a><a href="#generic_method_accepts_clause">generic_method_accepts_clause</a><a href="#opt_generic_method_returns">opt_generic_method_returns</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="generic_method_accepts_clause">generic_method_accepts_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t>
+                  <rr-t>TOK_ACCEPTS</rr-t><a href="#generic_method_when_decl">generic_method_when_decl</a><a href="#opt_method_param_decls">opt_method_param_decls</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_generic_method_returns">opt_generic_method_returns</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t>
+                  <rr-t>TOK_RETURNS</rr-t><a href="#method_return_param">method_return_param</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="generic_method_when_decl">generic_method_when_decl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#variable">variable</a><rr-t>TOK_WHEN</rr-t>
+                  <rr-t>TOK_INSTANCE</rr-t><a href="#opt_domain_class">opt_domain_class</a></rr-a>
+            </rr-o>
+            <pre>/*
+ * METHOD-DECLARATION
+ */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="method_declaration">method_declaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_METHOD</rr-t><a href="#allowable_func_name">allowable_func_name</a><a href="#method_accepts_clause">method_accepts_clause</a><a href="#opt_method_returns_plus_actions">opt_method_returns_plus_actions</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="method_accepts_clause">method_accepts_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t>
+                  <rr-t>TOK_ACCEPTS</rr-t><a href="#method_when_decl">method_when_decl</a><a href="#opt_method_param_decls">opt_method_param_decls</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="method_when_decl">method_when_decl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#variable">variable</a><rr-t>TOK_WHEN</rr-t>
+                  <rr-t>TOK_INSTANCE</rr-t>
+                  <rr-t>TOK_OF</rr-t><a href="#name">name</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="method_param_decl">method_param_decl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#variable">variable</a><a href="#opt_method_param_opts">opt_method_param_opts</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_method_param_decls">opt_method_param_decls</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o>
+               <rr-a><a href="#opt_method_param_decls">opt_method_param_decls</a><a href="#method_param_decl">method_param_decl</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_method_returns_plus_actions">opt_method_returns_plus_actions</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#action_">action_</a><rr-t>TOK_RPAREN</rr-t><a href="#opt_method_actions">opt_method_actions</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t>
+                  <rr-t>TOK_RETURNS</rr-t><a href="#method_return_param">method_return_param</a><rr-t>TOK_RPAREN</rr-t><a href="#opt_actions">opt_actions</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="method_return_param">method_return_param</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#variable">variable</a><a href="#opt_method_param_opts">opt_method_param_opts</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_method_param_opts">opt_method_param_opts</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#opt_compound_flag">opt_compound_flag</a><a href="#opt_domain_restriction">opt_domain_restriction</a></rr-a>
+            </rr-o>
+            <pre>/*
+ * EXTERNAL-ROUTINE
+ */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="external_routine_declaration">external_routine_declaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_EXTERNAL_ROUTINE</rr-t><a href="#allowable_func_name">allowable_func_name</a><a href="#opt_ext_rt_clauses">opt_ext_rt_clauses</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_ext_rt_clauses">opt_ext_rt_clauses</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#ext_rt_clause">ext_rt_clause</a><rr-t>TOK_RPAREN</rr-t><a href="#opt_ext_rt_clauses">opt_ext_rt_clauses</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ext_rt_clause">ext_rt_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#alias_clause">alias_clause</a><a href="#accepts_clause">accepts_clause</a><a href="#returns_clause">returns_clause</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="alias_clause">alias_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_ALIAS_FOR</rr-t><a href="#name">name</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="accepts_clause">accepts_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_ACCEPTS</rr-t><a href="#ext_rt_param_decl">ext_rt_param_decl</a><a href="#opt_ext_rt_param_decls">opt_ext_rt_param_decls</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="returns_clause">returns_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_RETURNS</rr-t><a href="#ext_rt_return_decl">ext_rt_return_decl</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ext_rt_param_decl">ext_rt_param_decl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#opt_param_name">opt_param_name</a><a href="#opt_param_cardinality">opt_param_cardinality</a><a href="#param_type">param_type</a><a href="#opt_param_mech">opt_param_mech</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_ext_rt_param_decls">opt_ext_rt_param_decls</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o>
+               <rr-a><a href="#ext_rt_param_decl">ext_rt_param_decl</a><a href="#opt_ext_rt_param_decls">opt_ext_rt_param_decls</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ext_rt_return_decl">ext_rt_return_decl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#opt_param_name">opt_param_name</a><a href="#opt_param_cardinality">opt_param_cardinality</a><a href="#param_type">param_type</a><a href="#opt_return_mech">opt_return_mech</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_param_name">opt_param_name</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o><a href="#variable">variable</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_param_cardinality">opt_param_cardinality</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_LBRACKET</rr-t><a href="#param_array_length">param_array_length</a><rr-t>TOK_RBRACKET</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="param_type">param_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TOK_LONG</rr-t>
+               <rr-t>TOK_SHORT</rr-t>
+               <rr-t>TOK_BYTE</rr-t>
+               <rr-t>TOK_UNSIGNED_LONG</rr-t>
+               <rr-t>TOK_UNSIGNED_SHORT</rr-t>
+               <rr-t>TOK_UNSIGNED_BYTE</rr-t>
+               <rr-t>TOK_SINGLE_FLOAT</rr-t>
+               <rr-t>TOK_DOUBLE_FLOAT</rr-t>
+               <rr-t>TOK_ASCIZ</rr-t>
+               <rr-t>TOK_ASCID</rr-t>
+               <rr-t>TOK_POINTER</rr-t>
+               <rr-t>TOK_ATOM</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_param_mech">opt_param_mech</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_BY</rr-t>
+                  <rr-t>TOK_REFERENCE</rr-t>
+                  <rr-t>TOK_READ_ONLY</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_BY</rr-t>
+                  <rr-t>TOK_REFERENCE</rr-t>
+                  <rr-t>TOK_READ_WRITE</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_BY</rr-t>
+                  <rr-t>TOK_VALUE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_return_mech">opt_return_mech</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_BY</rr-t>
+                  <rr-t>TOK_REFERENCE</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_BY</rr-t>
+                  <rr-t>TOK_VALUE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="param_array_length">param_array_length</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o>
+               <rr-t>TOK_INTEGER_CONST</rr-t><a href="#variable">variable</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="rw_rule">rw_rule</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#rule_or_p">rule_or_p</a><a href="#name">name</a><a href="#ce_form">ce_form</a><a href="#opt_ce_list">opt_ce_list</a><rr-t>TOK_ARROW</rr-t><a href="#opt_actions">opt_actions</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="rule_or_p">rule_or_p</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TOK_RULE</rr-t>
+               <rr-t>TOK_P</rr-t>
+            </rr-o>
+            <pre>/*
+ * LHS
+ */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="opt_ce_list">opt_ce_list</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o>
+               <rr-a><a href="#opt_ce_list">opt_ce_list</a><a href="#ce">ce</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ce">ce</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#pos_ce">pos_ce</a><a href="#neg_ce">neg_ce</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pos_ce">pos_ce</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#ce_formn____// until we fully support them...">ce_form</a><a href="#ce_disjunctionn____//">ce_disjunction</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="neg_ce">neg_ce</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_MINUS</rr-t><a href="#ce_form">ce_form</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ce_disjunction">ce_disjunction</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_START_DISJUNCTION</rr-t><a href="#ce_disj_list">ce_disj_list</a><rr-t>TOK_END_DISJUNCTION</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ce_disj_list">ce_disj_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#ce_form">ce_form</a><rr-a><a href="#ce_disj_list">ce_disj_list</a><a href="#ce_form">ce_form</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ce_form">ce_form</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#name">name</a><a href="#opt_lhs_terms">opt_lhs_terms</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#name">name</a><a href="#opt_lhs_terms">opt_lhs_terms</a><rr-t>TOK_ARROW</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_lhs_terms">opt_lhs_terms</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o>
+               <rr-a><a href="#opt_lhs_terms">opt_lhs_terms</a><a href="#lhs_term">lhs_term</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lhs_term">lhs_term</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_HAT</rr-t><a href="#name">name</a><a href="#opt_ca_access">opt_ca_access</a><a href="#lhs_value">lhs_value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_ca_access">opt_ca_access</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_LBRACKET</rr-t><a href="#ca_index">ca_index</a><rr-t>TOK_RBRACKET</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ca_index">ca_index</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#arith_expr">arith_expr</a><rr-t>TOK_DOLLAR_LAST</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="index_num">index_num</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#integer_const">integer_const</a><a href="#variable">variable</a><rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#built_ins">built_ins</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#function_call">function_call</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#arith_expr">arith_expr</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-t>TOK_DOLLAR_LAST</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lhs_value">lhs_value</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#restriction">restriction</a><rr-a>
+                  <rr-t>TOK_LBRACE</rr-t><a href="#restriction_list">restriction_list</a><rr-t>TOK_RBRACE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="restriction_list">restriction_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#restriction_list">restriction_list</a><a href="#restriction">restriction</a></rr-a><a href="#restriction">restriction</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="restriction">restriction</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_START_DISJUNCTION</rr-t><a href="#value_list">value_list</a><rr-t>TOK_END_DISJUNCTION</rr-t>
+               </rr-a>
+               <rr-a><a href="#predicate">predicate</a><a href="#value">value</a></rr-a><a href="#value">value</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="arith_expr">arith_expr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_MINUS</rr-t><a href="#arith_value">arith_value</a></rr-a><a href="#arith_value">arith_value</a><rr-a><a href="#arith_expr">arith_expr</a><rr-t>TOK_PLUS</rr-t><a href="#arith_expr">arith_expr</a></rr-a>
+               <rr-a><a href="#arith_expr">arith_expr</a><rr-t>TOK_MINUS</rr-t><a href="#arith_expr">arith_expr</a></rr-a>
+               <rr-a><a href="#arith_expr">arith_expr</a><rr-t>TOK_TIMES</rr-t><a href="#arith_expr">arith_expr</a></rr-a>
+               <rr-a><a href="#arith_expr">arith_expr</a><rr-t>TOK_DIVIDE</rr-t><a href="#arith_expr">arith_expr</a></rr-a>
+               <rr-a><a href="#arith_expr">arith_expr</a><rr-t>TOK_MODULUS</rr-t><a href="#arith_expr">arith_expr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="arith_value">arith_value</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#integer_const">integer_const</a><a href="#float_const">float_const</a><a href="#variable">variable</a><rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#built_ins">built_ins</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#function_call">function_call</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#arith_expr">arith_expr</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="on_off">on_off</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TOK_OFF</rr-t>
+               <rr-t>TOK_ON</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="trace_options">trace_options</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TOK_TIMES</rr-t><a href="#trace_names">trace_names</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="trace_names">trace_names</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#trace_name">trace_name</a><rr-a><a href="#trace_names">trace_names</a><a href="#trace_name">trace_name</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="trace_name">trace_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TOK_ENTRY_BLOCK</rr-t>
+               <rr-t>TOK_EB</rr-t>
+               <rr-t>TOK_RULE_GROUP</rr-t>
+               <rr-t>TOK_RG</rr-t>
+               <rr-t>TOK_RULE</rr-t>
+               <rr-t>TOK_WM</rr-t>
+               <rr-t>TOK_CS</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="variables">variables</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#variables">variables</a><a href="#variable">variable</a></rr-a><a href="#variable">variable</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="function_call">function_call</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#allowable_func_name">allowable_func_name</a><a href="#opt_values">opt_values</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="value_list">value_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#value">value</a><rr-a><a href="#value_list">value_list</a><a href="#value">value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_value">opt_value</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o><a href="#value">value</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_values">opt_values</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o>
+               <rr-a><a href="#opt_values">opt_values</a><a href="#value">value</a></rr-a>
+            </rr-o>
+            <pre>/* Should grammar disallow functions like MAKE on LHS, or semantics? */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="value">value</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#value_non_sql">value_non_sql</a><rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#sql_fetch_as_object_action">sql_fetch_as_object_action</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="value_non_sql">value_non_sql</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#constant">constant</a><a href="#variable">variable</a><rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#built_ins">built_ins</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#function_call">function_call</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#arith_expr">arith_expr</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#copy_action">copy_action</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#make_action">make_action</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#modify_action">modify_action</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#specialize_action">specialize_action</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t><a href="#call_inherited">call_inherited</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="constant">constant</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#integer_const">integer_const</a><a href="#float_const">float_const</a><a href="#opaque_const">opaque_const</a><a href="#instance_const">instance_const</a><a href="#name">name</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="names">names</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#names">names</a><a href="#name">name</a></rr-a><a href="#name">name</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_name">opt_name</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o><a href="#name">name</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="name">name</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#allowable_func_name">allowable_func_name</a><a href="#built_in_keyword">built_in_keyword</a><a href="#construct_keyword">construct_keyword</a><a href="#action_token">action_token</a><a href="#sql_keyword">sql_keyword</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="db_spec_name">db_spec_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#allowable_func_name">allowable_func_name</a><a href="#built_in_keyword">built_in_keyword</a><a href="#construct_keyword">construct_keyword</a><a href="#action_token">action_token</a></rr-o>
+            <pre>/* Need to accept names other than actions to disambiguate function call
+ * from other actions.
+ *
+ * Not allowing construct keywords as external routine names simplifies
+ * error recovery.
+ */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="allowable_func_name">allowable_func_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#symbol_constn____/* Complain about names starting with &#34;$&#34; */">symbol_const</a><a href="#quoted_symbol">quoted_symbol</a><a href="#allowable_func_keyword">allowable_func_keyword</a></rr-o>
+            <pre>/* The construct type keywords of the language */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="construct_keyword">construct_keyword</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TOK_DECLARATION_BLOCK</rr-t>
+               <rr-t>TOK_END_BLOCK</rr-t>
+               <rr-t>TOK_END_GROUP</rr-t>
+               <rr-t>TOK_ENTRY_BLOCK</rr-t>
+               <rr-t>TOK_EXTERNAL_ROUTINE</rr-t>
+               <rr-t>TOK_GENERIC_METHOD</rr-t>
+               <rr-t>TOK_METHOD</rr-t>
+               <rr-t>TOK_OBJECT_CLASS</rr-t>
+               <rr-t>TOK_ON_EMPTY</rr-t>
+               <rr-t>TOK_ON_ENTRY</rr-t>
+               <rr-t>TOK_STARTUP</rr-t>
+               <rr-t>TOK_ON_EVERY</rr-t>
+               <rr-t>TOK_ON_EXIT</rr-t>
+               <rr-t>TOK_P</rr-t>
+               <rr-t>TOK_RULE</rr-t>
+               <rr-t>TOK_RULE_BLOCK</rr-t>
+               <rr-t>TOK_RULE_GROUP</rr-t>
+            </rr-o>
+            <pre>/* The built-in function names */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="built_in_keyword">built_in_keyword</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TOK_ACCEPT_ATOM</rr-t>
+               <rr-t>TOK_ACCEPTLINE_COMPOUND</rr-t>
+               <rr-t>TOK_ACCEPTS</rr-t>
+               <rr-t>TOK_COMPOUND</rr-t>
+               <rr-t>TOK_CONCAT</rr-t>
+               <rr-t>TOK_CRLF</rr-t>
+               <rr-t>TOK_EVERY</rr-t>
+               <rr-t>TOK_FLOAT</rr-t>
+               <rr-t>TOK_GENATOM</rr-t>
+               <rr-t>TOK_GENINT</rr-t>
+               <rr-t>TOK_GET</rr-t>
+               <rr-t>TOK_INTEGER</rr-t>
+               <rr-t>TOK_IS_OPEN</rr-t>
+               <rr-t>TOK_LENGTH</rr-t>
+               <rr-t>TOK_MAX</rr-t>
+               <rr-t>TOK_MIN</rr-t>
+               <rr-t>TOK_NTH</rr-t>
+               <rr-t>TOK_POSITION</rr-t>
+               <rr-t>TOK_RETURNS</rr-t>
+               <rr-t>TOK_RJUST</rr-t>
+               <rr-t>TOK_SUBCOMPOUND</rr-t>
+               <rr-t>TOK_SUBSYMBOL</rr-t>
+               <rr-t>TOK_SYMBOL</rr-t>
+               <rr-t>TOK_SYMBOL_LENGTH</rr-t>
+               <rr-t>TOK_TABTO</rr-t>
+               <rr-t>TOK_AND</rr-t>
+               <rr-t>TOK_NOT</rr-t>
+               <rr-t>TOK_OR</rr-t>
+            </rr-o>
+            <pre>/*
+**  Most of the  keywords of the language are usable as function names, except:
+**      - Construct type keywords  (e.g. RULE)
+**      - Built-in action names (e.g. MAKE)
+**      - Built-in function names (e.g INTEGER)
+**      RETURNS and ACCEPTS, AND OR and NOT
+*/</pre>
+         </rr-rr>
+      </p>
+      <h2 id="allowable_func_keyword">allowable_func_keyword</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TOK_ACCEPT</rr-t>
+               <rr-t>TOK_ACTIVATES</rr-t>
+               <rr-t>TOK_ANY</rr-t>
+               <rr-t>TOK_APPEND</rr-t>
+               <rr-t>TOK_ASCID</rr-t>
+               <rr-t>TOK_ASCIZ</rr-t>
+               <rr-t>TOK_ATOM</rr-t>
+               <rr-t>TOK_BY</rr-t>
+               <rr-t>TOK_BYTE</rr-t>
+               <rr-t>TOK_CATCH</rr-t>
+               <rr-t>TOK_CS</rr-t>
+               <rr-t>TOK_DO</rr-t>
+               <rr-t>TOK_DOLLAR_LAST</rr-t>
+               <rr-t>TOK_DOUBLE_FLOAT</rr-t>
+               <rr-t>TOK_EB</rr-t>
+               <rr-t>TOK_ELSE</rr-t>
+               <rr-t>TOK_FAILURE</rr-t>
+               <rr-t>TOK_FILL</rr-t>
+               <rr-t>TOK_IN</rr-t>
+               <rr-t>TOK_INHERITS_FROM</rr-t>
+               <rr-t>TOK_INSTANCE</rr-t>
+               <rr-t>TOK_LEX</rr-t>
+               <rr-t>TOK_LONG</rr-t>
+               <rr-t>TOK_MEA</rr-t>
+               <rr-t>TOK_OF</rr-t>
+               <rr-t>TOK_OUT</rr-t>
+               <rr-t>TOK_OPAQUE</rr-t>
+               <rr-t>TOK_POINTER</rr-t>
+               <rr-t>TOK_READ_ONLY</rr-t>
+               <rr-t>TOK_READ_WRITE</rr-t>
+               <rr-t>TOK_REFERENCE</rr-t>
+               <rr-t>TOK_RG</rr-t>
+               <rr-t>TOK_SHORT</rr-t>
+               <rr-t>TOK_SINGLE_FLOAT</rr-t>
+               <rr-t>TOK_SCALAR</rr-t>
+               <rr-t>TOK_STRATEGY</rr-t>
+               <rr-t>TOK_SUCCESS</rr-t>
+               <rr-t>TOK_THEN</rr-t>
+               <rr-t>TOK_UNSIGNED_BYTE</rr-t>
+               <rr-t>TOK_UNSIGNED_LONG</rr-t>
+               <rr-t>TOK_UNSIGNED_SHORT</rr-t>
+               <rr-t>TOK_USES</rr-t>
+               <rr-t>TOK_VALUE</rr-t>
+               <rr-t>TOK_WM</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="action_token">action_token</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TOK_ADDSTATE</rr-t>
+               <rr-t>TOK_AFTER</rr-t>
+               <rr-t>TOK_BIND</rr-t>
+               <rr-t>TOK_CALL_INHERITED</rr-t>
+               <rr-t>TOK_CLOSEFILE</rr-t>
+               <rr-t>TOK_COPY</rr-t>
+               <rr-t>TOK_DEBUG</rr-t>
+               <rr-t>TOK_DEFAULT</rr-t>
+               <rr-t>TOK_FOR_EACH</rr-t>
+               <rr-t>TOK_IF</rr-t>
+               <rr-t>TOK_MAKE</rr-t>
+               <rr-t>TOK_MODIFY</rr-t>
+               <rr-t>TOK_OPENFILE</rr-t>
+               <rr-t>TOK_QUIT</rr-t>
+               <rr-t>TOK_REMOVE</rr-t>
+               <rr-t>TOK_REMOVE_EVERY</rr-t>
+               <rr-t>TOK_RESTORESTATE</rr-t>
+               <rr-t>TOK_RETURN</rr-t>
+               <rr-t>TOK_SAVESTATE</rr-t>
+               <rr-t>TOK_SPECIALIZE</rr-t>
+               <rr-t>TOK_TRACE</rr-t>
+               <rr-t>TOK_WHILE</rr-t>
+               <rr-t>TOK_WRITE</rr-t>
+               <rr-t>TOK_SQL_ATTACH</rr-t>
+               <rr-t>TOK_SQL_COMMIT</rr-t>
+               <rr-t>TOK_SQL_DELETE</rr-t>
+               <rr-t>TOK_SQL_DETACH</rr-t>
+               <rr-t>TOK_SQL_FETCH_EACH</rr-t>
+               <rr-t>TOK_SQL_FETCH_AS_OBJECT</rr-t>
+               <rr-t>TOK_SQL_INSERT</rr-t>
+               <rr-t>TOK_SQL_INSERT_FROM_OBJECT</rr-t>
+               <rr-t>TOK_SQL_ROLLBACK</rr-t>
+               <rr-t>TOK_SQL_START</rr-t>
+               <rr-t>TOK_SQL_UPDATE</rr-t>
+               <rr-t>TOK_SQL_UPDATE_FROM_OBJECT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sql_keyword">sql_keyword</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TOK_FILENAME</rr-t>
+               <rr-t>TOK_PATHNAME</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_predicate">opt_predicate</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o><a href="#scalar_predicate">scalar_predicate</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="predicate">predicate</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#scalar_predicate">scalar_predicate</a><a href="#content_predicate">content_predicate</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="scalar_predicate">scalar_predicate</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TOK_SAME_TYPE</rr-t>
+               <rr-t>TOK_DIFF_TYPE</rr-t>
+               <rr-t>TOK_EQUAL</rr-t>
+               <rr-t>TOK_EQUAL_EQUAL</rr-t>
+               <rr-t>TOK_APPROX_EQUAL</rr-t>
+               <rr-t>TOK_NOT_APPROX_EQUAL</rr-t>
+               <rr-t>TOK_NOT_EQ</rr-t>
+               <rr-t>TOK_NOT_EQUAL</rr-t>
+               <rr-t>TOK_GREATER</rr-t>
+               <rr-t>TOK_GREATER_EQUAL</rr-t>
+               <rr-t>TOK_LESS</rr-t>
+               <rr-t>TOK_LESS_EQUAL</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="content_predicate">content_predicate</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TOK_LENGTH_EQUAL</rr-t>
+               <rr-t>TOK_LENGTH_NOT_EQUAL</rr-t>
+               <rr-t>TOK_LENGTH_GREATER</rr-t>
+               <rr-t>TOK_LENGTH_GREATER_EQUAL</rr-t>
+               <rr-t>TOK_LENGTH_LESS</rr-t>
+               <rr-t>TOK_LENGTH_LESS_EQUAL</rr-t>
+               <rr-t>TOK_CONTAINS</rr-t>
+               <rr-t>TOK_DOES_NOT_CONTAIN</rr-t>
+               <rr-a>
+                  <rr-t>TOK_CONTAINS</rr-t><a href="#scalar_predicate">scalar_predicate</a></rr-a>
+               <rr-a>
+                  <rr-t>TOK_DOES_NOT_CONTAIN</rr-t><a href="#scalar_predicate">scalar_predicate</a></rr-a>
+               <rr-a><a href="#scalar_predicate">scalar_predicate</a><rr-t>TOK_CONTAINS</rr-t>
+               </rr-a>
+               <rr-a><a href="#scalar_predicate">scalar_predicate</a><rr-t>TOK_DOES_NOT_CONTAIN</rr-t>
+               </rr-a>
+            </rr-o>
+            <pre>/*
+ * All non-magic "constant tokens" of the language are in one of
+ * predicate, action_token, construct_keyword, non_action_keyword,
+ * or are in the following list:
+ *
+ *                      TOK_PLUS
+ *              |       TOK_MINUS
+ *              |       TOK_TIMES
+ *              |       TOK_DIVIDE
+ *              |       TOK_MODULUS
+ *              |       TOK_ARROW
+ *              |       TOK_START_DISJUNCTION
+ *              |       TOK_END_DISJUNCTION
+ */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="compound_const">compound_const</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOK_LPAREN</rr-t>
+                  <rr-t>TOK_COMPOUND</rr-t><a href="#opt_comp_element_const">opt_comp_element_const</a><rr-t>TOK_RPAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_comp_element_const">opt_comp_element_const</h2>
+      <p>
+         <rr-rr>
+            <pre>/* empty */</pre>
+            <rr-o>
+               <rr-a><a href="#opt_comp_element_const">opt_comp_element_const</a><a href="#constant">constant</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="integer_const">integer_const</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TOK_INTEGER_CONST</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="float_const">float_const</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TOK_FLOAT_CONST</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="variable">variable</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TOK_VARIABLE</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="quoted_var">quoted_var</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TOK_QUOTED_VAR</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="symbol_const">symbol_const</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TOK_SYMBOL_CONST</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="quoted_symbol">quoted_symbol</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TOK_QUOTED_SYMBOL</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opaque_const">opaque_const</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TOK_OPAQUE_CONST</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="instance_const">instance_const</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TOK_INSTANCE_CONST</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_LBRACE">TOK_LBRACE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'{'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_RBRACE">TOK_RBRACE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_LBRACKET">TOK_LBRACKET</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'['</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_RBRACKET">TOK_RBRACKET</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">']'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_LPAREN">TOK_LPAREN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'('</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_RPAREN">TOK_RPAREN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_HAT">TOK_HAT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'^'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_START_DISJUNCTION">TOK_START_DISJUNCTION</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&lt;&lt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_END_DISJUNCTION">TOK_END_DISJUNCTION</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&gt;&gt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_TIMES">TOK_TIMES</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'*'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_DIVIDE">TOK_DIVIDE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'/'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_MODULUS">TOK_MODULUS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\\'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_PLUS">TOK_PLUS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'+'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_MINUS">TOK_MINUS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'-'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_EQUAL">TOK_EQUAL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'='</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_EQUAL_EQUAL">TOK_EQUAL_EQUAL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'=='</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_APPROX_EQUAL">TOK_APPROX_EQUAL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'~='</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_NOT_APPROX_EQUAL">TOK_NOT_APPROX_EQUAL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'-~='</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_SAME_TYPE">TOK_SAME_TYPE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&lt;=&gt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_DIFF_TYPE">TOK_DIFF_TYPE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&lt;-&gt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_NOT_EQ">TOK_NOT_EQ</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&lt;&gt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_NOT_EQUAL">TOK_NOT_EQUAL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'-='</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_LESS">TOK_LESS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&lt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_LESS_EQUAL">TOK_LESS_EQUAL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&lt;='</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_GREATER">TOK_GREATER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&gt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_GREATER_EQUAL">TOK_GREATER_EQUAL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&gt;='</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_CONTAINS">TOK_CONTAINS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'[+]'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_DOES_NOT_CONTAIN">TOK_DOES_NOT_CONTAIN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'[-]'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_LENGTH_LESS_EQUAL">TOK_LENGTH_LESS_EQUAL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'[&lt;=]'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_LENGTH_NOT_EQUAL">TOK_LENGTH_NOT_EQUAL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'[&lt;&gt;]'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_LENGTH_LESS">TOK_LENGTH_LESS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'[&lt;]'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_LENGTH_EQUAL">TOK_LENGTH_EQUAL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'[=]'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_LENGTH_GREATER_EQUAL">TOK_LENGTH_GREATER_EQUAL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'[&gt;=]'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_LENGTH_GREATER">TOK_LENGTH_GREATER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'[&gt;]'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_ARROW">TOK_ARROW</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'--&gt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_AT">TOK_AT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'@'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_DOLLAR_LAST">TOK_DOLLAR_LAST</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'$LAST'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_FAILURE">TOK_FAILURE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'$FAILURE'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_SUCCESS">TOK_SUCCESS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'$SUCCESS'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_ACCEPT">TOK_ACCEPT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'ACCEPT'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_ACCEPT_ATOM">TOK_ACCEPT_ATOM</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'ACCEPT-ATOM'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_ACCEPTLINE_COMPOUND">TOK_ACCEPTLINE_COMPOUND</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'ACCEPTLINE-COMPOUND'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_ACCEPTS">TOK_ACCEPTS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'ACCEPTS'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_ACTIVATES">TOK_ACTIVATES</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'ACTIVATES'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_ADDSTATE">TOK_ADDSTATE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'ADDSTATE'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_AFTER">TOK_AFTER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'AFTER'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_ALIAS_FOR">TOK_ALIAS_FOR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'ALIAS-FOR'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_ANY">TOK_ANY</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'ANY'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_AND">TOK_AND</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'AND'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_APPEND">TOK_APPEND</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'APPEND'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_ASCID">TOK_ASCID</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'ASCID'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_ASCIZ">TOK_ASCIZ</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'ASCIZ'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_ATOM">TOK_ATOM</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'ATOM'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_BIND">TOK_BIND</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'BIND'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_BY">TOK_BY</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'BY'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_BYTE">TOK_BYTE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'BYTE'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_CALL_INHERITED">TOK_CALL_INHERITED</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'CALL-INHERITED'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_CATCH">TOK_CATCH</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'CATCH'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_CLOSEFILE">TOK_CLOSEFILE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'CLOSEFILE'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_COMPOUND">TOK_COMPOUND</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'COMPOUND'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_CONCAT">TOK_CONCAT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'CONCAT'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_COPY">TOK_COPY</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'COPY'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_CRLF">TOK_CRLF</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'CRLF'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_CS">TOK_CS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'CS'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_DEBUG">TOK_DEBUG</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'DEBUG'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_DECLARATION_BLOCK">TOK_DECLARATION_BLOCK</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'DECLARATION-BLOCK'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_DEFAULT">TOK_DEFAULT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'DEFAULT'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_DOUBLE_FLOAT">TOK_DOUBLE_FLOAT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'DOUBLE-FLOAT'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_DO">TOK_DO</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'DO'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_EB">TOK_EB</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'EB'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_ELSE">TOK_ELSE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'ELSE'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_END_BLOCK">TOK_END_BLOCK</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'END-BLOCK'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_END_GROUP">TOK_END_GROUP</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'END-GROUP'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_ENTRY_BLOCK">TOK_ENTRY_BLOCK</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'ENTRY-BLOCK'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_EVERY">TOK_EVERY</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'EVERY'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_EXTERNAL_ROUTINE">TOK_EXTERNAL_ROUTINE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'EXTERNAL-ROUTINE'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_FILENAME">TOK_FILENAME</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'FILENAME'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_FILL">TOK_FILL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'FILL'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_FLOAT">TOK_FLOAT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'FLOAT'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_FOR_EACH">TOK_FOR_EACH</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'FOR-EACH'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_GENATOM">TOK_GENATOM</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'GENATOM'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_GENERIC_METHOD">TOK_GENERIC_METHOD</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'GENERIC-METHOD'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_GENINT">TOK_GENINT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'GENINT'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_GET">TOK_GET</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'GET'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_IF">TOK_IF</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'IF'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_IN">TOK_IN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'IN'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_INHERITS_FROM">TOK_INHERITS_FROM</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'INHERITS-FROM'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_INSTANCE">TOK_INSTANCE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'INSTANCE'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_INTEGER">TOK_INTEGER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'INTEGER'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_IS_OPEN">TOK_IS_OPEN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'IS-OPEN'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_LENGTH">TOK_LENGTH</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'LENGTH'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_LEX">TOK_LEX</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'LEX'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_LONG">TOK_LONG</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'LONG'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_MAKE">TOK_MAKE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'MAKE'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_MAX">TOK_MAX</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'MAX'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_MEA">TOK_MEA</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'MEA'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_METHOD">TOK_METHOD</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'METHOD'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_MIN">TOK_MIN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'MIN'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_MODIFY">TOK_MODIFY</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'MODIFY'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_NOT">TOK_NOT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'NOT'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_NTH">TOK_NTH</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'NTH'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_OBJECT_CLASS">TOK_OBJECT_CLASS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'OBJECT-CLASS'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_OF">TOK_OF</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'OF'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_OFF">TOK_OFF</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'OFF'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_ON">TOK_ON</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'ON'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_ON_EMPTY">TOK_ON_EMPTY</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'ON-EMPTY'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_ON_ENTRY">TOK_ON_ENTRY</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'ON-ENTRY'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_ON_EVERY">TOK_ON_EVERY</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'ON-EVERY'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_ON_EXIT">TOK_ON_EXIT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'ON-EXIT'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_OPAQUE">TOK_OPAQUE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'OPAQUE'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_OPENFILE">TOK_OPENFILE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'OPENFILE'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_OR">TOK_OR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'OR'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_OUT">TOK_OUT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'OUT'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_P">TOK_P</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'P'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_PATHNAME">TOK_PATHNAME</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'PATHNAME'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_POINTER">TOK_POINTER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'POINTER'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_POSITION">TOK_POSITION</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'POSITION'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_QUIT">TOK_QUIT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'QUIT'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_READ_ONLY">TOK_READ_ONLY</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'READ-ONLY'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_READ_WRITE">TOK_READ_WRITE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'READ-WRITE'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_REFERENCE">TOK_REFERENCE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'REFERENCE'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_REMOVE_EVERY">TOK_REMOVE_EVERY</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'REMOVE-EVERY'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_REMOVE">TOK_REMOVE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'REMOVE'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_RESTORESTATE">TOK_RESTORESTATE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'RESTORESTATE'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_RETURN">TOK_RETURN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'RETURN'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_RETURNS">TOK_RETURNS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'RETURNS'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_RG">TOK_RG</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'RG'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_RJUST">TOK_RJUST</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'RJUST'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_RULE">TOK_RULE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'RULE'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_RULE_BLOCK">TOK_RULE_BLOCK</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'RULE-BLOCK'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_RULE_GROUP">TOK_RULE_GROUP</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'RULE-GROUP'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_SAVESTATE">TOK_SAVESTATE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'SAVESTATE'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_SHORT">TOK_SHORT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'SHORT'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_SINGLE_FLOAT">TOK_SINGLE_FLOAT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'SINGLE-FLOAT'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_SCALAR">TOK_SCALAR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'SCALAR'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_SPECIALIZE">TOK_SPECIALIZE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'SPECIALIZE'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_SQL_ATTACH">TOK_SQL_ATTACH</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'SQL-ATTACH'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_SQL_COMMIT">TOK_SQL_COMMIT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'SQL-COMMIT'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_SQL_DELETE">TOK_SQL_DELETE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'SQL-DELETE'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_SQL_DETACH">TOK_SQL_DETACH</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'SQL-DETACH'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_SQL_FETCH_AS_OBJECT">TOK_SQL_FETCH_AS_OBJECT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'SQL-FETCH-AS-OBJECT'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_SQL_FETCH_EACH">TOK_SQL_FETCH_EACH</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'SQL-FETCH-EACH'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_SQL_INSERT">TOK_SQL_INSERT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'SQL-INSERT'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_SQL_INSERT_FROM_OBJECT">TOK_SQL_INSERT_FROM_OBJECT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'SQL-INSERT-FROM-OBJECT'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_SQL_ROLLBACK">TOK_SQL_ROLLBACK</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'SQL-ROLLBACK'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_SQL_START">TOK_SQL_START</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'SQL-START'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_SQL_UPDATE">TOK_SQL_UPDATE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'SQL-UPDATE'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_SQL_UPDATE_FROM_OBJECT">TOK_SQL_UPDATE_FROM_OBJECT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'SQL-UPDATE-FROM-OBJECT'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_STARTUP">TOK_STARTUP</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'STARTUP'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_STRATEGY">TOK_STRATEGY</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'STRATEGY'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_SUBCOMPOUND">TOK_SUBCOMPOUND</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'SUBCOMPOUND'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_SUBSYMBOL">TOK_SUBSYMBOL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'SUBSYMBOL'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_SYMBOL">TOK_SYMBOL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'SYMBOL'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_SYMBOL_LENGTH">TOK_SYMBOL_LENGTH</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'SYMBOL-LENGTH'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_TABTO">TOK_TABTO</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'TABTO'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_THEN">TOK_THEN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'THEN'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_TRACE">TOK_TRACE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'TRACE'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_UNSIGNED_BYTE">TOK_UNSIGNED_BYTE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'UNSIGNED-BYTE'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_UNSIGNED_LONG">TOK_UNSIGNED_LONG</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'UNSIGNED-LONG'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_UNSIGNED_SHORT">TOK_UNSIGNED_SHORT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'UNSIGNED-SHORT'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_USES">TOK_USES</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'USES'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_VALUE">TOK_VALUE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'VALUE'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_WHEN">TOK_WHEN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'WHEN'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_WHILE">TOK_WHILE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'WHILE'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_WM">TOK_WM</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'TM'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_WRITE">TOK_WRITE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'WRITE'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="DIGIT">DIGIT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[0-9]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="SIGN">SIGN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[-+]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="EXPONENT">EXPONENT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">[E]</rr-t>
+                        <rr-t data-min="0" data-max="1">SIGN</rr-t>
+                        <rr-t data-min="1" data-max="inf">DIGIT</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="HEX_DIGIT">HEX_DIGIT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[0-9A-F]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="BAR">BAR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'|'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_FLOAT_CONST">TOK_FLOAT_CONST</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="0" data-max="1">SIGN</rr-t>
+                  <rr-t data-min="0" data-max="inf">DIGIT</rr-t>
+                  <rr-t data-min="1" data-max="1">'.'</rr-t>
+                  <rr-t data-min="1" data-max="inf">DIGIT</rr-t>
+                  <rr-t data-min="0" data-max="1">EXPONENT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="0" data-max="1">SIGN</rr-t>
+                  <rr-t data-min="1" data-max="inf">DIGIT</rr-t>
+                  <rr-t data-min="1" data-max="1">'.'</rr-t>
+                  <rr-t data-min="1" data-max="1">EXPONENT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_INTEGER_CONST">TOK_INTEGER_CONST</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="0" data-max="1">SIGN</rr-t>
+                  <rr-t data-min="1" data-max="inf">DIGIT</rr-t>
+                  <rr-t data-min="0" data-max="1">'.'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_INSTANCE_CONST">TOK_INSTANCE_CONST</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'#'</rr-t>
+                  <rr-t data-min="1" data-max="inf">DIGIT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_OPAQUE_CONST">TOK_OPAQUE_CONST</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'%X'</rr-t>
+                  <rr-t data-min="1" data-max="inf">HEX_DIGIT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_VARIABLE">TOK_VARIABLE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&lt;'</rr-t>
+                  <rr-t data-min="1" data-max="inf">NONMAGIC</rr-t>
+                  <rr-t data-min="1" data-max="1">'&gt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_QUOTED_VAR">TOK_QUOTED_VAR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&lt;'</rr-t>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+                  <rr-t data-min="1" data-max="inf">NONMAGIC</rr-t>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+                  <rr-t data-min="1" data-max="1">'&gt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_SYMBOL_CONST">TOK_SYMBOL_CONST</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">NONMAGIC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TOK_QUOTED_SYMBOL">TOK_QUOTED_SYMBOL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'|'</rr-t>
+                  <rr-t data-min="1" data-max="1">.</rr-t>
+                  <rr-t data-min="1" data-max="1">'|'</rr-t>
+               </rr-a>
+            </rr-o>
+            <pre>/* "|" is really nonmagic, but we don't treat it that way here. */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="NONMAGIC">NONMAGIC</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[A-Z0-9_$:'.,&lt;&gt;`!@*+=\-/?]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="WS">WS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">[ \t\n\r\f]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TrailingComment">TrailingComment</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">';'</rr-t>
+                  <rr-t data-min="1" data-max="1">.</rr-t>
+                  <rr-t data-min="1" data-max="1">'\n'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

@@ -1,0 +1,833 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../index.html">Railroad</a> powerquery/PowerQueryParser</h1>
+      <h1>Grammar Decl</h1>
+      <pre>parser grammar PowerQueryParser;</pre>
+      <h1>Rules</h1>
+      <h2 id="document">document</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#section_document">section_document</a><a href="#expression_document">expression_document</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="section_document">section_document</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#section">section</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="section">section</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#literal_attribs">literal_attribs</a><rr-t>SECTION</rr-t><a href="#section_name">section_name</a><rr-t>SEMICOLON</rr-t><a href="#section_members">section_members</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="section_name">section_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="section_members">section_members</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#section_member">section_member</a><a href="#section_members">section_members</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="section_member">section_member</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#literal_attribs">literal_attribs</a><rr-t>SHARED</rr-t><a href="#section_member_name">section_member_name</a><rr-t>EQUALS</rr-t><a href="#expression">expression</a><rr-t>SEMICOLON</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="section_member_name">section_member_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expression_document">expression_document</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expression">expression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expression">expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#logical_or_expression">logical_or_expression</a><a href="#each_expression">each_expression</a><a href="#function_expression">function_expression</a><a href="#let_expression">let_expression</a><a href="#if_expression">if_expression</a><a href="#let_expression">let_expression</a><a href="#error_raising_expression">error_raising_expression</a><a href="#error_handling_expression">error_handling_expression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="logical_or_expression">logical_or_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#logical_and_expression">logical_and_expression</a><rr-a><a href="#logical_and_expression">logical_and_expression</a><rr-t>OR</rr-t><a href="#logical_or_expression">logical_or_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="logical_and_expression">logical_and_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#is_expression">is_expression</a><rr-a><a href="#logical_and_expression">logical_and_expression</a><rr-t>AND</rr-t><a href="#is_expression">is_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="is_expression">is_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#as_expression">as_expression</a><rr-a><a href="#is_expression">is_expression</a><rr-t>IS</rr-t><a href="#nullable_primitive_type">nullable_primitive_type</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="nullable_primitive_type">nullable_primitive_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>NULLABLE</rr-t><a href="#primitive_type">primitive_type</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="as_expression">as_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#equality_expression">equality_expression</a><rr-a><a href="#as_expression">as_expression</a><rr-t>AS</rr-t><a href="#nullable_primitive_type">nullable_primitive_type</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="equality_expression">equality_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#relational_expression">relational_expression</a><rr-a><a href="#relational_expression">relational_expression</a><rr-t>EQUALS</rr-t><a href="#equality_expression">equality_expression</a></rr-a>
+               <rr-a><a href="#relational_expression">relational_expression</a><rr-t>NEQ</rr-t><a href="#equality_expression">equality_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="relational_expression">relational_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#additive_expression">additive_expression</a><rr-a><a href="#additive_expression">additive_expression</a><rr-t>LE</rr-t><a href="#relational_expression">relational_expression</a></rr-a>
+               <rr-a><a href="#additive_expression">additive_expression</a><rr-t>GE</rr-t><a href="#relational_expression">relational_expression</a></rr-a>
+               <rr-a><a href="#additive_expression">additive_expression</a><rr-t>LEQ</rr-t><a href="#additive_expression">additive_expression</a></rr-a>
+               <rr-a><a href="#additive_expression">additive_expression</a><rr-t>GEQ</rr-t><a href="#relational_expression">relational_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="additive_expression">additive_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#multiplicative_expression">multiplicative_expression</a><rr-a><a href="#multiplicative_expression">multiplicative_expression</a><rr-t>PLUS</rr-t><a href="#additive_expression">additive_expression</a></rr-a>
+               <rr-a><a href="#multiplicative_expression">multiplicative_expression</a><rr-t>MINUS</rr-t><a href="#additive_expression">additive_expression</a></rr-a>
+               <rr-a><a href="#multiplicative_expression">multiplicative_expression</a><rr-t>AMP</rr-t><a href="#additive_expression">additive_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="multiplicative_expression">multiplicative_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#metadata_expression">metadata_expression</a><rr-a><a href="#metadata_expression">metadata_expression</a><rr-t>STAR</rr-t><a href="#multiplicative_expression">multiplicative_expression</a></rr-a>
+               <rr-a><a href="#metadata_expression">metadata_expression</a><rr-t>SLASH</rr-t><a href="#multiplicative_expression">multiplicative_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="metadata_expression">metadata_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#unary_expression">unary_expression</a><rr-a><a href="#unary_expression">unary_expression</a><rr-t>META</rr-t><a href="#unary_expression">unary_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="unary_expression">unary_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#type_expression">type_expression</a><rr-a>
+                  <rr-t>PLUS</rr-t><a href="#unary_expression">unary_expression</a></rr-a>
+               <rr-a>
+                  <rr-t>MINUS</rr-t><a href="#unary_expression">unary_expression</a></rr-a>
+               <rr-a>
+                  <rr-t>NOT</rr-t><a href="#unary_expression">unary_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="primary_expression">primary_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#literal_expression">literal_expression</a><a href="#list_expression">list_expression</a><a href="#record_expression">record_expression</a><a href="#identifier_expression">identifier_expression</a><a href="#section_access_expression">section_access_expression</a><a href="#parenthesized_expression">parenthesized_expression</a><rr-a><a href="#primary_expression">primary_expression</a><a href="#field_selector">field_selector</a></rr-a><a href="#implicit_target_field_selection">implicit_target_field_selection</a><rr-a><a href="#primary_expression">primary_expression</a><a href="#required_projection">required_projection</a></rr-a>
+               <rr-a><a href="#primary_expression">primary_expression</a><a href="#optional_projection_//projection">optional_projection</a></rr-a><a href="#implicit_target_projection_____________//field_access_expression">implicit_target_projection</a><rr-a><a href="#primary_expression">primary_expression</a><rr-t>OPEN_BRACE</rr-t><a href="#item_selector">item_selector</a><rr-t>CLOSE_BRACE</rr-t>
+               </rr-a>
+               <rr-a><a href="#primary_expression">primary_expression</a><rr-t>OPEN_BRACE</rr-t><a href="#item_selector">item_selector</a><rr-t>CLOSE_BRACE</rr-t>
+                  <rr-t>OPTIONAL</rr-t>
+               </rr-a>
+               <rr-a><a href="#primary_expression">primary_expression</a><rr-t>OPEN_PAREN</rr-t><a href="#argument_list">argument_list</a><rr-t>CLOSE_PAREN</rr-t>
+               </rr-a><a href="#not_implemented_expression">not_implemented_expression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="literal_expression">literal_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>LITERAL</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="identifier_expression">identifier_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#identifier_reference">identifier_reference</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="identifier_reference">identifier_reference</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#exclusive_identifier_reference">exclusive_identifier_reference</a><a href="#inclusive_identifier_reference">inclusive_identifier_reference</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="exclusive_identifier_reference">exclusive_identifier_reference</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="inclusive_identifier_reference">inclusive_identifier_reference</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>AT</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="section_access_expression">section_access_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>BANG</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="parenthesized_expression">parenthesized_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_PAREN</rr-t><a href="#expression">expression</a><rr-t>CLOSE_PAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="not_implemented_expression">not_implemented_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>ELLIPSES</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="argument_list">argument_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expression">expression</a><rr-a><a href="#expression">expression</a><rr-t>COMMA</rr-t><a href="#argument_list">argument_list</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="list_expression">list_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_BRACE</rr-t><a href="#item_list">item_list</a><rr-t>CLOSE_BRACE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="item_list">item_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#item">item</a><rr-a><a href="#item">item</a><rr-t>COMMA</rr-t><a href="#item_list">item_list</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="item">item</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expression">expression</a><rr-a><a href="#expression">expression</a><rr-t>DOTDOT</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="record_expression">record_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_BRACKET</rr-t><a href="#field_list">field_list</a><rr-t>CLOSE_BRACKET</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="field_list">field_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#field">field</a><rr-a><a href="#field">field</a><rr-t>COMMA</rr-t><a href="#field_list">field_list</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="field">field</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#field_name">field_name</a><rr-t>EQUALS</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="field_name">field_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="item_selector">item_selector</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expression">expression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="field_selector">field_selector</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#required_field_selector">required_field_selector</a><a href="#optional_field_selector">optional_field_selector</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="required_field_selector">required_field_selector</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_BRACKET</rr-t><a href="#field_name">field_name</a><rr-t>CLOSE_BRACKET</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="optional_field_selector">optional_field_selector</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_BRACKET</rr-t><a href="#field_name">field_name</a><rr-t>CLOSE_BRACKET</rr-t>
+                  <rr-t>OPTIONAL</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="implicit_target_field_selection">implicit_target_field_selection</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#field_selector">field_selector</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="required_projection">required_projection</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_BRACKET</rr-t><a href="#required_selector_list">required_selector_list</a><rr-t>CLOSE_BRACKET</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="optional_projection">optional_projection</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_BRACKET</rr-t><a href="#required_selector_list">required_selector_list</a><rr-t>CLOSE_BRACKET</rr-t>
+                  <rr-t>OPTIONAL</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="required_selector_list">required_selector_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#required_field_selector">required_field_selector</a><rr-a><a href="#required_field_selector">required_field_selector</a><rr-t>COMMA</rr-t><a href="#required_selector_list">required_selector_list</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="implicit_target_projection">implicit_target_projection</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#required_projection">required_projection</a><a href="#optional_projection">optional_projection</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="function_expression">function_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_PAREN</rr-t><a href="#parameter_list">parameter_list</a><rr-t>CLOSE_PAREN</rr-t><a href="#return_type">return_type</a><rr-t>'=&gt;'</rr-t><a href="#function_body">function_body</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="function_body">function_body</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expression">expression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="parameter_list">parameter_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#fixed_parameter_list">fixed_parameter_list</a><rr-a><a href="#fixed_parameter_list">fixed_parameter_list</a><rr-t>COMMA</rr-t><a href="#optional_parameter_list">optional_parameter_list</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="fixed_parameter_list">fixed_parameter_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#parameter">parameter</a><rr-a><a href="#parameter">parameter</a><rr-t>COMMA</rr-t><a href="#fixed_parameter_list">fixed_parameter_list</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="parameter">parameter</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#parameter_name">parameter_name</a><a href="#parameter_type">parameter_type</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="parameter_name">parameter_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="parameter_type">parameter_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#assertion">assertion</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="return_type">return_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#assertion">assertion</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="assertion">assertion</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>AS</rr-t><a href="#nullable_primitive_type">nullable_primitive_type</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="optional_parameter_list">optional_parameter_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#optional_parameter">optional_parameter</a><rr-a><a href="#optional_parameter">optional_parameter</a><rr-t>COMMA</rr-t><a href="#optional_parameter_list">optional_parameter_list</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="optional_parameter">optional_parameter</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPTIONAL_TEXT</rr-t><a href="#parameter">parameter</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="each_expression">each_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>EACH</rr-t><a href="#each_expression_body">each_expression_body</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="each_expression_body">each_expression_body</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#function_body">function_body</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="let_expression">let_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LET</rr-t><a href="#variable_list">variable_list</a><rr-t>IN</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="variable_list">variable_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#variable">variable</a><rr-a><a href="#variable">variable</a><rr-t>COMMA</rr-t><a href="#variable_list">variable_list</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="variable">variable</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#variable_name">variable_name</a><rr-t>EQUALS</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="variable_name">variable_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="if_expression">if_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>IF</rr-t><a href="#if_condition">if_condition</a><rr-t>THEN</rr-t><a href="#true_expression">true_expression</a><rr-t>ELSE</rr-t><a href="#false_expression">false_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="if_condition">if_condition</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expression">expression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="true_expression">true_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expression">expression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="false_expression">false_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expression">expression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="type_expression">type_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#primary_expression">primary_expression</a><rr-a>
+                  <rr-t>TYPE</rr-t><a href="#primary_type">primary_type</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="type_expr">type_expr</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#parenthesized_expression">parenthesized_expression</a><a href="#primary_type">primary_type</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="primary_type">primary_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#primitive_type">primitive_type</a><a href="#record_type">record_type</a><a href="#list_type">list_type</a><a href="#function_type">function_type</a><a href="#table_type">table_type</a><a href="#nullable_type">nullable_type</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="primitive_type">primitive_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>ANY</rr-t>
+               <rr-t>ANYNONNULL</rr-t>
+               <rr-t>BINARY</rr-t>
+               <rr-t>DATE</rr-t>
+               <rr-t>DATETIME</rr-t>
+               <rr-t>DATETIMEZONE</rr-t>
+               <rr-t>DURATION</rr-t>
+               <rr-t>FUNCTION</rr-t>
+               <rr-t>LIST</rr-t>
+               <rr-t>LOGICAL</rr-t>
+               <rr-t>NONE</rr-t>
+               <rr-t>NUMBER</rr-t>
+               <rr-t>RECORD</rr-t>
+               <rr-t>TABLE</rr-t>
+               <rr-t>TEXT</rr-t>
+               <rr-t>TYPE</rr-t>
+               <rr-t>LITERAL</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="record_type">record_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_BRACKET</rr-t><a href="#open_record_marker">open_record_marker</a><rr-t>CLOSE_BRACKET</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>OPEN_BRACKET</rr-t><a href="#field_specification_list">field_specification_list</a><rr-t>CLOSE_BRACKET</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>OPEN_BRACKET</rr-t><a href="#field_specification_list">field_specification_list</a><rr-t>COMMA</rr-t><a href="#open_record_marker">open_record_marker</a><rr-t>CLOSE_BRACKET</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="field_specification_list">field_specification_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#field_specification">field_specification</a><rr-a><a href="#field_specification">field_specification</a><rr-t>COMMA</rr-t><a href="#field_specification_list">field_specification_list</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="field_specification">field_specification</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPTIONAL_TEXT</rr-t><a href="#field_name">field_name</a><a href="#field_type_specification">field_type_specification</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="field_type_specification">field_type_specification</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>EQUALS</rr-t><a href="#field_type">field_type</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="field_type">field_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#type_expr">type_expr</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="open_record_marker">open_record_marker</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>ELLIPSES</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="list_type">list_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_BRACE</rr-t><a href="#item_type">item_type</a><rr-t>CLOSE_BRACE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="item_type">item_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#type_expr">type_expr</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="function_type">function_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>FUNCTION_START</rr-t><a href="#parameter_specification_list">parameter_specification_list</a><rr-t>CLOSE_PAREN</rr-t><a href="#return_type">return_type</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="parameter_specification_list">parameter_specification_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#required_parameter_specification_list">required_parameter_specification_list</a><rr-a><a href="#required_parameter_specification_list">required_parameter_specification_list</a><rr-t>COMMA</rr-t><a href="#optional_parameter_specification_list">optional_parameter_specification_list</a></rr-a><a href="#optional_parameter_specification_list">optional_parameter_specification_list</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="required_parameter_specification_list">required_parameter_specification_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#required_parameter_specification">required_parameter_specification</a><rr-a><a href="#required_parameter_specification">required_parameter_specification</a><rr-t>COMMA</rr-t><a href="#required_parameter_specification_list">required_parameter_specification_list</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="required_parameter_specification">required_parameter_specification</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#parameter_specification">parameter_specification</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="optional_parameter_specification_list">optional_parameter_specification_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#optional_parameter_specification">optional_parameter_specification</a><rr-a><a href="#optional_parameter_specification">optional_parameter_specification</a><rr-t>COMMA</rr-t><a href="#optional_parameter_specification_list">optional_parameter_specification_list</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="optional_parameter_specification">optional_parameter_specification</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPTIONAL_TEXT</rr-t><a href="#parameter_specification">parameter_specification</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="parameter_specification">parameter_specification</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#parameter_name">parameter_name</a><a href="#parameter_type">parameter_type</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="table_type">table_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TABLE</rr-t><a href="#row_type">row_type</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="row_type">row_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_BRACKET</rr-t><a href="#field_specification_list">field_specification_list</a><rr-t>CLOSE_BRACKET</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="nullable_type">nullable_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>NULLABLE</rr-t><a href="#type_expr">type_expr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="error_raising_expression">error_raising_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>ERROR</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="error_handling_expression">error_handling_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TRY</rr-t><a href="#protected_expression">protected_expression</a><a href="#otherwise_clause">otherwise_clause</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="protected_expression">protected_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expression">expression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="otherwise_clause">otherwise_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OTHERWISE</rr-t><a href="#default_expression">default_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="default_expression">default_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expression">expression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="literal_attribs">literal_attribs</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#record_literal">record_literal</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="record_literal">record_literal</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_BRACKET</rr-t><a href="#literal_field_list">literal_field_list</a><rr-t>CLOSE_BRACKET</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="literal_field_list">literal_field_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#literal_field">literal_field</a><rr-a><a href="#literal_field">literal_field</a><rr-t>COMMA</rr-t><a href="#literal_field_list">literal_field_list</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="literal_field">literal_field</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#field_name">field_name</a><rr-t>EQUALS</rr-t><a href="#any_literal">any_literal</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="list_literal">list_literal</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_BRACE</rr-t><a href="#literal_item_list">literal_item_list</a><rr-t>CLOSE_BRACE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="literal_item_list">literal_item_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#any_literal">any_literal</a><rr-a><a href="#any_literal">any_literal</a><rr-t>COMMA</rr-t><a href="#literal_item_list">literal_item_list</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="any_literal">any_literal</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#record_literal">record_literal</a><a href="#list_literal">list_literal</a><rr-t>LITERAL</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

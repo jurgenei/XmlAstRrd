@@ -1,0 +1,127 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../index.html">Railroad</a> semver/SemanticVersionParser</h1>
+      <h1>Grammar Decl</h1>
+      <pre>parser grammar SemanticVersionParser;</pre>
+      <h1>Rules</h1>
+      <h2 id="tag">tag</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>ALPHA</rr-t>
+               <rr-t>BETA</rr-t>
+               <rr-t>RC</rr-t>
+               <rr-t>SNAPSHOT</rr-t>
+               <rr-t>PREVIEW</rr-t>
+               <rr-t>DEV</rr-t>
+               <rr-t>MILESTONE</rr-t>
+               <rr-t>DAILY</rr-t>
+               <rr-t>NIGHTLY</rr-t>
+               <rr-t>BUILD</rr-t>
+               <rr-t>TEST</rr-t>
+               <rr-t>EXPERIMENTAL</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="build">build</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+               <rr-t>DASH</rr-t>
+               <rr-a><a href="#tag">tag</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>DOT</rr-t>
+                        <rr-t>DASH</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>NUMBER</rr-t>
+                        <rr-t>IDENTIFIER</rr-t>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-t>IDENTIFIER</rr-t>
+               <rr-a><a href="#build">build</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>DOT</rr-t>
+                        <rr-t>DASH</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#build">build</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="preRelease">preRelease</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+               <rr-t>DASH</rr-t>
+               <rr-a><a href="#tag">tag</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>DOT</rr-t>
+                        <rr-t>DASH</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>NUMBER</rr-t>
+                        <rr-t>IDENTIFIER</rr-t>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-t>IDENTIFIER</rr-t>
+               <rr-a><a href="#preRelease">preRelease</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>DOT</rr-t>
+                        <rr-t>DASH</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#preRelease">preRelease</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="versionCore">versionCore</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>NUMBER</rr-t>
+                  <rr-t>DOT</rr-t>
+                  <rr-t>NUMBER</rr-t>
+                  <rr-t>DOT</rr-t>
+                  <rr-t>NUMBER</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="semver">semver</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#versionCore">versionCore</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>DASH</rr-t><a href="#preRelease">preRelease</a><rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>PLUS</rr-t><a href="#build">build</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>PLUS</rr-t><a href="#build">build</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

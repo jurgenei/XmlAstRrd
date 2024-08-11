@@ -1,0 +1,754 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../index.html">Railroad</a> peoplecode/PeopleCode</h1>
+      <pre>/*
+ * Copyright (c) Matt Quinn and The OpenPplSoft Runtime Project (http://openpplsoft.org)
+ * All rights reserved.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies
+ * or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */</pre>
+      <h1>Grammar Decl</h1>
+      <pre>grammar PeopleCode;
+
+//******************************************************//
+// Parser Rules                                         //
+//******************************************************//</pre>
+      <h1>Rules</h1>
+      <h2 id="program">program</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#stmtList">stmtList</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="stmtList">stmtList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#stmt">stmt</a><rr-t>';'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#stmt">stmt</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="stmt">stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#appClassImport">appClassImport</a><a href="#extFuncImport">extFuncImport</a><a href="#classDeclaration">classDeclaration</a><a href="#methodImpl">methodImpl</a><a href="#getImpl">getImpl</a><a href="#setImpl">setImpl</a><a href="#funcImpl">funcImpl</a><a href="#varDeclaration">varDeclaration</a><a href="#ifStmt">ifStmt</a><a href="#forStmt">forStmt</a><a href="#whileStmt">whileStmt</a><a href="#evaluateStmt">evaluateStmt</a><a href="#tryCatchStmt">tryCatchStmt</a><rr-t>'Exit'</rr-t>
+               <rr-t>'Break'</rr-t>
+               <rr-a>
+                  <rr-t>'Error'</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a>
+                  <rr-t>'Warning'</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a>
+                  <rr-t>'Return'</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a>
+                  <rr-t>'throw'</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>'='</rr-t><a href="#expr">expr</a></rr-a><a href="#expr">expr</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expr">expr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'@'</rr-t><a href="#expr">expr</a></rr-a><a href="#literal">literal</a><a href="#id_">id_</a><a href="#createInvocation">createInvocation</a><rr-a><a href="#expr">expr</a><rr-t>'.'</rr-t><a href="#id_">id_</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>'['</rr-t><a href="#exprList">exprList</a><rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>'('</rr-t><a href="#exprList">exprList</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'-'</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a>
+                  <rr-t>'Not'</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-a>
+                     <rr-o>
+                        <rr-t>'*'</rr-t>
+                        <rr-t>'/'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-a>
+                     <rr-o>
+                        <rr-t>'+'</rr-t>
+                        <rr-t>'-'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-a>
+                     <rr-o>
+                        <rr-t>'&lt;='</rr-t>
+                        <rr-t>'&gt;='</rr-t>
+                        <rr-t>'&lt;'</rr-t>
+                        <rr-t>'&gt;'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-a>
+                     <rr-o>
+                        <rr-t>'='</rr-t>
+                        <rr-t>'&lt;&gt;'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-a>
+                     <rr-o>
+                        <rr-t>'And'</rr-t>
+                        <rr-t>'Or'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>'|'</rr-t><a href="#expr">expr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="exprList">exprList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#expr">expr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="varDeclaration">varDeclaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GENERIC_ID</rr-t><a href="#varType">varType</a><a href="#varDeclarator">varDeclarator</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#varDeclarator">varDeclarator</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="varDeclarator">varDeclarator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>VAR_ID</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#expr">expr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="varType">varType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GENERIC_ID</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'of'</rr-t><a href="#varType">varType</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a><a href="#appClassPath">appClassPath</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="appClassImport">appClassImport</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'import'</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#appPkgPath">appPkgPath</a><a href="#appClassPath">appClassPath</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="appPkgPath">appPkgPath</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GENERIC_ID</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>':'</rr-t>
+                           <rr-t>GENERIC_ID</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>':'</rr-t>
+                  <rr-t>'*'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="appClassPath">appClassPath</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GENERIC_ID</rr-t>
+                  <rr-a data-min="1" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>':'</rr-t>
+                           <rr-t>GENERIC_ID</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="extFuncImport">extFuncImport</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'Declare'</rr-t>
+                  <rr-t>'Function'</rr-t>
+                  <rr-t>GENERIC_ID</rr-t>
+                  <rr-t>'PeopleCode'</rr-t><a href="#recDefnPath">recDefnPath</a><a href="#event">event</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="recDefnPath">recDefnPath</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GENERIC_ID</rr-t>
+                  <rr-t>'.'</rr-t>
+                  <rr-t>GENERIC_ID</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="event">event</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'FieldFormula'</rr-t>
+               <rr-t>'FieldChange'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="classDeclaration">classDeclaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'class'</rr-t>
+                  <rr-t>GENERIC_ID</rr-t><a href="#classBlock">classBlock</a><rr-t>'end-class'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="classBlock">classBlock</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'private'</rr-t>
+                  <rr-a data-min="1" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#classBlockStmt">classBlockStmt</a><rr-t>';'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="classBlockStmt">classBlockStmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#method">method</a><a href="#constant">constant</a><a href="#property_">property_</a><a href="#instance">instance</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="method">method</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'method'</rr-t>
+                  <rr-t>GENERIC_ID</rr-t><a href="#formalParamList">formalParamList</a><a href="#returnType">returnType</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="constant">constant</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'Constant'</rr-t>
+                  <rr-t>VAR_ID</rr-t>
+                  <rr-t>'='</rr-t><a href="#expr">expr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="property_">property_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'property'</rr-t><a href="#varType">varType</a><rr-t>GENERIC_ID</rr-t>
+                  <rr-t>'get'</rr-t>
+                  <rr-t>'set'</rr-t>
+                  <rr-t>'readonly'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="instance">instance</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'instance'</rr-t><a href="#varType">varType</a><rr-t>VAR_ID</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t>
+                           <rr-t>VAR_ID</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="methodImpl">methodImpl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'method'</rr-t>
+                  <rr-t>GENERIC_ID</rr-t><a href="#stmtList">stmtList</a><rr-t>'end-method'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="getImpl">getImpl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'get'</rr-t>
+                  <rr-t>GENERIC_ID</rr-t><a href="#stmtList">stmtList</a><rr-t>'end-get'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="setImpl">setImpl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'set'</rr-t>
+                  <rr-t>GENERIC_ID</rr-t><a href="#stmtList">stmtList</a><rr-t>'end-set'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="funcImpl">funcImpl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#funcSignature">funcSignature</a><a href="#stmtList">stmtList</a><rr-t>'End-Function'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="funcSignature">funcSignature</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'Function'</rr-t>
+                  <rr-t>GENERIC_ID</rr-t><a href="#formalParamList">formalParamList</a><a href="#returnType">returnType</a><rr-t>';'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="formalParamList">formalParamList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#param">param</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>','</rr-t><a href="#param">param</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="param">param</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>VAR_ID</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'As'</rr-t><a href="#varType">varType</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="returnType">returnType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'Returns'</rr-t><a href="#varType">varType</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ifStmt">ifStmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'If'</rr-t><a href="#expr">expr</a><rr-t>'Then'</rr-t>
+                  <rr-t>';'</rr-t><a href="#stmtList">stmtList</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'Else'</rr-t>
+                           <rr-t>';'</rr-t><a href="#stmtList">stmtList</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'End-If'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="forStmt">forStmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'For'</rr-t>
+                  <rr-t>VAR_ID</rr-t>
+                  <rr-t>'='</rr-t><a href="#expr">expr</a><rr-t>'To'</rr-t><a href="#expr">expr</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>';'</rr-t>
+                        <rr-a>
+                           <rr-o>
+                              <rr-a>
+                                 <rr-t>'Step'</rr-t><a href="#expr">expr</a></rr-a>
+                           </rr-o>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#stmtList">stmtList</a><rr-t>'End-For'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="whileStmt">whileStmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'While'</rr-t><a href="#expr">expr</a><rr-t>';'</rr-t><a href="#stmtList">stmtList</a><rr-t>'End-While'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="evaluateStmt">evaluateStmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'Evaluate'</rr-t><a href="#expr">expr</a><a href="#whenBranch">whenBranch</a><a href="#whenOtherBranch">whenOtherBranch</a><rr-t>'End-Evaluate'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="whenBranch">whenBranch</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'When'</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'='</rr-t>
+                        <rr-t>'&gt;'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expr">expr</a><a href="#stmtList">stmtList</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="whenOtherBranch">whenOtherBranch</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'When-Other'</rr-t><a href="#stmtList">stmtList</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tryCatchStmt">tryCatchStmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'try'</rr-t><a href="#stmtList">stmtList</a><a href="#catchSignature">catchSignature</a><a href="#stmtList">stmtList</a><rr-t>'end-try'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="catchSignature">catchSignature</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'catch'</rr-t>
+                  <rr-t>'Exception'</rr-t>
+                  <rr-t>VAR_ID</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="createInvocation">createInvocation</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'create'</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#appClassPath">appClassPath</a><rr-t>GENERIC_ID</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'('</rr-t><a href="#exprList">exprList</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="literal">literal</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>DecimalLiteral</rr-t>
+               <rr-t>IntegerLiteral</rr-t>
+               <rr-t>StringLiteral</rr-t>
+               <rr-t>BoolLiteral</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="id_">id_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>SYS_VAR_ID</rr-t>
+               <rr-t>VAR_ID</rr-t>
+               <rr-t>GENERIC_ID</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="DecimalLiteral">DecimalLiteral</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">IntegerLiteral</rr-t>
+                  <rr-t data-min="1" data-max="1">'.'</rr-t>
+                  <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="IntegerLiteral">IntegerLiteral</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'1'..'9'</rr-t>
+                  <rr-t data-min="0" data-max="inf">'0'..'9'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="StringLiteral">StringLiteral</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">~'"'</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="BoolLiteral">BoolLiteral</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'True'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'False'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="VAR_ID">VAR_ID</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&amp;'</rr-t>
+                  <rr-t data-min="1" data-max="1">GENERIC_ID</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="SYS_VAR_ID">SYS_VAR_ID</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'%'</rr-t>
+                  <rr-t data-min="1" data-max="1">GENERIC_ID</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="GENERIC_ID">GENERIC_ID</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[a-zA-Z]</rr-t>
+                  <rr-t data-min="0" data-max="inf">[0-9a-zA-Z_#]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="REM">REM</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="0" data-max="1">WS</rr-t>
+                  <rr-t data-min="1" data-max="1">[rR]</rr-t>
+                  <rr-t data-min="1" data-max="1">[eE]</rr-t>
+                  <rr-t data-min="1" data-max="1">[mM]</rr-t>
+                  <rr-t data-min="1" data-max="1">WS</rr-t>
+                  <rr-t data-min="1" data-max="1">.</rr-t>
+                  <rr-t data-min="1" data-max="1">';'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="COMMENT_1">COMMENT_1</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'/*'</rr-t>
+                  <rr-t data-min="1" data-max="1">.</rr-t>
+                  <rr-t data-min="1" data-max="1">'*/'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="COMMENT_2">COMMENT_2</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&lt;*'</rr-t>
+                  <rr-t data-min="1" data-max="1">.</rr-t>
+                  <rr-t data-min="1" data-max="1">'*&gt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="COMMENT_3">COMMENT_3</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'/+'</rr-t>
+                  <rr-t data-min="1" data-max="1">.</rr-t>
+                  <rr-t data-min="1" data-max="1">'+/'</rr-t>
+                  <rr-t data-min="0" data-max="1">';'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="WS">WS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">[ \t\r\n]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

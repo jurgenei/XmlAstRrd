@@ -1,0 +1,913 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../index.html">Railroad</a> turing/turing</h1>
+      <pre>/*
+BSD License
+
+Copyright (c) 2020, Tom Everett
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. Neither the name of Tom Everett nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
+      <h1>Grammar Decl</h1>
+      <pre>grammar turing;</pre>
+      <h1>Rules</h1>
+      <h2 id="program">program</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#declarationOrStatementInMainProgram">declarationOrStatementInMainProgram</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="declarationOrStatementInMainProgram">declarationOrStatementInMainProgram</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#declaration">declaration</a><a href="#statement">statement</a><a href="#subprogramDeclaration">subprogramDeclaration</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="declaration">declaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#constantDeclaration">constantDeclaration</a><a href="#variableDeclaration">variableDeclaration</a><a href="#typeDeclaration">typeDeclaration</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="constantDeclaration">constantDeclaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t>'const'</rr-t><a href="#id_">id_</a><rr-t>':='</rr-t><a href="#expn">expn</a></rr-a>
+                  </rr-o>
+               </rr-a>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t>'const'</rr-t><a href="#id_">id_</a><rr-a data-min="0" data-max="1">
+                           <rr-o>
+                              <rr-a>
+                                 <rr-t>':'</rr-t><a href="#typeSpec">typeSpec</a></rr-a>
+                           </rr-o>
+                        </rr-a>
+                        <rr-t>':='</rr-t><a href="#initializingValue">initializingValue</a></rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="initializingValue">initializingValue</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expn">expn</a><rr-t>'('</rr-t>
+                  <rr-t>'init'</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-a><a href="#initializingValue">initializingValue</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>','</rr-t><a href="#initializingValue">initializingValue</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                           <rr-t>')'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="variableDeclaration">variableDeclaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t>'var'</rr-t><a href="#id_">id_</a><rr-a data-min="0" data-max="inf">
+                           <rr-o>
+                              <rr-a>
+                                 <rr-t>','</rr-t><a href="#id_">id_</a></rr-a>
+                           </rr-o>
+                        </rr-a>
+                        <rr-t>':='</rr-t><a href="#expn">expn</a></rr-a>
+                  </rr-o>
+               </rr-a>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t>'var'</rr-t><a href="#id_">id_</a><rr-a data-min="0" data-max="inf">
+                           <rr-o>
+                              <rr-a>
+                                 <rr-t>','</rr-t><a href="#id_">id_</a></rr-a>
+                           </rr-o>
+                        </rr-a>
+                        <rr-t>':'</rr-t><a href="#typeSpec">typeSpec</a><rr-a data-min="0" data-max="1">
+                           <rr-o>
+                              <rr-a>
+                                 <rr-t>':='</rr-t><a href="#initializingValue">initializingValue</a></rr-a>
+                           </rr-o>
+                        </rr-a>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeDeclaration">typeDeclaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'type'</rr-t><a href="#id_">id_</a><rr-t>':'</rr-t><a href="#typeSpec">typeSpec</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeSpec">typeSpec</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#standardType">standardType</a><a href="#subrangeType">subrangeType</a><a href="#arrayType">arrayType</a><a href="#recordType">recordType</a><a href="#namedType">namedType</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="standardType">standardType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'int'</rr-t>
+               <rr-t>'real'</rr-t>
+               <rr-t>'boolean'</rr-t>
+               <rr-a>
+                  <rr-t>'string'</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'('</rr-t><a href="#compileTimeExpn">compileTimeExpn</a><rr-t>')'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="subrangeType">subrangeType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#compileTimeExpn">compileTimeExpn</a><rr-t>'..'</rr-t><a href="#expn">expn</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="arrayType">arrayType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'array'</rr-t><a href="#indexType">indexType</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#indexType">indexType</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'of'</rr-t><a href="#typeSpec">typeSpec</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="indexType">indexType</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#subrangeType">subrangeType</a><a href="#namedType">namedType</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="recordType">recordType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'record'</rr-t><a href="#id_">id_</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#id_">id_</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>':'</rr-t><a href="#typeSpec">typeSpec</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#id_">id_</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>','</rr-t><a href="#id_">id_</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                           <rr-t>':'</rr-t><a href="#typeSpec">typeSpec</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'end'</rr-t>
+                  <rr-t>'record'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="namedType">namedType</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#id_">id_</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="subprogramDeclaration">subprogramDeclaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#subprogramHeader">subprogramHeader</a><a href="#subprogramBody">subprogramBody</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="subprogramHeader">subprogramHeader</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'procedure'</rr-t><a href="#id_">id_</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'('</rr-t><a href="#parameterDeclaration">parameterDeclaration</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>','</rr-t><a href="#parameterDeclaration">parameterDeclaration</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                           <rr-t>')'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'function'</rr-t><a href="#id_">id_</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'('</rr-t><a href="#parameterDeclaration">parameterDeclaration</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>','</rr-t><a href="#parameterDeclaration">parameterDeclaration</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                           <rr-t>')'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>':'</rr-t><a href="#typeSpec">typeSpec</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="parameterDeclaration">parameterDeclaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'var'</rr-t><a href="#id_">id_</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#id_">id_</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>':'</rr-t><a href="#parameterType">parameterType</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="parameterType">parameterType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>':'</rr-t><a href="#typeSpec">typeSpec</a></rr-a>
+               <rr-a>
+                  <rr-t>'string'</rr-t>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'*'</rr-t>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'array'</rr-t><a href="#compileTimeExpn">compileTimeExpn</a><rr-t>'..'</rr-t>
+                  <rr-t>'*'</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#compileTimeExpn">compileTimeExpn</a><rr-t>'..'</rr-t>
+                           <rr-t>'*'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'of'</rr-t><a href="#typeSpec">typeSpec</a></rr-a>
+               <rr-a>
+                  <rr-t>'array'</rr-t><a href="#compileTimeExpn">compileTimeExpn</a><rr-t>'..'</rr-t>
+                  <rr-t>'*'</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#compileTimeExpn">compileTimeExpn</a><rr-t>'..'</rr-t>
+                           <rr-t>'*'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'of'</rr-t><a href="#string">string</a><rr-t>'('</rr-t>
+                  <rr-t>'*'</rr-t>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="subprogramBody">subprogramBody</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#declarationsAndStatements">declarationsAndStatements</a><rr-t>'end'</rr-t><a href="#id_">id_</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="declarationsAndStatements">declarationsAndStatements</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#declarationOrStatement">declarationOrStatement</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="declarationOrStatement">declarationOrStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#declaration">declaration</a><a href="#statement">statement</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="statement">statement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a><a href="#variableReference">variableReference</a><rr-t>':='</rr-t><a href="#expn">expn</a></rr-a>
+                  </rr-o>
+               </rr-a><a href="#procedureCall">procedureCall</a><rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t>'assert'</rr-t><a href="#booleanExpn">booleanExpn</a></rr-a>
+                  </rr-o>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'result'</rr-t><a href="#expn">expn</a></rr-a><a href="#ifStatement">ifStatement</a><a href="#loopStatement">loopStatement</a><rr-a>
+                  <rr-t>'exit'</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'when'</rr-t><a href="#booleanExpn">booleanExpn</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a><a href="#caseStatement">caseStatement</a><a href="#forStatement">forStatement</a><a href="#putStatement">putStatement</a><a href="#getStatement">getStatement</a><a href="#openStatement">openStatement</a><a href="#closeStatement">closeStatement</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="procedureCall">procedureCall</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#reference">reference</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ifStatement">ifStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'if'</rr-t><a href="#booleanExpn">booleanExpn</a><rr-t>'then'</rr-t><a href="#declarationsAndStatements">declarationsAndStatements</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'elsif'</rr-t><a href="#booleanExpn">booleanExpn</a><rr-t>'then'</rr-t><a href="#declarationsAndStatements">declarationsAndStatements</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'else'</rr-t><a href="#declarationsAndStatements">declarationsAndStatements</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'end'</rr-t>
+                  <rr-t>'if'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="loopStatement">loopStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'loop'</rr-t><a href="#declarationsAndStatements">declarationsAndStatements</a><rr-t>'end'</rr-t>
+                  <rr-t>'loop'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="caseStatement">caseStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'case'</rr-t><a href="#expn">expn</a><rr-t>'of'</rr-t>
+                  <rr-t>'label'</rr-t><a href="#compileTimeExpn">compileTimeExpn</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#compileTimeExpn">compileTimeExpn</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>':'</rr-t><a href="#declarationsAndStatements">declarationsAndStatements</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'label'</rr-t><a href="#compileTimeExpn">compileTimeExpn</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>','</rr-t><a href="#compileTimeExpn">compileTimeExpn</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                           <rr-t>':'</rr-t><a href="#declarationsAndStatements">declarationsAndStatements</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'label'</rr-t>
+                           <rr-t>':'</rr-t><a href="#declarationsAndStatements">declarationsAndStatements</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'end'</rr-t>
+                  <rr-t>'case'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="forStatement">forStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t>'for'</rr-t><a href="#id_">id_</a><rr-t>':'</rr-t><a href="#expn">expn</a><rr-t>'..'</rr-t><a href="#expn">expn</a><rr-a data-min="0" data-max="1">
+                           <rr-o>
+                              <rr-a>
+                                 <rr-t>'by'</rr-t><a href="#expn">expn</a></rr-a>
+                           </rr-o>
+                        </rr-a><a href="#declarationsAndStatements">declarationsAndStatements</a><rr-t>'end'</rr-t>
+                        <rr-t>'for'</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t>'for'</rr-t>
+                        <rr-t>'decreasing'</rr-t><a href="#id_">id_</a><rr-t>':'</rr-t><a href="#expn">expn</a><rr-t>'..'</rr-t><a href="#expn">expn</a><rr-a data-min="0" data-max="1">
+                           <rr-o>
+                              <rr-a>
+                                 <rr-t>'by'</rr-t><a href="#expn">expn</a></rr-a>
+                           </rr-o>
+                        </rr-a><a href="#declarationsAndStatements">declarationsAndStatements</a><rr-t>'end'</rr-t>
+                        <rr-t>'for'</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="putStatement">putStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'put'</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#streamNumber">streamNumber</a><rr-t>','</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#putItem">putItem</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#putItem">putItem</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'..'</rr-t>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="putItem">putItem</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expn">expn</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#widthExpn">widthExpn</a><rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>':'</rr-t><a href="#fractionWidth">fractionWidth</a><rr-a data-min="0" data-max="1">
+                                       <rr-o>
+                                          <rr-a>
+                                             <rr-t>':'</rr-t><a href="#exponentWidth">exponentWidth</a></rr-a>
+                                       </rr-o>
+                                    </rr-a>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-t>'skip'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="getStatement">getStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'get'</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#streamNumber">streamNumber</a><rr-t>','</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#getItem">getItem</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#getItem">getItem</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="getItem">getItem</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#variableReference">variableReference</a><rr-a>
+                  <rr-t>'skip'</rr-t><a href="#variableReference">variableReference</a><rr-t>':'</rr-t>
+                  <rr-t>'*'</rr-t>
+               </rr-a>
+               <rr-a><a href="#variableReference">variableReference</a><rr-t>':'</rr-t><a href="#widthExpn">widthExpn</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="openStatement">openStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'open'</rr-t>
+                  <rr-t>':'</rr-t><a href="#fileNumber">fileNumber</a><rr-t>','</rr-t><a href="#string">string</a><rr-t>','</rr-t><a href="#capability">capability</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#capability">capability</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="capability">capability</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'get'</rr-t>
+               <rr-t>'put'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="closeStatement">closeStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'close'</rr-t>
+                  <rr-t>':'</rr-t><a href="#fileNumber">fileNumber</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="streamNumber">streamNumber</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expn">expn</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="widthExpn">widthExpn</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expn">expn</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="fractionWidth">fractionWidth</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expn">expn</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="exponentWidth">exponentWidth</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expn">expn</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="fileNumber">fileNumber</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expn">expn</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="variableReference">variableReference</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#reference">reference</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="reference">reference</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#id_">id_</a><a href="#reference_2">reference_2</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="reference_2">reference_2</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="0" data-max="1">
+                  <rr-o>
+                     <rr-a><a href="#componentSelector">componentSelector</a><a href="#reference_2">reference_2</a></rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="componentSelector">componentSelector</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#expn">expn</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#expn">expn</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'.'</rr-t><a href="#id_">id_</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="booleanExpn">booleanExpn</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expn">expn</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="compileTimeExpn">compileTimeExpn</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expn">expn</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expn">expn</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#reference">reference</a><a href="#explicitConstant">explicitConstant</a><a href="#substring">substring</a><rr-a><a href="#expn">expn</a><a href="#infixOperator">infixOperator</a><a href="#expn">expn</a></rr-a>
+               <rr-a><a href="#prefixOperator">prefixOperator</a><a href="#expn">expn</a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#expn">expn</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="string">string</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>ExplicitStringConstant</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="explicitConstant">explicitConstant</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>ExplicitUnsignedIntegerConstant</rr-t>
+               <rr-t>ExplicitUnsignedRealConstant</rr-t>
+               <rr-t>ExplicitStringConstant</rr-t>
+               <rr-t>'true'</rr-t>
+               <rr-t>'false'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="infixOperator">infixOperator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'+'</rr-t>
+               <rr-t>'–'</rr-t>
+               <rr-t>'*'</rr-t>
+               <rr-a>
+                  <rr-t>'/'</rr-t>
+                  <rr-t>'div'</rr-t>
+               </rr-a>
+               <rr-t>'mod'</rr-t>
+               <rr-t>'**'</rr-t>
+               <rr-t>'&lt;'</rr-t>
+               <rr-t>'&gt;'</rr-t>
+               <rr-t>'='</rr-t>
+               <rr-t>'&lt;='</rr-t>
+               <rr-t>'&gt;='</rr-t>
+               <rr-t>'not='</rr-t>
+               <rr-t>'and'</rr-t>
+               <rr-t>'or'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="prefixOperator">prefixOperator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'+'</rr-t>
+               <rr-t>'–'</rr-t>
+               <rr-t>'not'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="substring">substring</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#reference">reference</a><rr-t>'('</rr-t><a href="#substringPosition">substringPosition</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'..'</rr-t><a href="#substringPosition">substringPosition</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="substringPosition">substringPosition</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expn">expn</a><rr-a>
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'*'</rr-t>
+                           <rr-a>
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>'–'</rr-t><a href="#expn">expn</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="id_">id_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ExplicitUnsignedIntegerConstant">ExplicitUnsignedIntegerConstant</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'+'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'-'</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ExplicitUnsignedRealConstant">ExplicitUnsignedRealConstant</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'+'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'-'</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
+                        <rr-t data-min="1" data-max="1">'.'</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'e'</rr-t>
+                        <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ExplicitStringConstant">ExplicitStringConstant</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+                  <rr-t data-min="0" data-max="inf">~'"'</rr-t>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="IDENTIFIER">IDENTIFIER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[a-zA-Z]</rr-t>
+                  <rr-t data-min="0" data-max="inf">[a-zA-Z_0-9]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="COMMENT">COMMENT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'%'</rr-t>
+                  <rr-t data-min="0" data-max="inf">~[\r\n]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="WS">WS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">[ \r\n\t]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

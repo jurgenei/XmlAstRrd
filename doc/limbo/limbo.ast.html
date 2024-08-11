@@ -1,0 +1,1049 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../index.html">Railroad</a> limbo/limbo</h1>
+      <pre>/*
+BSD License
+
+Copyright (c) 2021, Tom Everett
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. Neither the name of Tom Everett nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
+      <h1>Grammar Decl</h1>
+      <pre>grammar limbo;</pre>
+      <h1>Rules</h1>
+      <h2 id="program">program</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'implement'</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>';'</rr-t><a href="#top_declaration_sequence">top_declaration_sequence</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="top_declaration_sequence">top_declaration_sequence</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#top_declaration">top_declaration</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="top_declaration">top_declaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#declaration">declaration</a><rr-a><a href="#identifier_list">identifier_list</a><rr-t>':='</rr-t><a href="#expression">expression</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a><a href="#identifier_list">identifier_list</a><rr-t>ASSIGN</rr-t><a href="#expression">expression</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#identifier_list">identifier_list</a><rr-t>')'</rr-t>
+                  <rr-t>':='</rr-t><a href="#expression">expression</a><rr-t>';'</rr-t>
+               </rr-a><a href="#module_declaration">module_declaration</a><a href="#function_definition">function_definition</a><a href="#adt_declaration">adt_declaration</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="declaration">declaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#identifier_list">identifier_list</a><rr-t>':'</rr-t><a href="#type_">type_</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a><a href="#identifier_list">identifier_list</a><rr-t>':'</rr-t><a href="#type_">type_</a><rr-t>ASSIGN</rr-t><a href="#expression">expression</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a><a href="#identifier_list">identifier_list</a><rr-t>':'</rr-t>
+                  <rr-t>'con'</rr-t><a href="#expression">expression</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a><a href="#identifier_list">identifier_list</a><rr-t>':'</rr-t>
+                  <rr-t>'import'</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a><a href="#identifier_list">identifier_list</a><rr-t>':'</rr-t>
+                  <rr-t>'type'</rr-t><a href="#type_">type_</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'include'</rr-t><a href="#string_constant">string_constant</a><rr-t>';'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="identifier_list">identifier_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+               <rr-a><a href="#identifier_list">identifier_list</a><rr-t>','</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expression_list">expression_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expression">expression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="type_">type_</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#data_type">data_type</a><a href="#function_type">function_type</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="data_type">data_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#byte_">byte_</a><a href="#int_">int_</a><a href="#big">big</a><a href="#real_">real_</a><a href="#string_">string_</a><a href="#tuple_type">tuple_type</a><rr-a>
+                  <rr-t>'array'</rr-t>
+                  <rr-t>'of'</rr-t><a href="#data_type">data_type</a></rr-a>
+               <rr-a>
+                  <rr-t>'list'</rr-t>
+                  <rr-t>'of'</rr-t><a href="#data_type">data_type</a></rr-a>
+               <rr-a>
+                  <rr-t>'chan'</rr-t>
+                  <rr-t>'of'</rr-t><a href="#data_type">data_type</a></rr-a><a href="#adt_type">adt_type</a><rr-a>
+                  <rr-t>'ref'</rr-t><a href="#adt_type">adt_type</a></rr-a><a href="#module_type">module_type</a><a href="#module_qualified_type">module_qualified_type</a><a href="#type_name">type_name</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="string_">string_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="real_">real_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>REAL</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="byte_">byte_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>INT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="int_">int_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>INT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="big">big</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>INT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tuple_type">tuple_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#data_type_list">data_type_list</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="data_type_list">data_type_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#data_type">data_type</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#data_type">data_type</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="adt_type">adt_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t><a href="#module_qualified_type">module_qualified_type</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="module_type">module_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="module_qualified_type">module_qualified_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>'-&gt;'</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="type_name">type_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="function_type">function_type</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'fn'</rr-t><a href="#function_arg_ret">function_arg_ret</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="function_arg_ret">function_arg_ret</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#formal_arg_list">formal_arg_list</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#formal_arg_list">formal_arg_list</a><rr-t>')'</rr-t>
+                  <rr-t>':'</rr-t><a href="#data_type">data_type</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="formal_arg_list">formal_arg_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#formal_arg">formal_arg</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#formal_arg">formal_arg</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="formal_arg">formal_arg</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#nil_or_D_list">nil_or_D_list</a><rr-t>':'</rr-t><a href="#type_">type_</a></rr-a>
+               <rr-a><a href="#nil_or_D">nil_or_D</a><rr-t>':'</rr-t>
+                  <rr-t>'self'</rr-t>
+                  <rr-t>'refopt'</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+               </rr-a>
+               <rr-a><a href="#nil_or_D">nil_or_D</a><rr-t>':'</rr-t>
+                  <rr-t>'self'</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+               </rr-a>
+               <rr-t>'*'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="nil_or_D_list">nil_or_D_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#nil_or_D">nil_or_D</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#nil_or_D">nil_or_D</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="nil_or_D">nil_or_D</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+               <rr-t>'nil'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="module_declaration">module_declaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>':'</rr-t>
+                  <rr-t>'module'</rr-t>
+                  <rr-t>'{'</rr-t><a href="#mod_member_list">mod_member_list</a><rr-t>'}'</rr-t>
+                  <rr-t>';'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="mod_member_list">mod_member_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#mod_member">mod_member</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="mod_member">mod_member</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#identifier_list">identifier_list</a><rr-t>':'</rr-t><a href="#function_type">function_type</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a><a href="#identifier_list">identifier_list</a><rr-t>':'</rr-t><a href="#data_type">data_type</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a><a href="#adt_declaration">adt_declaration</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a><a href="#identifier_list">identifier_list</a><rr-t>':'</rr-t>
+                  <rr-t>'con'</rr-t><a href="#expression">expression</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a><a href="#identifier_list">identifier_list</a><rr-t>':'</rr-t>
+                  <rr-t>'type'</rr-t><a href="#type_">type_</a><rr-t>';'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="adt_declaration">adt_declaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>':'</rr-t>
+                  <rr-t>'adt'</rr-t>
+                  <rr-t>'{'</rr-t><a href="#adt_member_list">adt_member_list</a><rr-t>'}'</rr-t>
+                  <rr-t>';'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="adt_member_list">adt_member_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#adt_member">adt_member</a><rr-a><a href="#adt_member_list">adt_member_list</a><a href="#adt_member">adt_member</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="adt_member">adt_member</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#identifier_list">identifier_list</a><rr-t>':'</rr-t>
+                  <rr-t>'cyclicopt'</rr-t><a href="#data_type">data_type</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a><a href="#identifier_list">identifier_list</a><rr-t>':'</rr-t>
+                  <rr-t>'con'</rr-t><a href="#expression">expression</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a><a href="#identifier_list">identifier_list</a><rr-t>':'</rr-t><a href="#function_type">function_type</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'pick'</rr-t>
+                  <rr-t>'{'</rr-t><a href="#pick_member_list">pick_member_list</a><rr-t>'}'</rr-t>
+                  <rr-t>';'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pick_member_list">pick_member_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#pick_tag_list">pick_tag_list</a><rr-t>'=&gt;'</rr-t>
+               </rr-a>
+               <rr-a><a href="#pick_member_list">pick_member_list</a><a href="#pick_tag_list">pick_tag_list</a><rr-t>'=&gt;'</rr-t>
+               </rr-a>
+               <rr-a><a href="#pick_member_list">pick_member_list</a><a href="#identifier_list">identifier_list</a><rr-t>':'</rr-t>
+                  <rr-t>'cyclicopt'</rr-t><a href="#data_type">data_type</a><rr-t>';'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pick_tag_list">pick_tag_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'or'</rr-t>
+                           <rr-t>IDENTIFIER</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="function_definition">function_definition</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#function_name_part">function_name_part</a><a href="#function_arg_ret">function_arg_ret</a><rr-t>'{'</rr-t><a href="#statements_">statements_</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="function_name_part">function_name_part</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'.'</rr-t>
+                           <rr-t>IDENTIFIER</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="statements_">statements_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="0" data-max="inf">
+                  <rr-o><a href="#declaration">declaration</a><a href="#statement">statement</a></rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="statement">statement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expression">expression</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-t>';'</rr-t>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#statements_">statements_</a><rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'if'</rr-t>
+                  <rr-t>'('</rr-t><a href="#expression">expression</a><rr-t>')'</rr-t><a href="#statement">statement</a></rr-a>
+               <rr-a>
+                  <rr-t>'if'</rr-t>
+                  <rr-t>'('</rr-t><a href="#expression">expression</a><rr-t>')'</rr-t><a href="#statement">statement</a><rr-t>'else'</rr-t><a href="#statement">statement</a></rr-a>
+               <rr-a><a href="#label">label</a><rr-t>'while'</rr-t>
+                  <rr-t>'('</rr-t><a href="#expression">expression</a><rr-t>')'</rr-t><a href="#statement">statement</a></rr-a>
+               <rr-a><a href="#label">label</a><rr-t>'do'</rr-t><a href="#statement">statement</a><rr-t>'while'</rr-t>
+                  <rr-t>'('</rr-t><a href="#expression">expression</a><rr-t>')'</rr-t>
+                  <rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a><a href="#label">label</a><rr-t>'for'</rr-t>
+                  <rr-t>'('</rr-t><a href="#expression">expression</a><rr-t>';'</rr-t><a href="#expression">expression</a><rr-t>';'</rr-t><a href="#expression">expression</a><rr-t>')'</rr-t><a href="#statement">statement</a></rr-a>
+               <rr-a><a href="#label">label</a><rr-t>'case'</rr-t><a href="#expression">expression</a><rr-t>'{'</rr-t><a href="#qual_statement_sequence">qual_statement_sequence</a><rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a><a href="#label">label</a><rr-t>'alt'</rr-t>
+                  <rr-t>'{'</rr-t><a href="#qual_statement_sequence">qual_statement_sequence</a><rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a><a href="#label">label</a><rr-t>'pick'</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>':='</rr-t><a href="#expression">expression</a><rr-t>'{'</rr-t><a href="#pqual_statement_sequence">pqual_statement_sequence</a><rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'break'</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'continue'</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'return'</rr-t><a href="#expression">expression</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'spawn'</rr-t><a href="#term">term</a><rr-t>'('</rr-t><a href="#expression_list">expression_list</a><rr-t>')'</rr-t>
+                  <rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'exit'</rr-t>
+                  <rr-t>';'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="label">label</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>':'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="qual_statement_sequence">qual_statement_sequence</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#qual_list">qual_list</a><rr-t>'=&gt;'</rr-t>
+               </rr-a>
+               <rr-a><a href="#qual_statement_sequence">qual_statement_sequence</a><a href="#qual_list">qual_list</a><rr-t>'=&gt;'</rr-t>
+               </rr-a>
+               <rr-a><a href="#qual_statement_sequence">qual_statement_sequence</a><a href="#statement">statement</a></rr-a>
+               <rr-a><a href="#qual_statement_sequence">qual_statement_sequence</a><a href="#declaration">declaration</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="qual_list">qual_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#qualifier">qualifier</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'or'</rr-t><a href="#qualifier">qualifier</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="qualifier">qualifier</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expression">expression</a><rr-a><a href="#expression">expression</a><rr-t>'to'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-t>'*'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pqual_statement_sequence">pqual_statement_sequence</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#pqual_list">pqual_list</a><rr-t>'=&gt;'</rr-t>
+               </rr-a>
+               <rr-a><a href="#pqual_statement_sequence">pqual_statement_sequence</a><a href="#pqual_list">pqual_list</a><rr-t>'=&gt;'</rr-t>
+               </rr-a>
+               <rr-a><a href="#pqual_statement_sequence">pqual_statement_sequence</a><a href="#statement">statement</a></rr-a>
+               <rr-a><a href="#pqual_statement_sequence">pqual_statement_sequence</a><a href="#declaration">declaration</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pqual_list">pqual_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#pqualifier">pqualifier</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'or'</rr-t><a href="#pqualifier">pqualifier</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pqualifier">pqualifier</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+               <rr-t>'*'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expression">expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#binary_expression">binary_expression</a><rr-a><a href="#lvalue_expression">lvalue_expression</a><rr-t>ASSIGNMENT_OPERATOR</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#lvalue_expression_list">lvalue_expression_list</a><rr-t>')'</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#expression">expression</a></rr-a><a href="#send_expression">send_expression</a><a href="#declare_expression">declare_expression</a><a href="#load_expression">load_expression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="binary_expression">binary_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#monadic_expression">monadic_expression</a><rr-a><a href="#binary_expression">binary_expression</a><rr-t>BINARY_OPERATOR</rr-t><a href="#binary_expression">binary_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lvalue_expression">lvalue_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+               <rr-t>'nil'</rr-t>
+               <rr-a><a href="#term">term</a><rr-t>'['</rr-t><a href="#expression">expression</a><rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a><a href="#term">term</a><rr-t>'['</rr-t><a href="#expression">expression</a><rr-t>':'</rr-t>
+                  <rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a><a href="#term">term</a><rr-t>'.'</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#lvalue_expression_list">lvalue_expression_list</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'*'</rr-t><a href="#monadic_expression">monadic_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lvalue_expression_list">lvalue_expression_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#lvalue_expression">lvalue_expression</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#lvalue_expression">lvalue_expression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="init_list">init_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#element">element</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#element">element</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="term">term</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t><a href="#real_constant">real_constant</a><a href="#string_constant">string_constant</a><rr-t>'nil'</rr-t>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#expression_list">expression_list</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a><a href="#term">term</a><rr-t>'.'</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+               </rr-a>
+               <rr-a><a href="#term">term</a><rr-t>'-&gt;'</rr-t><a href="#term">term</a></rr-a>
+               <rr-a><a href="#term">term</a><rr-t>'('</rr-t><a href="#expression_list">expression_list</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a><a href="#term">term</a><rr-t>'['</rr-t><a href="#expression">expression</a><rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a><a href="#term">term</a><rr-t>'['</rr-t><a href="#expression">expression</a><rr-t>':'</rr-t><a href="#expression">expression</a><rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a><a href="#term">term</a><rr-t>'['</rr-t><a href="#expression">expression</a><rr-t>':'</rr-t>
+                  <rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a><a href="#term">term</a><rr-t>'++'</rr-t>
+               </rr-a>
+               <rr-a><a href="#term">term</a><rr-t>'--'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="real_constant">real_constant</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>REAL</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="string_constant">string_constant</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="element">element</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expression">expression</a><rr-a><a href="#expression">expression</a><rr-t>'=&gt;'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'*'</rr-t>
+                  <rr-t>'=&gt;'</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="send_expression">send_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#lvalue_expression">lvalue_expression</a><rr-t>'&lt;-'</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="declare_expression">declare_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#lvalue_expression">lvalue_expression</a><rr-t>':='</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="load_expression">load_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'load'</rr-t>
+                  <rr-t>IDENTIFIER</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="monadic_expression">monadic_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#term">term</a><rr-a>
+                  <rr-t>MONADICOPERATOR</rr-t><a href="#monadic_expression">monadic_expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'array'</rr-t>
+                  <rr-t>'['</rr-t><a href="#expression">expression</a><rr-t>']'</rr-t>
+                  <rr-t>'of'</rr-t><a href="#data_type">data_type</a></rr-a>
+               <rr-a>
+                  <rr-t>'array'</rr-t>
+                  <rr-t>'['</rr-t><a href="#expression">expression</a><rr-t>']'</rr-t>
+                  <rr-t>'of'</rr-t>
+                  <rr-t>'{'</rr-t><a href="#init_list">init_list</a><rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'list'</rr-t>
+                  <rr-t>'of'</rr-t>
+                  <rr-t>'{'</rr-t><a href="#expression_list">expression_list</a><rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'chan'</rr-t>
+                  <rr-t>'of'</rr-t><a href="#data_type">data_type</a></rr-a>
+               <rr-a><a href="#data_type">data_type</a><a href="#monadic_expression">monadic_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="STRING">STRING</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+                  <rr-t data-min="0" data-max="inf">~'"'</rr-t>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="IDENTIFIER">IDENTIFIER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[a-zA-Z]</rr-t>
+                  <rr-t data-min="0" data-max="inf">[a-zA-Z0-9_]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="REAL">REAL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
+                  <rr-t data-min="1" data-max="1">'.'</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'e'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'E'</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-t data-min="1" data-max="inf">[0-9a-zA-Z]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="INT">INT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
+                        <rr-t data-min="1" data-max="1">'r'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'R'</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ASSIGNMENT_OPERATOR">ASSIGNMENT_OPERATOR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">ASSIGN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&amp;='</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'|='</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'^='</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&lt;&lt;='</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&gt;&gt;='</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'+='</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'-='</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'*='</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'/='</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'%='</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ASSIGN">ASSIGN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'='</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="BINARY_OPERATOR">BINARY_OPERATOR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">MULT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'/'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'%'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">PLUS</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">MINUS</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&lt;&lt;'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&gt;&gt;'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&lt;'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&gt;'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&lt;='</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&gt;='</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'=='</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'!='</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&amp;'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'^'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'|'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'::'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&amp;&amp;'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'||'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="MONADICOPERATOR">MONADICOPERATOR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">PLUS</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">MINUS</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'!'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'~'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'ref'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">MULT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'++'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'--'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&lt;-'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'hd'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'tl'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'len'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'tagof'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="MULT">MULT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'*'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="PLUS">PLUS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'+'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="MINUS">MINUS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'-'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="COMMENT">COMMENT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'#'</rr-t>
+                  <rr-t data-min="0" data-max="inf">~[\r\n]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="WS">WS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">[ \r\n\t]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

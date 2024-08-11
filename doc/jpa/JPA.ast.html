@@ -1,0 +1,1303 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../index.html">Railroad</a> jpa/JPA</h1>
+      <h1>Grammar Decl</h1>
+      <pre>grammar JPA;
+
+<pre>/* Alexander Kunkel
+ More JPA informations:
+ http://www.kunkelgmbh.de/jpa/jpa.html
+ 28.11.2009
+*/</pre>
+         
+         <pre>/*
+ported to Antlr4 by Tom Everett
+*/</pre>
+      </pre>
+      <h1>Rules</h1>
+      <h2 id="file_">file_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#ql_statement">ql_statement</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ql_statement">ql_statement</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#select_statement">select_statement</a><a href="#update_statement">update_statement</a><a href="#delete_statement">delete_statement</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="select_statement">select_statement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#select_clause">select_clause</a><a href="#from_clause">from_clause</a><rr-a data-min="0" data-max="1">
+                     <rr-o><a href="#where_clause">where_clause</a></rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o><a href="#groupby_clause">groupby_clause</a></rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o><a href="#having_clause">having_clause</a></rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o><a href="#orderby_clause">orderby_clause</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="update_statement">update_statement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#update_clause">update_clause</a><rr-a data-min="0" data-max="1">
+                     <rr-o><a href="#where_clause">where_clause</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="delete_statement">delete_statement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#delete_clause">delete_clause</a><rr-a data-min="0" data-max="1">
+                     <rr-o><a href="#where_clause">where_clause</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="from_clause">from_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'FROM'</rr-t><a href="#identification_variable_declaration">identification_variable_declaration</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t>
+                           <rr-a>
+                              <rr-o><a href="#identification_variable_declaration">identification_variable_declaration</a><a href="#collection_member_declaration">collection_member_declaration</a></rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="identification_variable_declaration">identification_variable_declaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#range_variable_declaration">range_variable_declaration</a><rr-a data-min="0" data-max="inf">
+                     <rr-o><a href="#join">join</a><a href="#fetch_join">fetch_join</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="range_variable_declaration">range_variable_declaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#abstract_schema_name">abstract_schema_name</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'AS'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>IDENTIFICATION_VARIABLE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="join">join</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#join_spec">join_spec</a><a href="#join_association_path_expression">join_association_path_expression</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'AS'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>IDENTIFICATION_VARIABLE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="fetch_join">fetch_join</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#join_spec">join_spec</a><rr-t>'FETCH'</rr-t><a href="#join_association_path_expression">join_association_path_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="join_spec">join_spec</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a>
+                              <rr-o>
+                                 <rr-t>'LEFT'</rr-t>
+                              </rr-o>
+                           </rr-a>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-t>'OUTER'</rr-t>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                        <rr-t>'INNER'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'JOIN'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="join_association_path_expression">join_association_path_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#join_collection_valued_path_expression">join_collection_valued_path_expression</a><a href="#join_single_valued_association_path_expression">join_single_valued_association_path_expression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="join_collection_valued_path_expression">join_collection_valued_path_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>IDENTIFICATION_VARIABLE</rr-t>
+                  <rr-t>'.'</rr-t><a href="#collection_valued_association_field">collection_valued_association_field</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="join_single_valued_association_path_expression">join_single_valued_association_path_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>IDENTIFICATION_VARIABLE</rr-t>
+                  <rr-t>'.'</rr-t><a href="#single_valued_association_field">single_valued_association_field</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="collection_member_declaration">collection_member_declaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'IN'</rr-t>
+                  <rr-t>'('</rr-t><a href="#collection_valued_path_expression">collection_valued_path_expression</a><rr-t>')'</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'AS'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>IDENTIFICATION_VARIABLE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="single_valued_path_expression">single_valued_path_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#state_field_path_expression">state_field_path_expression</a><a href="#single_valued_association_path_expression">single_valued_association_path_expression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="state_field_path_expression">state_field_path_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>IDENTIFICATION_VARIABLE</rr-t><a href="#single_valued_association_path_expression">single_valued_association_path_expression</a></rr-o>
+                  </rr-a>
+                  <rr-t>'.'</rr-t><a href="#state_field">state_field</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="single_valued_association_path_expression">single_valued_association_path_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>IDENTIFICATION_VARIABLE</rr-t>
+                  <rr-t>'.'</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#single_valued_association_field">single_valued_association_field</a><rr-t>'.'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#single_valued_association_field">single_valued_association_field</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="collection_valued_path_expression">collection_valued_path_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>IDENTIFICATION_VARIABLE</rr-t>
+                  <rr-t>'.'</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#single_valued_association_field">single_valued_association_field</a><rr-t>'.'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#collection_valued_association_field">collection_valued_association_field</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="state_field">state_field</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#embedded_class_state_field">embedded_class_state_field</a><rr-t>'.'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#simple_state_field">simple_state_field</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="update_clause">update_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'UPDATE'</rr-t><a href="#abstract_schema_name">abstract_schema_name</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-t>'AS'</rr-t>
+                              </rr-o>
+                           </rr-a>
+                           <rr-t>IDENTIFICATION_VARIABLE</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'SET'</rr-t><a href="#update_item">update_item</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#update_item">update_item</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="update_item">update_item</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>IDENTIFICATION_VARIABLE</rr-t>
+                           <rr-t>'.'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a>
+                     <rr-o><a href="#state_field">state_field</a><a href="#single_valued_association_field">single_valued_association_field</a></rr-o>
+                  </rr-a>
+                  <rr-t>'='</rr-t><a href="#new_value">new_value</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="new_value">new_value</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#simple_arithmetic_expression">simple_arithmetic_expression</a><a href="#string_primary">string_primary</a><a href="#datetime_primary">datetime_primary</a><a href="#boolean_primary">boolean_primary</a><a href="#enum_primary">enum_primary</a><a href="#simple_entity_expression">simple_entity_expression</a><rr-t>'NULL'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="delete_clause">delete_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'DELETE'</rr-t>
+                  <rr-t>'FROM'</rr-t><a href="#abstract_schema_name">abstract_schema_name</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-t>'AS'</rr-t>
+                              </rr-o>
+                           </rr-a>
+                           <rr-t>IDENTIFICATION_VARIABLE</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="select_clause">select_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'SELECT'</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'DISTINCT'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#select_expression">select_expression</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#select_expression">select_expression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="select_expression">select_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#single_valued_path_expression">single_valued_path_expression</a><a href="#aggregate_expression">aggregate_expression</a><rr-t>IDENTIFICATION_VARIABLE</rr-t>
+               <rr-a>
+                  <rr-t>'OBJECT'</rr-t>
+                  <rr-t>'('</rr-t>
+                  <rr-t>IDENTIFICATION_VARIABLE</rr-t>
+                  <rr-t>')'</rr-t>
+               </rr-a><a href="#constructor_expression">constructor_expression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="constructor_expression">constructor_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'NEW'</rr-t><a href="#constructor_name">constructor_name</a><rr-t>'('</rr-t><a href="#constructor_item">constructor_item</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#constructor_item">constructor_item</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="constructor_item">constructor_item</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#single_valued_path_expression">single_valued_path_expression</a><a href="#aggregate_expression">aggregate_expression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="aggregate_expression">aggregate_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>'AVG'</rr-t>
+                        <rr-t>'MAX'</rr-t>
+                        <rr-t>'MIN'</rr-t>
+                        <rr-t>'SUM'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'DISTINCT'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#state_field_path_expression">state_field_path_expression</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'COUNT'</rr-t>
+                  <rr-t>'('</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'DISTINCT'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>IDENTIFICATION_VARIABLE</rr-t><a href="#state_field_path_expression">state_field_path_expression</a><a href="#single_valued_association_path_expression">single_valued_association_path_expression</a></rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="where_clause">where_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'WHERE'</rr-t><a href="#conditional_expression">conditional_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="groupby_clause">groupby_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'GROUP'</rr-t>
+                  <rr-t>'BY'</rr-t><a href="#groupby_item">groupby_item</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#groupby_item">groupby_item</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="groupby_item">groupby_item</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#single_valued_path_expression">single_valued_path_expression</a><rr-t>IDENTIFICATION_VARIABLE</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="having_clause">having_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'HAVING'</rr-t><a href="#conditional_expression">conditional_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="orderby_clause">orderby_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'ORDER'</rr-t>
+                  <rr-t>'BY'</rr-t><a href="#orderby_item">orderby_item</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#orderby_item">orderby_item</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="orderby_item">orderby_item</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#state_field_path_expression">state_field_path_expression</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'ASC'</rr-t>
+                        <rr-t>'DESC'</rr-t>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="subquery">subquery</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#simple_select_clause">simple_select_clause</a><a href="#subquery_from_clause">subquery_from_clause</a><rr-a data-min="0" data-max="1">
+                     <rr-o><a href="#where_clause">where_clause</a></rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o><a href="#groupby_clause">groupby_clause</a></rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o><a href="#having_clause">having_clause</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="subquery_from_clause">subquery_from_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'FROM'</rr-t><a href="#subselect_identification_variable_declaration">subselect_identification_variable_declaration</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#subselect_identification_variable_declaration">subselect_identification_variable_declaration</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="subselect_identification_variable_declaration">subselect_identification_variable_declaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#identification_variable_declaration">identification_variable_declaration</a><rr-a><a href="#association_path_expression">association_path_expression</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'AS'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>IDENTIFICATION_VARIABLE</rr-t>
+               </rr-a><a href="#collection_member_declaration">collection_member_declaration</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="association_path_expression">association_path_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#collection_valued_path_expression">collection_valued_path_expression</a><a href="#single_valued_association_path_expression">single_valued_association_path_expression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="simple_select_clause">simple_select_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'SELECT'</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'DISTINCT'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#simple_select_expression">simple_select_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="simple_select_expression">simple_select_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#single_valued_path_expression">single_valued_path_expression</a><a href="#aggregate_expression">aggregate_expression</a><rr-t>IDENTIFICATION_VARIABLE</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="conditional_expression">conditional_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o><a href="#conditional_term">conditional_term</a></rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'OR'</rr-t><a href="#conditional_term">conditional_term</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="conditional_term">conditional_term</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o><a href="#conditional_factor">conditional_factor</a></rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'AND'</rr-t><a href="#conditional_factor">conditional_factor</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="conditional_factor">conditional_factor</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'NOT'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#conditional_primary">conditional_primary</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="conditional_primary">conditional_primary</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#simple_cond_expression">simple_cond_expression</a><rr-a>
+                  <rr-t>'('</rr-t><a href="#conditional_expression">conditional_expression</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="simple_cond_expression">simple_cond_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#comparison_expression">comparison_expression</a><a href="#between_expression">between_expression</a><a href="#like_expression">like_expression</a><a href="#in_expression">in_expression</a><a href="#null_comparison_expression">null_comparison_expression</a><a href="#empty_collection_comparison_expression">empty_collection_comparison_expression</a><a href="#collection_member_expression">collection_member_expression</a><a href="#exists_expression">exists_expression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="between_expression">between_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#arithmetic_expression">arithmetic_expression</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'NOT'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'BETWEEN'</rr-t><a href="#arithmetic_expression">arithmetic_expression</a><rr-t>'AND'</rr-t><a href="#arithmetic_expression">arithmetic_expression</a></rr-a>
+               <rr-a><a href="#string_expression">string_expression</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'NOT'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'BETWEEN'</rr-t><a href="#string_expression">string_expression</a><rr-t>'AND'</rr-t><a href="#string_expression">string_expression</a></rr-a>
+               <rr-a><a href="#datetime_expression">datetime_expression</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'NOT'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'BETWEEN'</rr-t><a href="#datetime_expression">datetime_expression</a><rr-t>'AND'</rr-t><a href="#datetime_expression">datetime_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="in_expression">in_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#state_field_path_expression">state_field_path_expression</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'NOT'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'IN'</rr-t>
+                  <rr-t>'('</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-a><a href="#in_item">in_item</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>','</rr-t><a href="#in_item">in_item</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a><a href="#subquery">subquery</a></rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="in_item">in_item</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#literal">literal</a><a href="#input_parameter">input_parameter</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="like_expression">like_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#string_expression">string_expression</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'NOT'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'LIKE'</rr-t><a href="#pattern_value">pattern_value</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'ESCAPE'</rr-t>
+                           <rr-t>ESCAPE_CHARACTER</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="null_comparison_expression">null_comparison_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o><a href="#single_valued_path_expression">single_valued_path_expression</a><a href="#input_parameter">input_parameter</a></rr-o>
+                  </rr-a>
+                  <rr-t>'IS'</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'NOT'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'NULL'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="empty_collection_comparison_expression">empty_collection_comparison_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#collection_valued_path_expression">collection_valued_path_expression</a><rr-t>'IS'</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'NOT'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'EMPTY'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="collection_member_expression">collection_member_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#entity_expression">entity_expression</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'NOT'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'MEMBER'</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'OF'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#collection_valued_path_expression">collection_valued_path_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="exists_expression">exists_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'NOT'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'EXISTS'</rr-t>
+                  <rr-t>'('</rr-t><a href="#subquery">subquery</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="all_or_any_expression">all_or_any_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>'ALL'</rr-t>
+                        <rr-t>'ANY'</rr-t>
+                        <rr-t>'SOME'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'('</rr-t><a href="#subquery">subquery</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="comparison_expression">comparison_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#string_expression">string_expression</a><a href="#comparison_operator">comparison_operator</a><rr-a>
+                     <rr-o><a href="#string_expression">string_expression</a><a href="#all_or_any_expression">all_or_any_expression</a></rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a><a href="#boolean_expression">boolean_expression</a><rr-a>
+                     <rr-o>
+                        <rr-t>'='</rr-t>
+                        <rr-t>'&lt;&gt;'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a>
+                     <rr-o><a href="#boolean_expression">boolean_expression</a><a href="#all_or_any_expression">all_or_any_expression</a></rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a><a href="#enum_expression">enum_expression</a><rr-a>
+                     <rr-o>
+                        <rr-t>'='</rr-t>
+                        <rr-t>'&lt;&gt;'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a>
+                     <rr-o><a href="#enum_expression">enum_expression</a><a href="#all_or_any_expression">all_or_any_expression</a></rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a><a href="#datetime_expression">datetime_expression</a><a href="#comparison_operator">comparison_operator</a><rr-a>
+                     <rr-o><a href="#datetime_expression">datetime_expression</a><a href="#all_or_any_expression">all_or_any_expression</a></rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a><a href="#entity_expression">entity_expression</a><rr-a>
+                     <rr-o>
+                        <rr-t>'='</rr-t>
+                        <rr-t>'&lt;&gt;'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a>
+                     <rr-o><a href="#entity_expression">entity_expression</a><a href="#all_or_any_expression">all_or_any_expression</a></rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a><a href="#arithmetic_expression">arithmetic_expression</a><a href="#comparison_operator">comparison_operator</a><rr-a>
+                     <rr-o><a href="#arithmetic_expression">arithmetic_expression</a><a href="#all_or_any_expression">all_or_any_expression</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="comparison_operator">comparison_operator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'='</rr-t>
+               <rr-t>'&gt;'</rr-t>
+               <rr-t>'&gt;='</rr-t>
+               <rr-t>'&lt;'</rr-t>
+               <rr-t>'&lt;='</rr-t>
+               <rr-t>'&lt;&gt;'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="arithmetic_expression">arithmetic_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#simple_arithmetic_expression">simple_arithmetic_expression</a><rr-a>
+                  <rr-t>'('</rr-t><a href="#subquery">subquery</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="simple_arithmetic_expression">simple_arithmetic_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o><a href="#arithmetic_term">arithmetic_term</a></rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a>
+                              <rr-o>
+                                 <rr-t>'+'</rr-t>
+                                 <rr-t>'-'</rr-t>
+                              </rr-o>
+                           </rr-a><a href="#arithmetic_term">arithmetic_term</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="arithmetic_term">arithmetic_term</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o><a href="#arithmetic_factor">arithmetic_factor</a></rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a>
+                              <rr-o>
+                                 <rr-t>'*'</rr-t>
+                                 <rr-t>'/'</rr-t>
+                              </rr-o>
+                           </rr-a><a href="#arithmetic_factor">arithmetic_factor</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="arithmetic_factor">arithmetic_factor</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'+'</rr-t>
+                        <rr-t>'-'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#arithmetic_primary">arithmetic_primary</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="arithmetic_primary">arithmetic_primary</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#state_field_path_expression">state_field_path_expression</a><a href="#numeric_literal">numeric_literal</a><rr-a>
+                  <rr-t>'('</rr-t><a href="#simple_arithmetic_expression">simple_arithmetic_expression</a><rr-t>')'</rr-t>
+               </rr-a><a href="#input_parameter">input_parameter</a><a href="#functions_returning_numerics">functions_returning_numerics</a><a href="#aggregate_expression">aggregate_expression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="string_expression">string_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#string_primary">string_primary</a><rr-a>
+                  <rr-t>'('</rr-t><a href="#subquery">subquery</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="string_primary">string_primary</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#state_field_path_expression">state_field_path_expression</a><rr-t>STRINGLITERAL</rr-t><a href="#input_parameter">input_parameter</a><a href="#functions_returning_strings">functions_returning_strings</a><a href="#aggregate_expression">aggregate_expression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="datetime_expression">datetime_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#datetime_primary">datetime_primary</a><rr-a>
+                  <rr-t>'('</rr-t><a href="#subquery">subquery</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="datetime_primary">datetime_primary</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#state_field_path_expression">state_field_path_expression</a><a href="#input_parameter">input_parameter</a><a href="#functions_returning_datetime">functions_returning_datetime</a><a href="#aggregate_expression">aggregate_expression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="boolean_expression">boolean_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#boolean_primary">boolean_primary</a><rr-a>
+                  <rr-t>'('</rr-t><a href="#subquery">subquery</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="boolean_primary">boolean_primary</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#state_field_path_expression">state_field_path_expression</a><a href="#boolean_literal">boolean_literal</a><a href="#input_parameter">input_parameter</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="enum_expression">enum_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#enum_primary">enum_primary</a><rr-a>
+                  <rr-t>'('</rr-t><a href="#subquery">subquery</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="enum_primary">enum_primary</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#state_field_path_expression">state_field_path_expression</a><a href="#enum_literal">enum_literal</a><a href="#input_parameter">input_parameter</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="entity_expression">entity_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#single_valued_association_path_expression">single_valued_association_path_expression</a><a href="#simple_entity_expression">simple_entity_expression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="simple_entity_expression">simple_entity_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFICATION_VARIABLE</rr-t><a href="#input_parameter">input_parameter</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functions_returning_numerics">functions_returning_numerics</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'LENGTH'</rr-t>
+                  <rr-t>'('</rr-t><a href="#string_primary">string_primary</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'LOCATE'</rr-t>
+                  <rr-t>'('</rr-t><a href="#string_primary">string_primary</a><rr-t>','</rr-t><a href="#string_primary">string_primary</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#simple_arithmetic_expression">simple_arithmetic_expression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'ABS'</rr-t>
+                  <rr-t>'('</rr-t><a href="#simple_arithmetic_expression">simple_arithmetic_expression</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'SQRT'</rr-t>
+                  <rr-t>'('</rr-t><a href="#simple_arithmetic_expression">simple_arithmetic_expression</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'MOD'</rr-t>
+                  <rr-t>'('</rr-t><a href="#simple_arithmetic_expression">simple_arithmetic_expression</a><rr-t>','</rr-t><a href="#simple_arithmetic_expression">simple_arithmetic_expression</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'SIZE'</rr-t>
+                  <rr-t>'('</rr-t><a href="#collection_valued_path_expression">collection_valued_path_expression</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functions_returning_datetime">functions_returning_datetime</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'CURRENT_DATE'</rr-t>
+               <rr-t>'CURRENT_TIME'</rr-t>
+               <rr-t>'CURRENT_TIMESTAMP'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functions_returning_strings">functions_returning_strings</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'CONCAT'</rr-t>
+                  <rr-t>'('</rr-t><a href="#string_primary">string_primary</a><rr-t>','</rr-t><a href="#string_primary">string_primary</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'SUBSTRING'</rr-t>
+                  <rr-t>'('</rr-t><a href="#string_primary">string_primary</a><rr-t>','</rr-t><a href="#simple_arithmetic_expression">simple_arithmetic_expression</a><rr-t>','</rr-t><a href="#simple_arithmetic_expression">simple_arithmetic_expression</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'TRIM'</rr-t>
+                  <rr-t>'('</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o><a href="#trim_specification">trim_specification</a></rr-o>
+                           </rr-a>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-t>TRIM_CHARACTER</rr-t>
+                              </rr-o>
+                           </rr-a>
+                           <rr-t>'FROM'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#string_primary">string_primary</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'LOWER'</rr-t>
+                  <rr-t>'('</rr-t><a href="#string_primary">string_primary</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'UPPER'</rr-t>
+                  <rr-t>'('</rr-t><a href="#string_primary">string_primary</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="trim_specification">trim_specification</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'LEADING'</rr-t>
+               <rr-t>'TRAILING'</rr-t>
+               <rr-t>'BOTH'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="numeric_literal">numeric_literal</h2>
+      <p>
+         <rr-rr>
+            <rr-o></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pattern_value">pattern_value</h2>
+      <p>
+         <rr-rr>
+            <rr-o></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="input_parameter">input_parameter</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'?'</rr-t>
+                  <rr-t>INT_NUMERAL</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>':'</rr-t>
+                  <rr-t>IDENTIFICATION_VARIABLE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="literal">literal</h2>
+      <p>
+         <rr-rr>
+            <rr-o></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="constructor_name">constructor_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="enum_literal">enum_literal</h2>
+      <p>
+         <rr-rr>
+            <rr-o></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="boolean_literal">boolean_literal</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'true'</rr-t>
+               <rr-t>'false'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="simple_state_field">simple_state_field</h2>
+      <p>
+         <rr-rr>
+            <rr-o></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="embedded_class_state_field">embedded_class_state_field</h2>
+      <p>
+         <rr-rr>
+            <rr-o></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="single_valued_association_field">single_valued_association_field</h2>
+      <p>
+         <rr-rr>
+            <rr-o></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="collection_valued_association_field">collection_valued_association_field</h2>
+      <p>
+         <rr-rr>
+            <rr-o></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="abstract_schema_name">abstract_schema_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="IDENTIFICATION_VARIABLE">IDENTIFICATION_VARIABLE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'a'..'z'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'A'..'Z'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'_'</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'a'..'z'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'A'..'Z'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'0'..'9'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'_'</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CHARACTER">CHARACTER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\''</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">~('\''|'\\')</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-t data-min="1" data-max="1">'\''</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="STRINGLITERAL">STRINGLITERAL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'\''</rr-t>
+                        <rr-o>
+                           <rr-a>
+                              <rr-t data-min="1" data-max="1">~('\\'|'"')</rr-t>
+                           </rr-a>
+                        </rr-o>
+                        <rr-t data-min="1" data-max="1">'\''</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ESCAPE_CHARACTER">ESCAPE_CHARACTER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">CHARACTER</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="WS">WS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[ \t\r\n]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

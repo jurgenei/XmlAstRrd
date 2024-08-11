@@ -1,0 +1,4104 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../index.html">Railroad</a> scala/Scala</h1>
+      <pre>/*
+ [The "BSD licence"]
+ Copyright (c) 2014 Leonardo Lucena
+ Copyright (c) 2018 Andrey Stolyarov
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+ 3. The name of the author may not be used to endorse or promote products
+    derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
+      <pre>/*
+   Derived from https://github.com/scala/scala/blob/2.12.x/spec/13-syntax-summary.md
+ */</pre>
+      <h1>Grammar Decl</h1>
+      <pre>grammar Scala;</pre>
+      <h1>Rules</h1>
+      <h2 id="literal">literal</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'-'</rr-t>
+                  <rr-t>IntegerLiteral</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'-'</rr-t>
+                  <rr-t>FloatingPointLiteral</rr-t>
+               </rr-a>
+               <rr-t>BooleanLiteral</rr-t>
+               <rr-t>CharacterLiteral</rr-t>
+               <rr-t>StringLiteral</rr-t>
+               <rr-t>SymbolLiteral</rr-t>
+               <rr-t>'null'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="qualId">qualId</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Id</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'.'</rr-t>
+                           <rr-t>Id</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ids">ids</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Id</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t>
+                           <rr-t>Id</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="stableId">stableId</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>Id</rr-t>
+               <rr-a><a href="#stableId">stableId</a><rr-t>'.'</rr-t>
+                  <rr-t>Id</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>Id</rr-t>
+                           <rr-t>'.'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>'this'</rr-t>
+                        <rr-a>
+                           <rr-t>'super'</rr-t><a href="#classQualifier">classQualifier</a><rr-t>'.'</rr-t>
+                           <rr-t>Id</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="classQualifier">classQualifier</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'['</rr-t>
+                  <rr-t>Id</rr-t>
+                  <rr-t>']'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="type_">type_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#functionArgTypes">functionArgTypes</a><rr-t>'=&gt;'</rr-t><a href="#type_">type_</a></rr-a>
+               <rr-a><a href="#infixType">infixType</a><a href="#existentialClause">existentialClause</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functionArgTypes">functionArgTypes</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#infixType">infixType</a><rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#paramType">paramType</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>','</rr-t><a href="#paramType">paramType</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="existentialClause">existentialClause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'forSome'</rr-t>
+                  <rr-t>'{'</rr-t><a href="#existentialDcl">existentialDcl</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="existentialDcl">existentialDcl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'type'</rr-t><a href="#typeDcl">typeDcl</a></rr-a>
+               <rr-a>
+                  <rr-t>'val'</rr-t><a href="#valDcl">valDcl</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="infixType">infixType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#compoundType">compoundType</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>Id</rr-t><a href="#compoundType">compoundType</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="compoundType">compoundType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#annotType">annotType</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'with'</rr-t><a href="#annotType">annotType</a></rr-a>
+                     </rr-o>
+                  </rr-a><a href="#refinement">refinement</a></rr-a><a href="#refinement">refinement</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="annotType">annotType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#simpleType">simpleType</a><a href="#annotation">annotation</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="simpleType">simpleType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#simpleType">simpleType</a><a href="#typeArgs">typeArgs</a></rr-a>
+               <rr-a><a href="#simpleType">simpleType</a><rr-t>'#'</rr-t>
+                  <rr-t>Id</rr-t>
+               </rr-a>
+               <rr-a><a href="#stableId">stableId</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'.'</rr-t>
+                           <rr-t>'type'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#types">types</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeArgs">typeArgs</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#types">types</a><rr-t>']'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="types">types</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#type_">type_</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#type_">type_</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="refinement">refinement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>NL</rr-t>
+                  <rr-t>'{'</rr-t><a href="#refineStat">refineStat</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="refineStat">refineStat</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#dcl">dcl</a><rr-a>
+                  <rr-t>'type'</rr-t><a href="#typeDef">typeDef</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typePat">typePat</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#type_">type_</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ascription">ascription</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>':'</rr-t><a href="#infixType">infixType</a></rr-a>
+               <rr-a>
+                  <rr-t>':'</rr-t><a href="#annotation">annotation</a></rr-a>
+               <rr-a>
+                  <rr-t>':'</rr-t>
+                  <rr-t>'_'</rr-t>
+                  <rr-t>'*'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expr">expr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o><a href="#bindings">bindings</a><rr-a>
+                           <rr-t>'implicit'</rr-t>
+                           <rr-t>Id</rr-t>
+                        </rr-a>
+                        <rr-t>'_'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'=&gt;'</rr-t><a href="#expr">expr</a></rr-a><a href="#expr1">expr1</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expr1">expr1</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'if'</rr-t>
+                  <rr-t>'('</rr-t><a href="#expr">expr</a><rr-t>')'</rr-t>
+                  <rr-t>NL</rr-t><a href="#expr">expr</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'else'</rr-t><a href="#expr">expr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'while'</rr-t>
+                  <rr-t>'('</rr-t><a href="#expr">expr</a><rr-t>')'</rr-t>
+                  <rr-t>NL</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a>
+                  <rr-t>'try'</rr-t><a href="#expr">expr</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'catch'</rr-t><a href="#expr">expr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'finally'</rr-t><a href="#expr">expr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'do'</rr-t><a href="#expr">expr</a><rr-t>'while'</rr-t>
+                  <rr-t>'('</rr-t><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'for'</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'('</rr-t><a href="#enumerators">enumerators</a><rr-t>')'</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>'{'</rr-t><a href="#enumerators">enumerators</a><rr-t>'}'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'yield'</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a>
+                  <rr-t>'throw'</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a>
+                  <rr-t>'return'</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a>
+                              <rr-o><a href="#simpleExpr">simpleExpr</a><rr-a><a href="#simpleExpr1">simpleExpr1</a><rr-t>'_'</rr-t>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a>
+                           <rr-t>'.'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>Id</rr-t>
+                  <rr-t>'='</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#simpleExpr1">simpleExpr1</a><a href="#argumentExprs">argumentExprs</a><rr-t>'='</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#postfixExpr">postfixExpr</a><a href="#ascription">ascription</a></rr-a>
+               <rr-a><a href="#postfixExpr">postfixExpr</a><rr-t>'match'</rr-t>
+                  <rr-t>'{'</rr-t><a href="#caseClauses">caseClauses</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="prefixDef">prefixDef</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'-'</rr-t>
+               <rr-t>'+'</rr-t>
+               <rr-t>'~'</rr-t>
+               <rr-t>'!'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="postfixExpr">postfixExpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#infixExpr">infixExpr</a><rr-t>Id</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#prefixDef">prefixDef</a><a href="#simpleExpr1">simpleExpr1</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>NL</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="infixExpr">infixExpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#prefixExpr">prefixExpr</a><rr-a><a href="#infixExpr">infixExpr</a><rr-t>Id</rr-t>
+                  <rr-t>NL</rr-t><a href="#infixExpr">infixExpr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="prefixExpr">prefixExpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#prefixDef">prefixDef</a><rr-a>
+                     <rr-o><a href="#simpleExpr">simpleExpr</a><rr-a><a href="#simpleExpr1">simpleExpr1</a><rr-t>'_'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="simpleExpr">simpleExpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'new'</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#classTemplate">classTemplate</a><a href="#templateBody">templateBody</a></rr-o>
+                  </rr-a>
+               </rr-a><a href="#blockExpr">blockExpr</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="simpleExpr1">simpleExpr1</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#literal">literal</a><a href="#stableId">stableId</a><rr-t>'_'</rr-t>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#exprs">exprs</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a><a href="#simpleExpr">simpleExpr</a><rr-t>'.'</rr-t>
+                  <rr-t>Id</rr-t>
+               </rr-a>
+               <rr-a><a href="#simpleExpr1">simpleExpr1</a><rr-t>'_'</rr-t>
+                  <rr-t>'.'</rr-t>
+                  <rr-t>Id</rr-t>
+               </rr-a>
+               <rr-a><a href="#simpleExpr">simpleExpr</a><a href="#typeArgs">typeArgs</a></rr-a>
+               <rr-a><a href="#simpleExpr1">simpleExpr1</a><rr-t>'_'</rr-t><a href="#typeArgs">typeArgs</a></rr-a>
+               <rr-a><a href="#simpleExpr1">simpleExpr1</a><a href="#argumentExprs">argumentExprs</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="exprs">exprs</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#expr">expr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="argumentExprs">argumentExprs</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#args">args</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#args">args</a><rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>NL</rr-t><a href="#blockExpr">blockExpr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="args">args</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#exprs">exprs</a><rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#exprs">exprs</a><rr-t>','</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#postfixExpr">postfixExpr</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>':'</rr-t>
+                        <rr-t>'_'</rr-t>
+                        <rr-t>'*'</rr-t>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="blockExpr">blockExpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#caseClauses">caseClauses</a><rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#block">block</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="block">block</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#blockStat">blockStat</a><a href="#resultExpr">resultExpr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="blockStat">blockStat</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#import_">import_</a><rr-a><a href="#annotation">annotation</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'implicit'</rr-t>
+                        <rr-t>'lazy'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#def_">def_</a></rr-a>
+               <rr-a><a href="#annotation">annotation</a><a href="#localModifier">localModifier</a><a href="#tmplDef">tmplDef</a></rr-a><a href="#expr1">expr1</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="resultExpr">resultExpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expr1">expr1</a><rr-a>
+                  <rr-a>
+                     <rr-o><a href="#bindings">bindings</a><rr-a>
+                           <rr-a>
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>'implicit'</rr-t>
+                                    <rr-t>Id</rr-t>
+                                 </rr-a>
+                                 <rr-t>'_'</rr-t>
+                              </rr-o>
+                           </rr-a>
+                           <rr-t>':'</rr-t><a href="#compoundType">compoundType</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'=&gt;'</rr-t><a href="#block">block</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="enumerators">enumerators</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#generator">generator</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="generator">generator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#pattern1">pattern1</a><rr-t>'&lt;-'</rr-t><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
+                     <rr-o><a href="#guard_">guard_</a><rr-a><a href="#pattern1">pattern1</a><rr-t>'='</rr-t><a href="#expr">expr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="caseClauses">caseClauses</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#caseClause">caseClause</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="caseClause">caseClause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'case'</rr-t><a href="#pattern">pattern</a><a href="#guard_">guard_</a><rr-t>'=&gt;'</rr-t><a href="#block">block</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="guard_">guard_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'if'</rr-t><a href="#postfixExpr">postfixExpr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pattern">pattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#pattern1">pattern1</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'|'</rr-t><a href="#pattern1">pattern1</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pattern1">pattern1</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>BoundVarid</rr-t>
+                        <rr-t>'_'</rr-t>
+                        <rr-t>Id</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>':'</rr-t><a href="#typePat">typePat</a></rr-a><a href="#pattern2">pattern2</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pattern2">pattern2</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Id</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'@'</rr-t><a href="#pattern3">pattern3</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a><a href="#pattern3">pattern3</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pattern3">pattern3</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#simplePattern">simplePattern</a><rr-a><a href="#simplePattern">simplePattern</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>Id</rr-t>
+                           <rr-t>NL</rr-t><a href="#simplePattern">simplePattern</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="simplePattern">simplePattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'_'</rr-t>
+               <rr-t>Varid</rr-t><a href="#literal">literal</a><rr-a><a href="#stableId">stableId</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'('</rr-t><a href="#patterns">patterns</a><rr-t>')'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a><a href="#stableId">stableId</a><rr-t>'('</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#patterns">patterns</a><rr-t>','</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>Id</rr-t>
+                           <rr-t>'@'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'_'</rr-t>
+                  <rr-t>'*'</rr-t>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#patterns">patterns</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="patterns">patterns</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#pattern">pattern</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#patterns">patterns</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'_'</rr-t>
+                  <rr-t>'*'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeParamClause">typeParamClause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#variantTypeParam">variantTypeParam</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#variantTypeParam">variantTypeParam</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>']'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="funTypeParamClause">funTypeParamClause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#typeParam">typeParam</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#typeParam">typeParam</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>']'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="variantTypeParam">variantTypeParam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#annotation">annotation</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'+'</rr-t>
+                        <rr-t>'-'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#typeParam">typeParam</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeParam">typeParam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>Id</rr-t>
+                        <rr-t>'_'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#typeParamClause">typeParamClause</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'&gt;:'</rr-t><a href="#type_">type_</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'&lt;:'</rr-t><a href="#type_">type_</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'&lt;%'</rr-t><a href="#type_">type_</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#type_">type_</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="paramClauses">paramClauses</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#paramClause">paramClause</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>NL</rr-t>
+                           <rr-t>'('</rr-t>
+                           <rr-t>'implicit'</rr-t><a href="#params">params</a><rr-t>')'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="paramClause">paramClause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>NL</rr-t>
+                  <rr-t>'('</rr-t><a href="#params">params</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="params">params</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#param">param</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#param">param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="param">param</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#annotation">annotation</a><rr-t>Id</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#paramType">paramType</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#expr">expr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="paramType">paramType</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#type_">type_</a><rr-a>
+                  <rr-t>'=&gt;'</rr-t><a href="#type_">type_</a></rr-a>
+               <rr-a><a href="#type_">type_</a><rr-t>'*'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="classParamClauses">classParamClauses</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#classParamClause">classParamClause</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>NL</rr-t>
+                           <rr-t>'('</rr-t>
+                           <rr-t>'implicit'</rr-t><a href="#classParams">classParams</a><rr-t>')'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="classParamClause">classParamClause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>NL</rr-t>
+                  <rr-t>'('</rr-t><a href="#classParams">classParams</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="classParams">classParams</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#classParam">classParam</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#classParam">classParam</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="classParam">classParam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#annotation">annotation</a><a href="#modifier">modifier</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'val'</rr-t>
+                        <rr-t>'var'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>Id</rr-t>
+                  <rr-t>':'</rr-t><a href="#paramType">paramType</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#expr">expr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="bindings">bindings</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#binding">binding</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#binding">binding</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="binding">binding</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>Id</rr-t>
+                        <rr-t>'_'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#type_">type_</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="modifier">modifier</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#localModifier">localModifier</a><a href="#accessModifier">accessModifier</a><rr-t>'override'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="localModifier">localModifier</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'abstract'</rr-t>
+               <rr-t>'final'</rr-t>
+               <rr-t>'sealed'</rr-t>
+               <rr-t>'implicit'</rr-t>
+               <rr-t>'lazy'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="accessModifier">accessModifier</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>'private'</rr-t>
+                        <rr-t>'protected'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#accessQualifier">accessQualifier</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="accessQualifier">accessQualifier</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'['</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>Id</rr-t>
+                        <rr-t>'this'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>']'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="annotation">annotation</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'@'</rr-t><a href="#simpleType">simpleType</a><a href="#argumentExprs">argumentExprs</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="constrAnnotation">constrAnnotation</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'@'</rr-t><a href="#simpleType">simpleType</a><a href="#argumentExprs">argumentExprs</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="templateBody">templateBody</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>NL</rr-t>
+                  <rr-t>'{'</rr-t><a href="#selfType">selfType</a><a href="#templateStat">templateStat</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="templateStat">templateStat</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#import_">import_</a><rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#annotation">annotation</a><rr-t>NL</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#modifier">modifier</a><a href="#def_">def_</a></rr-a>
+               <rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#annotation">annotation</a><rr-t>NL</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#modifier">modifier</a><a href="#dcl">dcl</a></rr-a><a href="#expr">expr</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="selfType">selfType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Id</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#type_">type_</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'=&gt;'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'this'</rr-t>
+                  <rr-t>':'</rr-t><a href="#type_">type_</a><rr-t>'=&gt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="import_">import_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'import'</rr-t><a href="#importExpr">importExpr</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#importExpr">importExpr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="importExpr">importExpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#stableId">stableId</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'.'</rr-t>
+                           <rr-a>
+                              <rr-o>
+                                 <rr-t>Id</rr-t>
+                                 <rr-t>'_'</rr-t><a href="#importSelectors">importSelectors</a></rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="importSelectors">importSelectors</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'{'</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#importSelector">importSelector</a><rr-t>','</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a>
+                     <rr-o><a href="#importSelector">importSelector</a><rr-t>'_'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="importSelector">importSelector</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Id</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'=&gt;'</rr-t>
+                           <rr-a>
+                              <rr-o>
+                                 <rr-t>Id</rr-t>
+                                 <rr-t>'_'</rr-t>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="dcl">dcl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'val'</rr-t><a href="#valDcl">valDcl</a></rr-a>
+               <rr-a>
+                  <rr-t>'var'</rr-t><a href="#varDcl">varDcl</a></rr-a>
+               <rr-a>
+                  <rr-t>'def'</rr-t><a href="#funDcl">funDcl</a></rr-a>
+               <rr-a>
+                  <rr-t>'type'</rr-t>
+                  <rr-t>NL</rr-t><a href="#typeDcl">typeDcl</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="valDcl">valDcl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#ids">ids</a><rr-t>':'</rr-t><a href="#type_">type_</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="varDcl">varDcl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#ids">ids</a><rr-t>':'</rr-t><a href="#type_">type_</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="funDcl">funDcl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#funSig">funSig</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#type_">type_</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="funSig">funSig</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Id</rr-t><a href="#funTypeParamClause">funTypeParamClause</a><a href="#paramClauses">paramClauses</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeDcl">typeDcl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Id</rr-t><a href="#typeParamClause">typeParamClause</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'&gt;:'</rr-t><a href="#type_">type_</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'&lt;:'</rr-t><a href="#type_">type_</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="patVarDef">patVarDef</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'val'</rr-t><a href="#patDef">patDef</a></rr-a>
+               <rr-a>
+                  <rr-t>'var'</rr-t><a href="#varDef">varDef</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="def_">def_</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#patVarDef">patVarDef</a><rr-a>
+                  <rr-t>'def'</rr-t><a href="#funDef">funDef</a></rr-a>
+               <rr-a>
+                  <rr-t>'type'</rr-t>
+                  <rr-t>NL</rr-t><a href="#typeDef">typeDef</a></rr-a><a href="#tmplDef">tmplDef</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="patDef">patDef</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#pattern2">pattern2</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#pattern2">pattern2</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#type_">type_</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'='</rr-t><a href="#expr">expr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="varDef">varDef</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#patDef">patDef</a><rr-a><a href="#ids">ids</a><rr-t>':'</rr-t><a href="#type_">type_</a><rr-t>'='</rr-t>
+                  <rr-t>'_'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="funDef">funDef</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#funSig">funSig</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#type_">type_</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'='</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#funSig">funSig</a><rr-t>NL</rr-t>
+                  <rr-t>'{'</rr-t><a href="#block">block</a><rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'this'</rr-t><a href="#paramClause">paramClause</a><a href="#paramClauses">paramClauses</a><rr-a>
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#constrExpr">constrExpr</a></rr-a>
+                        <rr-a>
+                           <rr-t>NL</rr-t><a href="#constrBlock">constrBlock</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeDef">typeDef</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Id</rr-t><a href="#typeParamClause">typeParamClause</a><rr-t>'='</rr-t><a href="#type_">type_</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tmplDef">tmplDef</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'case'</rr-t>
+                  <rr-t>'class'</rr-t><a href="#classDef">classDef</a></rr-a>
+               <rr-a>
+                  <rr-t>'case'</rr-t>
+                  <rr-t>'object'</rr-t><a href="#objectDef">objectDef</a></rr-a>
+               <rr-a>
+                  <rr-t>'trait'</rr-t><a href="#traitDef">traitDef</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="classDef">classDef</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Id</rr-t><a href="#typeParamClause">typeParamClause</a><a href="#constrAnnotation">constrAnnotation</a><a href="#accessModifier">accessModifier</a><a href="#classParamClauses">classParamClauses</a><a href="#classTemplateOpt">classTemplateOpt</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="traitDef">traitDef</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Id</rr-t><a href="#typeParamClause">typeParamClause</a><a href="#traitTemplateOpt">traitTemplateOpt</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="objectDef">objectDef</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Id</rr-t><a href="#classTemplateOpt">classTemplateOpt</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="classTemplateOpt">classTemplateOpt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'extends'</rr-t><a href="#classTemplate">classTemplate</a></rr-a>
+               <rr-a data-min="0" data-max="1">
+                  <rr-o>
+                     <rr-a>
+                        <rr-t>'extends'</rr-t><a href="#templateBody">templateBody</a></rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="traitTemplateOpt">traitTemplateOpt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'extends'</rr-t><a href="#traitTemplate">traitTemplate</a></rr-a>
+               <rr-a data-min="0" data-max="1">
+                  <rr-o>
+                     <rr-a>
+                        <rr-t>'extends'</rr-t><a href="#templateBody">templateBody</a></rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="classTemplate">classTemplate</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#earlyDefs">earlyDefs</a><a href="#classParents">classParents</a><a href="#templateBody">templateBody</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="traitTemplate">traitTemplate</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#earlyDefs">earlyDefs</a><a href="#traitParents">traitParents</a><a href="#templateBody">templateBody</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="classParents">classParents</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#constr">constr</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'with'</rr-t><a href="#annotType">annotType</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="traitParents">traitParents</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#annotType">annotType</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'with'</rr-t><a href="#annotType">annotType</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="constr">constr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#annotType">annotType</a><a href="#argumentExprs">argumentExprs</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="earlyDefs">earlyDefs</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#earlyDef">earlyDef</a><rr-t>'}'</rr-t>
+                  <rr-t>'with'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="earlyDef">earlyDef</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#annotation">annotation</a><rr-t>NL</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#modifier">modifier</a><a href="#patVarDef">patVarDef</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="constrExpr">constrExpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#selfInvocation">selfInvocation</a><a href="#constrBlock">constrBlock</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="constrBlock">constrBlock</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#selfInvocation">selfInvocation</a><rr-a data-min="0" data-max="inf">
+                     <rr-o><a href="#blockStat">blockStat</a></rr-o>
+                  </rr-a>
+                  <rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="selfInvocation">selfInvocation</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'this'</rr-t><a href="#argumentExprs">argumentExprs</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="topStatSeq">topStatSeq</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#topStat">topStat</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="topStat">topStat</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#annotation">annotation</a><rr-t>NL</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#modifier">modifier</a><a href="#tmplDef">tmplDef</a></rr-a><a href="#import_">import_</a><a href="#packaging">packaging</a><a href="#packageObject">packageObject</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="packaging">packaging</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'package'</rr-t><a href="#qualId">qualId</a><rr-t>NL</rr-t>
+                  <rr-t>'{'</rr-t><a href="#topStatSeq">topStatSeq</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="packageObject">packageObject</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'package'</rr-t>
+                  <rr-t>'object'</rr-t><a href="#objectDef">objectDef</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="compilationUnit">compilationUnit</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'package'</rr-t><a href="#qualId">qualId</a></rr-a>
+                     </rr-o>
+                  </rr-a><a href="#topStatSeq">topStatSeq</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="Id">Id</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">Plainid</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'`'</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">CharNoBackQuoteOrNewline</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">UnicodeEscape</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">CharEscapeSeq</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-t data-min="1" data-max="1">'`'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="BooleanLiteral">BooleanLiteral</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'true'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'false'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CharacterLiteral">CharacterLiteral</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\''</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">PrintableChar</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">CharEscapeSeq</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-t data-min="1" data-max="1">'\''</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="SymbolLiteral">SymbolLiteral</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\''</rr-t>
+                  <rr-t data-min="1" data-max="1">Plainid</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="IntegerLiteral">IntegerLiteral</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">DecimalNumeral</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">HexNumeral</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'L'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'l'</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="StringLiteral">StringLiteral</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+                  <rr-t data-min="0" data-max="inf">StringElement</rr-t>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'"""'</rr-t>
+                  <rr-t data-min="1" data-max="1">MultiLineChars</rr-t>
+                  <rr-t data-min="1" data-max="1">'"""'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="FloatingPointLiteral">FloatingPointLiteral</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">Digit</rr-t>
+                  <rr-t data-min="1" data-max="1">'.'</rr-t>
+                  <rr-t data-min="1" data-max="inf">Digit</rr-t>
+                  <rr-t data-min="0" data-max="1">ExponentPart</rr-t>
+                  <rr-t data-min="0" data-max="1">FloatType</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'.'</rr-t>
+                  <rr-t data-min="1" data-max="inf">Digit</rr-t>
+                  <rr-t data-min="0" data-max="1">ExponentPart</rr-t>
+                  <rr-t data-min="0" data-max="1">FloatType</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">Digit</rr-t>
+                  <rr-t data-min="1" data-max="1">ExponentPart</rr-t>
+                  <rr-t data-min="0" data-max="1">FloatType</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">Digit</rr-t>
+                  <rr-t data-min="0" data-max="1">ExponentPart</rr-t>
+                  <rr-t data-min="1" data-max="1">FloatType</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="Varid">Varid</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">Lower</rr-t>
+                  <rr-t data-min="1" data-max="1">Idrest</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="BoundVarid">BoundVarid</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">Varid</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'`'</rr-t>
+                  <rr-t data-min="1" data-max="1">Varid</rr-t>
+                  <rr-t data-min="1" data-max="1">'`'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="Paren">Paren</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'('</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'['</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">']'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'{'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="Delim">Delim</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'`'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\''</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'.'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">','</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="Semi">Semi</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">';'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-o>
+                           <rr-a>
+                              <rr-t data-min="1" data-max="1">NL</rr-t>
+                           </rr-a>
+                        </rr-o>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="NL">NL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\n'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\r'</rr-t>
+                  <rr-t data-min="0" data-max="1">'\n'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CharNoBackQuoteOrNewline">CharNoBackQuoteOrNewline</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[\u0020-\u0026\u0028-\u007E]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="UnicodeEscape">UnicodeEscape</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\\'</rr-t>
+                  <rr-t data-min="1" data-max="1">'u'</rr-t>
+                  <rr-t data-min="0" data-max="1">'u'</rr-t>
+                  <rr-t data-min="1" data-max="1">HexDigit</rr-t>
+                  <rr-t data-min="1" data-max="1">HexDigit</rr-t>
+                  <rr-t data-min="1" data-max="1">HexDigit</rr-t>
+                  <rr-t data-min="1" data-max="1">HexDigit</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="WhiteSpace">WhiteSpace</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0020'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0009'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u000D'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u000A'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="Opchar">Opchar</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'!'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'#'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'%'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&amp;'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'*'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'+'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'-'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">':'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&lt;'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'='</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&gt;'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'?'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'@'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\\'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'^'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'|'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'~'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="Op">Op</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="0" data-max="1">'/'</rr-t>
+                  <rr-t data-min="1" data-max="inf">Opchar</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="Idrest">Idrest</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">Letter</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">Digit</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'_'</rr-t>
+                        <rr-t data-min="1" data-max="1">Op</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="StringElement">StringElement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0020'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0021'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0023'..'\u007F'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">CharEscapeSeq</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="MultiLineChars">MultiLineChars</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">StringElement</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">NL</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="HexDigit">HexDigit</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'0'..'9'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'A'..'F'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'a'..'f'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="FloatType">FloatType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'F'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'D'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'d'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="Upper">Upper</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'A'..'Z'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'$'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'_'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">UnicodeClass_LU</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="Lower">Lower</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'a'..'z'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">UnicodeClass_LL</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="Letter">Letter</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">Upper</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">Lower</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">UnicodeClass_LO</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">UnicodeClass_LT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ExponentPart">ExponentPart</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'E'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'e'</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'+'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'-'</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-t data-min="1" data-max="inf">Digit</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="PrintableChar">PrintableChar</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0020'..'\u007F'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="PrintableCharExceptWhitespace">PrintableCharExceptWhitespace</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0021'..'\u007F'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CharEscapeSeq">CharEscapeSeq</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\\'</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'b'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'t'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'n'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'f'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'r'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'"'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'\''</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'\\'</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="DecimalNumeral">DecimalNumeral</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">NonZeroDigit</rr-t>
+                  <rr-t data-min="0" data-max="inf">Digit</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="HexNumeral">HexNumeral</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'0'</rr-t>
+                  <rr-t data-min="1" data-max="1">'x'</rr-t>
+                  <rr-t data-min="1" data-max="1">HexDigit</rr-t>
+                  <rr-t data-min="1" data-max="inf">HexDigit</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="Digit">Digit</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">NonZeroDigit</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="NonZeroDigit">NonZeroDigit</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'1'..'9'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="VaridFragment">VaridFragment</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">Varid</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="Plainid">Plainid</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">Upper</rr-t>
+                  <rr-t data-min="1" data-max="1">Idrest</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">Lower</rr-t>
+                  <rr-t data-min="1" data-max="1">Idrest</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">Op</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="UnicodeLetter">UnicodeLetter</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">UnicodeClass_LU</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">UnicodeClass_LL</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">UnicodeClass_LT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">UnicodeClass_LM</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">UnicodeClass_LO</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="UnicodeClass_LU">UnicodeClass_LU</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0041'..'\u005a'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u00c0'..'\u00d6'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u00d8'..'\u00de'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0100'..'\u0136'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0139'..'\u0147'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u014a'..'\u0178'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0179'..'\u017d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0181'..'\u0182'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0184'..'\u0186'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0187'..'\u0189'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u018a'..'\u018b'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u018e'..'\u0191'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0193'..'\u0194'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0196'..'\u0198'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u019c'..'\u019d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u019f'..'\u01a0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01a2'..'\u01a6'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01a7'..'\u01a9'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01ac'..'\u01ae'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01af'..'\u01b1'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01b2'..'\u01b3'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01b5'..'\u01b7'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01b8'..'\u01bc'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01c4'..'\u01cd'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01cf'..'\u01db'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01de'..'\u01ee'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01f1'..'\u01f4'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01f6'..'\u01f8'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01fa'..'\u0232'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u023a'..'\u023b'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u023d'..'\u023e'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0241'..'\u0243'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0244'..'\u0246'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0248'..'\u024e'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0370'..'\u0372'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0376'..'\u037f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0386'..'\u0388'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0389'..'\u038a'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u038c'..'\u038e'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u038f'..'\u0391'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0392'..'\u03a1'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u03a3'..'\u03ab'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u03cf'..'\u03d2'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u03d3'..'\u03d4'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u03d8'..'\u03ee'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u03f4'..'\u03f7'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u03f9'..'\u03fa'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u03fd'..'\u042f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0460'..'\u0480'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u048a'..'\u04c0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u04c1'..'\u04cd'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u04d0'..'\u052e'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0531'..'\u0556'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u10a0'..'\u10c5'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u10c7'..'\u10cd'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1e00'..'\u1e94'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1e9e'..'\u1efe'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1f08'..'\u1f0f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1f18'..'\u1f1d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1f28'..'\u1f2f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1f38'..'\u1f3f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1f48'..'\u1f4d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1f59'..'\u1f5f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1f68'..'\u1f6f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1fb8'..'\u1fbb'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1fc8'..'\u1fcb'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1fd8'..'\u1fdb'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1fe8'..'\u1fec'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1ff8'..'\u1ffb'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2102'..'\u2107'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u210b'..'\u210d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2110'..'\u2112'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2115'..'\u2119'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u211a'..'\u211d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2124'..'\u212a'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u212b'..'\u212d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2130'..'\u2133'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u213e'..'\u213f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2145'..'\u2183'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2c00'..'\u2c2e'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2c60'..'\u2c62'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2c63'..'\u2c64'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2c67'..'\u2c6d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2c6e'..'\u2c70'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2c72'..'\u2c75'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2c7e'..'\u2c80'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2c82'..'\u2ce2'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2ceb'..'\u2ced'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2cf2'..'\ua640'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua642'..'\ua66c'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua680'..'\ua69a'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua722'..'\ua72e'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua732'..'\ua76e'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua779'..'\ua77d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua77e'..'\ua786'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua78b'..'\ua78d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua790'..'\ua792'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua796'..'\ua7aa'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua7ab'..'\ua7ad'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua7b0'..'\ua7b1'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uff21'..'\uff3a'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="UnicodeClass_LL">UnicodeClass_LL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0061'..'\u007A'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u00b5'..'\u00df'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u00e0'..'\u00f6'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u00f8'..'\u00ff'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0101'..'\u0137'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0138'..'\u0148'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0149'..'\u0177'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u017a'..'\u017e'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u017f'..'\u0180'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0183'..'\u0185'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0188'..'\u018c'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u018d'..'\u0192'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0195'..'\u0199'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u019a'..'\u019b'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u019e'..'\u01a1'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01a3'..'\u01a5'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01a8'..'\u01aa'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01ab'..'\u01ad'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01b0'..'\u01b4'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01b6'..'\u01b9'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01ba'..'\u01bd'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01be'..'\u01bf'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01c6'..'\u01cc'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01ce'..'\u01dc'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01dd'..'\u01ef'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01f0'..'\u01f3'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01f5'..'\u01f9'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01fb'..'\u0233'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0234'..'\u0239'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u023c'..'\u023f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0240'..'\u0242'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0247'..'\u024f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0250'..'\u0293'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0295'..'\u02af'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0371'..'\u0373'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0377'..'\u037b'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u037c'..'\u037d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0390'..'\u03ac'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u03ad'..'\u03ce'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u03d0'..'\u03d1'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u03d5'..'\u03d7'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u03d9'..'\u03ef'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u03f0'..'\u03f3'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u03f5'..'\u03fb'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u03fc'..'\u0430'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0431'..'\u045f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0461'..'\u0481'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u048b'..'\u04bf'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u04c2'..'\u04ce'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u04cf'..'\u052f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0561'..'\u0587'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1d00'..'\u1d2b'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1d6b'..'\u1d77'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1d79'..'\u1d9a'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1e01'..'\u1e95'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1e96'..'\u1e9d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1e9f'..'\u1eff'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1f00'..'\u1f07'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1f10'..'\u1f15'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1f20'..'\u1f27'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1f30'..'\u1f37'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1f40'..'\u1f45'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1f50'..'\u1f57'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1f60'..'\u1f67'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1f70'..'\u1f7d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1f80'..'\u1f87'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1f90'..'\u1f97'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1fa0'..'\u1fa7'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1fb0'..'\u1fb4'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1fb6'..'\u1fb7'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1fbe'..'\u1fc2'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1fc3'..'\u1fc4'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1fc6'..'\u1fc7'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1fd0'..'\u1fd3'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1fd6'..'\u1fd7'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1fe0'..'\u1fe7'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1ff2'..'\u1ff4'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1ff6'..'\u1ff7'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u210a'..'\u210e'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u210f'..'\u2113'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u212f'..'\u2139'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u213c'..'\u213d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2146'..'\u2149'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u214e'..'\u2184'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2c30'..'\u2c5e'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2c61'..'\u2c65'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2c66'..'\u2c6c'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2c71'..'\u2c73'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2c74'..'\u2c76'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2c77'..'\u2c7b'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2c81'..'\u2ce3'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2ce4'..'\u2cec'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2cee'..'\u2cf3'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2d00'..'\u2d25'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2d27'..'\u2d2d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua641'..'\ua66d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua681'..'\ua69b'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua723'..'\ua72f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua730'..'\ua731'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua733'..'\ua771'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua772'..'\ua778'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua77a'..'\ua77c'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua77f'..'\ua787'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua78c'..'\ua78e'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua791'..'\ua793'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua794'..'\ua795'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua797'..'\ua7a9'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua7fa'..'\uab30'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uab31'..'\uab5a'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uab64'..'\uab65'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ufb00'..'\ufb06'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ufb13'..'\ufb17'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uff41'..'\uff5a'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="UnicodeClass_LT">UnicodeClass_LT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01c5'..'\u01cb'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01f2'..'\u1f88'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1f89'..'\u1f8f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1f98'..'\u1f9f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1fa8'..'\u1faf'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1fbc'..'\u1fcc'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1ffc'..'\u1ffc'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="UnicodeClass_LM">UnicodeClass_LM</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u02b0'..'\u02c1'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u02c6'..'\u02d1'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u02e0'..'\u02e4'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u02ec'..'\u02ee'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0374'..'\u037a'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0559'..'\u0640'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u06e5'..'\u06e6'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u07f4'..'\u07f5'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u07fa'..'\u081a'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0824'..'\u0828'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0971'..'\u0e46'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0ec6'..'\u10fc'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u17d7'..'\u1843'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1aa7'..'\u1c78'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1c79'..'\u1c7d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1d2c'..'\u1d6a'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1d78'..'\u1d9b'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1d9c'..'\u1dbf'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2071'..'\u207f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2090'..'\u209c'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2c7c'..'\u2c7d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2d6f'..'\u2e2f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u3005'..'\u3031'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u3032'..'\u3035'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u303b'..'\u309d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u309e'..'\u30fc'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u30fd'..'\u30fe'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua015'..'\ua4f8'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua4f9'..'\ua4fd'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua60c'..'\ua67f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua69c'..'\ua69d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua717'..'\ua71f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua770'..'\ua788'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua7f8'..'\ua7f9'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua9cf'..'\ua9e6'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uaa70'..'\uaadd'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uaaf3'..'\uaaf4'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uab5c'..'\uab5f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uff70'..'\uff9e'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uff9f'..'\uff9f'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="UnicodeClass_LO">UnicodeClass_LO</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u00aa'..'\u00ba'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01bb'..'\u01c0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u01c1'..'\u01c3'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0294'..'\u05d0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u05d1'..'\u05ea'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u05f0'..'\u05f2'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0620'..'\u063f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0641'..'\u064a'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u066e'..'\u066f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0671'..'\u06d3'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u06d5'..'\u06ee'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u06ef'..'\u06fa'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u06fb'..'\u06fc'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u06ff'..'\u0710'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0712'..'\u072f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u074d'..'\u07a5'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u07b1'..'\u07ca'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u07cb'..'\u07ea'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0800'..'\u0815'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0840'..'\u0858'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u08a0'..'\u08b2'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0904'..'\u0939'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u093d'..'\u0950'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0958'..'\u0961'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0972'..'\u0980'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0985'..'\u098c'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u098f'..'\u0990'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0993'..'\u09a8'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u09aa'..'\u09b0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u09b2'..'\u09b6'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u09b7'..'\u09b9'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u09bd'..'\u09ce'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u09dc'..'\u09dd'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u09df'..'\u09e1'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u09f0'..'\u09f1'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0a05'..'\u0a0a'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0a0f'..'\u0a10'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0a13'..'\u0a28'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0a2a'..'\u0a30'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0a32'..'\u0a33'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0a35'..'\u0a36'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0a38'..'\u0a39'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0a59'..'\u0a5c'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0a5e'..'\u0a72'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0a73'..'\u0a74'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0a85'..'\u0a8d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0a8f'..'\u0a91'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0a93'..'\u0aa8'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0aaa'..'\u0ab0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0ab2'..'\u0ab3'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0ab5'..'\u0ab9'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0abd'..'\u0ad0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0ae0'..'\u0ae1'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0b05'..'\u0b0c'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0b0f'..'\u0b10'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0b13'..'\u0b28'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0b2a'..'\u0b30'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0b32'..'\u0b33'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0b35'..'\u0b39'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0b3d'..'\u0b5c'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0b5d'..'\u0b5f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0b60'..'\u0b61'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0b71'..'\u0b83'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0b85'..'\u0b8a'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0b8e'..'\u0b90'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0b92'..'\u0b95'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0b99'..'\u0b9a'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0b9c'..'\u0b9e'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0b9f'..'\u0ba3'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0ba4'..'\u0ba8'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0ba9'..'\u0baa'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0bae'..'\u0bb9'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0bd0'..'\u0c05'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0c06'..'\u0c0c'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0c0e'..'\u0c10'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0c12'..'\u0c28'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0c2a'..'\u0c39'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0c3d'..'\u0c58'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0c59'..'\u0c60'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0c61'..'\u0c85'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0c86'..'\u0c8c'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0c8e'..'\u0c90'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0c92'..'\u0ca8'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0caa'..'\u0cb3'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0cb5'..'\u0cb9'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0cbd'..'\u0cde'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0ce0'..'\u0ce1'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0cf1'..'\u0cf2'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0d05'..'\u0d0c'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0d0e'..'\u0d10'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0d12'..'\u0d3a'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0d3d'..'\u0d4e'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0d60'..'\u0d61'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0d7a'..'\u0d7f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0d85'..'\u0d96'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0d9a'..'\u0db1'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0db3'..'\u0dbb'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0dbd'..'\u0dc0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0dc1'..'\u0dc6'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0e01'..'\u0e30'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0e32'..'\u0e33'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0e40'..'\u0e45'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0e81'..'\u0e82'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0e84'..'\u0e87'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0e88'..'\u0e8a'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0e8d'..'\u0e94'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0e95'..'\u0e97'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0e99'..'\u0e9f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0ea1'..'\u0ea3'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0ea5'..'\u0ea7'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0eaa'..'\u0eab'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0ead'..'\u0eb0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0eb2'..'\u0eb3'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0ebd'..'\u0ec0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0ec1'..'\u0ec4'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0edc'..'\u0edf'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0f00'..'\u0f40'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0f41'..'\u0f47'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0f49'..'\u0f6c'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0f88'..'\u0f8c'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1000'..'\u102a'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u103f'..'\u1050'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1051'..'\u1055'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u105a'..'\u105d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1061'..'\u1065'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1066'..'\u106e'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u106f'..'\u1070'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1075'..'\u1081'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u108e'..'\u10d0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u10d1'..'\u10fa'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u10fd'..'\u1248'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u124a'..'\u124d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1250'..'\u1256'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1258'..'\u125a'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u125b'..'\u125d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1260'..'\u1288'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u128a'..'\u128d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1290'..'\u12b0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u12b2'..'\u12b5'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u12b8'..'\u12be'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u12c0'..'\u12c2'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u12c3'..'\u12c5'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u12c8'..'\u12d6'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u12d8'..'\u1310'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1312'..'\u1315'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1318'..'\u135a'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1380'..'\u138f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u13a0'..'\u13f4'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1401'..'\u166c'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u166f'..'\u167f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1681'..'\u169a'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u16a0'..'\u16ea'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u16f1'..'\u16f8'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1700'..'\u170c'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u170e'..'\u1711'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1720'..'\u1731'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1740'..'\u1751'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1760'..'\u176c'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u176e'..'\u1770'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1780'..'\u17b3'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u17dc'..'\u1820'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1821'..'\u1842'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1844'..'\u1877'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1880'..'\u18a8'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u18aa'..'\u18b0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u18b1'..'\u18f5'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1900'..'\u191e'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1950'..'\u196d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1970'..'\u1974'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1980'..'\u19ab'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u19c1'..'\u19c7'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1a00'..'\u1a16'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1a20'..'\u1a54'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1b05'..'\u1b33'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1b45'..'\u1b4b'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1b83'..'\u1ba0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1bae'..'\u1baf'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1bba'..'\u1be5'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1c00'..'\u1c23'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1c4d'..'\u1c4f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1c5a'..'\u1c77'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1ce9'..'\u1cec'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1cee'..'\u1cf1'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1cf5'..'\u1cf6'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2135'..'\u2138'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2d30'..'\u2d67'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2d80'..'\u2d96'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2da0'..'\u2da6'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2da8'..'\u2dae'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2db0'..'\u2db6'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2db8'..'\u2dbe'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2dc0'..'\u2dc6'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2dc8'..'\u2dce'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2dd0'..'\u2dd6'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u2dd8'..'\u2dde'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u3006'..'\u303c'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u3041'..'\u3096'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u309f'..'\u30a1'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u30a2'..'\u30fa'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u30ff'..'\u3105'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u3106'..'\u312d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u3131'..'\u318e'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u31a0'..'\u31ba'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u31f0'..'\u31ff'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u3400'..'\u4db5'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u4e00'..'\u9fcc'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua000'..'\ua014'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua016'..'\ua48c'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua4d0'..'\ua4f7'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua500'..'\ua60b'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua610'..'\ua61f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua62a'..'\ua62b'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua66e'..'\ua6a0'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua6a1'..'\ua6e5'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua7f7'..'\ua7fb'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua7fc'..'\ua801'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua803'..'\ua805'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua807'..'\ua80a'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua80c'..'\ua822'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua840'..'\ua873'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua882'..'\ua8b3'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua8f2'..'\ua8f7'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua8fb'..'\ua90a'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua90b'..'\ua925'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua930'..'\ua946'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua960'..'\ua97c'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua984'..'\ua9b2'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua9e0'..'\ua9e4'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua9e7'..'\ua9ef'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua9fa'..'\ua9fe'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uaa00'..'\uaa28'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uaa40'..'\uaa42'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uaa44'..'\uaa4b'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uaa60'..'\uaa6f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uaa71'..'\uaa76'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uaa7a'..'\uaa7e'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uaa7f'..'\uaaaf'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uaab1'..'\uaab5'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uaab6'..'\uaab9'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uaaba'..'\uaabd'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uaac0'..'\uaac2'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uaadb'..'\uaadc'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uaae0'..'\uaaea'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uaaf2'..'\uab01'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uab02'..'\uab06'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uab09'..'\uab0e'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uab11'..'\uab16'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uab20'..'\uab26'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uab28'..'\uab2e'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uabc0'..'\uabe2'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uac00'..'\ud7a3'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ud7b0'..'\ud7c6'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ud7cb'..'\ud7fb'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uf900'..'\ufa6d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ufa70'..'\ufad9'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ufb1d'..'\ufb1f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ufb20'..'\ufb28'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ufb2a'..'\ufb36'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ufb38'..'\ufb3c'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ufb3e'..'\ufb40'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ufb41'..'\ufb43'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ufb44'..'\ufb46'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ufb47'..'\ufbb1'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ufbd3'..'\ufd3d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ufd50'..'\ufd8f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ufd92'..'\ufdc7'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ufdf0'..'\ufdfb'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ufe70'..'\ufe74'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ufe76'..'\ufefc'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uff66'..'\uff6f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uff71'..'\uff9d'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uffa0'..'\uffbe'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uffc2'..'\uffc7'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uffca'..'\uffcf'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uffd2'..'\uffd7'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uffda'..'\uffdc'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="UnicodeDigit">UnicodeDigit</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0030'..'\u0039'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0660'..'\u0669'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u06f0'..'\u06f9'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u07c0'..'\u07c9'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0966'..'\u096f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u09e6'..'\u09ef'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0a66'..'\u0a6f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0ae6'..'\u0aef'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0b66'..'\u0b6f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0be6'..'\u0bef'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0c66'..'\u0c6f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0ce6'..'\u0cef'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0d66'..'\u0d6f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0de6'..'\u0def'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0e50'..'\u0e59'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0ed0'..'\u0ed9'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u0f20'..'\u0f29'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1040'..'\u1049'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1090'..'\u1099'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u17e0'..'\u17e9'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1810'..'\u1819'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1946'..'\u194f'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u19d0'..'\u19d9'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1a80'..'\u1a89'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1a90'..'\u1a99'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1b50'..'\u1b59'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1bb0'..'\u1bb9'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1c40'..'\u1c49'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u1c50'..'\u1c59'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua620'..'\ua629'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua8d0'..'\ua8d9'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua900'..'\ua909'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua9d0'..'\ua9d9'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\ua9f0'..'\ua9f9'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uaa50'..'\uaa59'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uabf0'..'\uabf9'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uff10'..'\uff19'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="NEWLINE">NEWLINE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">NL</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="WS">WS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">WhiteSpace</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="COMMENT">COMMENT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'/*'</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">COMMENT</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">.</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-t data-min="1" data-max="1">'*/'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="LINE_COMMENT">LINE_COMMENT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'//'</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">~[\r\n]</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

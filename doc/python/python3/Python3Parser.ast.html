@@ -1,0 +1,1787 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../../index.html">Railroad</a> python/python3/Python3Parser</h1>
+      <pre>/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014 by Bart Kiers
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * Project      : python3-parser; an ANTLR4 grammar for Python 3
+ *                https://github.com/bkiers/python3-parser
+ * Developed by : Bart Kiers, bart@big-o.nl
+ */</pre>
+      <h1>Grammar Decl</h1>
+      <pre>parser grammar Python3Parser;</pre>
+      <h1>Rules</h1>
+      <h2 id="single_input">single_input</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>NEWLINE</rr-t><a href="#simple_stmts">simple_stmts</a><rr-a><a href="#compound_stmt">compound_stmt</a><rr-t>NEWLINE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="file_input">file_input</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-t>NEWLINE</rr-t><a href="#stmt">stmt</a></rr-o>
+                  </rr-a>
+                  <rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="eval_input">eval_input</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#testlist">testlist</a><rr-t>NEWLINE</rr-t>
+                  <rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="decorator">decorator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'@'</rr-t><a href="#dotted_name">dotted_name</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'('</rr-t><a href="#arglist">arglist</a><rr-t>')'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>NEWLINE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="decorators">decorators</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#decorator">decorator</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="decorated">decorated</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#decorators">decorators</a><rr-a>
+                     <rr-o><a href="#classdef">classdef</a><a href="#funcdef">funcdef</a><a href="#async_funcdef">async_funcdef</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="async_funcdef">async_funcdef</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>ASYNC</rr-t><a href="#funcdef">funcdef</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="funcdef">funcdef</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'def'</rr-t><a href="#name">name</a><a href="#parameters">parameters</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'-&gt;'</rr-t><a href="#test">test</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>':'</rr-t><a href="#block">block</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="parameters">parameters</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#typedargslist">typedargslist</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typedargslist">typedargslist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a><a href="#tfpdef">tfpdef</a><rr-a data-min="0" data-max="1">
+                           <rr-o>
+                              <rr-a>
+                                 <rr-t>'='</rr-t><a href="#test">test</a></rr-a>
+                           </rr-o>
+                        </rr-a>
+                        <rr-a data-min="0" data-max="inf">
+                           <rr-o>
+                              <rr-a>
+                                 <rr-t>','</rr-t><a href="#tfpdef">tfpdef</a><rr-a data-min="0" data-max="1">
+                                    <rr-o>
+                                       <rr-a>
+                                          <rr-t>'='</rr-t><a href="#test">test</a></rr-a>
+                                    </rr-o>
+                                 </rr-a>
+                              </rr-a>
+                           </rr-o>
+                        </rr-a>
+                        <rr-a data-min="0" data-max="1">
+                           <rr-o>
+                              <rr-a>
+                                 <rr-t>','</rr-t>
+                                 <rr-a data-min="0" data-max="1">
+                                    <rr-o>
+                                       <rr-a>
+                                          <rr-t>'*'</rr-t><a href="#tfpdef">tfpdef</a><rr-a data-min="0" data-max="inf">
+                                             <rr-o>
+                                                <rr-a>
+                                                   <rr-t>','</rr-t><a href="#tfpdef">tfpdef</a><rr-a data-min="0" data-max="1">
+                                                      <rr-o>
+                                                         <rr-a>
+                                                            <rr-t>'='</rr-t><a href="#test">test</a></rr-a>
+                                                      </rr-o>
+                                                   </rr-a>
+                                                </rr-a>
+                                             </rr-o>
+                                          </rr-a>
+                                          <rr-a data-min="0" data-max="1">
+                                             <rr-o>
+                                                <rr-a>
+                                                   <rr-t>','</rr-t>
+                                                   <rr-a data-min="0" data-max="1">
+                                                      <rr-o>
+                                                         <rr-a>
+                                                            <rr-t>'**'</rr-t><a href="#tfpdef">tfpdef</a><rr-t>','</rr-t>
+                                                         </rr-a>
+                                                      </rr-o>
+                                                   </rr-a>
+                                                </rr-a>
+                                             </rr-o>
+                                          </rr-a>
+                                       </rr-a>
+                                       <rr-a>
+                                          <rr-t>'**'</rr-t><a href="#tfpdef">tfpdef</a><rr-t>','</rr-t>
+                                       </rr-a>
+                                    </rr-o>
+                                 </rr-a>
+                              </rr-a>
+                           </rr-o>
+                        </rr-a>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'*'</rr-t><a href="#tfpdef">tfpdef</a><rr-a data-min="0" data-max="inf">
+                           <rr-o>
+                              <rr-a>
+                                 <rr-t>','</rr-t><a href="#tfpdef">tfpdef</a><rr-a data-min="0" data-max="1">
+                                    <rr-o>
+                                       <rr-a>
+                                          <rr-t>'='</rr-t><a href="#test">test</a></rr-a>
+                                    </rr-o>
+                                 </rr-a>
+                              </rr-a>
+                           </rr-o>
+                        </rr-a>
+                        <rr-a data-min="0" data-max="1">
+                           <rr-o>
+                              <rr-a>
+                                 <rr-t>','</rr-t>
+                                 <rr-a data-min="0" data-max="1">
+                                    <rr-o>
+                                       <rr-a>
+                                          <rr-t>'**'</rr-t><a href="#tfpdef">tfpdef</a><rr-t>','</rr-t>
+                                       </rr-a>
+                                    </rr-o>
+                                 </rr-a>
+                              </rr-a>
+                           </rr-o>
+                        </rr-a>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'**'</rr-t><a href="#tfpdef">tfpdef</a><rr-t>','</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tfpdef">tfpdef</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#name">name</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#test">test</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="varargslist">varargslist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a><a href="#vfpdef">vfpdef</a><rr-a data-min="0" data-max="1">
+                           <rr-o>
+                              <rr-a>
+                                 <rr-t>'='</rr-t><a href="#test">test</a></rr-a>
+                           </rr-o>
+                        </rr-a>
+                        <rr-a data-min="0" data-max="inf">
+                           <rr-o>
+                              <rr-a>
+                                 <rr-t>','</rr-t><a href="#vfpdef">vfpdef</a><rr-a data-min="0" data-max="1">
+                                    <rr-o>
+                                       <rr-a>
+                                          <rr-t>'='</rr-t><a href="#test">test</a></rr-a>
+                                    </rr-o>
+                                 </rr-a>
+                              </rr-a>
+                           </rr-o>
+                        </rr-a>
+                        <rr-a data-min="0" data-max="1">
+                           <rr-o>
+                              <rr-a>
+                                 <rr-t>','</rr-t>
+                                 <rr-a data-min="0" data-max="1">
+                                    <rr-o>
+                                       <rr-a>
+                                          <rr-t>'*'</rr-t><a href="#vfpdef">vfpdef</a><rr-a data-min="0" data-max="inf">
+                                             <rr-o>
+                                                <rr-a>
+                                                   <rr-t>','</rr-t><a href="#vfpdef">vfpdef</a><rr-a data-min="0" data-max="1">
+                                                      <rr-o>
+                                                         <rr-a>
+                                                            <rr-t>'='</rr-t><a href="#test">test</a></rr-a>
+                                                      </rr-o>
+                                                   </rr-a>
+                                                </rr-a>
+                                             </rr-o>
+                                          </rr-a>
+                                          <rr-a data-min="0" data-max="1">
+                                             <rr-o>
+                                                <rr-a>
+                                                   <rr-t>','</rr-t>
+                                                   <rr-a data-min="0" data-max="1">
+                                                      <rr-o>
+                                                         <rr-a>
+                                                            <rr-t>'**'</rr-t><a href="#vfpdef">vfpdef</a><rr-t>','</rr-t>
+                                                         </rr-a>
+                                                      </rr-o>
+                                                   </rr-a>
+                                                </rr-a>
+                                             </rr-o>
+                                          </rr-a>
+                                       </rr-a>
+                                       <rr-a>
+                                          <rr-t>'**'</rr-t><a href="#vfpdef">vfpdef</a><rr-a data-min="0" data-max="1">
+                                             <rr-o>
+                                                <rr-t>','</rr-t>
+                                             </rr-o>
+                                          </rr-a>
+                                       </rr-a>
+                                    </rr-o>
+                                 </rr-a>
+                              </rr-a>
+                           </rr-o>
+                        </rr-a>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'*'</rr-t><a href="#vfpdef">vfpdef</a><rr-a data-min="0" data-max="inf">
+                           <rr-o>
+                              <rr-a>
+                                 <rr-t>','</rr-t><a href="#vfpdef">vfpdef</a><rr-a data-min="0" data-max="1">
+                                    <rr-o>
+                                       <rr-a>
+                                          <rr-t>'='</rr-t><a href="#test">test</a></rr-a>
+                                    </rr-o>
+                                 </rr-a>
+                              </rr-a>
+                           </rr-o>
+                        </rr-a>
+                        <rr-a data-min="0" data-max="1">
+                           <rr-o>
+                              <rr-a>
+                                 <rr-t>','</rr-t>
+                                 <rr-a data-min="0" data-max="1">
+                                    <rr-o>
+                                       <rr-a>
+                                          <rr-t>'**'</rr-t><a href="#vfpdef">vfpdef</a><rr-t>','</rr-t>
+                                       </rr-a>
+                                    </rr-o>
+                                 </rr-a>
+                              </rr-a>
+                           </rr-o>
+                        </rr-a>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t>'**'</rr-t><a href="#vfpdef">vfpdef</a><rr-t>','</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="vfpdef">vfpdef</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#name">name</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="stmt">stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#simple_stmts">simple_stmts</a><a href="#compound_stmt">compound_stmt</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="simple_stmts">simple_stmts</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#simple_stmt">simple_stmt</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>';'</rr-t><a href="#simple_stmt">simple_stmt</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>';'</rr-t>
+                  <rr-t>NEWLINE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="simple_stmt">simple_stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o><a href="#expr_stmt">expr_stmt</a><a href="#del_stmt">del_stmt</a><a href="#pass_stmt">pass_stmt</a><a href="#flow_stmt">flow_stmt</a><a href="#import_stmt">import_stmt</a><a href="#global_stmt">global_stmt</a><a href="#nonlocal_stmt">nonlocal_stmt</a><a href="#assert_stmt">assert_stmt</a></rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expr_stmt">expr_stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#testlist_star_expr">testlist_star_expr</a><rr-a>
+                     <rr-o><a href="#annassign">annassign</a><rr-a><a href="#augassign">augassign</a><rr-a>
+                              <rr-o><a href="#yield_expr">yield_expr</a><a href="#testlist">testlist</a></rr-o>
+                           </rr-a>
+                        </rr-a>
+                        <rr-a data-min="0" data-max="inf">
+                           <rr-o>
+                              <rr-a>
+                                 <rr-t>'='</rr-t>
+                                 <rr-a>
+                                    <rr-o><a href="#yield_expr">yield_expr</a><a href="#testlist_star_expr">testlist_star_expr</a></rr-o>
+                                 </rr-a>
+                              </rr-a>
+                           </rr-o>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="annassign">annassign</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>':'</rr-t><a href="#test">test</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#test">test</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="testlist_star_expr">testlist_star_expr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o><a href="#test">test</a><a href="#star_expr">star_expr</a></rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t>
+                           <rr-a>
+                              <rr-o><a href="#test">test</a><a href="#star_expr">star_expr</a></rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>','</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="augassign">augassign</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-t>'+='</rr-t>
+                     <rr-t>'-='</rr-t>
+                     <rr-t>'*='</rr-t>
+                     <rr-t>'@='</rr-t>
+                     <rr-t>'/='</rr-t>
+                     <rr-t>'%='</rr-t>
+                     <rr-t>'&amp;='</rr-t>
+                     <rr-t>'|='</rr-t>
+                     <rr-t>'^='</rr-t>
+                     <rr-t>'&lt;&lt;='</rr-t>
+                     <rr-t>'&gt;&gt;='</rr-t>
+                     <rr-t>'**='</rr-t>
+                     <rr-t>'//='</rr-t>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="del_stmt">del_stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'del'</rr-t><a href="#exprlist">exprlist</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pass_stmt">pass_stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'pass'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="flow_stmt">flow_stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#break_stmt">break_stmt</a><a href="#continue_stmt">continue_stmt</a><a href="#return_stmt">return_stmt</a><a href="#raise_stmt">raise_stmt</a><a href="#yield_stmt">yield_stmt</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="break_stmt">break_stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'break'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="continue_stmt">continue_stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'continue'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="return_stmt">return_stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'return'</rr-t><a href="#testlist">testlist</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="yield_stmt">yield_stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#yield_expr">yield_expr</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="raise_stmt">raise_stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'raise'</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#test">test</a><rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>'from'</rr-t><a href="#test">test</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="import_stmt">import_stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#import_name">import_name</a><a href="#import_from">import_from</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="import_name">import_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'import'</rr-t><a href="#dotted_as_names">dotted_as_names</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="import_from">import_from</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t>'from'</rr-t>
+                        <rr-a>
+                           <rr-o>
+                              <rr-a>
+                                 <rr-a data-min="0" data-max="inf">
+                                    <rr-o>
+                                       <rr-t>'.'</rr-t>
+                                       <rr-t>'...'</rr-t>
+                                    </rr-o>
+                                 </rr-a><a href="#dotted_name">dotted_name</a></rr-a>
+                              <rr-a data-min="1" data-max="inf">
+                                 <rr-o>
+                                    <rr-t>'.'</rr-t>
+                                    <rr-t>'...'</rr-t>
+                                 </rr-o>
+                              </rr-a>
+                           </rr-o>
+                        </rr-a>
+                        <rr-t>'import'</rr-t>
+                        <rr-a>
+                           <rr-o>
+                              <rr-t>'*'</rr-t>
+                              <rr-a>
+                                 <rr-t>'('</rr-t><a href="#import_as_names">import_as_names</a><rr-t>')'</rr-t>
+                              </rr-a><a href="#import_as_names">import_as_names</a></rr-o>
+                        </rr-a>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="import_as_name">import_as_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#name">name</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'as'</rr-t><a href="#name">name</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="dotted_as_name">dotted_as_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#dotted_name">dotted_name</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'as'</rr-t><a href="#name">name</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="import_as_names">import_as_names</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#import_as_name">import_as_name</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#import_as_name">import_as_name</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>','</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="dotted_as_names">dotted_as_names</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#dotted_as_name">dotted_as_name</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#dotted_as_name">dotted_as_name</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="dotted_name">dotted_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#name">name</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'.'</rr-t><a href="#name">name</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="global_stmt">global_stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'global'</rr-t><a href="#name">name</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#name">name</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="nonlocal_stmt">nonlocal_stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'nonlocal'</rr-t><a href="#name">name</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#name">name</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="assert_stmt">assert_stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'assert'</rr-t><a href="#test">test</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#test">test</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="compound_stmt">compound_stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#if_stmt">if_stmt</a><a href="#while_stmt">while_stmt</a><a href="#for_stmt">for_stmt</a><a href="#try_stmt">try_stmt</a><a href="#with_stmt">with_stmt</a><a href="#funcdef">funcdef</a><a href="#classdef">classdef</a><a href="#decorated">decorated</a><a href="#async_stmt">async_stmt</a><a href="#match_stmt">match_stmt</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="async_stmt">async_stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>ASYNC</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#funcdef">funcdef</a><a href="#with_stmt">with_stmt</a><a href="#for_stmt">for_stmt</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="if_stmt">if_stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'if'</rr-t><a href="#test">test</a><rr-t>':'</rr-t><a href="#block">block</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'elif'</rr-t><a href="#test">test</a><rr-t>':'</rr-t><a href="#block">block</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'else'</rr-t>
+                           <rr-t>':'</rr-t><a href="#block">block</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="while_stmt">while_stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'while'</rr-t><a href="#test">test</a><rr-t>':'</rr-t><a href="#block">block</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'else'</rr-t>
+                           <rr-t>':'</rr-t><a href="#block">block</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="for_stmt">for_stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'for'</rr-t><a href="#exprlist">exprlist</a><rr-t>'in'</rr-t><a href="#testlist">testlist</a><rr-t>':'</rr-t><a href="#block">block</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'else'</rr-t>
+                           <rr-t>':'</rr-t><a href="#block">block</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="try_stmt">try_stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t>'try'</rr-t>
+                        <rr-t>':'</rr-t><a href="#block">block</a><rr-a>
+                           <rr-o>
+                              <rr-a>
+                                 <rr-a data-min="1" data-max="inf">
+                                    <rr-o>
+                                       <rr-a><a href="#except_clause">except_clause</a><rr-t>':'</rr-t><a href="#block">block</a></rr-a>
+                                    </rr-o>
+                                 </rr-a>
+                                 <rr-a data-min="0" data-max="1">
+                                    <rr-o>
+                                       <rr-a>
+                                          <rr-t>'else'</rr-t>
+                                          <rr-t>':'</rr-t><a href="#block">block</a></rr-a>
+                                    </rr-o>
+                                 </rr-a>
+                                 <rr-a data-min="0" data-max="1">
+                                    <rr-o>
+                                       <rr-a>
+                                          <rr-t>'finally'</rr-t>
+                                          <rr-t>':'</rr-t><a href="#block">block</a></rr-a>
+                                    </rr-o>
+                                 </rr-a>
+                              </rr-a>
+                              <rr-a>
+                                 <rr-t>'finally'</rr-t>
+                                 <rr-t>':'</rr-t><a href="#block">block</a></rr-a>
+                           </rr-o>
+                        </rr-a>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="with_stmt">with_stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'with'</rr-t><a href="#with_item">with_item</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#with_item">with_item</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>':'</rr-t><a href="#block">block</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="with_item">with_item</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#test">test</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'as'</rr-t><a href="#expr">expr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="except_clause">except_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'except'</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#test">test</a><rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>'as'</rr-t><a href="#name">name</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="block">block</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#simple_stmts">simple_stmts</a><rr-a>
+                  <rr-t>NEWLINE</rr-t>
+                  <rr-t>INDENT</rr-t><a href="#stmt">stmt</a><rr-t>DEDENT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="match_stmt">match_stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'match'</rr-t><a href="#subject_expr">subject_expr</a><rr-t>':'</rr-t>
+                  <rr-t>NEWLINE</rr-t>
+                  <rr-t>INDENT</rr-t><a href="#case_block">case_block</a><rr-t>DEDENT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="subject_expr">subject_expr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#star_named_expression">star_named_expression</a><rr-t>','</rr-t><a href="#star_named_expressions">star_named_expressions</a></rr-a><a href="#test">test</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="star_named_expressions">star_named_expressions</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>','</rr-t><a href="#star_named_expression">star_named_expression</a><rr-t>','</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="star_named_expression">star_named_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'*'</rr-t><a href="#expr">expr</a></rr-a><a href="#test">test</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="case_block">case_block</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'case'</rr-t><a href="#patterns">patterns</a><a href="#guard">guard</a><rr-t>':'</rr-t><a href="#block">block</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="guard">guard</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'if'</rr-t><a href="#test">test</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="patterns">patterns</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#open_sequence_pattern">open_sequence_pattern</a><a href="#pattern">pattern</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pattern">pattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#as_pattern">as_pattern</a><a href="#or_pattern">or_pattern</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="as_pattern">as_pattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#or_pattern">or_pattern</a><rr-t>'as'</rr-t><a href="#pattern_capture_target">pattern_capture_target</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="or_pattern">or_pattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#closed_pattern">closed_pattern</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'|'</rr-t><a href="#closed_pattern">closed_pattern</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="closed_pattern">closed_pattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#literal_pattern">literal_pattern</a><a href="#capture_pattern">capture_pattern</a><a href="#wildcard_pattern">wildcard_pattern</a><a href="#value_pattern">value_pattern</a><a href="#group_pattern">group_pattern</a><a href="#sequence_pattern">sequence_pattern</a><a href="#mapping_pattern">mapping_pattern</a><a href="#class_pattern">class_pattern</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="literal_pattern">literal_pattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#signed_number">signed_number</a></rr-a><a href="#complex_number">complex_number</a><a href="#strings">strings</a><rr-t>'None'</rr-t>
+               <rr-t>'True'</rr-t>
+               <rr-t>'False'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="literal_expr">literal_expr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#signed_number">signed_number</a></rr-a><a href="#complex_number">complex_number</a><a href="#strings">strings</a><rr-t>'None'</rr-t>
+               <rr-t>'True'</rr-t>
+               <rr-t>'False'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="complex_number">complex_number</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#signed_real_number">signed_real_number</a><rr-t>'+'</rr-t><a href="#imaginary_number">imaginary_number</a></rr-a>
+               <rr-a><a href="#signed_real_number">signed_real_number</a><rr-t>'-'</rr-t><a href="#imaginary_number">imaginary_number</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="signed_number">signed_number</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+               <rr-a>
+                  <rr-t>'-'</rr-t>
+                  <rr-t>NUMBER</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="signed_real_number">signed_real_number</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#real_number">real_number</a><rr-a>
+                  <rr-t>'-'</rr-t><a href="#real_number">real_number</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="real_number">real_number</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="imaginary_number">imaginary_number</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="capture_pattern">capture_pattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#pattern_capture_target">pattern_capture_target</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pattern_capture_target">pattern_capture_target</h2>
+      <p>
+         <rr-rr>
+            <pre>/* cannot be '_' */</pre>
+            <rr-o>
+               <rr-a><a href="#name">name</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="wildcard_pattern">wildcard_pattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'_'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="value_pattern">value_pattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#attr">attr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="attr">attr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#name">name</a><rr-a data-min="1" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'.'</rr-t><a href="#name">name</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="name_or_attr">name_or_attr</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#attr">attr</a><a href="#name">name</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="group_pattern">group_pattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#pattern">pattern</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sequence_pattern">sequence_pattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#maybe_sequence_pattern">maybe_sequence_pattern</a><rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#open_sequence_pattern">open_sequence_pattern</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="open_sequence_pattern">open_sequence_pattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#maybe_star_pattern">maybe_star_pattern</a><rr-t>','</rr-t><a href="#maybe_sequence_pattern">maybe_sequence_pattern</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="maybe_sequence_pattern">maybe_sequence_pattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#maybe_star_pattern">maybe_star_pattern</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#maybe_star_pattern">maybe_star_pattern</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>','</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="maybe_star_pattern">maybe_star_pattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#star_pattern">star_pattern</a><a href="#pattern">pattern</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="star_pattern">star_pattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'*'</rr-t><a href="#pattern_capture_target">pattern_capture_target</a></rr-a>
+               <rr-a>
+                  <rr-t>'*'</rr-t><a href="#wildcard_pattern">wildcard_pattern</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="mapping_pattern">mapping_pattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'{'</rr-t>
+                  <rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#double_star_pattern">double_star_pattern</a><rr-t>','</rr-t>
+                  <rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#items_pattern">items_pattern</a><rr-t>','</rr-t><a href="#double_star_pattern">double_star_pattern</a><rr-t>','</rr-t>
+                  <rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#items_pattern">items_pattern</a><rr-t>','</rr-t>
+                  <rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="items_pattern">items_pattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#key_value_pattern">key_value_pattern</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#key_value_pattern">key_value_pattern</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="key_value_pattern">key_value_pattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o><a href="#literal_expr">literal_expr</a><a href="#attr">attr</a></rr-o>
+                  </rr-a>
+                  <rr-t>':'</rr-t><a href="#pattern">pattern</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="double_star_pattern">double_star_pattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'**'</rr-t><a href="#pattern_capture_target">pattern_capture_target</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="class_pattern">class_pattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#name_or_attr">name_or_attr</a><rr-t>'('</rr-t>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a><a href="#name_or_attr">name_or_attr</a><rr-t>'('</rr-t><a href="#positional_patterns">positional_patterns</a><rr-t>','</rr-t>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a><a href="#name_or_attr">name_or_attr</a><rr-t>'('</rr-t><a href="#keyword_patterns">keyword_patterns</a><rr-t>','</rr-t>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a><a href="#name_or_attr">name_or_attr</a><rr-t>'('</rr-t><a href="#positional_patterns">positional_patterns</a><rr-t>','</rr-t><a href="#keyword_patterns">keyword_patterns</a><rr-t>','</rr-t>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="positional_patterns">positional_patterns</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#pattern">pattern</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#pattern">pattern</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="keyword_patterns">keyword_patterns</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#keyword_pattern">keyword_pattern</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#keyword_pattern">keyword_pattern</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="keyword_pattern">keyword_pattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#name">name</a><rr-t>'='</rr-t><a href="#pattern">pattern</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="test">test</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#or_test">or_test</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'if'</rr-t><a href="#or_test">or_test</a><rr-t>'else'</rr-t><a href="#test">test</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a><a href="#lambdef">lambdef</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="test_nocond">test_nocond</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#or_test">or_test</a><a href="#lambdef_nocond">lambdef_nocond</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lambdef">lambdef</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'lambda'</rr-t><a href="#varargslist">varargslist</a><rr-t>':'</rr-t><a href="#test">test</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lambdef_nocond">lambdef_nocond</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'lambda'</rr-t><a href="#varargslist">varargslist</a><rr-t>':'</rr-t><a href="#test_nocond">test_nocond</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="or_test">or_test</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#and_test">and_test</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'or'</rr-t><a href="#and_test">and_test</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="and_test">and_test</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#not_test">not_test</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'and'</rr-t><a href="#not_test">not_test</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="not_test">not_test</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'not'</rr-t><a href="#not_test">not_test</a></rr-a><a href="#comparison">comparison</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="comparison">comparison</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#comp_op">comp_op</a><a href="#expr">expr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="comp_op">comp_op</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'&lt;'</rr-t>
+               <rr-t>'&gt;'</rr-t>
+               <rr-t>'=='</rr-t>
+               <rr-t>'&gt;='</rr-t>
+               <rr-t>'&lt;='</rr-t>
+               <rr-t>'&lt;&gt;'</rr-t>
+               <rr-t>'!='</rr-t>
+               <rr-t>'in'</rr-t>
+               <rr-a>
+                  <rr-t>'not'</rr-t>
+                  <rr-t>'in'</rr-t>
+               </rr-a>
+               <rr-t>'is'</rr-t>
+               <rr-a>
+                  <rr-t>'is'</rr-t>
+                  <rr-t>'not'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="star_expr">star_expr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'*'</rr-t><a href="#expr">expr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expr">expr</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#atom_expr">atom_expr</a><rr-a><a href="#expr">expr</a><rr-t>'**'</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a>
+                  <rr-a data-min="1" data-max="inf">
+                     <rr-o>
+                        <rr-t>'+'</rr-t>
+                        <rr-t>'-'</rr-t>
+                        <rr-t>'~'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-a>
+                     <rr-o>
+                        <rr-t>'*'</rr-t>
+                        <rr-t>'@'</rr-t>
+                        <rr-t>'/'</rr-t>
+                        <rr-t>'%'</rr-t>
+                        <rr-t>'//'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-a>
+                     <rr-o>
+                        <rr-t>'+'</rr-t>
+                        <rr-t>'-'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-a>
+                     <rr-o>
+                        <rr-t>'&lt;&lt;'</rr-t>
+                        <rr-t>'&gt;&gt;'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>'&amp;'</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>'^'</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>'|'</rr-t><a href="#expr">expr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="atom_expr">atom_expr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>AWAIT</rr-t><a href="#atom">atom</a><a href="#trailer">trailer</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="atom">atom</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o><a href="#yield_expr">yield_expr</a><a href="#testlist_comp">testlist_comp</a></rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#testlist_comp">testlist_comp</a><rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#dictorsetmaker">dictorsetmaker</a><rr-t>'}'</rr-t>
+               </rr-a><a href="#name">name</a><rr-t>NUMBER</rr-t>
+               <rr-t>STRING</rr-t>
+               <rr-t>'...'</rr-t>
+               <rr-t>'None'</rr-t>
+               <rr-t>'True'</rr-t>
+               <rr-t>'False'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="name">name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>NAME</rr-t>
+               <rr-t>'_'</rr-t>
+               <rr-t>'match'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="testlist_comp">testlist_comp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o><a href="#test">test</a><a href="#star_expr">star_expr</a></rr-o>
+                  </rr-a>
+                  <rr-a>
+                     <rr-o><a href="#comp_for">comp_for</a><rr-a>
+                           <rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>','</rr-t>
+                                    <rr-a>
+                                       <rr-o><a href="#test">test</a><a href="#star_expr">star_expr</a></rr-o>
+                                    </rr-a>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a>
+                           <rr-t>','</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="trailer">trailer</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#arglist">arglist</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#subscriptlist">subscriptlist</a><rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'.'</rr-t><a href="#name">name</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="subscriptlist">subscriptlist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#subscript_">subscript_</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#subscript_">subscript_</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>','</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="subscript_">subscript_</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#test">test</a><rr-a><a href="#test">test</a><rr-t>':'</rr-t><a href="#test">test</a><a href="#sliceop">sliceop</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sliceop">sliceop</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>':'</rr-t><a href="#test">test</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="exprlist">exprlist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o><a href="#expr">expr</a><a href="#star_expr">star_expr</a></rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t>
+                           <rr-a>
+                              <rr-o><a href="#expr">expr</a><a href="#star_expr">star_expr</a></rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>','</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="testlist">testlist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#test">test</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#test">test</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>','</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="dictorsetmaker">dictorsetmaker</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-o>
+                           <rr-a>
+                              <rr-a>
+                                 <rr-o>
+                                    <rr-a><a href="#test">test</a><rr-t>':'</rr-t><a href="#test">test</a></rr-a>
+                                    <rr-a>
+                                       <rr-t>'**'</rr-t><a href="#expr">expr</a></rr-a>
+                                 </rr-o>
+                              </rr-a>
+                              <rr-a>
+                                 <rr-o><a href="#comp_for">comp_for</a><rr-a>
+                                       <rr-a data-min="0" data-max="inf">
+                                          <rr-o>
+                                             <rr-a>
+                                                <rr-t>','</rr-t>
+                                                <rr-a>
+                                                   <rr-o>
+                                                      <rr-a><a href="#test">test</a><rr-t>':'</rr-t><a href="#test">test</a></rr-a>
+                                                      <rr-a>
+                                                         <rr-t>'**'</rr-t><a href="#expr">expr</a></rr-a>
+                                                   </rr-o>
+                                                </rr-a>
+                                             </rr-a>
+                                          </rr-o>
+                                       </rr-a>
+                                       <rr-t>','</rr-t>
+                                    </rr-a>
+                                 </rr-o>
+                              </rr-a>
+                           </rr-a>
+                        </rr-o>
+                     </rr-a>
+                     <rr-a>
+                        <rr-o>
+                           <rr-a>
+                              <rr-a>
+                                 <rr-o><a href="#test">test</a><a href="#star_expr">star_expr</a></rr-o>
+                              </rr-a>
+                              <rr-a>
+                                 <rr-o><a href="#comp_for">comp_for</a><rr-a>
+                                       <rr-a data-min="0" data-max="inf">
+                                          <rr-o>
+                                             <rr-a>
+                                                <rr-t>','</rr-t>
+                                                <rr-a>
+                                                   <rr-o><a href="#test">test</a><a href="#star_expr">star_expr</a></rr-o>
+                                                </rr-a>
+                                             </rr-a>
+                                          </rr-o>
+                                       </rr-a>
+                                       <rr-t>','</rr-t>
+                                    </rr-a>
+                                 </rr-o>
+                              </rr-a>
+                           </rr-a>
+                        </rr-o>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="classdef">classdef</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'class'</rr-t><a href="#name">name</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'('</rr-t><a href="#arglist">arglist</a><rr-t>')'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>':'</rr-t><a href="#block">block</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="arglist">arglist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#argument">argument</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#argument">argument</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>','</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="argument">argument</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a><a href="#test">test</a><a href="#comp_for">comp_for</a></rr-a>
+                     <rr-a><a href="#test">test</a><rr-t>'='</rr-t><a href="#test">test</a></rr-a>
+                     <rr-a>
+                        <rr-t>'**'</rr-t><a href="#test">test</a></rr-a>
+                     <rr-a>
+                        <rr-t>'*'</rr-t><a href="#test">test</a></rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="comp_iter">comp_iter</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#comp_for">comp_for</a><a href="#comp_if">comp_if</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="comp_for">comp_for</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>ASYNC</rr-t>
+                  <rr-t>'for'</rr-t><a href="#exprlist">exprlist</a><rr-t>'in'</rr-t><a href="#or_test">or_test</a><a href="#comp_iter">comp_iter</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="comp_if">comp_if</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'if'</rr-t><a href="#test_nocond">test_nocond</a><a href="#comp_iter">comp_iter</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="encoding_decl">encoding_decl</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#name">name</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="yield_expr">yield_expr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'yield'</rr-t><a href="#yield_arg">yield_arg</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="yield_arg">yield_arg</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'from'</rr-t><a href="#test">test</a></rr-a><a href="#testlist">testlist</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="strings">strings</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

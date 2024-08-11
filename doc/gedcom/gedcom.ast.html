@@ -1,0 +1,223 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../index.html">Railroad</a> gedcom/gedcom</h1>
+      <pre>/*
+BSD License
+
+Copyright (c) 2020, Tom Everett
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. Neither the name of Tom Everett nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
+      <h1>Grammar Decl</h1>
+      <pre>grammar gedcom;</pre>
+      <h1>Rules</h1>
+      <h2 id="gedcom">gedcom</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#line">line</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="line">line</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#level">level</a><a href="#opt_xref_id">opt_xref_id</a><a href="#tag">tag</a><a href="#line_value">line_value</a><rr-t>EOL</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="level">level</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>DIGIT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="opt_xref_id">opt_xref_id</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#pointer">pointer</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tag">tag</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#alphanum">alphanum</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="line_value">line_value</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#line_item">line_item</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="line_item">line_item</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#pointer">pointer</a><a href="#escape">escape</a><a href="#anychar">anychar</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="escape">escape</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'@'</rr-t>
+                  <rr-t>'#'</rr-t><a href="#escape_text">escape_text</a><rr-t>'@'</rr-t><a href="#non_at">non_at</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="non_at">non_at</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>ALPHA</rr-t>
+               <rr-t>DIGIT</rr-t><a href="#otherchar">otherchar</a><rr-t>'#'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="escape_text">escape_text</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#anychar">anychar</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pointer">pointer</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'@'</rr-t><a href="#alphanum">alphanum</a><a href="#pointer_string">pointer_string</a><rr-t>'@'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pointer_string">pointer_string</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#pointer_char">pointer_char</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pointer_char">pointer_char</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>ALPHA</rr-t>
+               <rr-t>DIGIT</rr-t><a href="#otherchar">otherchar</a><rr-t>'#'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="alphanum">alphanum</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>ALPHA</rr-t>
+               <rr-t>DIGIT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="anychar">anychar</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>ALPHA</rr-t>
+               <rr-t>DIGIT</rr-t><a href="#otherchar">otherchar</a><rr-t>'#'</rr-t>
+               <rr-t>'@@'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ALPHA">ALPHA</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[a-zA-Z_]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="DIGIT">DIGIT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[0-9]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="otherchar">otherchar</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'!'</rr-t>
+               <rr-t>'"'</rr-t>
+               <rr-t>'$'</rr-t>
+               <rr-t>'&amp;'</rr-t>
+               <rr-t>'\''</rr-t>
+               <rr-t>'('</rr-t>
+               <rr-t>')'</rr-t>
+               <rr-t>'*'</rr-t>
+               <rr-t>'+'</rr-t>
+               <rr-t>'-'</rr-t>
+               <rr-t>','</rr-t>
+               <rr-t>'.'</rr-t>
+               <rr-t>'/'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="EOL">EOL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">[\r\n]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="WS">WS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[ \t]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

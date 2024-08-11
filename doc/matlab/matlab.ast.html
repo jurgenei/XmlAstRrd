@@ -1,0 +1,713 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../index.html">Railroad</a> matlab/matlab</h1>
+      <pre>/*
+BSD License
+Copyright (c) 2013, Tom Everett
+All rights reserved.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. Neither the name of Tom Everett nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
+      <pre>/*
+* Grammar based on yacc-keable for matlab by Danny Luk 12/1995
+*
+* http://www.angelfire.com/ar/CompiladoresUCSE/images/MATLAB.zip
+*/</pre>
+      <h1>Grammar Decl</h1>
+      <pre>grammar matlab;</pre>
+      <h1>Rules</h1>
+      <h2 id="file_">file_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#statement_list">statement_list</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="primary_expression">primary_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+               <rr-t>CONSTANT</rr-t>
+               <rr-t>STRING_LITERAL</rr-t>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#expression">expression</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t>
+                  <rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#array_list">array_list</a><rr-t>']'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="postfix_expression">postfix_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#primary_expression">primary_expression</a><a href="#array_expression">array_expression</a><rr-a><a href="#postfix_expression">postfix_expression</a><rr-t>TRANSPOSE</rr-t>
+               </rr-a>
+               <rr-a><a href="#postfix_expression">postfix_expression</a><rr-t>NCTRANSPOSE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="index_expression">index_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>':'</rr-t><a href="#expression">expression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="index_expression_list">index_expression_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#index_expression">index_expression</a><rr-a><a href="#index_expression_list">index_expression_list</a><rr-t>','</rr-t><a href="#index_expression">index_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="array_expression">array_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>'('</rr-t><a href="#index_expression_list">index_expression_list</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="unary_expression">unary_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#postfix_expression">postfix_expression</a><rr-a><a href="#unary_operator">unary_operator</a><a href="#postfix_expression">postfix_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="unary_operator">unary_operator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'+'</rr-t>
+               <rr-t>'-'</rr-t>
+               <rr-t>'~'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="multiplicative_expression">multiplicative_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#unary_expression">unary_expression</a><rr-a><a href="#multiplicative_expression">multiplicative_expression</a><rr-t>'*'</rr-t><a href="#unary_expression">unary_expression</a></rr-a>
+               <rr-a><a href="#multiplicative_expression">multiplicative_expression</a><rr-t>'/'</rr-t><a href="#unary_expression">unary_expression</a></rr-a>
+               <rr-a><a href="#multiplicative_expression">multiplicative_expression</a><rr-t>'\\'</rr-t><a href="#unary_expression">unary_expression</a></rr-a>
+               <rr-a><a href="#multiplicative_expression">multiplicative_expression</a><rr-t>'^'</rr-t><a href="#unary_expression">unary_expression</a></rr-a>
+               <rr-a><a href="#multiplicative_expression">multiplicative_expression</a><rr-t>ARRAYMUL</rr-t><a href="#unary_expression">unary_expression</a></rr-a>
+               <rr-a><a href="#multiplicative_expression">multiplicative_expression</a><rr-t>ARRAYDIV</rr-t><a href="#unary_expression">unary_expression</a></rr-a>
+               <rr-a><a href="#multiplicative_expression">multiplicative_expression</a><rr-t>ARRAYRDIV</rr-t><a href="#unary_expression">unary_expression</a></rr-a>
+               <rr-a><a href="#multiplicative_expression">multiplicative_expression</a><rr-t>ARRAYPOW</rr-t><a href="#unary_expression">unary_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="additive_expression">additive_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#multiplicative_expression">multiplicative_expression</a><rr-a><a href="#additive_expression">additive_expression</a><rr-t>'+'</rr-t><a href="#multiplicative_expression">multiplicative_expression</a></rr-a>
+               <rr-a><a href="#additive_expression">additive_expression</a><rr-t>'-'</rr-t><a href="#multiplicative_expression">multiplicative_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="relational_expression">relational_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#additive_expression">additive_expression</a><rr-a><a href="#relational_expression">relational_expression</a><rr-t>'&lt;'</rr-t><a href="#additive_expression">additive_expression</a></rr-a>
+               <rr-a><a href="#relational_expression">relational_expression</a><rr-t>'&gt;'</rr-t><a href="#additive_expression">additive_expression</a></rr-a>
+               <rr-a><a href="#relational_expression">relational_expression</a><rr-t>LE_OP</rr-t><a href="#additive_expression">additive_expression</a></rr-a>
+               <rr-a><a href="#relational_expression">relational_expression</a><rr-t>GE_OP</rr-t><a href="#additive_expression">additive_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="equality_expression">equality_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#relational_expression">relational_expression</a><rr-a><a href="#equality_expression">equality_expression</a><rr-t>EQ_OP</rr-t><a href="#relational_expression">relational_expression</a></rr-a>
+               <rr-a><a href="#equality_expression">equality_expression</a><rr-t>NE_OP</rr-t><a href="#relational_expression">relational_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="and_expression">and_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#equality_expression">equality_expression</a><rr-a><a href="#and_expression">and_expression</a><rr-t>'&amp;'</rr-t><a href="#equality_expression">equality_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="or_expression">or_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#and_expression">and_expression</a><rr-a><a href="#or_expression">or_expression</a><rr-t>'|'</rr-t><a href="#and_expression">and_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expression">expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#or_expression">or_expression</a><rr-a><a href="#expression">expression</a><rr-t>':'</rr-t><a href="#or_expression">or_expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="assignment_expression">assignment_expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#postfix_expression">postfix_expression</a><rr-t>'='</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="eostmt">eostmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>','</rr-t>
+               <rr-t>';'</rr-t>
+               <rr-t>CR</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="statement">statement</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#global_statement">global_statement</a><a href="#clear_statement">clear_statement</a><a href="#assignment_statement">assignment_statement</a><a href="#expression_statement">expression_statement</a><a href="#selection_statement">selection_statement</a><a href="#iteration_statement">iteration_statement</a><a href="#jump_statement">jump_statement</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="statement_list">statement_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#statement">statement</a><rr-a><a href="#statement_list">statement_list</a><a href="#statement">statement</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="identifier_list">identifier_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+               <rr-a><a href="#identifier_list">identifier_list</a><rr-t>IDENTIFIER</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="global_statement">global_statement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GLOBAL</rr-t><a href="#identifier_list">identifier_list</a><a href="#eostmt">eostmt</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="clear_statement">clear_statement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>CLEAR</rr-t><a href="#identifier_list">identifier_list</a><a href="#eostmt">eostmt</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expression_statement">expression_statement</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#eostmt">eostmt</a><rr-a><a href="#expression">expression</a><a href="#eostmt">eostmt</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="assignment_statement">assignment_statement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#assignment_expression">assignment_expression</a><a href="#eostmt">eostmt</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="array_element">array_element</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expression">expression</a><a href="#expression_statement">expression_statement</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="array_list">array_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#array_element">array_element</a><rr-a><a href="#array_list">array_list</a><a href="#array_element">array_element</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="selection_statement">selection_statement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>IF</rr-t><a href="#expression">expression</a><a href="#statement_list">statement_list</a><rr-t>END</rr-t><a href="#eostmt">eostmt</a></rr-a>
+               <rr-a>
+                  <rr-t>IF</rr-t><a href="#expression">expression</a><a href="#statement_list">statement_list</a><rr-t>ELSE</rr-t><a href="#statement_list">statement_list</a><rr-t>END</rr-t><a href="#eostmt">eostmt</a></rr-a>
+               <rr-a>
+                  <rr-t>IF</rr-t><a href="#expression">expression</a><a href="#statement_list">statement_list</a><a href="#elseif_clause">elseif_clause</a><rr-t>END</rr-t><a href="#eostmt">eostmt</a></rr-a>
+               <rr-a>
+                  <rr-t>IF</rr-t><a href="#expression">expression</a><a href="#statement_list">statement_list</a><a href="#elseif_clause">elseif_clause</a><rr-t>ELSE</rr-t><a href="#statement_list">statement_list</a><rr-t>END</rr-t><a href="#eostmt">eostmt</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="elseif_clause">elseif_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>ELSEIF</rr-t><a href="#expression">expression</a><a href="#statement_list">statement_list</a></rr-a>
+               <rr-a><a href="#elseif_clause">elseif_clause</a><rr-t>ELSEIF</rr-t><a href="#expression">expression</a><a href="#statement_list">statement_list</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="iteration_statement">iteration_statement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>WHILE</rr-t><a href="#expression">expression</a><a href="#statement_list">statement_list</a><rr-t>END</rr-t><a href="#eostmt">eostmt</a></rr-a>
+               <rr-a>
+                  <rr-t>FOR</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>'='</rr-t><a href="#expression">expression</a><a href="#statement_list">statement_list</a><rr-t>END</rr-t><a href="#eostmt">eostmt</a></rr-a>
+               <rr-a>
+                  <rr-t>FOR</rr-t>
+                  <rr-t>'('</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>'='</rr-t><a href="#expression">expression</a><rr-t>')'</rr-t><a href="#statement_list">statement_list</a><rr-t>END</rr-t><a href="#eostmt">eostmt</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="jump_statement">jump_statement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>BREAK</rr-t><a href="#eostmt">eostmt</a></rr-a>
+               <rr-a>
+                  <rr-t>RETURN</rr-t><a href="#eostmt">eostmt</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="translation_unit">translation_unit</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#statement_list">statement_list</a><rr-a>
+                  <rr-t>FUNCTION</rr-t><a href="#function_declare">function_declare</a><a href="#eostmt">eostmt</a><a href="#statement_list">statement_list</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="func_ident_list">func_ident_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+               <rr-a><a href="#func_ident_list">func_ident_list</a><rr-t>','</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="func_return_list">func_return_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#func_ident_list">func_ident_list</a><rr-t>']'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="function_declare_lhs">function_declare_lhs</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+               <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>'('</rr-t>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>'('</rr-t><a href="#func_ident_list">func_ident_list</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="function_declare">function_declare</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#function_declare_lhs">function_declare_lhs</a><rr-a><a href="#func_return_list">func_return_list</a><rr-t>'='</rr-t><a href="#function_declare_lhs">function_declare_lhs</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ARRAYMUL">ARRAYMUL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'.*'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ARRAYDIV">ARRAYDIV</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'.\\'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ARRAYRDIV">ARRAYRDIV</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'./'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ARRAYPOW">ARRAYPOW</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'.^'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="BREAK">BREAK</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'break'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="RETURN">RETURN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'return'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="FUNCTION">FUNCTION</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'function'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="FOR">FOR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'for'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="WHILE">WHILE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'while'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="END">END</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'end'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="GLOBAL">GLOBAL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'global'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="IF">IF</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'if'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CLEAR">CLEAR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'clear'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ELSE">ELSE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'else'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ELSEIF">ELSEIF</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'elseif'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="LE_OP">LE_OP</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&lt;='</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="GE_OP">GE_OP</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&gt;='</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="EQ_OP">EQ_OP</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'=='</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="NE_OP">NE_OP</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'~='</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TRANSPOSE">TRANSPOSE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'transpose'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="NCTRANSPOSE">NCTRANSPOSE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'.\''</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="STRING_LITERAL">STRING_LITERAL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\''</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">~'\''</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'\'\''</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-t data-min="1" data-max="1">'\''</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="IDENTIFIER">IDENTIFIER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[a-zA-Z]</rr-t>
+                  <rr-t data-min="0" data-max="inf">[a-zA-Z0-9_]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CONSTANT">CONSTANT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">NUMBER</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">E</rr-t>
+                        <rr-t data-min="0" data-max="1">SIGN</rr-t>
+                        <rr-t data-min="1" data-max="1">NUMBER</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="NUMBER">NUMBER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'0'..'9'</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'.'</rr-t>
+                        <rr-o>
+                           <rr-a>
+                              <rr-t data-min="1" data-max="1">'0'..'9'</rr-t>
+                           </rr-a>
+                        </rr-o>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="E">E</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'E'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'e'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="SIGN">SIGN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'+'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'-'</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CR">CR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">[\r\n]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="WS">WS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">[ \t]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

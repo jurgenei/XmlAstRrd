@@ -1,0 +1,2594 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../index.html">Railroad</a> rust/RustParser</h1>
+      <pre>/*
+Copyright (c) 2010 The Rust Project Developers
+Copyright (c) 2020-2022 Student Main
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit
+persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice (including the next paragraph) shall be included in all copies or
+substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/</pre>
+      <h1>Grammar Decl</h1>
+      <pre>parser grammar RustParser;
+
+// Insert here @header for C++ parser.</pre>
+      <h1>Rules</h1>
+      <h2 id="crate">crate</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#innerAttribute">innerAttribute</a><a href="#item">item</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macroInvocation">macroInvocation</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#simplePath">simplePath</a><rr-t>'!'</rr-t><a href="#delimTokenTree">delimTokenTree</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="delimTokenTree">delimTokenTree</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#tokenTree">tokenTree</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#tokenTree">tokenTree</a><rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#tokenTree">tokenTree</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tokenTree">tokenTree</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#tokenTreeToken">tokenTreeToken</a><a href="#delimTokenTree">delimTokenTree</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tokenTreeToken">tokenTreeToken</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#macroIdentifierLikeToken">macroIdentifierLikeToken</a><a href="#macroLiteralToken">macroLiteralToken</a><a href="#macroPunctuationToken">macroPunctuationToken</a><a href="#macroRepOp">macroRepOp</a><rr-t>'$'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macroInvocationSemi">macroInvocationSemi</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#simplePath">simplePath</a><rr-t>'!'</rr-t>
+                  <rr-t>'('</rr-t><a href="#tokenTree">tokenTree</a><rr-t>')'</rr-t>
+                  <rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a><a href="#simplePath">simplePath</a><rr-t>'!'</rr-t>
+                  <rr-t>'['</rr-t><a href="#tokenTree">tokenTree</a><rr-t>']'</rr-t>
+                  <rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a><a href="#simplePath">simplePath</a><rr-t>'!'</rr-t>
+                  <rr-t>'{'</rr-t><a href="#tokenTree">tokenTree</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macroRulesDefinition">macroRulesDefinition</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'macro_rules'</rr-t>
+                  <rr-t>'!'</rr-t><a href="#identifier">identifier</a><a href="#macroRulesDef">macroRulesDef</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macroRulesDef">macroRulesDef</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#macroRules">macroRules</a><rr-t>')'</rr-t>
+                  <rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#macroRules">macroRules</a><rr-t>']'</rr-t>
+                  <rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#macroRules">macroRules</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macroRules">macroRules</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#macroRule">macroRule</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>';'</rr-t><a href="#macroRule">macroRule</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>';'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macroRule">macroRule</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#macroMatcher">macroMatcher</a><rr-t>'=&gt;'</rr-t><a href="#macroTranscriber">macroTranscriber</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macroMatcher">macroMatcher</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#macroMatch">macroMatch</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#macroMatch">macroMatch</a><rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#macroMatch">macroMatch</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macroMatch">macroMatch</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#macroMatchToken">macroMatchToken</a><a href="#macroMatcher">macroMatcher</a><rr-a>
+                  <rr-t>'$'</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#identifier">identifier</a><rr-t>'self'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>':'</rr-t><a href="#macroFragSpec">macroFragSpec</a></rr-a>
+               <rr-a>
+                  <rr-t>'$'</rr-t>
+                  <rr-t>'('</rr-t><a href="#macroMatch">macroMatch</a><rr-t>')'</rr-t><a href="#macroRepSep">macroRepSep</a><a href="#macroRepOp">macroRepOp</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macroMatchToken">macroMatchToken</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#macroIdentifierLikeToken">macroIdentifierLikeToken</a><a href="#macroLiteralToken">macroLiteralToken</a><a href="#macroPunctuationToken">macroPunctuationToken</a><a href="#macroRepOp">macroRepOp</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macroFragSpec">macroFragSpec</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#identifier_// do validate here is wasting token">identifier</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macroRepSep">macroRepSep</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#macroIdentifierLikeToken">macroIdentifierLikeToken</a><a href="#macroLiteralToken">macroLiteralToken</a><a href="#macroPunctuationToken">macroPunctuationToken</a><rr-t>'$'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macroRepOp">macroRepOp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'*'</rr-t>
+               <rr-t>'+'</rr-t>
+               <rr-t>'?'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macroTranscriber">macroTranscriber</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#delimTokenTree">delimTokenTree</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="item">item</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#outerAttribute">outerAttribute</a><rr-a>
+                     <rr-o><a href="#visItem">visItem</a><a href="#macroItem">macroItem</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="visItem">visItem</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#visibility">visibility</a><rr-a>
+                     <rr-o><a href="#module">module</a><a href="#externCrate">externCrate</a><a href="#useDeclaration">useDeclaration</a><a href="#function_">function_</a><a href="#typeAlias">typeAlias</a><a href="#struct_">struct_</a><a href="#enumeration">enumeration</a><a href="#union_">union_</a><a href="#constantItem">constantItem</a><a href="#staticItem">staticItem</a><a href="#trait_">trait_</a><a href="#implementation">implementation</a><a href="#externBlock">externBlock</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macroItem">macroItem</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#macroInvocationSemi">macroInvocationSemi</a><a href="#macroRulesDefinition">macroRulesDefinition</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="module">module</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'unsafe'</rr-t>
+                  <rr-t>'mod'</rr-t><a href="#identifier">identifier</a><rr-a>
+                     <rr-o>
+                        <rr-t>';'</rr-t>
+                        <rr-a>
+                           <rr-t>'{'</rr-t><a href="#innerAttribute">innerAttribute</a><a href="#item">item</a><rr-t>'}'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="externCrate">externCrate</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'extern'</rr-t>
+                  <rr-t>'crate'</rr-t><a href="#crateRef">crateRef</a><a href="#asClause">asClause</a><rr-t>';'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="crateRef">crateRef</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#identifier">identifier</a><rr-t>'self'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="asClause">asClause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'as'</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#identifier">identifier</a><rr-t>'_'</rr-t>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="useDeclaration">useDeclaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'use'</rr-t><a href="#useTree">useTree</a><rr-t>';'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="useTree">useTree</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#simplePath">simplePath</a><rr-t>'::'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>'*'</rr-t>
+                        <rr-a>
+                           <rr-t>'{'</rr-t>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a><a href="#useTree">useTree</a><rr-a data-min="0" data-max="inf">
+                                       <rr-o>
+                                          <rr-a>
+                                             <rr-t>','</rr-t><a href="#useTree">useTree</a></rr-a>
+                                       </rr-o>
+                                    </rr-a>
+                                    <rr-t>','</rr-t>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a>
+                           <rr-t>'}'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a><a href="#simplePath">simplePath</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'as'</rr-t>
+                           <rr-a>
+                              <rr-o><a href="#identifier">identifier</a><rr-t>'_'</rr-t>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="function_">function_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#functionQualifiers">functionQualifiers</a><rr-t>'fn'</rr-t><a href="#identifier">identifier</a><a href="#genericParams">genericParams</a><rr-t>'('</rr-t><a href="#functionParameters">functionParameters</a><rr-t>')'</rr-t><a href="#functionReturnType">functionReturnType</a><a href="#whereClause">whereClause</a><rr-a>
+                     <rr-o><a href="#blockExpression">blockExpression</a><rr-t>';'</rr-t>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functionQualifiers">functionQualifiers</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'const'</rr-t>
+                  <rr-t>'async'</rr-t>
+                  <rr-t>'unsafe'</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'extern'</rr-t><a href="#abi">abi</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="abi">abi</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>STRING_LITERAL</rr-t>
+               <rr-t>RAW_STRING_LITERAL</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functionParameters">functionParameters</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#selfParam">selfParam</a><rr-t>','</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#selfParam">selfParam</a><rr-t>','</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#functionParam">functionParam</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#functionParam">functionParam</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>','</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="selfParam">selfParam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#outerAttribute">outerAttribute</a><rr-a>
+                     <rr-o><a href="#shorthandSelf">shorthandSelf</a><a href="#typedSelf">typedSelf</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="shorthandSelf">shorthandSelf</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'&amp;'</rr-t><a href="#lifetime">lifetime</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'mut'</rr-t>
+                  <rr-t>'self'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typedSelf">typedSelf</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'mut'</rr-t>
+                  <rr-t>'self'</rr-t>
+                  <rr-t>':'</rr-t><a href="#type_">type_</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functionParam">functionParam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#outerAttribute">outerAttribute</a><rr-a>
+                     <rr-o><a href="#functionParamPattern">functionParamPattern</a><rr-t>'...'</rr-t><a href="#type_">type_</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functionParamPattern">functionParamPattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#pattern">pattern</a><rr-t>':'</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#type_">type_</a><rr-t>'...'</rr-t>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functionReturnType">functionReturnType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'-&gt;'</rr-t><a href="#type_">type_</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeAlias">typeAlias</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'type'</rr-t><a href="#identifier">identifier</a><a href="#genericParams">genericParams</a><a href="#whereClause">whereClause</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#type_">type_</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>';'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="struct_">struct_</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#structStruct">structStruct</a><a href="#tupleStruct">tupleStruct</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="structStruct">structStruct</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'struct'</rr-t><a href="#identifier">identifier</a><a href="#genericParams">genericParams</a><a href="#whereClause">whereClause</a><rr-a>
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'{'</rr-t><a href="#structFields">structFields</a><rr-t>'}'</rr-t>
+                        </rr-a>
+                        <rr-t>';'</rr-t>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tupleStruct">tupleStruct</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'struct'</rr-t><a href="#identifier">identifier</a><a href="#genericParams">genericParams</a><rr-t>'('</rr-t><a href="#tupleFields">tupleFields</a><rr-t>')'</rr-t><a href="#whereClause">whereClause</a><rr-t>';'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="structFields">structFields</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#structField">structField</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#structField">structField</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>','</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="structField">structField</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#outerAttribute">outerAttribute</a><a href="#visibility">visibility</a><a href="#identifier">identifier</a><rr-t>':'</rr-t><a href="#type_">type_</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tupleFields">tupleFields</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#tupleField">tupleField</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#tupleField">tupleField</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>','</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tupleField">tupleField</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#outerAttribute">outerAttribute</a><a href="#visibility">visibility</a><a href="#type_">type_</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="enumeration">enumeration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'enum'</rr-t><a href="#identifier">identifier</a><a href="#genericParams">genericParams</a><a href="#whereClause">whereClause</a><rr-t>'{'</rr-t><a href="#enumItems">enumItems</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="enumItems">enumItems</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#enumItem">enumItem</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#enumItem">enumItem</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>','</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="enumItem">enumItem</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#outerAttribute">outerAttribute</a><a href="#visibility">visibility</a><a href="#identifier">identifier</a><rr-a data-min="0" data-max="1">
+                     <rr-o><a href="#enumItemTuple">enumItemTuple</a><a href="#enumItemStruct">enumItemStruct</a><a href="#enumItemDiscriminant">enumItemDiscriminant</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="enumItemTuple">enumItemTuple</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#tupleFields">tupleFields</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="enumItemStruct">enumItemStruct</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#structFields">structFields</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="enumItemDiscriminant">enumItemDiscriminant</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'='</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="union_">union_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'union'</rr-t><a href="#identifier">identifier</a><a href="#genericParams">genericParams</a><a href="#whereClause">whereClause</a><rr-t>'{'</rr-t><a href="#structFields">structFields</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="constantItem">constantItem</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'const'</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#identifier">identifier</a><rr-t>'_'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>':'</rr-t><a href="#type_">type_</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#expression">expression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>';'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="staticItem">staticItem</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'static'</rr-t>
+                  <rr-t>'mut'</rr-t><a href="#identifier">identifier</a><rr-t>':'</rr-t><a href="#type_">type_</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#expression">expression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>';'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="trait_">trait_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'unsafe'</rr-t>
+                  <rr-t>'trait'</rr-t><a href="#identifier">identifier</a><a href="#genericParams">genericParams</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#typeParamBounds">typeParamBounds</a></rr-a>
+                     </rr-o>
+                  </rr-a><a href="#whereClause">whereClause</a><rr-t>'{'</rr-t><a href="#innerAttribute">innerAttribute</a><a href="#associatedItem">associatedItem</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="implementation">implementation</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#inherentImpl">inherentImpl</a><a href="#traitImpl">traitImpl</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="inherentImpl">inherentImpl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'impl'</rr-t><a href="#genericParams">genericParams</a><a href="#type_">type_</a><a href="#whereClause">whereClause</a><rr-t>'{'</rr-t><a href="#innerAttribute">innerAttribute</a><a href="#associatedItem">associatedItem</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="traitImpl">traitImpl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'unsafe'</rr-t>
+                  <rr-t>'impl'</rr-t><a href="#genericParams">genericParams</a><rr-t>'!'</rr-t><a href="#typePath">typePath</a><rr-t>'for'</rr-t><a href="#type_">type_</a><a href="#whereClause">whereClause</a><rr-t>'{'</rr-t><a href="#innerAttribute">innerAttribute</a><a href="#associatedItem">associatedItem</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="externBlock">externBlock</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'unsafe'</rr-t>
+                  <rr-t>'extern'</rr-t><a href="#abi">abi</a><rr-t>'{'</rr-t><a href="#innerAttribute">innerAttribute</a><a href="#externalItem">externalItem</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="externalItem">externalItem</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#outerAttribute">outerAttribute</a><rr-a>
+                     <rr-o><a href="#macroInvocationSemi">macroInvocationSemi</a><rr-a><a href="#visibility">visibility</a><rr-a>
+                              <rr-o><a href="#staticItem">staticItem</a><a href="#function_">function_</a></rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="genericParams">genericParams</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'&lt;'</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a><a href="#genericParam">genericParam</a><rr-t>','</rr-t>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a><a href="#genericParam">genericParam</a><rr-t>','</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'&gt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="genericParam">genericParam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#outerAttribute">outerAttribute</a><rr-a>
+                     <rr-o><a href="#lifetimeParam">lifetimeParam</a><a href="#typeParam">typeParam</a><a href="#constParam">constParam</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lifetimeParam">lifetimeParam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#outerAttribute">outerAttribute</a><rr-t>LIFETIME_OR_LABEL</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#lifetimeBounds">lifetimeBounds</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeParam">typeParam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#outerAttribute">outerAttribute</a><a href="#identifier">identifier</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#typeParamBounds">typeParamBounds</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#type_">type_</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="constParam">constParam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'const'</rr-t><a href="#identifier">identifier</a><rr-t>':'</rr-t><a href="#type_">type_</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="whereClause">whereClause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'where'</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#whereClauseItem">whereClauseItem</a><rr-t>','</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#whereClauseItem">whereClauseItem</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="whereClauseItem">whereClauseItem</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#lifetimeWhereClauseItem">lifetimeWhereClauseItem</a><a href="#typeBoundWhereClauseItem">typeBoundWhereClauseItem</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lifetimeWhereClauseItem">lifetimeWhereClauseItem</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#lifetime">lifetime</a><rr-t>':'</rr-t><a href="#lifetimeBounds">lifetimeBounds</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeBoundWhereClauseItem">typeBoundWhereClauseItem</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#forLifetimes">forLifetimes</a><a href="#type_">type_</a><rr-t>':'</rr-t><a href="#typeParamBounds">typeParamBounds</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="forLifetimes">forLifetimes</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'for'</rr-t><a href="#genericParams">genericParams</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="associatedItem">associatedItem</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#outerAttribute">outerAttribute</a><rr-a>
+                     <rr-o><a href="#macroInvocationSemi">macroInvocationSemi</a><rr-a><a href="#visibility">visibility</a><rr-a>
+                              <rr-o><a href="#typeAlias">typeAlias</a><a href="#constantItem">constantItem</a><a href="#function_">function_</a></rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="innerAttribute">innerAttribute</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'#'</rr-t>
+                  <rr-t>'!'</rr-t>
+                  <rr-t>'['</rr-t><a href="#attr">attr</a><rr-t>']'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="outerAttribute">outerAttribute</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'#'</rr-t>
+                  <rr-t>'['</rr-t><a href="#attr">attr</a><rr-t>']'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="attr">attr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#simplePath">simplePath</a><a href="#attrInput">attrInput</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="attrInput">attrInput</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#delimTokenTree">delimTokenTree</a><rr-a>
+                  <rr-t>'='</rr-t><a href="#literalExpression">literalExpression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="statement">statement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>';'</rr-t><a href="#item">item</a><a href="#letStatement">letStatement</a><a href="#expressionStatement">expressionStatement</a><a href="#macroInvocationSemi">macroInvocationSemi</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="letStatement">letStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#outerAttribute">outerAttribute</a><rr-t>'let'</rr-t><a href="#patternNoTopAlt">patternNoTopAlt</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#type_">type_</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#expression">expression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>';'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expressionStatement">expressionStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expression">expression</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a><a href="#expressionWithBlock">expressionWithBlock</a><rr-t>';'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expression">expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#outerAttribute">outerAttribute</a><a href="#expression">expression</a></rr-a><a href="#literalExpression">literalExpression</a><a href="#pathExpression">pathExpression</a><rr-a><a href="#expression">expression</a><rr-t>'.'</rr-t><a href="#pathExprSegment">pathExprSegment</a><rr-t>'('</rr-t><a href="#callParams">callParams</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'.'</rr-t><a href="#identifier">identifier</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'.'</rr-t><a href="#tupleIndex">tupleIndex</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'.'</rr-t>
+                  <rr-t>'await'</rr-t>
+               </rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'('</rr-t><a href="#callParams">callParams</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'['</rr-t><a href="#expression">expression</a><rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'?'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>'&amp;'</rr-t>
+                        <rr-t>'&amp;&amp;'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'mut'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'*'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>'-'</rr-t>
+                        <rr-t>'!'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'as'</rr-t><a href="#typeNoBounds">typeNoBounds</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-a>
+                     <rr-o>
+                        <rr-t>'*'</rr-t>
+                        <rr-t>'/'</rr-t>
+                        <rr-t>'%'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-a>
+                     <rr-o>
+                        <rr-t>'+'</rr-t>
+                        <rr-t>'-'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-a>
+                     <rr-o><a href="#shl">shl</a><a href="#shr">shr</a></rr-o>
+                  </rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'&amp;'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'^'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'|'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><a href="#comparisonOperator">comparisonOperator</a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'&amp;&amp;'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'||'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'..'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'..'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'..='</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'..='</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'='</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><a href="#compoundAssignOperator">compoundAssignOperator</a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'continue'</rr-t>
+                  <rr-t>LIFETIME_OR_LABEL</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'break'</rr-t>
+                  <rr-t>LIFETIME_OR_LABEL</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'return'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#innerAttribute">innerAttribute</a><a href="#expression">expression</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#innerAttribute">innerAttribute</a><a href="#arrayElements">arrayElements</a><rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#innerAttribute">innerAttribute</a><a href="#tupleElements">tupleElements</a><rr-t>')'</rr-t>
+               </rr-a><a href="#structExpression">structExpression</a><a href="#enumerationVariantExpression">enumerationVariantExpression</a><a href="#closureExpression">closureExpression</a><a href="#expressionWithBlock">expressionWithBlock</a><a href="#macroInvocation">macroInvocation</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="comparisonOperator">comparisonOperator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'=='</rr-t>
+               <rr-t>'!='</rr-t>
+               <rr-t>'&gt;'</rr-t>
+               <rr-t>'&lt;'</rr-t>
+               <rr-t>'&gt;='</rr-t>
+               <rr-t>'&lt;='</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="compoundAssignOperator">compoundAssignOperator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'+='</rr-t>
+               <rr-t>'-='</rr-t>
+               <rr-t>'*='</rr-t>
+               <rr-t>'/='</rr-t>
+               <rr-t>'%='</rr-t>
+               <rr-t>'&amp;='</rr-t>
+               <rr-t>'|='</rr-t>
+               <rr-t>'^='</rr-t>
+               <rr-t>'&lt;&lt;='</rr-t>
+               <rr-t>'&gt;&gt;='</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expressionWithBlock">expressionWithBlock</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#outerAttribute">outerAttribute</a><a href="#expressionWithBlock_// technical">expressionWithBlock</a></rr-a><a href="#blockExpression">blockExpression</a><a href="#asyncBlockExpression">asyncBlockExpression</a><a href="#unsafeBlockExpression">unsafeBlockExpression</a><a href="#loopExpression">loopExpression</a><a href="#ifExpression">ifExpression</a><a href="#ifLetExpression">ifLetExpression</a><a href="#matchExpression">matchExpression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="literalExpression">literalExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>CHAR_LITERAL</rr-t>
+               <rr-t>STRING_LITERAL</rr-t>
+               <rr-t>RAW_STRING_LITERAL</rr-t>
+               <rr-t>BYTE_LITERAL</rr-t>
+               <rr-t>BYTE_STRING_LITERAL</rr-t>
+               <rr-t>RAW_BYTE_STRING_LITERAL</rr-t>
+               <rr-t>INTEGER_LITERAL</rr-t>
+               <rr-t>FLOAT_LITERAL</rr-t>
+               <rr-t>KW_TRUE</rr-t>
+               <rr-t>KW_FALSE</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pathExpression">pathExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#pathInExpression">pathInExpression</a><a href="#qualifiedPathInExpression">qualifiedPathInExpression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="blockExpression">blockExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#innerAttribute">innerAttribute</a><a href="#statements">statements</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="statements">statements</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#statement">statement</a><a href="#expression">expression</a></rr-a><a href="#expression">expression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="asyncBlockExpression">asyncBlockExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'async'</rr-t>
+                  <rr-t>'move'</rr-t><a href="#blockExpression">blockExpression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="unsafeBlockExpression">unsafeBlockExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'unsafe'</rr-t><a href="#blockExpression">blockExpression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="arrayElements">arrayElements</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#expression">expression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>','</rr-t>
+               </rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>';'</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tupleElements">tupleElements</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="1" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#expression">expression</a><rr-t>','</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tupleIndex">tupleIndex</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>INTEGER_LITERAL</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="structExpression">structExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#structExprStruct">structExprStruct</a><a href="#structExprTuple">structExprTuple</a><a href="#structExprUnit">structExprUnit</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="structExprStruct">structExprStruct</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#pathInExpression">pathInExpression</a><rr-t>'{'</rr-t><a href="#innerAttribute">innerAttribute</a><rr-a data-min="0" data-max="1">
+                     <rr-o><a href="#structExprFields">structExprFields</a><a href="#structBase">structBase</a></rr-o>
+                  </rr-a>
+                  <rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="structExprFields">structExprFields</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#structExprField">structExprField</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#structExprField">structExprField</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#structBase">structBase</a></rr-a>
+                        <rr-t>','</rr-t>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="structExprField">structExprField</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#outerAttribute">outerAttribute</a><rr-a>
+                     <rr-o><a href="#identifier">identifier</a><rr-a>
+                           <rr-a>
+                              <rr-o><a href="#identifier">identifier</a><a href="#tupleIndex">tupleIndex</a></rr-o>
+                           </rr-a>
+                           <rr-t>':'</rr-t><a href="#expression">expression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="structBase">structBase</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'..'</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="structExprTuple">structExprTuple</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#pathInExpression">pathInExpression</a><rr-t>'('</rr-t><a href="#innerAttribute">innerAttribute</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>','</rr-t><a href="#expression">expression</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                           <rr-t>','</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="structExprUnit">structExprUnit</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#pathInExpression">pathInExpression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="enumerationVariantExpression">enumerationVariantExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#enumExprStruct">enumExprStruct</a><a href="#enumExprTuple">enumExprTuple</a><a href="#enumExprFieldless">enumExprFieldless</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="enumExprStruct">enumExprStruct</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#pathInExpression">pathInExpression</a><rr-t>'{'</rr-t><a href="#enumExprFields">enumExprFields</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="enumExprFields">enumExprFields</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#enumExprField">enumExprField</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#enumExprField">enumExprField</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>','</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="enumExprField">enumExprField</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#identifier">identifier</a><rr-a>
+                  <rr-a>
+                     <rr-o><a href="#identifier">identifier</a><a href="#tupleIndex">tupleIndex</a></rr-o>
+                  </rr-a>
+                  <rr-t>':'</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="enumExprTuple">enumExprTuple</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#pathInExpression">pathInExpression</a><rr-t>'('</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>','</rr-t><a href="#expression">expression</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                           <rr-t>','</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="enumExprFieldless">enumExprFieldless</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#pathInExpression">pathInExpression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="callParams">callParams</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#expression">expression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>','</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="closureExpression">closureExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'move'</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>'||'</rr-t>
+                        <rr-a>
+                           <rr-t>'|'</rr-t><a href="#closureParameters">closureParameters</a><rr-t>'|'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a>
+                     <rr-o><a href="#expression">expression</a><rr-a>
+                           <rr-t>'-&gt;'</rr-t><a href="#typeNoBounds">typeNoBounds</a><a href="#blockExpression">blockExpression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="closureParameters">closureParameters</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#closureParam">closureParam</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#closureParam">closureParam</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>','</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="closureParam">closureParam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#outerAttribute">outerAttribute</a><a href="#pattern">pattern</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#type_">type_</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="loopExpression">loopExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#loopLabel">loopLabel</a><rr-a>
+                     <rr-o><a href="#infiniteLoopExpression">infiniteLoopExpression</a><a href="#predicateLoopExpression">predicateLoopExpression</a><a href="#predicatePatternLoopExpression">predicatePatternLoopExpression</a><a href="#iteratorLoopExpression">iteratorLoopExpression</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="infiniteLoopExpression">infiniteLoopExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'loop'</rr-t><a href="#blockExpression">blockExpression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="predicateLoopExpression">predicateLoopExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'while'</rr-t><a href="#expression_/*except structExpression*/">expression</a><a href="#blockExpression">blockExpression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="predicatePatternLoopExpression">predicatePatternLoopExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'while'</rr-t>
+                  <rr-t>'let'</rr-t><a href="#pattern">pattern</a><rr-t>'='</rr-t><a href="#expression">expression</a><a href="#blockExpression">blockExpression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="iteratorLoopExpression">iteratorLoopExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'for'</rr-t><a href="#pattern">pattern</a><rr-t>'in'</rr-t><a href="#expression">expression</a><a href="#blockExpression">blockExpression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="loopLabel">loopLabel</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LIFETIME_OR_LABEL</rr-t>
+                  <rr-t>':'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ifExpression">ifExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'if'</rr-t><a href="#expression">expression</a><a href="#blockExpression">blockExpression</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'else'</rr-t>
+                           <rr-a>
+                              <rr-o><a href="#blockExpression">blockExpression</a><a href="#ifExpression">ifExpression</a><a href="#ifLetExpression">ifLetExpression</a></rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ifLetExpression">ifLetExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'if'</rr-t>
+                  <rr-t>'let'</rr-t><a href="#pattern">pattern</a><rr-t>'='</rr-t><a href="#expression">expression</a><a href="#blockExpression">blockExpression</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'else'</rr-t>
+                           <rr-a>
+                              <rr-o><a href="#blockExpression">blockExpression</a><a href="#ifExpression">ifExpression</a><a href="#ifLetExpression">ifLetExpression</a></rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="matchExpression">matchExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'match'</rr-t><a href="#expression">expression</a><rr-t>'{'</rr-t><a href="#innerAttribute">innerAttribute</a><a href="#matchArms">matchArms</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="matchArms">matchArms</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#matchArm">matchArm</a><rr-t>'=&gt;'</rr-t><a href="#matchArmExpression">matchArmExpression</a></rr-a>
+                     </rr-o>
+                  </rr-a><a href="#matchArm">matchArm</a><rr-t>'=&gt;'</rr-t><a href="#expression">expression</a><rr-t>','</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="matchArmExpression">matchArmExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expression">expression</a><rr-t>','</rr-t>
+               </rr-a>
+               <rr-a><a href="#expressionWithBlock">expressionWithBlock</a><rr-t>','</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="matchArm">matchArm</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#outerAttribute">outerAttribute</a><a href="#pattern">pattern</a><a href="#matchArmGuard">matchArmGuard</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="matchArmGuard">matchArmGuard</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'if'</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pattern">pattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'|'</rr-t><a href="#patternNoTopAlt">patternNoTopAlt</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'|'</rr-t><a href="#patternNoTopAlt">patternNoTopAlt</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="patternNoTopAlt">patternNoTopAlt</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#patternWithoutRange">patternWithoutRange</a><a href="#rangePattern">rangePattern</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="patternWithoutRange">patternWithoutRange</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#literalPattern">literalPattern</a><a href="#identifierPattern">identifierPattern</a><a href="#wildcardPattern">wildcardPattern</a><a href="#restPattern">restPattern</a><a href="#referencePattern">referencePattern</a><a href="#structPattern">structPattern</a><a href="#tupleStructPattern">tupleStructPattern</a><a href="#tuplePattern">tuplePattern</a><a href="#groupedPattern">groupedPattern</a><a href="#slicePattern">slicePattern</a><a href="#pathPattern">pathPattern</a><a href="#macroInvocation">macroInvocation</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="literalPattern">literalPattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>KW_TRUE</rr-t>
+               <rr-t>KW_FALSE</rr-t>
+               <rr-t>CHAR_LITERAL</rr-t>
+               <rr-t>BYTE_LITERAL</rr-t>
+               <rr-t>STRING_LITERAL</rr-t>
+               <rr-t>RAW_STRING_LITERAL</rr-t>
+               <rr-t>BYTE_STRING_LITERAL</rr-t>
+               <rr-t>RAW_BYTE_STRING_LITERAL</rr-t>
+               <rr-a>
+                  <rr-t>'-'</rr-t>
+                  <rr-t>INTEGER_LITERAL</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'-'</rr-t>
+                  <rr-t>FLOAT_LITERAL</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="identifierPattern">identifierPattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'ref'</rr-t>
+                  <rr-t>'mut'</rr-t><a href="#identifier">identifier</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'@'</rr-t><a href="#pattern">pattern</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="wildcardPattern">wildcardPattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'_'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="restPattern">restPattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'..'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="rangePattern">rangePattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#rangePatternBound">rangePatternBound</a><rr-t>'..='</rr-t><a href="#rangePatternBound">rangePatternBound</a></rr-a>
+               <rr-a><a href="#rangePatternBound">rangePatternBound</a><rr-t>'..'</rr-t>
+               </rr-a>
+               <rr-a><a href="#rangePatternBound">rangePatternBound</a><rr-t>'...'</rr-t><a href="#rangePatternBound">rangePatternBound</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="rangePatternBound">rangePatternBound</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>CHAR_LITERAL</rr-t>
+               <rr-t>BYTE_LITERAL</rr-t>
+               <rr-a>
+                  <rr-t>'-'</rr-t>
+                  <rr-t>INTEGER_LITERAL</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'-'</rr-t>
+                  <rr-t>FLOAT_LITERAL</rr-t>
+               </rr-a><a href="#pathPattern">pathPattern</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="referencePattern">referencePattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>'&amp;'</rr-t>
+                        <rr-t>'&amp;&amp;'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'mut'</rr-t><a href="#patternWithoutRange">patternWithoutRange</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="structPattern">structPattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#pathInExpression">pathInExpression</a><rr-t>'{'</rr-t><a href="#structPatternElements">structPatternElements</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="structPatternElements">structPatternElements</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#structPatternFields">structPatternFields</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#structPatternEtCetera">structPatternEtCetera</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a><a href="#structPatternEtCetera">structPatternEtCetera</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="structPatternFields">structPatternFields</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#structPatternField">structPatternField</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#structPatternField">structPatternField</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="structPatternField">structPatternField</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#outerAttribute">outerAttribute</a><rr-a>
+                     <rr-o>
+                        <rr-a><a href="#tupleIndex">tupleIndex</a><rr-t>':'</rr-t><a href="#pattern">pattern</a></rr-a>
+                        <rr-a><a href="#identifier">identifier</a><rr-t>':'</rr-t><a href="#pattern">pattern</a></rr-a>
+                        <rr-a>
+                           <rr-t>'ref'</rr-t>
+                           <rr-t>'mut'</rr-t><a href="#identifier">identifier</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="structPatternEtCetera">structPatternEtCetera</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#outerAttribute">outerAttribute</a><rr-t>'..'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tupleStructPattern">tupleStructPattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#pathInExpression">pathInExpression</a><rr-t>'('</rr-t><a href="#tupleStructItems">tupleStructItems</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tupleStructItems">tupleStructItems</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#pattern">pattern</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#pattern">pattern</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>','</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tuplePattern">tuplePattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#tuplePatternItems">tuplePatternItems</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tuplePatternItems">tuplePatternItems</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#pattern">pattern</a><rr-t>','</rr-t>
+               </rr-a><a href="#restPattern">restPattern</a><rr-a><a href="#pattern">pattern</a><rr-a data-min="1" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#pattern">pattern</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>','</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="groupedPattern">groupedPattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#pattern">pattern</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="slicePattern">slicePattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#slicePatternItems">slicePatternItems</a><rr-t>']'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="slicePatternItems">slicePatternItems</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#pattern">pattern</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#pattern">pattern</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>','</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pathPattern">pathPattern</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#pathInExpression">pathInExpression</a><a href="#qualifiedPathInExpression">qualifiedPathInExpression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="type_">type_</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#typeNoBounds">typeNoBounds</a><a href="#implTraitType">implTraitType</a><a href="#traitObjectType">traitObjectType</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeNoBounds">typeNoBounds</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#parenthesizedType">parenthesizedType</a><a href="#implTraitTypeOneBound">implTraitTypeOneBound</a><a href="#traitObjectTypeOneBound">traitObjectTypeOneBound</a><a href="#typePath">typePath</a><a href="#tupleType">tupleType</a><a href="#neverType">neverType</a><a href="#rawPointerType">rawPointerType</a><a href="#referenceType">referenceType</a><a href="#arrayType">arrayType</a><a href="#sliceType">sliceType</a><a href="#inferredType">inferredType</a><a href="#qualifiedPathInType">qualifiedPathInType</a><a href="#bareFunctionType">bareFunctionType</a><a href="#macroInvocation">macroInvocation</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="parenthesizedType">parenthesizedType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#type_">type_</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="neverType">neverType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'!'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tupleType">tupleType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a data-min="1" data-max="inf">
+                              <rr-o>
+                                 <rr-a><a href="#type_">type_</a><rr-t>','</rr-t>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a><a href="#type_">type_</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="arrayType">arrayType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#type_">type_</a><rr-t>';'</rr-t><a href="#expression">expression</a><rr-t>']'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sliceType">sliceType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#type_">type_</a><rr-t>']'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="referenceType">referenceType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'&amp;'</rr-t><a href="#lifetime">lifetime</a><rr-t>'mut'</rr-t><a href="#typeNoBounds">typeNoBounds</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="rawPointerType">rawPointerType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'*'</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>'mut'</rr-t>
+                        <rr-t>'const'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#typeNoBounds">typeNoBounds</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="bareFunctionType">bareFunctionType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#forLifetimes">forLifetimes</a><a href="#functionTypeQualifiers">functionTypeQualifiers</a><rr-t>'fn'</rr-t>
+                  <rr-t>'('</rr-t><a href="#functionParametersMaybeNamedVariadic">functionParametersMaybeNamedVariadic</a><rr-t>')'</rr-t><a href="#bareFunctionReturnType">bareFunctionReturnType</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functionTypeQualifiers">functionTypeQualifiers</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'unsafe'</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'extern'</rr-t><a href="#abi">abi</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="bareFunctionReturnType">bareFunctionReturnType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'-&gt;'</rr-t><a href="#typeNoBounds">typeNoBounds</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functionParametersMaybeNamedVariadic">functionParametersMaybeNamedVariadic</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#maybeNamedFunctionParameters">maybeNamedFunctionParameters</a><a href="#maybeNamedFunctionParametersVariadic">maybeNamedFunctionParametersVariadic</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="maybeNamedFunctionParameters">maybeNamedFunctionParameters</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#maybeNamedParam">maybeNamedParam</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#maybeNamedParam">maybeNamedParam</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>','</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="maybeNamedParam">maybeNamedParam</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#outerAttribute">outerAttribute</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a>
+                              <rr-o><a href="#identifier">identifier</a><rr-t>'_'</rr-t>
+                              </rr-o>
+                           </rr-a>
+                           <rr-t>':'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#type_">type_</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="maybeNamedFunctionParametersVariadic">maybeNamedFunctionParametersVariadic</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#maybeNamedParam">maybeNamedParam</a><rr-t>','</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#maybeNamedParam">maybeNamedParam</a><rr-t>','</rr-t><a href="#outerAttribute">outerAttribute</a><rr-t>'...'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="traitObjectType">traitObjectType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'dyn'</rr-t><a href="#typeParamBounds">typeParamBounds</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="traitObjectTypeOneBound">traitObjectTypeOneBound</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'dyn'</rr-t><a href="#traitBound">traitBound</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="implTraitType">implTraitType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'impl'</rr-t><a href="#typeParamBounds">typeParamBounds</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="implTraitTypeOneBound">implTraitTypeOneBound</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'impl'</rr-t><a href="#traitBound">traitBound</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="inferredType">inferredType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'_'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeParamBounds">typeParamBounds</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#typeParamBound">typeParamBound</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'+'</rr-t><a href="#typeParamBound">typeParamBound</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'+'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeParamBound">typeParamBound</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#lifetime">lifetime</a><a href="#traitBound">traitBound</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="traitBound">traitBound</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'?'</rr-t><a href="#forLifetimes">forLifetimes</a><a href="#typePath">typePath</a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'?'</rr-t><a href="#forLifetimes">forLifetimes</a><a href="#typePath">typePath</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lifetimeBounds">lifetimeBounds</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#lifetime">lifetime</a><rr-t>'+'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#lifetime">lifetime</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lifetime">lifetime</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>LIFETIME_OR_LABEL</rr-t>
+               <rr-t>'\'static'</rr-t>
+               <rr-t>'\'_'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="simplePath">simplePath</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'::'</rr-t><a href="#simplePathSegment">simplePathSegment</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'::'</rr-t><a href="#simplePathSegment">simplePathSegment</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="simplePathSegment">simplePathSegment</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#identifier">identifier</a><rr-t>'super'</rr-t>
+               <rr-t>'self'</rr-t>
+               <rr-t>'crate'</rr-t>
+               <rr-t>'$crate'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pathInExpression">pathInExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'::'</rr-t><a href="#pathExprSegment">pathExprSegment</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'::'</rr-t><a href="#pathExprSegment">pathExprSegment</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pathExprSegment">pathExprSegment</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#pathIdentSegment">pathIdentSegment</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'::'</rr-t><a href="#genericArgs">genericArgs</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pathIdentSegment">pathIdentSegment</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#identifier">identifier</a><rr-t>'super'</rr-t>
+               <rr-t>'self'</rr-t>
+               <rr-t>'Self'</rr-t>
+               <rr-t>'crate'</rr-t>
+               <rr-t>'$crate'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="genericArgs">genericArgs</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'&lt;'</rr-t>
+                  <rr-t>'&gt;'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'&lt;'</rr-t><a href="#genericArgsLifetimes">genericArgsLifetimes</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#genericArgsTypes">genericArgsTypes</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#genericArgsBindings">genericArgsBindings</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>','</rr-t>
+                  <rr-t>'&gt;'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'&lt;'</rr-t><a href="#genericArgsTypes">genericArgsTypes</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#genericArgsBindings">genericArgsBindings</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>','</rr-t>
+                  <rr-t>'&gt;'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'&lt;'</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#genericArg">genericArg</a><rr-t>','</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#genericArg">genericArg</a><rr-t>','</rr-t>
+                  <rr-t>'&gt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="genericArg">genericArg</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#lifetime">lifetime</a><a href="#type_">type_</a><a href="#genericArgsConst">genericArgsConst</a><a href="#genericArgsBinding">genericArgsBinding</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="genericArgsConst">genericArgsConst</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#blockExpression">blockExpression</a><rr-a>
+                  <rr-t>'-'</rr-t><a href="#literalExpression">literalExpression</a></rr-a><a href="#simplePathSegment">simplePathSegment</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="genericArgsLifetimes">genericArgsLifetimes</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#lifetime">lifetime</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#lifetime">lifetime</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="genericArgsTypes">genericArgsTypes</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#type_">type_</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#type_">type_</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="genericArgsBindings">genericArgsBindings</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#genericArgsBinding">genericArgsBinding</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#genericArgsBinding">genericArgsBinding</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="genericArgsBinding">genericArgsBinding</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#identifier">identifier</a><rr-t>'='</rr-t><a href="#type_">type_</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="qualifiedPathInExpression">qualifiedPathInExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#qualifiedPathType">qualifiedPathType</a><rr-a data-min="1" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'::'</rr-t><a href="#pathExprSegment">pathExprSegment</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="qualifiedPathType">qualifiedPathType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'&lt;'</rr-t><a href="#type_">type_</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'as'</rr-t><a href="#typePath">typePath</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'&gt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="qualifiedPathInType">qualifiedPathInType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#qualifiedPathType">qualifiedPathType</a><rr-a data-min="1" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'::'</rr-t><a href="#typePathSegment">typePathSegment</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typePath">typePath</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'::'</rr-t><a href="#typePathSegment">typePathSegment</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'::'</rr-t><a href="#typePathSegment">typePathSegment</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typePathSegment">typePathSegment</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#pathIdentSegment">pathIdentSegment</a><rr-t>'::'</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o><a href="#genericArgs">genericArgs</a><a href="#typePathFn">typePathFn</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typePathFn">typePathFn</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#typePathInputs">typePathInputs</a><rr-t>')'</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'-&gt;'</rr-t><a href="#type_">type_</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typePathInputs">typePathInputs</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#type_">type_</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#type_">type_</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>','</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="visibility">visibility</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'pub'</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'('</rr-t>
+                           <rr-a>
+                              <rr-o>
+                                 <rr-t>'crate'</rr-t>
+                                 <rr-t>'self'</rr-t>
+                                 <rr-t>'super'</rr-t>
+                                 <rr-a>
+                                    <rr-t>'in'</rr-t><a href="#simplePath">simplePath</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                           <rr-t>')'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="identifier">identifier</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>NON_KEYWORD_IDENTIFIER</rr-t>
+               <rr-t>RAW_IDENTIFIER</rr-t>
+               <rr-t>'macro_rules'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="keyword">keyword</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>KW_AS</rr-t>
+               <rr-t>KW_BREAK</rr-t>
+               <rr-t>KW_CONST</rr-t>
+               <rr-t>KW_CONTINUE</rr-t>
+               <rr-t>KW_CRATE</rr-t>
+               <rr-t>KW_ELSE</rr-t>
+               <rr-t>KW_ENUM</rr-t>
+               <rr-t>KW_EXTERN</rr-t>
+               <rr-t>KW_FALSE</rr-t>
+               <rr-t>KW_FN</rr-t>
+               <rr-t>KW_FOR</rr-t>
+               <rr-t>KW_IF</rr-t>
+               <rr-t>KW_IMPL</rr-t>
+               <rr-t>KW_IN</rr-t>
+               <rr-t>KW_LET</rr-t>
+               <rr-t>KW_LOOP</rr-t>
+               <rr-t>KW_MATCH</rr-t>
+               <rr-t>KW_MOD</rr-t>
+               <rr-t>KW_MOVE</rr-t>
+               <rr-t>KW_MUT</rr-t>
+               <rr-t>KW_PUB</rr-t>
+               <rr-t>KW_REF</rr-t>
+               <rr-t>KW_RETURN</rr-t>
+               <rr-t>KW_SELFVALUE</rr-t>
+               <rr-t>KW_SELFTYPE</rr-t>
+               <rr-t>KW_STATIC</rr-t>
+               <rr-t>KW_STRUCT</rr-t>
+               <rr-t>KW_SUPER</rr-t>
+               <rr-t>KW_TRAIT</rr-t>
+               <rr-t>KW_TRUE</rr-t>
+               <rr-t>KW_TYPE</rr-t>
+               <rr-t>KW_UNSAFE</rr-t>
+               <rr-t>KW_USE</rr-t>
+               <rr-t>KW_WHERE</rr-t>
+               <rr-t>KW_WHILE</rr-t>
+               <rr-t>KW_ASYNC</rr-t>
+               <rr-t>KW_AWAIT</rr-t>
+               <rr-t>KW_DYN</rr-t>
+               <rr-t>KW_ABSTRACT</rr-t>
+               <rr-t>KW_BECOME</rr-t>
+               <rr-t>KW_BOX</rr-t>
+               <rr-t>KW_DO</rr-t>
+               <rr-t>KW_FINAL</rr-t>
+               <rr-t>KW_MACRO</rr-t>
+               <rr-t>KW_OVERRIDE</rr-t>
+               <rr-t>KW_PRIV</rr-t>
+               <rr-t>KW_TYPEOF</rr-t>
+               <rr-t>KW_UNSIZED</rr-t>
+               <rr-t>KW_VIRTUAL</rr-t>
+               <rr-t>KW_YIELD</rr-t>
+               <rr-t>KW_TRY</rr-t>
+               <rr-t>KW_UNION</rr-t>
+               <rr-t>KW_STATICLIFETIME</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macroIdentifierLikeToken">macroIdentifierLikeToken</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#keyword">keyword</a><a href="#identifier">identifier</a><rr-t>KW_MACRORULES</rr-t>
+               <rr-t>KW_UNDERLINELIFETIME</rr-t>
+               <rr-t>KW_DOLLARCRATE</rr-t>
+               <rr-t>LIFETIME_OR_LABEL</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macroLiteralToken">macroLiteralToken</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#literalExpression">literalExpression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macroPunctuationToken">macroPunctuationToken</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'-'</rr-t>
+               <rr-t>'/'</rr-t>
+               <rr-t>'%'</rr-t>
+               <rr-t>'^'</rr-t>
+               <rr-t>'!'</rr-t>
+               <rr-t>'&amp;'</rr-t>
+               <rr-t>'|'</rr-t>
+               <rr-t>'&amp;&amp;'</rr-t>
+               <rr-t>'||'</rr-t>
+               <rr-t>'+='</rr-t>
+               <rr-t>'-='</rr-t>
+               <rr-t>'*='</rr-t>
+               <rr-t>'/='</rr-t>
+               <rr-t>'%='</rr-t>
+               <rr-t>'^='</rr-t>
+               <rr-t>'&amp;='</rr-t>
+               <rr-t>'|='</rr-t>
+               <rr-t>'&lt;&lt;='</rr-t>
+               <rr-t>'&gt;&gt;='</rr-t>
+               <rr-t>'='</rr-t>
+               <rr-t>'=='</rr-t>
+               <rr-t>'!='</rr-t>
+               <rr-t>'&gt;'</rr-t>
+               <rr-t>'&lt;'</rr-t>
+               <rr-t>'&gt;='</rr-t>
+               <rr-t>'&lt;='</rr-t>
+               <rr-t>'@'</rr-t>
+               <rr-t>'_'</rr-t>
+               <rr-t>'.'</rr-t>
+               <rr-t>'..'</rr-t>
+               <rr-t>'...'</rr-t>
+               <rr-t>'..='</rr-t>
+               <rr-t>','</rr-t>
+               <rr-t>';'</rr-t>
+               <rr-t>':'</rr-t>
+               <rr-t>'::'</rr-t>
+               <rr-t>'-&gt;'</rr-t>
+               <rr-t>'=&gt;'</rr-t>
+               <rr-t>'#'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="shl">shl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'&lt;'</rr-t>
+                  <rr-t>'&lt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="shr">shr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'&gt;'</rr-t>
+                  <rr-t>'&gt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

@@ -1,0 +1,581 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../index.html">Railroad</a> lua/LuaParser</h1>
+      <pre>/*
+
+MIT license
+
+Author: Ken Domino, October 2023
+
+Based on previous work of: Kazunori Sakamoto, Alexander Alexeev
+
+*/</pre>
+      <h1>Grammar Decl</h1>
+      <pre>parser grammar LuaParser;</pre>
+      <h1>Rules</h1>
+      <h2 id="start_">start_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#chunk">chunk</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="chunk">chunk</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#block">block</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="block">block</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#stat">stat</a><a href="#retstat">retstat</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="stat">stat</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>';'</rr-t>
+               <rr-a><a href="#varlist">varlist</a><rr-t>'='</rr-t><a href="#explist">explist</a></rr-a><a href="#functioncall">functioncall</a><a href="#label">label</a><rr-t>'break'</rr-t>
+               <rr-a>
+                  <rr-t>'goto'</rr-t>
+                  <rr-t>NAME</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'do'</rr-t><a href="#block">block</a><rr-t>'end'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'while'</rr-t><a href="#exp">exp</a><rr-t>'do'</rr-t><a href="#block">block</a><rr-t>'end'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'repeat'</rr-t><a href="#block">block</a><rr-t>'until'</rr-t><a href="#exp">exp</a></rr-a>
+               <rr-a>
+                  <rr-t>'if'</rr-t><a href="#exp">exp</a><rr-t>'then'</rr-t><a href="#block">block</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'elseif'</rr-t><a href="#exp">exp</a><rr-t>'then'</rr-t><a href="#block">block</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'else'</rr-t><a href="#block">block</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'end'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'for'</rr-t>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>'='</rr-t><a href="#exp">exp</a><rr-t>','</rr-t><a href="#exp">exp</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#exp">exp</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'do'</rr-t><a href="#block">block</a><rr-t>'end'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'for'</rr-t><a href="#namelist">namelist</a><rr-t>'in'</rr-t><a href="#explist">explist</a><rr-t>'do'</rr-t><a href="#block">block</a><rr-t>'end'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'function'</rr-t><a href="#funcname">funcname</a><a href="#funcbody">funcbody</a></rr-a>
+               <rr-a>
+                  <rr-t>'local'</rr-t>
+                  <rr-t>'function'</rr-t>
+                  <rr-t>NAME</rr-t><a href="#funcbody">funcbody</a></rr-a>
+               <rr-a>
+                  <rr-t>'local'</rr-t><a href="#attnamelist">attnamelist</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#explist">explist</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="attnamelist">attnamelist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>NAME</rr-t><a href="#attrib">attrib</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t>
+                           <rr-t>NAME</rr-t><a href="#attrib">attrib</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="attrib">attrib</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="0" data-max="1">
+                  <rr-o>
+                     <rr-a>
+                        <rr-t>'&lt;'</rr-t>
+                        <rr-t>NAME</rr-t>
+                        <rr-t>'&gt;'</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="retstat">retstat</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'return'</rr-t><a href="#explist">explist</a></rr-a>
+                        <rr-t>'break'</rr-t>
+                        <rr-t>'continue'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>';'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="label">label</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'::'</rr-t>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>'::'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="funcname">funcname</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'.'</rr-t>
+                           <rr-t>NAME</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>':'</rr-t>
+                           <rr-t>NAME</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="varlist">varlist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#var">var</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#var">var</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="namelist">namelist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t>
+                           <rr-t>NAME</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="explist">explist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#exp">exp</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#exp">exp</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="exp">exp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'nil'</rr-t>
+               <rr-t>'false'</rr-t>
+               <rr-t>'true'</rr-t><a href="#number">number</a><a href="#string">string</a><rr-t>'...'</rr-t><a href="#functiondef">functiondef</a><a href="#prefixexp">prefixexp</a><a href="#tableconstructor">tableconstructor</a><rr-a><a href="#exp">exp</a><rr-a>
+                     <rr-o>
+                        <rr-t>'^'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#exp">exp</a></rr-a>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>'not'</rr-t>
+                        <rr-t>'#'</rr-t>
+                        <rr-t>'-'</rr-t>
+                        <rr-t>'~'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#exp">exp</a></rr-a>
+               <rr-a><a href="#exp">exp</a><rr-a>
+                     <rr-o>
+                        <rr-t>'*'</rr-t>
+                        <rr-t>'/'</rr-t>
+                        <rr-t>'%'</rr-t>
+                        <rr-t>'//'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#exp">exp</a></rr-a>
+               <rr-a><a href="#exp">exp</a><rr-a>
+                     <rr-o>
+                        <rr-t>'+'</rr-t>
+                        <rr-t>'-'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#exp">exp</a></rr-a>
+               <rr-a><a href="#exp">exp</a><rr-a>
+                     <rr-o>
+                        <rr-t>'..'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#exp">exp</a></rr-a>
+               <rr-a><a href="#exp">exp</a><rr-a>
+                     <rr-o>
+                        <rr-t>'&lt;'</rr-t>
+                        <rr-t>'&gt;'</rr-t>
+                        <rr-t>'&lt;='</rr-t>
+                        <rr-t>'&gt;='</rr-t>
+                        <rr-t>'~='</rr-t>
+                        <rr-t>'=='</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#exp">exp</a></rr-a>
+               <rr-a><a href="#exp">exp</a><rr-a>
+                     <rr-o>
+                        <rr-t>'and'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#exp">exp</a></rr-a>
+               <rr-a><a href="#exp">exp</a><rr-a>
+                     <rr-o>
+                        <rr-t>'or'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#exp">exp</a></rr-a>
+               <rr-a><a href="#exp">exp</a><rr-a>
+                     <rr-o>
+                        <rr-t>'&amp;'</rr-t>
+                        <rr-t>'|'</rr-t>
+                        <rr-t>'~'</rr-t>
+                        <rr-t>'&lt;&lt;'</rr-t>
+                        <rr-t>'&gt;&gt;'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#exp">exp</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="var">var</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>NAME</rr-t>
+               <rr-a><a href="#prefixexp">prefixexp</a><rr-a>
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'['</rr-t><a href="#exp">exp</a><rr-t>']'</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>'.'</rr-t>
+                           <rr-t>NAME</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="prefixexp">prefixexp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'['</rr-t><a href="#exp">exp</a><rr-t>']'</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>'.'</rr-t>
+                           <rr-t>NAME</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a><a href="#functioncall">functioncall</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'['</rr-t><a href="#exp">exp</a><rr-t>']'</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>'.'</rr-t>
+                           <rr-t>NAME</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#exp">exp</a><rr-t>')'</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'['</rr-t><a href="#exp">exp</a><rr-t>']'</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>'.'</rr-t>
+                           <rr-t>NAME</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functioncall">functioncall</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'['</rr-t><a href="#exp">exp</a><rr-t>']'</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>'.'</rr-t>
+                           <rr-t>NAME</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#args">args</a></rr-a>
+               <rr-a><a href="#functioncall">functioncall</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'['</rr-t><a href="#exp">exp</a><rr-t>']'</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>'.'</rr-t>
+                           <rr-t>NAME</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#args">args</a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#exp">exp</a><rr-t>')'</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'['</rr-t><a href="#exp">exp</a><rr-t>']'</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>'.'</rr-t>
+                           <rr-t>NAME</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#args">args</a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'['</rr-t><a href="#exp">exp</a><rr-t>']'</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>'.'</rr-t>
+                           <rr-t>NAME</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>':'</rr-t>
+                  <rr-t>NAME</rr-t><a href="#args">args</a></rr-a>
+               <rr-a><a href="#functioncall">functioncall</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'['</rr-t><a href="#exp">exp</a><rr-t>']'</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>'.'</rr-t>
+                           <rr-t>NAME</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>':'</rr-t>
+                  <rr-t>NAME</rr-t><a href="#args">args</a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#exp">exp</a><rr-t>')'</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'['</rr-t><a href="#exp">exp</a><rr-t>']'</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>'.'</rr-t>
+                           <rr-t>NAME</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>':'</rr-t>
+                  <rr-t>NAME</rr-t><a href="#args">args</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="args">args</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#explist">explist</a><rr-t>')'</rr-t>
+               </rr-a><a href="#tableconstructor">tableconstructor</a><a href="#string">string</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functiondef">functiondef</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'function'</rr-t><a href="#funcbody">funcbody</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="funcbody">funcbody</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#parlist">parlist</a><rr-t>')'</rr-t><a href="#block">block</a><rr-t>'end'</rr-t>
+               </rr-a>
+            </rr-o>
+            <pre>/* lparser.c says "is 'parlist' not empty?"
+ * That code does so by checking la(1) == ')'.
+ * This means that parlist can derive empty.
+ */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="parlist">parlist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#namelist">namelist</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t>
+                           <rr-t>'...'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-t>'...'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tableconstructor">tableconstructor</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#fieldlist">fieldlist</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="fieldlist">fieldlist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#field">field</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#fieldsep">fieldsep</a><a href="#field">field</a></rr-a>
+                     </rr-o>
+                  </rr-a><a href="#fieldsep">fieldsep</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="field">field</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#exp">exp</a><rr-t>']'</rr-t>
+                  <rr-t>'='</rr-t><a href="#exp">exp</a></rr-a>
+               <rr-a>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>'='</rr-t><a href="#exp">exp</a></rr-a><a href="#exp">exp</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="fieldsep">fieldsep</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>','</rr-t>
+               <rr-t>';'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="number">number</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>INT</rr-t>
+               <rr-t>HEX</rr-t>
+               <rr-t>FLOAT</rr-t>
+               <rr-t>HEX_FLOAT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="string">string</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>NORMALSTRING</rr-t>
+               <rr-t>CHARSTRING</rr-t>
+               <rr-t>LONGSTRING</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>
