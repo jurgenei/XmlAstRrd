@@ -5,7 +5,7 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1>Railroad cmake/CMake.ast.xml</h1>
+      <h1>Railroad cmake/CMake</h1>
       <pre>/*
 Copyright (c) 2018  zbq.
 
@@ -15,6 +15,8 @@ CMake language grammar reference:
 https://cmake.org/cmake/help/v3.12/manual/cmake-language.7.html
 
 */</pre>
+      <h1>Grammar Decl</h1>
+      <pre>grammar CMake;</pre>
       <h1>Rules</h1>
       <h2 id="file_">file_</h2>
       <p>
@@ -70,8 +72,8 @@ https://cmake.org/cmake/help/v3.12/manual/cmake-language.7.html
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c></rr-c>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">[A-Za-z_]</rr-t>
+                  <rr-t data-min="0" data-max="inf">[A-Za-z0-9_]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -82,9 +84,11 @@ https://cmake.org/cmake/help/v3.12/manual/cmake-language.7.html
             <rr-o>
                <rr-a>
                   <rr-o>
-                     <rr-a></rr-a>
                      <rr-a>
-                        <rr-t>Escape_sequence</rr-t>
+                        <rr-t data-min="1" data-max="1">~[ \t\r\n()#"\\]</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">Escape_sequence</rr-t>
                      </rr-a>
                   </rr-o>
                </rr-a>
@@ -96,13 +100,13 @@ https://cmake.org/cmake/help/v3.12/manual/cmake-language.7.html
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>Escape_identity</rr-t>
+                  <rr-t data-min="1" data-max="1">Escape_identity</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>Escape_encoded</rr-t>
+                  <rr-t data-min="1" data-max="1">Escape_encoded</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>Escape_semicolon</rr-t>
+                  <rr-t data-min="1" data-max="1">Escape_semicolon</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -112,7 +116,8 @@ https://cmake.org/cmake/help/v3.12/manual/cmake-language.7.html
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'\\'</rr-t>
+                  <rr-t data-min="1" data-max="1">'\\'</rr-t>
+                  <rr-t data-min="1" data-max="1">~[A-Za-z0-9;]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -122,13 +127,13 @@ https://cmake.org/cmake/help/v3.12/manual/cmake-language.7.html
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'\\t'</rr-t>
+                  <rr-t data-min="1" data-max="1">'\\t'</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>'\\r'</rr-t>
+                  <rr-t data-min="1" data-max="1">'\\r'</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>'\\n'</rr-t>
+                  <rr-t data-min="1" data-max="1">'\\n'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -138,7 +143,7 @@ https://cmake.org/cmake/help/v3.12/manual/cmake-language.7.html
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'\\;'</rr-t>
+                  <rr-t data-min="1" data-max="1">'\\;'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -148,17 +153,19 @@ https://cmake.org/cmake/help/v3.12/manual/cmake-language.7.html
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'"'</rr-t>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
                      <rr-a>
-                        <rr-t>Escape_sequence</rr-t>
+                        <rr-t data-min="1" data-max="1">~[\\"]</rr-t>
                      </rr-a>
                      <rr-a>
-                        <rr-t>Quoted_cont</rr-t>
+                        <rr-t data-min="1" data-max="1">Escape_sequence</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">Quoted_cont</rr-t>
                      </rr-a>
                   </rr-o>
-                  <rr-t>'"'</rr-t>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -168,14 +175,14 @@ https://cmake.org/cmake/help/v3.12/manual/cmake-language.7.html
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'\\'</rr-t>
+                  <rr-t data-min="1" data-max="1">'\\'</rr-t>
                   <rr-o>
                      <rr-a>
-                        <rr-t>'\r'</rr-t>
-                        <rr-t>'\n'</rr-t>
+                        <rr-t data-min="1" data-max="1">'\r'</rr-t>
+                        <rr-t data-min="0" data-max="1">'\n'</rr-t>
                      </rr-a>
                      <rr-a>
-                        <rr-t>'\n'</rr-t>
+                        <rr-t data-min="1" data-max="1">'\n'</rr-t>
                      </rr-a>
                   </rr-o>
                </rr-a>
@@ -187,9 +194,9 @@ https://cmake.org/cmake/help/v3.12/manual/cmake-language.7.html
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'['</rr-t>
-                  <rr-t>Bracket_arg_nested</rr-t>
-                  <rr-t>']'</rr-t>
+                  <rr-t data-min="1" data-max="1">'['</rr-t>
+                  <rr-t data-min="1" data-max="1">Bracket_arg_nested</rr-t>
+                  <rr-t data-min="1" data-max="1">']'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -199,14 +206,14 @@ https://cmake.org/cmake/help/v3.12/manual/cmake-language.7.html
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'='</rr-t>
-                  <rr-t>Bracket_arg_nested</rr-t>
-                  <rr-t>'='</rr-t>
+                  <rr-t data-min="1" data-max="1">'='</rr-t>
+                  <rr-t data-min="1" data-max="1">Bracket_arg_nested</rr-t>
+                  <rr-t data-min="1" data-max="1">'='</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>'['</rr-t>
-                  <rr-c></rr-c>
-                  <rr-t>']'</rr-t>
+                  <rr-t data-min="1" data-max="1">'['</rr-t>
+                  <rr-t data-min="1" data-max="1">.</rr-t>
+                  <rr-t data-min="1" data-max="1">']'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -216,9 +223,9 @@ https://cmake.org/cmake/help/v3.12/manual/cmake-language.7.html
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'#['</rr-t>
-                  <rr-t>Bracket_arg_nested</rr-t>
-                  <rr-t>']'</rr-t>
+                  <rr-t data-min="1" data-max="1">'#['</rr-t>
+                  <rr-t data-min="1" data-max="1">Bracket_arg_nested</rr-t>
+                  <rr-t data-min="1" data-max="1">']'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -228,29 +235,34 @@ https://cmake.org/cmake/help/v3.12/manual/cmake-language.7.html
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'#'</rr-t>
+                  <rr-t data-min="1" data-max="1">'#'</rr-t>
                   <rr-o>
                      <rr-a></rr-a>
                      <rr-a>
-                        <rr-t>'['</rr-t>
-                        <rr-t>'='</rr-t>
+                        <rr-t data-min="1" data-max="1">'['</rr-t>
+                        <rr-t data-min="1" data-max="1">'='</rr-t>
                      </rr-a>
                      <rr-a>
-                        <rr-t>'['</rr-t>
-                        <rr-t>'='</rr-t>
+                        <rr-t data-min="1" data-max="1">'['</rr-t>
+                        <rr-t data-min="0" data-max="inf">'='</rr-t>
+                        <rr-t data-min="1" data-max="1">~('='|'['|'\r'|'\n')</rr-t>
+                        <rr-t data-min="1" data-max="1">~('\r'|'\n')</rr-t>
                      </rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">~('['|'\r'|'\n')</rr-t>
+                        <rr-t data-min="1" data-max="1">~('\r'|'\n')</rr-t>
+                     </rr-a>
                   </rr-o>
                   <rr-o>
                      <rr-a>
-                        <rr-t>'\r'</rr-t>
-                        <rr-t>'\n'</rr-t>
+                        <rr-t data-min="1" data-max="1">'\r'</rr-t>
+                        <rr-t data-min="0" data-max="1">'\n'</rr-t>
                      </rr-a>
                      <rr-a>
-                        <rr-t>'\n'</rr-t>
+                        <rr-t data-min="1" data-max="1">'\n'</rr-t>
                      </rr-a>
                      <rr-a>
-                        <rr-t>EOF</rr-t>
+                        <rr-t data-min="1" data-max="1">EOF</rr-t>
                      </rr-a>
                   </rr-o>
                </rr-a>
@@ -264,11 +276,11 @@ https://cmake.org/cmake/help/v3.12/manual/cmake-language.7.html
                <rr-a>
                   <rr-o>
                      <rr-a>
-                        <rr-t>'\r'</rr-t>
-                        <rr-t>'\n'</rr-t>
+                        <rr-t data-min="1" data-max="1">'\r'</rr-t>
+                        <rr-t data-min="0" data-max="1">'\n'</rr-t>
                      </rr-a>
                      <rr-a>
-                        <rr-t>'\n'</rr-t>
+                        <rr-t data-min="1" data-max="1">'\n'</rr-t>
                      </rr-a>
                   </rr-o>
                </rr-a>
@@ -280,7 +292,7 @@ https://cmake.org/cmake/help/v3.12/manual/cmake-language.7.html
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="inf">[ \t]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>

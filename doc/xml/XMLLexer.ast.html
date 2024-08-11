@@ -5,7 +5,7 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1>Railroad xml/XMLLexer.ast.xml</h1>
+      <h1>Railroad xml/XMLLexer</h1>
       <pre>/*
  [The "BSD licence"]
  Copyright (c) 2013 Terence Parr
@@ -33,15 +33,19 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */</pre>
+      <h1>Grammar Decl</h1>
+      <pre>lexer grammar XMLLexer;
+
+// Default "mode": Everything OUTSIDE of a tag</pre>
       <h1>Rules</h1>
       <h2 id="COMMENT">COMMENT</h2>
       <p>
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'&lt;!--'</rr-t>
-                  <rr-c></rr-c>
-                  <rr-t>'--&gt;'</rr-t>
+                  <rr-t data-min="1" data-max="1">'&lt;!--'</rr-t>
+                  <rr-t data-min="1" data-max="1">.</rr-t>
+                  <rr-t data-min="1" data-max="1">'--&gt;'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -51,9 +55,9 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'&lt;![CDATA['</rr-t>
-                  <rr-c></rr-c>
-                  <rr-t>']]&gt;'</rr-t>
+                  <rr-t data-min="1" data-max="1">'&lt;![CDATA['</rr-t>
+                  <rr-t data-min="1" data-max="1">.</rr-t>
+                  <rr-t data-min="1" data-max="1">']]&gt;'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -63,9 +67,9 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'&lt;!'</rr-t>
-                  <rr-c></rr-c>
-                  <rr-t>'&gt;'</rr-t>
+                  <rr-t data-min="1" data-max="1">'&lt;!'</rr-t>
+                  <rr-t data-min="1" data-max="1">.</rr-t>
+                  <rr-t data-min="1" data-max="1">'&gt;'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -75,9 +79,9 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'&amp;'</rr-t>
-                  <rr-t>Name</rr-t>
-                  <rr-t>';'</rr-t>
+                  <rr-t data-min="1" data-max="1">'&amp;'</rr-t>
+                  <rr-t data-min="1" data-max="1">Name</rr-t>
+                  <rr-t data-min="1" data-max="1">';'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -87,14 +91,14 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'&amp;#'</rr-t>
-                  <rr-t>DIGIT</rr-t>
-                  <rr-t>';'</rr-t>
+                  <rr-t data-min="1" data-max="1">'&amp;#'</rr-t>
+                  <rr-t data-min="1" data-max="inf">DIGIT</rr-t>
+                  <rr-t data-min="1" data-max="1">';'</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>'&amp;#x'</rr-t>
-                  <rr-t>HEXDIGIT</rr-t>
-                  <rr-t>';'</rr-t>
+                  <rr-t data-min="1" data-max="1">'&amp;#x'</rr-t>
+                  <rr-t data-min="1" data-max="inf">HEXDIGIT</rr-t>
+                  <rr-t data-min="1" data-max="1">';'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -106,14 +110,14 @@
                <rr-a>
                   <rr-o>
                      <rr-a>
-                        <rr-t>' '</rr-t>
+                        <rr-t data-min="1" data-max="1">' '</rr-t>
                      </rr-a>
                      <rr-a>
-                        <rr-t>'\t'</rr-t>
+                        <rr-t data-min="1" data-max="1">'\t'</rr-t>
                      </rr-a>
                      <rr-a>
-                        <rr-t>'\r'</rr-t>
-                        <rr-t>'\n'</rr-t>
+                        <rr-t data-min="0" data-max="1">'\r'</rr-t>
+                        <rr-t data-min="1" data-max="1">'\n'</rr-t>
                      </rr-a>
                   </rr-o>
                </rr-a>
@@ -125,7 +129,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'&lt;'</rr-t>
+                  <rr-t data-min="1" data-max="1">'&lt;'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -135,8 +139,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'&lt;?xml'</rr-t>
-                  <rr-t>S</rr-t>
+                  <rr-t data-min="1" data-max="1">'&lt;?xml'</rr-t>
+                  <rr-t data-min="1" data-max="1">S</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -146,8 +150,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'&lt;?'</rr-t>
-                  <rr-t>Name</rr-t>
+                  <rr-t data-min="1" data-max="1">'&lt;?'</rr-t>
+                  <rr-t data-min="1" data-max="1">Name</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -156,117 +160,121 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">~[&lt;&amp;]</rr-t>
+               </rr-a>
             </rr-o>
          </rr-rr>
       </p>
       <rr-o>
          <rr-a>
-            <rr-t>'&gt;'</rr-t>
+            <rr-t data-min="1" data-max="1">'&gt;'</rr-t>
          </rr-a>
       </rr-o>
       <rr-o>
          <rr-a>
-            <rr-t>'?&gt;'</rr-t>
+            <rr-t data-min="1" data-max="1">'?&gt;'</rr-t>
          </rr-a>
       </rr-o>
       <rr-o>
          <rr-a>
-            <rr-t>'/&gt;'</rr-t>
+            <rr-t data-min="1" data-max="1">'/&gt;'</rr-t>
          </rr-a>
       </rr-o>
       <rr-o>
          <rr-a>
-            <rr-t>'/'</rr-t>
+            <rr-t data-min="1" data-max="1">'/'</rr-t>
          </rr-a>
       </rr-o>
       <rr-o>
          <rr-a>
-            <rr-t>'='</rr-t>
+            <rr-t data-min="1" data-max="1">'='</rr-t>
          </rr-a>
       </rr-o>
       <rr-o>
          <rr-a>
-            <rr-t>'"'</rr-t>
-            <rr-t>'"'</rr-t>
+            <rr-t data-min="1" data-max="1">'"'</rr-t>
+            <rr-t data-min="0" data-max="inf">~[&lt;"]</rr-t>
+            <rr-t data-min="1" data-max="1">'"'</rr-t>
          </rr-a>
          <rr-a>
-            <rr-t>'\''</rr-t>
-            <rr-t>'\''</rr-t>
-         </rr-a>
-      </rr-o>
-      <rr-o>
-         <rr-a>
-            <rr-t>NameStartChar</rr-t>
-            <rr-t>NameChar</rr-t>
+            <rr-t data-min="1" data-max="1">'\''</rr-t>
+            <rr-t data-min="0" data-max="inf">~[&lt;']</rr-t>
+            <rr-t data-min="1" data-max="1">'\''</rr-t>
          </rr-a>
       </rr-o>
       <rr-o>
          <rr-a>
-            <rr-c></rr-c>
+            <rr-t data-min="1" data-max="1">NameStartChar</rr-t>
+            <rr-t data-min="0" data-max="inf">NameChar</rr-t>
          </rr-a>
       </rr-o>
       <rr-o>
          <rr-a>
-            <rr-c></rr-c>
+            <rr-t data-min="1" data-max="1">[ \t\r\n]</rr-t>
          </rr-a>
       </rr-o>
       <rr-o>
          <rr-a>
-            <rr-c></rr-c>
+            <rr-t data-min="1" data-max="1">[a-fA-F0-9]</rr-t>
          </rr-a>
       </rr-o>
       <rr-o>
          <rr-a>
-            <rr-t>NameStartChar</rr-t>
-         </rr-a>
-         <rr-a>
-            <rr-t>'-'</rr-t>
-         </rr-a>
-         <rr-a>
-            <rr-t>'.'</rr-t>
-         </rr-a>
-         <rr-a>
-            <rr-t>DIGIT</rr-t>
-         </rr-a>
-         <rr-a>
-            <rr-t>'\u00B7'</rr-t>
-         </rr-a>
-         <rr-a>
-            <rr-c>'\u0300'..'\u036F'</rr-c>
-         </rr-a>
-         <rr-a>
-            <rr-c>'\u203F'..'\u2040'</rr-c>
+            <rr-t data-min="1" data-max="1">[0-9]</rr-t>
          </rr-a>
       </rr-o>
       <rr-o>
          <rr-a>
-            <rr-c></rr-c>
+            <rr-t data-min="1" data-max="1">NameStartChar</rr-t>
          </rr-a>
          <rr-a>
-            <rr-c>'\u2070'..'\u218F'</rr-c>
+            <rr-t data-min="1" data-max="1">'-'</rr-t>
          </rr-a>
          <rr-a>
-            <rr-c>'\u2C00'..'\u2FEF'</rr-c>
+            <rr-t data-min="1" data-max="1">'.'</rr-t>
          </rr-a>
          <rr-a>
-            <rr-c>'\u3001'..'\uD7FF'</rr-c>
+            <rr-t data-min="1" data-max="1">DIGIT</rr-t>
          </rr-a>
          <rr-a>
-            <rr-c>'\uF900'..'\uFDCF'</rr-c>
+            <rr-t data-min="1" data-max="1">'\u00B7'</rr-t>
          </rr-a>
          <rr-a>
-            <rr-c>'\uFDF0'..'\uFFFD'</rr-c>
+            <rr-t data-min="1" data-max="1">'\u0300'..'\u036F'</rr-t>
          </rr-a>
-      </rr-o>
-      <rr-o>
          <rr-a>
-            <rr-t>'?&gt;'</rr-t>
+            <rr-t data-min="1" data-max="1">'\u203F'..'\u2040'</rr-t>
          </rr-a>
       </rr-o>
       <rr-o>
          <rr-a>
-            <rr-c></rr-c>
+            <rr-t data-min="1" data-max="1">[_:a-zA-Z]</rr-t>
+         </rr-a>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">'\u2070'..'\u218F'</rr-t>
+         </rr-a>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">'\u2C00'..'\u2FEF'</rr-t>
+         </rr-a>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">'\u3001'..'\uD7FF'</rr-t>
+         </rr-a>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">'\uF900'..'\uFDCF'</rr-t>
+         </rr-a>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">'\uFDF0'..'\uFFFD'</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">'?&gt;'</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">.</rr-t>
          </rr-a>
       </rr-o>
    </body>

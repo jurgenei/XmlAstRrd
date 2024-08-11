@@ -5,7 +5,7 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1>Railroad wkt-crs-v1/wktcrsv1.ast.xml</h1>
+      <h1>Railroad wkt-crs-v1/wktcrsv1</h1>
       <pre>/*
  [The "BSD licence"] Copyright (c) 2023 Nikolay Fiykov All rights reserved.
  
@@ -22,6 +22,8 @@
       <pre>/*
  * For parsing propeties file (like GeoTools epsg.properties), use starting rule "propsFile". For parsing single WKT CRS definition, use starting rule "wkt".
  */</pre>
+      <h1>Grammar Decl</h1>
+      <pre>grammar wktcrsv1;</pre>
       <h1>Rules</h1>
       <h2 id="propsFile">propsFile</h2>
       <p>
@@ -509,15 +511,15 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>PM</rr-t>
-                  <rr-t>INT</rr-t>
+                  <rr-t data-min="0" data-max="1">PM</rr-t>
+                  <rr-t data-min="1" data-max="1">INT</rr-t>
                   <rr-o>
                      <rr-a>
-                        <rr-t>'.'</rr-t>
-                        <rr-t>INT</rr-t>
+                        <rr-t data-min="1" data-max="1">'.'</rr-t>
+                        <rr-t data-min="1" data-max="1">INT</rr-t>
                      </rr-a>
                   </rr-o>
-                  <rr-t>EXP</rr-t>
+                  <rr-t data-min="0" data-max="1">EXP</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -527,14 +529,16 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'"'</rr-t>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
                   <rr-o>
                      <rr-a>
-                        <rr-t>'""'</rr-t>
+                        <rr-t data-min="1" data-max="1">'""'</rr-t>
                      </rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">~'"'</rr-t>
+                     </rr-a>
                   </rr-o>
-                  <rr-t>'"'</rr-t>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -544,8 +548,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c></rr-c>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">[A-Z]</rr-t>
+                  <rr-t data-min="1" data-max="inf">[0-9A-Z]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -555,7 +559,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'#'</rr-t>
+                  <rr-t data-min="1" data-max="1">'#'</rr-t>
+                  <rr-t data-min="0" data-max="inf">~[\r\n]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -565,7 +570,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="inf">[ \r\n\t]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -575,7 +580,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>','</rr-t>
+                  <rr-t data-min="1" data-max="1">','</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -585,10 +590,10 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'['</rr-t>
+                  <rr-t data-min="1" data-max="1">'['</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>'('</rr-t>
+                  <rr-t data-min="1" data-max="1">'('</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -598,10 +603,10 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>']'</rr-t>
+                  <rr-t data-min="1" data-max="1">']'</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>')'</rr-t>
+                  <rr-t data-min="1" data-max="1">')'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -611,7 +616,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'='</rr-t>
+                  <rr-t data-min="1" data-max="1">'='</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -621,7 +626,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -631,9 +636,9 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c></rr-c>
-                  <rr-t>PM</rr-t>
-                  <rr-t>INT</rr-t>
+                  <rr-t data-min="1" data-max="1">[Ee]</rr-t>
+                  <rr-t data-min="0" data-max="1">PM</rr-t>
+                  <rr-t data-min="1" data-max="1">INT</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -643,10 +648,10 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'+'</rr-t>
+                  <rr-t data-min="1" data-max="1">'+'</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>'-'</rr-t>
+                  <rr-t data-min="1" data-max="1">'-'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>

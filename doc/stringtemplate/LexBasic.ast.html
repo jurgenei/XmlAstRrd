@@ -5,7 +5,7 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1>Railroad stringtemplate/LexBasic.ast.xml</h1>
+      <h1>Railroad stringtemplate/LexBasic</h1>
       <pre>/*
  * [The "BSD license"]
  *  Copyright (c) 2014-2015 Gerald Rosenberg
@@ -34,16 +34,18 @@
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */</pre>
+      <h1>Grammar Decl</h1>
+      <pre>lexer grammar LexBasic;</pre>
       <h1>Rules</h1>
       <h2 id="Ws">Ws</h2>
       <p>
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>Hws</rr-t>
+                  <rr-t data-min="1" data-max="1">Hws</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>Vws</rr-t>
+                  <rr-t data-min="1" data-max="1">Vws</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -53,7 +55,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">[ \t]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -63,7 +65,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">[\r\n\f]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -73,14 +75,14 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'/**'</rr-t>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">'/**'</rr-t>
+                  <rr-t data-min="1" data-max="1">.</rr-t>
                   <rr-o>
                      <rr-a>
-                        <rr-t>'*/'</rr-t>
+                        <rr-t data-min="1" data-max="1">'*/'</rr-t>
                      </rr-a>
                      <rr-a>
-                        <rr-t>EOF</rr-t>
+                        <rr-t data-min="1" data-max="1">EOF</rr-t>
                      </rr-a>
                   </rr-o>
                </rr-a>
@@ -92,14 +94,14 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'/*'</rr-t>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">'/*'</rr-t>
+                  <rr-t data-min="1" data-max="1">.</rr-t>
                   <rr-o>
                      <rr-a>
-                        <rr-t>'*/'</rr-t>
+                        <rr-t data-min="1" data-max="1">'*/'</rr-t>
                      </rr-a>
                      <rr-a>
-                        <rr-t>EOF</rr-t>
+                        <rr-t data-min="1" data-max="1">EOF</rr-t>
                      </rr-a>
                   </rr-o>
                </rr-a>
@@ -111,7 +113,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'//'</rr-t>
+                  <rr-t data-min="1" data-max="1">'//'</rr-t>
+                  <rr-t data-min="0" data-max="inf">~[\r\n]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -121,12 +124,14 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'//'</rr-t>
+                  <rr-t data-min="1" data-max="1">'//'</rr-t>
+                  <rr-t data-min="0" data-max="inf">~'\n'</rr-t>
                   <rr-o>
                      <rr-a>
-                        <rr-t>'\n'</rr-t>
-                        <rr-t>Hws</rr-t>
-                        <rr-t>'//'</rr-t>
+                        <rr-t data-min="1" data-max="1">'\n'</rr-t>
+                        <rr-t data-min="0" data-max="inf">Hws</rr-t>
+                        <rr-t data-min="1" data-max="1">'//'</rr-t>
+                        <rr-t data-min="0" data-max="inf">~'\n'</rr-t>
                      </rr-a>
                   </rr-o>
                </rr-a>
@@ -138,19 +143,19 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>Esc</rr-t>
+                  <rr-t data-min="1" data-max="1">Esc</rr-t>
                   <rr-o>
                      <rr-a>
-                        <rr-c></rr-c>
+                        <rr-t data-min="1" data-max="1">[btnfr"'\\]</rr-t>
                      </rr-a>
                      <rr-a>
-                        <rr-t>UnicodeEsc</rr-t>
+                        <rr-t data-min="1" data-max="1">UnicodeEsc</rr-t>
                      </rr-a>
                      <rr-a>
-                        <rr-c></rr-c>
+                        <rr-t data-min="1" data-max="1">.</rr-t>
                      </rr-a>
                      <rr-a>
-                        <rr-t>EOF</rr-t>
+                        <rr-t data-min="1" data-max="1">EOF</rr-t>
                      </rr-a>
                   </rr-o>
                </rr-a>
@@ -162,8 +167,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>Esc</rr-t>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">Esc</rr-t>
+                  <rr-t data-min="1" data-max="1">.</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -173,17 +178,17 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'u'</rr-t>
+                  <rr-t data-min="1" data-max="1">'u'</rr-t>
                   <rr-o>
                      <rr-a>
-                        <rr-t>HexDigit</rr-t>
+                        <rr-t data-min="1" data-max="1">HexDigit</rr-t>
                         <rr-o>
                            <rr-a>
-                              <rr-t>HexDigit</rr-t>
+                              <rr-t data-min="1" data-max="1">HexDigit</rr-t>
                               <rr-o>
                                  <rr-a>
-                                    <rr-t>HexDigit</rr-t>
-                                    <rr-t>HexDigit</rr-t>
+                                    <rr-t data-min="1" data-max="1">HexDigit</rr-t>
+                                    <rr-t data-min="0" data-max="1">HexDigit</rr-t>
                                  </rr-a>
                               </rr-o>
                            </rr-a>
@@ -199,16 +204,16 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>OctalDigit</rr-t>
+                  <rr-t data-min="1" data-max="1">OctalDigit</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>OctalDigit</rr-t>
-                  <rr-t>OctalDigit</rr-t>
+                  <rr-t data-min="1" data-max="1">OctalDigit</rr-t>
+                  <rr-t data-min="1" data-max="1">OctalDigit</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-c></rr-c>
-                  <rr-t>OctalDigit</rr-t>
-                  <rr-t>OctalDigit</rr-t>
+                  <rr-t data-min="1" data-max="1">[0-3]</rr-t>
+                  <rr-t data-min="1" data-max="1">OctalDigit</rr-t>
+                  <rr-t data-min="1" data-max="1">OctalDigit</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -218,9 +223,9 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'0'</rr-t>
-                  <rr-c></rr-c>
-                  <rr-t>HexDigits</rr-t>
+                  <rr-t data-min="1" data-max="1">'0'</rr-t>
+                  <rr-t data-min="1" data-max="1">[xX]</rr-t>
+                  <rr-t data-min="1" data-max="1">HexDigits</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -230,9 +235,9 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'0'</rr-t>
-                  <rr-t>'_'</rr-t>
-                  <rr-t>OctalDigits</rr-t>
+                  <rr-t data-min="1" data-max="1">'0'</rr-t>
+                  <rr-t data-min="1" data-max="1">'_'</rr-t>
+                  <rr-t data-min="1" data-max="1">OctalDigits</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -242,11 +247,11 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'0'</rr-t>
+                  <rr-t data-min="1" data-max="1">'0'</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-c></rr-c>
-                  <rr-t>DecDigit</rr-t>
+                  <rr-t data-min="1" data-max="1">[1-9]</rr-t>
+                  <rr-t data-min="0" data-max="inf">DecDigit</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -256,9 +261,9 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'0'</rr-t>
-                  <rr-c></rr-c>
-                  <rr-t>BinaryDigits</rr-t>
+                  <rr-t data-min="1" data-max="1">'0'</rr-t>
+                  <rr-t data-min="1" data-max="1">[bB]</rr-t>
+                  <rr-t data-min="1" data-max="1">BinaryDigits</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -268,7 +273,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>HexDigit</rr-t>
+                  <rr-t data-min="1" data-max="inf">HexDigit</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -278,7 +283,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>DecDigit</rr-t>
+                  <rr-t data-min="1" data-max="inf">DecDigit</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -288,7 +293,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>OctalDigit</rr-t>
+                  <rr-t data-min="1" data-max="inf">OctalDigit</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -298,7 +303,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>BinaryDigit</rr-t>
+                  <rr-t data-min="1" data-max="inf">BinaryDigit</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -308,7 +313,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">[0-9a-fA-F]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -318,7 +323,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">[0-9]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -328,7 +333,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">[0-7]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -338,7 +343,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">[01]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -348,10 +353,10 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>True_</rr-t>
+                  <rr-t data-min="1" data-max="1">True_</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>False_</rr-t>
+                  <rr-t data-min="1" data-max="1">False_</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -361,14 +366,16 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>SQuote</rr-t>
+                  <rr-t data-min="1" data-max="1">SQuote</rr-t>
                   <rr-o>
                      <rr-a>
-                        <rr-t>EscSeq</rr-t>
+                        <rr-t data-min="1" data-max="1">EscSeq</rr-t>
                      </rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">~['\r\n\\]</rr-t>
+                     </rr-a>
                   </rr-o>
-                  <rr-t>SQuote</rr-t>
+                  <rr-t data-min="1" data-max="1">SQuote</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -378,14 +385,16 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>SQuote</rr-t>
+                  <rr-t data-min="1" data-max="1">SQuote</rr-t>
                   <rr-o>
                      <rr-a>
-                        <rr-t>EscSeq</rr-t>
+                        <rr-t data-min="1" data-max="1">EscSeq</rr-t>
                      </rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">~['\r\n\\]</rr-t>
+                     </rr-a>
                   </rr-o>
-                  <rr-t>SQuote</rr-t>
+                  <rr-t data-min="1" data-max="1">SQuote</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -395,14 +404,16 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>DQuote</rr-t>
+                  <rr-t data-min="1" data-max="1">DQuote</rr-t>
                   <rr-o>
                      <rr-a>
-                        <rr-t>EscSeq</rr-t>
+                        <rr-t data-min="1" data-max="1">EscSeq</rr-t>
                      </rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">~["\r\n\\]</rr-t>
+                     </rr-a>
                   </rr-o>
-                  <rr-t>DQuote</rr-t>
+                  <rr-t data-min="1" data-max="1">DQuote</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -412,12 +423,14 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>SQuote</rr-t>
+                  <rr-t data-min="1" data-max="1">SQuote</rr-t>
                   <rr-o>
                      <rr-a>
-                        <rr-t>EscSeq</rr-t>
+                        <rr-t data-min="1" data-max="1">EscSeq</rr-t>
                      </rr-a>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">~['\r\n\\]</rr-t>
+                     </rr-a>
                   </rr-o>
                </rr-a>
             </rr-o>
@@ -428,26 +441,26 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>DecDigits</rr-t>
-                  <rr-t>Dot</rr-t>
-                  <rr-t>DecDigits</rr-t>
-                  <rr-t>ExponentPart</rr-t>
-                  <rr-t>FloatTypeSuffix</rr-t>
+                  <rr-t data-min="1" data-max="1">DecDigits</rr-t>
+                  <rr-t data-min="1" data-max="1">Dot</rr-t>
+                  <rr-t data-min="0" data-max="1">DecDigits</rr-t>
+                  <rr-t data-min="0" data-max="1">ExponentPart</rr-t>
+                  <rr-t data-min="0" data-max="1">FloatTypeSuffix</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>Dot</rr-t>
-                  <rr-t>DecDigits</rr-t>
-                  <rr-t>ExponentPart</rr-t>
-                  <rr-t>FloatTypeSuffix</rr-t>
+                  <rr-t data-min="1" data-max="1">Dot</rr-t>
+                  <rr-t data-min="1" data-max="1">DecDigits</rr-t>
+                  <rr-t data-min="0" data-max="1">ExponentPart</rr-t>
+                  <rr-t data-min="0" data-max="1">FloatTypeSuffix</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>DecDigits</rr-t>
-                  <rr-t>ExponentPart</rr-t>
-                  <rr-t>FloatTypeSuffix</rr-t>
+                  <rr-t data-min="1" data-max="1">DecDigits</rr-t>
+                  <rr-t data-min="1" data-max="1">ExponentPart</rr-t>
+                  <rr-t data-min="0" data-max="1">FloatTypeSuffix</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>DecDigits</rr-t>
-                  <rr-t>FloatTypeSuffix</rr-t>
+                  <rr-t data-min="1" data-max="1">DecDigits</rr-t>
+                  <rr-t data-min="1" data-max="1">FloatTypeSuffix</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -457,9 +470,9 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c></rr-c>
-                  <rr-c></rr-c>
-                  <rr-t>DecDigits</rr-t>
+                  <rr-t data-min="1" data-max="1">[eE]</rr-t>
+                  <rr-t data-min="0" data-max="1">[+-]</rr-t>
+                  <rr-t data-min="1" data-max="1">DecDigits</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -469,7 +482,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">[fFdD]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -479,9 +492,9 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>HexSignificand</rr-t>
-                  <rr-t>BinaryExponent</rr-t>
-                  <rr-t>FloatTypeSuffix</rr-t>
+                  <rr-t data-min="1" data-max="1">HexSignificand</rr-t>
+                  <rr-t data-min="1" data-max="1">BinaryExponent</rr-t>
+                  <rr-t data-min="0" data-max="1">FloatTypeSuffix</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -491,15 +504,15 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>HexNumeral</rr-t>
-                  <rr-t>Dot</rr-t>
+                  <rr-t data-min="1" data-max="1">HexNumeral</rr-t>
+                  <rr-t data-min="0" data-max="1">Dot</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>'0'</rr-t>
-                  <rr-c></rr-c>
-                  <rr-t>HexDigits</rr-t>
-                  <rr-t>Dot</rr-t>
-                  <rr-t>HexDigits</rr-t>
+                  <rr-t data-min="1" data-max="1">'0'</rr-t>
+                  <rr-t data-min="1" data-max="1">[xX]</rr-t>
+                  <rr-t data-min="0" data-max="1">HexDigits</rr-t>
+                  <rr-t data-min="1" data-max="1">Dot</rr-t>
+                  <rr-t data-min="1" data-max="1">HexDigits</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -509,9 +522,9 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c></rr-c>
-                  <rr-c></rr-c>
-                  <rr-t>DecDigits</rr-t>
+                  <rr-t data-min="1" data-max="1">[pP]</rr-t>
+                  <rr-t data-min="0" data-max="1">[+-]</rr-t>
+                  <rr-t data-min="1" data-max="1">DecDigits</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -521,22 +534,22 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>NameStartChar</rr-t>
+                  <rr-t data-min="1" data-max="1">NameStartChar</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-c>'0'..'9'</rr-c>
+                  <rr-t data-min="1" data-max="1">'0'..'9'</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>Underscore</rr-t>
+                  <rr-t data-min="1" data-max="1">Underscore</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>'\u00B7'</rr-t>
+                  <rr-t data-min="1" data-max="1">'\u00B7'</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-c>'\u0300'..'\u036F'</rr-c>
+                  <rr-t data-min="1" data-max="1">'\u0300'..'\u036F'</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-c>'\u203F'..'\u2040'</rr-c>
+                  <rr-t data-min="1" data-max="1">'\u203F'..'\u2040'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -546,43 +559,43 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c>'A'..'Z'</rr-c>
+                  <rr-t data-min="1" data-max="1">'A'..'Z'</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-c>'a'..'z'</rr-c>
+                  <rr-t data-min="1" data-max="1">'a'..'z'</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-c>'\u00C0'..'\u00D6'</rr-c>
+                  <rr-t data-min="1" data-max="1">'\u00C0'..'\u00D6'</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-c>'\u00D8'..'\u00F6'</rr-c>
+                  <rr-t data-min="1" data-max="1">'\u00D8'..'\u00F6'</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-c>'\u00F8'..'\u02FF'</rr-c>
+                  <rr-t data-min="1" data-max="1">'\u00F8'..'\u02FF'</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-c>'\u0370'..'\u037D'</rr-c>
+                  <rr-t data-min="1" data-max="1">'\u0370'..'\u037D'</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-c>'\u037F'..'\u1FFF'</rr-c>
+                  <rr-t data-min="1" data-max="1">'\u037F'..'\u1FFF'</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-c>'\u200C'..'\u200D'</rr-c>
+                  <rr-t data-min="1" data-max="1">'\u200C'..'\u200D'</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-c>'\u2070'..'\u218F'</rr-c>
+                  <rr-t data-min="1" data-max="1">'\u2070'..'\u218F'</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-c>'\u2C00'..'\u2FEF'</rr-c>
+                  <rr-t data-min="1" data-max="1">'\u2C00'..'\u2FEF'</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-c>'\u3001'..'\uD7FF'</rr-c>
+                  <rr-t data-min="1" data-max="1">'\u3001'..'\uD7FF'</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-c>'\uF900'..'\uFDCF'</rr-c>
+                  <rr-t data-min="1" data-max="1">'\uF900'..'\uFDCF'</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-c>'\uFDF0'..'\uFFFD'</rr-c>
+                  <rr-t data-min="1" data-max="1">'\uFDF0'..'\uFFFD'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -592,10 +605,10 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">[a-zA-Z$_]</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>JavaUnicodeChars</rr-t>
+                  <rr-t data-min="1" data-max="1">JavaUnicodeChars</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -605,10 +618,10 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">[a-zA-Z0-9$_]</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>JavaUnicodeChars</rr-t>
+                  <rr-t data-min="1" data-max="1">JavaUnicodeChars</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -617,10 +630,12 @@
       <p>
          <rr-rr>
             <rr-o>
-               <rr-a></rr-a>
                <rr-a>
-                  <rr-c></rr-c>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">~[\u0000-\u00FF\uD800-\uDBFF]</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[\uD800-\uDBFF]</rr-t>
+                  <rr-t data-min="1" data-max="1">[\uDC00-\uDFFF]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -630,7 +645,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'boolean'</rr-t>
+                  <rr-t data-min="1" data-max="1">'boolean'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -640,7 +655,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'byte'</rr-t>
+                  <rr-t data-min="1" data-max="1">'byte'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -650,7 +665,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'short'</rr-t>
+                  <rr-t data-min="1" data-max="1">'short'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -660,7 +675,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'int'</rr-t>
+                  <rr-t data-min="1" data-max="1">'int'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -670,7 +685,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'long'</rr-t>
+                  <rr-t data-min="1" data-max="1">'long'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -680,7 +695,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'char'</rr-t>
+                  <rr-t data-min="1" data-max="1">'char'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -690,7 +705,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'float'</rr-t>
+                  <rr-t data-min="1" data-max="1">'float'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -700,7 +715,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'double'</rr-t>
+                  <rr-t data-min="1" data-max="1">'double'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -710,7 +725,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'true'</rr-t>
+                  <rr-t data-min="1" data-max="1">'true'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -720,7 +735,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'false'</rr-t>
+                  <rr-t data-min="1" data-max="1">'false'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -730,7 +745,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'\\'</rr-t>
+                  <rr-t data-min="1" data-max="1">'\\'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -740,7 +755,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>':'</rr-t>
+                  <rr-t data-min="1" data-max="1">':'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -750,7 +765,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'::'</rr-t>
+                  <rr-t data-min="1" data-max="1">'::'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -760,7 +775,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'\''</rr-t>
+                  <rr-t data-min="1" data-max="1">'\''</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -770,7 +785,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'"'</rr-t>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -780,7 +795,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'`'</rr-t>
+                  <rr-t data-min="1" data-max="1">'`'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -790,7 +805,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'('</rr-t>
+                  <rr-t data-min="1" data-max="1">'('</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -800,7 +815,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>')'</rr-t>
+                  <rr-t data-min="1" data-max="1">')'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -810,7 +825,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'{'</rr-t>
+                  <rr-t data-min="1" data-max="1">'{'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -820,7 +835,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'}'</rr-t>
+                  <rr-t data-min="1" data-max="1">'}'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -830,7 +845,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'['</rr-t>
+                  <rr-t data-min="1" data-max="1">'['</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -840,7 +855,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>']'</rr-t>
+                  <rr-t data-min="1" data-max="1">']'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -850,7 +865,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'-&gt;'</rr-t>
+                  <rr-t data-min="1" data-max="1">'-&gt;'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -860,7 +875,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'&lt;'</rr-t>
+                  <rr-t data-min="1" data-max="1">'&lt;'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -870,7 +885,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'&gt;'</rr-t>
+                  <rr-t data-min="1" data-max="1">'&gt;'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -880,7 +895,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'&lt;='</rr-t>
+                  <rr-t data-min="1" data-max="1">'&lt;='</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -890,7 +905,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'&gt;='</rr-t>
+                  <rr-t data-min="1" data-max="1">'&gt;='</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -900,7 +915,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'='</rr-t>
+                  <rr-t data-min="1" data-max="1">'='</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -910,7 +925,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'!='</rr-t>
+                  <rr-t data-min="1" data-max="1">'!='</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -920,7 +935,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'?'</rr-t>
+                  <rr-t data-min="1" data-max="1">'?'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -930,7 +945,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'!'</rr-t>
+                  <rr-t data-min="1" data-max="1">'!'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -940,7 +955,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'*'</rr-t>
+                  <rr-t data-min="1" data-max="1">'*'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -950,7 +965,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'/'</rr-t>
+                  <rr-t data-min="1" data-max="1">'/'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -960,7 +975,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'%'</rr-t>
+                  <rr-t data-min="1" data-max="1">'%'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -970,7 +985,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'^'</rr-t>
+                  <rr-t data-min="1" data-max="1">'^'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -980,7 +995,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'+'</rr-t>
+                  <rr-t data-min="1" data-max="1">'+'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -990,7 +1005,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'-'</rr-t>
+                  <rr-t data-min="1" data-max="1">'-'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1000,7 +1015,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'+='</rr-t>
+                  <rr-t data-min="1" data-max="1">'+='</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1010,7 +1025,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'-='</rr-t>
+                  <rr-t data-min="1" data-max="1">'-='</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1020,7 +1035,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'*='</rr-t>
+                  <rr-t data-min="1" data-max="1">'*='</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1030,7 +1045,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'/='</rr-t>
+                  <rr-t data-min="1" data-max="1">'/='</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1040,7 +1055,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'&amp;='</rr-t>
+                  <rr-t data-min="1" data-max="1">'&amp;='</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1050,7 +1065,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'|='</rr-t>
+                  <rr-t data-min="1" data-max="1">'|='</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1060,7 +1075,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'^='</rr-t>
+                  <rr-t data-min="1" data-max="1">'^='</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1070,7 +1085,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'%='</rr-t>
+                  <rr-t data-min="1" data-max="1">'%='</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1080,7 +1095,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'&lt;&lt;='</rr-t>
+                  <rr-t data-min="1" data-max="1">'&lt;&lt;='</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1090,7 +1105,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'&gt;&gt;='</rr-t>
+                  <rr-t data-min="1" data-max="1">'&gt;&gt;='</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1100,7 +1115,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'&gt;&gt;&gt;='</rr-t>
+                  <rr-t data-min="1" data-max="1">'&gt;&gt;&gt;='</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1110,7 +1125,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'_'</rr-t>
+                  <rr-t data-min="1" data-max="1">'_'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1120,7 +1135,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'|'</rr-t>
+                  <rr-t data-min="1" data-max="1">'|'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1130,7 +1145,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'&amp;'</rr-t>
+                  <rr-t data-min="1" data-max="1">'&amp;'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1140,7 +1155,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'&amp;&amp;'</rr-t>
+                  <rr-t data-min="1" data-max="1">'&amp;&amp;'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1150,7 +1165,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'||'</rr-t>
+                  <rr-t data-min="1" data-max="1">'||'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1160,7 +1175,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'++'</rr-t>
+                  <rr-t data-min="1" data-max="1">'++'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1170,7 +1185,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'--'</rr-t>
+                  <rr-t data-min="1" data-max="1">'--'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1180,7 +1195,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'&lt;&lt;'</rr-t>
+                  <rr-t data-min="1" data-max="1">'&lt;&lt;'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1190,7 +1205,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'&gt;&gt;'</rr-t>
+                  <rr-t data-min="1" data-max="1">'&gt;&gt;'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1200,7 +1215,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'$'</rr-t>
+                  <rr-t data-min="1" data-max="1">'$'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1210,7 +1225,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>','</rr-t>
+                  <rr-t data-min="1" data-max="1">','</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1220,7 +1235,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>';'</rr-t>
+                  <rr-t data-min="1" data-max="1">';'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1230,7 +1245,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'.'</rr-t>
+                  <rr-t data-min="1" data-max="1">'.'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1240,7 +1255,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'..'</rr-t>
+                  <rr-t data-min="1" data-max="1">'..'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1250,7 +1265,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'...'</rr-t>
+                  <rr-t data-min="1" data-max="1">'...'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1260,7 +1275,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'@'</rr-t>
+                  <rr-t data-min="1" data-max="1">'@'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1270,7 +1285,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'#'</rr-t>
+                  <rr-t data-min="1" data-max="1">'#'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -1280,7 +1295,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'~'</rr-t>
+                  <rr-t data-min="1" data-max="1">'~'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>

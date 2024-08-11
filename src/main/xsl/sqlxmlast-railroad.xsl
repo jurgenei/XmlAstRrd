@@ -53,7 +53,7 @@
                 -->
             </head>
             <body>
-                <h1>Railroad {$filedir}/{$filename}</h1>      
+                <h1>Railroad {$filedir}/{replace($filename,'\..*$','')}</h1>      
                 <xsl:apply-templates select="node()"/>
             </body>
         </html>
@@ -65,7 +65,25 @@
         </pre>
     </xsl:template>
 
-    <xsl:template match="g:prequelConstruct|g:grammarDecl|g:blockSuffix|g:ebnfSuffix"/>
+    <xsl:template match="g:prequelConstruct|g:blockSuffix|g:ebnfSuffix"/>
+
+   <xsl:template match="g:grammarDecl//c:WS">
+        <xsl:value-of select="translate(text(),'_tnr',' &#x9;&#xA;&#xD;')"/>
+    </xsl:template>
+    <xsl:template match="g:grammarDecl//c:SINGLE_LINE_COMMENT">
+        <xsl:value-of select="."/>
+    </xsl:template>
+    <xsl:template match="g:grammarDecl//t:*">
+        <xsl:value-of select="."/>
+    </xsl:template>
+
+    <xsl:template match="g:grammarDecl">
+        <h1>Grammar Decl</h1>
+        <pre>
+            <xsl:apply-templates/>
+        </pre>
+    </xsl:template>
+
     <xsl:template match="g:altList/t:OR" priority="1"/>
     <xsl:template match="g:ruleAltList/t:OR" priority="1"/>
     <!--
@@ -141,7 +159,7 @@
          </rr-c>
      </xsl:template>
 
-    <xsl:template match="g:atom|g:lexerAtom">
+    <xsl:template match="g:atom">
         <xsl:variable name="cardinality" select="following-sibling::g:ebnfSuffix"/>
         <xsl:apply-templates>
             <xsl:with-param name="card-attr" tunnel="true">
@@ -162,6 +180,31 @@
             </xsl:with-param>
         </xsl:apply-templates>
     </xsl:template>
+
+    <xsl:template match="g:lexerAtom">
+        <xsl:variable name="cardinality" select="following-sibling::g:ebnfSuffix"/>
+            <xsl:variable name="card-attr">
+                <xsl:choose>
+                    <xsl:when test="$cardinality = '*'">
+                        <g:a data-min="0" data-max="inf"/>
+                    </xsl:when>
+                    <xsl:when test="$cardinality = '+'">
+                        <g:a data-min="1" data-max="inf"/>
+                    </xsl:when>
+                    <xsl:when test="$cardinality = '?'">
+                        <g:a data-min="0" data-max="1"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <g:a data-min="1" data-max="1"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:variable>
+        <rr-t>
+            <xsl:copy-of select="$card-attr/g:a/@*"/>
+            <xsl:value-of select="string-join(.//t:*,'')"/>
+        </rr-t>
+
+    </xsl:template>
     
     <!-- scrap rule defs -->
     <xsl:template match="g:ruleDef"/>
@@ -170,7 +213,7 @@
         <xsl:param name="card-attr" tunnel="true"/>
         <a href="#{.}">
             <xsl:copy-of select="if ($card-attr) then $card-attr/@* else ()"/>
-            <xsl:value-of select=".//t:*"/>
+            <xsl:value-of select="string-join(.//t:*,'')"/>
         </a>
     </xsl:template>
     
@@ -178,7 +221,7 @@
         <xsl:param name="card-attr" tunnel="true"/>
         <rr-t>
             <xsl:copy-of select="if ($card-attr) then $card-attr/@* else ()"/>
-            <xsl:value-of select=".//t:*"/>
+            <xsl:value-of select="string-join(.//t:*,'')"/>
         </rr-t>
     </xsl:template>
     
@@ -186,7 +229,7 @@
         <xsl:param name="card-attr" tunnel="true"/>
         <rr-c>
             <xsl:copy-of select="if ($card-attr) then $card-attr/@* else ()"/>
-            <xsl:value-of select=".//t:*"/>
+            <xsl:value-of select="string-join(.//t:*,'')"/>
         </rr-c>
     </xsl:template>
     

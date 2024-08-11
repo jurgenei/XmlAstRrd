@@ -5,7 +5,7 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1>Railroad peoplecode/PeopleCode.ast.xml</h1>
+      <h1>Railroad peoplecode/PeopleCode</h1>
       <pre>/*
  * Copyright (c) Matt Quinn and The OpenPplSoft Runtime Project (http://openpplsoft.org)
  * All rights reserved.
@@ -29,6 +29,12 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */</pre>
+      <h1>Grammar Decl</h1>
+      <pre>grammar PeopleCode;
+
+//******************************************************//
+// Parser Rules                                         //
+//******************************************************//</pre>
       <h1>Rules</h1>
       <h2 id="program">program</h2>
       <p>
@@ -598,9 +604,9 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>IntegerLiteral</rr-t>
-                  <rr-t>'.'</rr-t>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">IntegerLiteral</rr-t>
+                  <rr-t data-min="1" data-max="1">'.'</rr-t>
+                  <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -610,11 +616,11 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'0'</rr-t>
+                  <rr-t data-min="1" data-max="1">'0'</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-c>'1'..'9'</rr-c>
-                  <rr-c>'0'..'9'</rr-c>
+                  <rr-t data-min="1" data-max="1">'1'..'9'</rr-t>
+                  <rr-t data-min="0" data-max="inf">'0'..'9'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -624,11 +630,13 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'"'</rr-t>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
                   <rr-o>
-                     <rr-a></rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">~'"'</rr-t>
+                     </rr-a>
                   </rr-o>
-                  <rr-t>'"'</rr-t>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -638,10 +646,10 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'True'</rr-t>
+                  <rr-t data-min="1" data-max="1">'True'</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>'False'</rr-t>
+                  <rr-t data-min="1" data-max="1">'False'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -651,8 +659,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'&amp;'</rr-t>
-                  <rr-t>GENERIC_ID</rr-t>
+                  <rr-t data-min="1" data-max="1">'&amp;'</rr-t>
+                  <rr-t data-min="1" data-max="1">GENERIC_ID</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -662,8 +670,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'%'</rr-t>
-                  <rr-t>GENERIC_ID</rr-t>
+                  <rr-t data-min="1" data-max="1">'%'</rr-t>
+                  <rr-t data-min="1" data-max="1">GENERIC_ID</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -673,8 +681,8 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c></rr-c>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">[a-zA-Z]</rr-t>
+                  <rr-t data-min="0" data-max="inf">[0-9a-zA-Z_#]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -684,13 +692,13 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>WS</rr-t>
-                  <rr-c></rr-c>
-                  <rr-c></rr-c>
-                  <rr-c></rr-c>
-                  <rr-t>WS</rr-t>
-                  <rr-c></rr-c>
-                  <rr-t>';'</rr-t>
+                  <rr-t data-min="0" data-max="1">WS</rr-t>
+                  <rr-t data-min="1" data-max="1">[rR]</rr-t>
+                  <rr-t data-min="1" data-max="1">[eE]</rr-t>
+                  <rr-t data-min="1" data-max="1">[mM]</rr-t>
+                  <rr-t data-min="1" data-max="1">WS</rr-t>
+                  <rr-t data-min="1" data-max="1">.</rr-t>
+                  <rr-t data-min="1" data-max="1">';'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -700,9 +708,9 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'/*'</rr-t>
-                  <rr-c></rr-c>
-                  <rr-t>'*/'</rr-t>
+                  <rr-t data-min="1" data-max="1">'/*'</rr-t>
+                  <rr-t data-min="1" data-max="1">.</rr-t>
+                  <rr-t data-min="1" data-max="1">'*/'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -712,9 +720,9 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'&lt;*'</rr-t>
-                  <rr-c></rr-c>
-                  <rr-t>'*&gt;'</rr-t>
+                  <rr-t data-min="1" data-max="1">'&lt;*'</rr-t>
+                  <rr-t data-min="1" data-max="1">.</rr-t>
+                  <rr-t data-min="1" data-max="1">'*&gt;'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -724,10 +732,10 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'/+'</rr-t>
-                  <rr-c></rr-c>
-                  <rr-t>'+/'</rr-t>
-                  <rr-t>';'</rr-t>
+                  <rr-t data-min="1" data-max="1">'/+'</rr-t>
+                  <rr-t data-min="1" data-max="1">.</rr-t>
+                  <rr-t data-min="1" data-max="1">'+/'</rr-t>
+                  <rr-t data-min="0" data-max="1">';'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -737,7 +745,7 @@
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="inf">[ \t\r\n]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>

@@ -5,7 +5,7 @@
       <link rel="stylesheet" type="text/css" href="../railroad.css">
    </head>
    <body>
-      <h1>Railroad prolog/prolog.ast.xml</h1>
+      <h1>Railroad prolog/prolog</h1>
       <pre>/*
 BSD License
 
@@ -37,6 +37,10 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */</pre>
+      <h1>Grammar Decl</h1>
+      <pre>grammar prolog;
+
+// Prolog text and data formed from terms (6.2)</pre>
       <h1>Rules</h1>
       <h2 id="p_text">p_text</h2>
       <p>
@@ -204,8 +208,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>SMALL_LETTER</rr-t>
-                  <rr-t>ALPHANUMERIC</rr-t>
+                  <rr-t data-min="1" data-max="1">SMALL_LETTER</rr-t>
+                  <rr-t data-min="0" data-max="inf">ALPHANUMERIC</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -215,15 +219,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>CAPITAL_LETTER</rr-t>
-                  <rr-t>ALPHANUMERIC</rr-t>
+                  <rr-t data-min="1" data-max="1">CAPITAL_LETTER</rr-t>
+                  <rr-t data-min="0" data-max="inf">ALPHANUMERIC</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>'_'</rr-t>
-                  <rr-t>ALPHANUMERIC</rr-t>
+                  <rr-t data-min="1" data-max="1">'_'</rr-t>
+                  <rr-t data-min="1" data-max="inf">ALPHANUMERIC</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>'_'</rr-t>
+                  <rr-t data-min="1" data-max="1">'_'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -233,7 +237,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>DIGIT</rr-t>
+                  <rr-t data-min="1" data-max="inf">DIGIT</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -243,8 +247,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'0b'</rr-t>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">'0b'</rr-t>
+                  <rr-t data-min="1" data-max="inf">[01]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -254,8 +258,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'0o'</rr-t>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">'0o'</rr-t>
+                  <rr-t data-min="1" data-max="inf">[0-7]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -265,8 +269,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'0x'</rr-t>
-                  <rr-t>HEX_DIGIT</rr-t>
+                  <rr-t data-min="1" data-max="1">'0x'</rr-t>
+                  <rr-t data-min="1" data-max="inf">HEX_DIGIT</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -276,9 +280,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'0'</rr-t>
-                  <rr-t>'\''</rr-t>
-                  <rr-t>SINGLE_QUOTED_CHARACTER</rr-t>
+                  <rr-t data-min="1" data-max="1">'0'</rr-t>
+                  <rr-t data-min="1" data-max="1">'\''</rr-t>
+                  <rr-t data-min="1" data-max="1">SINGLE_QUOTED_CHARACTER</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -288,14 +292,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>DECIMAL</rr-t>
-                  <rr-t>'.'</rr-t>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">DECIMAL</rr-t>
+                  <rr-t data-min="1" data-max="1">'.'</rr-t>
+                  <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
                   <rr-o>
                      <rr-a>
-                        <rr-c></rr-c>
-                        <rr-c></rr-c>
-                        <rr-t>DECIMAL</rr-t>
+                        <rr-t data-min="1" data-max="1">[eE]</rr-t>
+                        <rr-t data-min="1" data-max="1">[+-]</rr-t>
+                        <rr-t data-min="1" data-max="1">DECIMAL</rr-t>
                      </rr-a>
                   </rr-o>
                </rr-a>
@@ -309,10 +313,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                <rr-a>
                   <rr-o>
                      <rr-a>
-                        <rr-t>GRAPHIC</rr-t>
+                        <rr-t data-min="1" data-max="1">GRAPHIC</rr-t>
                      </rr-a>
                      <rr-a>
-                        <rr-t>'\\'</rr-t>
+                        <rr-t data-min="1" data-max="1">'\\'</rr-t>
                      </rr-a>
                   </rr-o>
                </rr-a>
@@ -324,10 +328,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">[#$&amp;*+./:&lt;=&gt;?@^~]</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>'-'</rr-t>
+                  <rr-t data-min="1" data-max="1">'-'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -337,16 +341,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>NON_QUOTE_CHAR</rr-t>
+                  <rr-t data-min="1" data-max="1">NON_QUOTE_CHAR</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>'\'\''</rr-t>
+                  <rr-t data-min="1" data-max="1">'\'\''</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>'"'</rr-t>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>'`'</rr-t>
+                  <rr-t data-min="1" data-max="1">'`'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -356,16 +360,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>NON_QUOTE_CHAR</rr-t>
+                  <rr-t data-min="1" data-max="1">NON_QUOTE_CHAR</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>'\''</rr-t>
+                  <rr-t data-min="1" data-max="1">'\''</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>'""'</rr-t>
+                  <rr-t data-min="1" data-max="1">'""'</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>'`'</rr-t>
+                  <rr-t data-min="1" data-max="1">'`'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -375,16 +379,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>NON_QUOTE_CHAR</rr-t>
+                  <rr-t data-min="1" data-max="1">NON_QUOTE_CHAR</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>'\''</rr-t>
+                  <rr-t data-min="1" data-max="1">'\''</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>'"'</rr-t>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>'``'</rr-t>
+                  <rr-t data-min="1" data-max="1">'``'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -394,28 +398,28 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>GRAPHIC</rr-t>
+                  <rr-t data-min="1" data-max="1">GRAPHIC</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>ALPHANUMERIC</rr-t>
+                  <rr-t data-min="1" data-max="1">ALPHANUMERIC</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>SOLO</rr-t>
+                  <rr-t data-min="1" data-max="1">SOLO</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>' '</rr-t>
+                  <rr-t data-min="1" data-max="1">' '</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>META_ESCAPE</rr-t>
+                  <rr-t data-min="1" data-max="1">META_ESCAPE</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>CONTROL_ESCAPE</rr-t>
+                  <rr-t data-min="1" data-max="1">CONTROL_ESCAPE</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>OCTAL_ESCAPE</rr-t>
+                  <rr-t data-min="1" data-max="1">OCTAL_ESCAPE</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>HEX_ESCAPE</rr-t>
+                  <rr-t data-min="1" data-max="1">HEX_ESCAPE</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -425,8 +429,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'\\'</rr-t>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">'\\'</rr-t>
+                  <rr-t data-min="1" data-max="1">[\\'"`]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -436,8 +440,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'\\'</rr-t>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">'\\'</rr-t>
+                  <rr-t data-min="1" data-max="1">[abrftnv]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -447,9 +451,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'\\'</rr-t>
-                  <rr-c></rr-c>
-                  <rr-t>'\\'</rr-t>
+                  <rr-t data-min="1" data-max="1">'\\'</rr-t>
+                  <rr-t data-min="1" data-max="inf">[0-7]</rr-t>
+                  <rr-t data-min="1" data-max="1">'\\'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -459,9 +463,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'\\x'</rr-t>
-                  <rr-t>HEX_DIGIT</rr-t>
-                  <rr-t>'\\'</rr-t>
+                  <rr-t data-min="1" data-max="1">'\\x'</rr-t>
+                  <rr-t data-min="1" data-max="inf">HEX_DIGIT</rr-t>
+                  <rr-t data-min="1" data-max="1">'\\'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -471,16 +475,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'\''</rr-t>
+                  <rr-t data-min="1" data-max="1">'\''</rr-t>
                   <rr-o>
                      <rr-a>
-                        <rr-t>CONTINUATION_ESCAPE</rr-t>
+                        <rr-t data-min="1" data-max="1">CONTINUATION_ESCAPE</rr-t>
                      </rr-a>
                      <rr-a>
-                        <rr-t>SINGLE_QUOTED_CHARACTER</rr-t>
+                        <rr-t data-min="1" data-max="1">SINGLE_QUOTED_CHARACTER</rr-t>
                      </rr-a>
                   </rr-o>
-                  <rr-t>'\''</rr-t>
+                  <rr-t data-min="1" data-max="1">'\''</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -490,16 +494,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'"'</rr-t>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
                   <rr-o>
                      <rr-a>
-                        <rr-t>CONTINUATION_ESCAPE</rr-t>
+                        <rr-t data-min="1" data-max="1">CONTINUATION_ESCAPE</rr-t>
                      </rr-a>
                      <rr-a>
-                        <rr-t>DOUBLE_QUOTED_CHARACTER</rr-t>
+                        <rr-t data-min="1" data-max="1">DOUBLE_QUOTED_CHARACTER</rr-t>
                      </rr-a>
                   </rr-o>
-                  <rr-t>'"'</rr-t>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -509,16 +513,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'`'</rr-t>
+                  <rr-t data-min="1" data-max="1">'`'</rr-t>
                   <rr-o>
                      <rr-a>
-                        <rr-t>CONTINUATION_ESCAPE</rr-t>
+                        <rr-t data-min="1" data-max="1">CONTINUATION_ESCAPE</rr-t>
                      </rr-a>
                      <rr-a>
-                        <rr-t>BACK_QUOTED_CHARACTER</rr-t>
+                        <rr-t data-min="1" data-max="1">BACK_QUOTED_CHARACTER</rr-t>
                      </rr-a>
                   </rr-o>
-                  <rr-t>'`'</rr-t>
+                  <rr-t data-min="1" data-max="1">'`'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -528,7 +532,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'\\\n'</rr-t>
+                  <rr-t data-min="1" data-max="1">'\\\n'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -538,10 +542,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>ALPHA</rr-t>
+                  <rr-t data-min="1" data-max="1">ALPHA</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>DIGIT</rr-t>
+                  <rr-t data-min="1" data-max="1">DIGIT</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -551,13 +555,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'_'</rr-t>
+                  <rr-t data-min="1" data-max="1">'_'</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>SMALL_LETTER</rr-t>
+                  <rr-t data-min="1" data-max="1">SMALL_LETTER</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>CAPITAL_LETTER</rr-t>
+                  <rr-t data-min="1" data-max="1">CAPITAL_LETTER</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -567,7 +571,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">[a-z_]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -577,7 +581,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">[A-Z]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -587,7 +591,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">[0-9]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -597,7 +601,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">[0-9a-fA-F]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -607,10 +611,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="1">[!(),;[{}|%]</rr-t>
                </rr-a>
                <rr-a>
-                  <rr-t>']'</rr-t>
+                  <rr-t data-min="1" data-max="1">']'</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -620,7 +624,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-c></rr-c>
+                  <rr-t data-min="1" data-max="inf">[ \t\r\n]</rr-t>
                </rr-a>
             </rr-o>
          </rr-rr>
@@ -630,13 +634,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'%'</rr-t>
+                  <rr-t data-min="1" data-max="1">'%'</rr-t>
+                  <rr-t data-min="0" data-max="inf">~[\n\r]</rr-t>
                   <rr-o>
                      <rr-a>
-                        <rr-c></rr-c>
+                        <rr-t data-min="1" data-max="1">[\n\r]</rr-t>
                      </rr-a>
                      <rr-a>
-                        <rr-t>EOF</rr-t>
+                        <rr-t data-min="1" data-max="1">EOF</rr-t>
                      </rr-a>
                   </rr-o>
                </rr-a>
@@ -648,21 +653,21 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <rr-rr>
             <rr-o>
                <rr-a>
-                  <rr-t>'/*'</rr-t>
+                  <rr-t data-min="1" data-max="1">'/*'</rr-t>
                   <rr-o>
                      <rr-a>
-                        <rr-t>MULTILINE_COMMENT</rr-t>
+                        <rr-t data-min="1" data-max="1">MULTILINE_COMMENT</rr-t>
                      </rr-a>
                      <rr-a>
-                        <rr-c></rr-c>
+                        <rr-t data-min="1" data-max="1">.</rr-t>
                      </rr-a>
                   </rr-o>
                   <rr-o>
                      <rr-a>
-                        <rr-t>'*/'</rr-t>
+                        <rr-t data-min="1" data-max="1">'*/'</rr-t>
                      </rr-a>
                      <rr-a>
-                        <rr-t>EOF</rr-t>
+                        <rr-t data-min="1" data-max="1">EOF</rr-t>
                      </rr-a>
                   </rr-o>
                </rr-a>
