@@ -1,0 +1,462 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../../../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../../../index.html">Railroad</a> g4/esolang/lolcode/lolcode</h1>
+      <pre>/*
+BSD License
+Copyright (c) 2016, Tom Everett
+All rights reserved.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. Neither the name of Tom Everett nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
+      <pre>/*
+Adapted from https://github.com/jynnantonix/lolcode/blob/master/BNFGrammar.txt
+*/</pre>
+      <h1>Grammar Decl</h1>
+      <pre>grammar lolcode;</pre>
+      <h1>Rules</h1>
+      <h2 id="program">program</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'HAI'</rr-t><a href="#code_block">code_block</a><rr-t>'KTHXBYE'</rr-t>
+                  <rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="code_block">code_block</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#statement">statement</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="statement">statement</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#loop">loop</a><a href="#declaration">declaration</a><a href="#comment">comment</a><a href="#print_block">print_block</a><a href="#if_block">if_block</a><a href="#input_block">input_block</a><a href="#func_decl">func_decl</a><a href="#assignment">assignment</a><a href="#expression">expression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="loop">loop</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'IM IN YR'</rr-t>
+                  <rr-t>LABEL</rr-t>
+                  <rr-t>'WILE'</rr-t><a href="#expression">expression</a><a href="#code_block">code_block</a><rr-t>'IM OUTTA YR'</rr-t>
+                  <rr-t>LABEL</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="declaration">declaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'I HAS A'</rr-t>
+                  <rr-t>LABEL</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'I HAS A'</rr-t>
+                  <rr-t>LABEL</rr-t>
+                  <rr-t>'ITZ'&lt;value&gt;</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="comment">comment</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'BTW'</rr-t>
+                  <rr-t>STRING</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'OBTW'</rr-t>
+                  <rr-t>STRING</rr-t>
+                  <rr-t>'TLDR'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="print_block">print_block</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'VISIBLE'</rr-t><a href="#expression">expression</a><rr-t>'MKAY?'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="if_block">if_block</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'O RLY?'</rr-t>
+                  <rr-t>'YA RLY'</rr-t><a href="#code_block">code_block</a><rr-t>'OIC'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'O RLY?'</rr-t>
+                  <rr-t>'YA RLY'</rr-t><a href="#code_block">code_block</a><a href="#else_if_block">else_if_block</a><rr-t>'OIC'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="else_if_block">else_if_block</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'MEBBE'</rr-t><a href="#expression">expression</a><a href="#code_block">code_block</a><a href="#else_if_block">else_if_block</a></rr-a>
+               <rr-a>
+                  <rr-t>'NO WAI'</rr-t><a href="#code_block">code_block</a></rr-a>
+               <rr-a>
+                  <rr-t>'MEBBE'</rr-t><a href="#expression">expression</a><a href="#code_block">code_block</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="input_block">input_block</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'GIMMEH'</rr-t>
+                  <rr-t>LABEL</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="func_decl">func_decl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'HOW DUZ I'</rr-t>
+                  <rr-t>LABEL</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a>
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>'YR'</rr-t>
+                                    <rr-t>LABEL</rr-t>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a>
+                           <rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>'AN YR'</rr-t>
+                                    <rr-t>LABEL</rr-t>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#code_block">code_block</a><rr-t>'IF U SAY SO'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="assignment">assignment</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LABEL</rr-t>
+                  <rr-t>'R'</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expression">expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#equals">equals</a><a href="#both">both</a><a href="#not_equals">not_equals</a><a href="#greater">greater</a><a href="#less">less</a><a href="#add">add</a><a href="#sub">sub</a><a href="#mul">mul</a><a href="#div">div</a><a href="#mod">mod</a><a href="#cast">cast</a><a href="#either">either</a><a href="#all_">all_</a><a href="#any_">any_</a><a href="#not_">not_</a><a href="#func_">func_</a><rr-t>LABEL</rr-t>
+               <rr-t>ATOM</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="equals">equals</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'BOTH SAEM'</rr-t><a href="#expression">expression</a><rr-t>'AN'</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="not_equals">not_equals</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'DIFFRINT'</rr-t><a href="#expression">expression</a><rr-t>'AN'</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="both">both</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'BOTH OF'</rr-t><a href="#expression">expression</a><rr-t>'AN'</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="either">either</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'EITHER OF'</rr-t><a href="#expression">expression</a><rr-t>'AN'</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="greater">greater</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'BIGGR OF'</rr-t><a href="#expression">expression</a><rr-t>'AN'</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="less">less</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'SMALLR OF'</rr-t><a href="#expression">expression</a><rr-t>'AN'</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="add">add</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'SUM OF'</rr-t><a href="#expression">expression</a><rr-t>'AN'</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sub">sub</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'DIFF OF'</rr-t><a href="#expression">expression</a><rr-t>'AN'</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="mul">mul</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'PRODUKT OF'</rr-t><a href="#expression">expression</a><rr-t>'AN'</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="div">div</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'QUOSHUNT OF'</rr-t><a href="#expression">expression</a><rr-t>'AN'</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="mod">mod</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'MOD OF'</rr-t><a href="#expression">expression</a><rr-t>'AN'</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="cast">cast</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'MAEK'</rr-t><a href="#expression">expression</a><rr-t>'A'&lt;type&gt;</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="all_">all_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'ALL OF'</rr-t><a href="#expression">expression</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'AN'</rr-t><a href="#expression">expression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'MKAY?'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="any_">any_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'ANY OF'</rr-t><a href="#expression">expression</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'AN'</rr-t><a href="#expression">expression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'MKAY?'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="not_">not_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'NOT'</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="func_">func_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LABEL</rr-t><a href="#expression">expression</a><rr-t>'MKAY?'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="LABEL">LABEL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'a'..'z'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'A'..'Z'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'0'..'9'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'_'</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ATOM">ATOM</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'WIN'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'FAIL'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'NOOB'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'0'..'9'</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'0'..'9'</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-t data-min="1" data-max="1">'.'</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'0'..'9'</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">STRING</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="STRING">STRING</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'\'"'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">~'"'</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="WS">WS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[ \r\n]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

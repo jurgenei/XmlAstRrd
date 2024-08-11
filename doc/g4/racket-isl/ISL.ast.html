@@ -1,0 +1,524 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../../index.html">Railroad</a> g4/racket-isl/ISL</h1>
+      <pre>/* Based on documentation provided at https://docs.racket-lang.org/htdp-langs/intermediate-lam.html */</pre>
+      <h1>Grammar Decl</h1>
+      <pre>grammar ISL;</pre>
+      <h1>Rules</h1>
+      <h2 id="program">program</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#defOrExpr">defOrExpr</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="defOrExpr">defOrExpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#definition">definition</a><a href="#expr">expr</a><a href="#testCase">testCase</a><a href="#libraryRequire">libraryRequire</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="definition">definition</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'define'</rr-t>
+                  <rr-t>'('</rr-t><a href="#name">name</a><rr-t>NAME</rr-t>
+                  <rr-t>')'</rr-t><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'define'</rr-t><a href="#name">name</a><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'define-struct'</rr-t><a href="#name">name</a><rr-t>'('</rr-t><a href="#name">name</a><rr-t>')'</rr-t>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expr">expr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'begin'</rr-t><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'begin0'</rr-t><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'set!'</rr-t>
+                  <rr-t>NAME</rr-t><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'delay'</rr-t><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'lambda'</rr-t>
+                  <rr-t>'('</rr-t>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>')'</rr-t><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'λ'</rr-t>
+                  <rr-t>'('</rr-t>
+                  <rr-t>NAME</rr-t>
+                  <rr-t>')'</rr-t><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'local'</rr-t>
+                  <rr-t>'['</rr-t><a href="#definition">definition</a><rr-t>']'</rr-t><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'letrec'</rr-t>
+                  <rr-t>'('</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'['</rr-t><a href="#name">name</a><a href="#expr">expr</a><rr-t>']'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'shared'</rr-t>
+                  <rr-t>'('</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'['</rr-t><a href="#name">name</a><a href="#expr">expr</a><rr-t>']'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'let'</rr-t>
+                  <rr-t>'('</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'['</rr-t><a href="#name">name</a><a href="#expr">expr</a><rr-t>']'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'let*'</rr-t>
+                  <rr-t>'('</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'['</rr-t><a href="#name">name</a><a href="#expr">expr</a><rr-t>']'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'recur'</rr-t><a href="#name">name</a><rr-t>'('</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'['</rr-t><a href="#name">name</a><a href="#expr">expr</a><rr-t>']'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#expr">expr</a><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'cond'</rr-t>
+                  <rr-a data-min="1" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'['</rr-t><a href="#expr">expr</a><a href="#expr">expr</a><rr-t>']'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'cond'</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'['</rr-t><a href="#expr">expr</a><a href="#expr">expr</a><rr-t>']'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'['</rr-t>
+                  <rr-t>'else '</rr-t><a href="#expr">expr</a><rr-t>']'</rr-t>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'if'</rr-t><a href="#expr">expr</a><a href="#expr">expr</a><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'and'</rr-t><a href="#expr">expr</a><a href="#expr">expr</a><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'or'</rr-t><a href="#expr">expr</a><a href="#expr">expr</a><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'time'</rr-t><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a><a href="#name">name</a><rr-a>
+                  <rr-t>'’'</rr-t><a href="#quoted">quoted</a></rr-a>
+               <rr-a>
+                  <rr-t>'‘'</rr-t><a href="#quasiQuoted">quasiQuoted</a></rr-a>
+               <rr-a>
+                  <rr-t>'\u0027'</rr-t>
+                  <rr-t>'()'</rr-t>
+               </rr-a>
+               <rr-t>NUMBER</rr-t>
+               <rr-t>BOOLEAN</rr-t>
+               <rr-t>STRING</rr-t>
+               <rr-t>CHARACTER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="quoted">quoted</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>NAME</rr-t>
+               <rr-t>STRING</rr-t>
+               <rr-t>CHARACTER</rr-t>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#quoted">quoted</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'’'</rr-t><a href="#quoted">quoted</a></rr-a>
+               <rr-a>
+                  <rr-t>'‘'</rr-t><a href="#quoted">quoted</a></rr-a>
+               <rr-a>
+                  <rr-t>','</rr-t><a href="#quoted">quoted</a></rr-a>
+               <rr-a>
+                  <rr-t>',@'</rr-t><a href="#quoted">quoted</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="quasiQuoted">quasiQuoted</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>NAME</rr-t>
+               <rr-t>NUMBER</rr-t>
+               <rr-t>STRING</rr-t>
+               <rr-t>CHARACTER</rr-t>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#quasiQuoted">quasiQuoted</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'’'</rr-t><a href="#quasiQuoted">quasiQuoted</a></rr-a>
+               <rr-a>
+                  <rr-t>'‘'</rr-t><a href="#quasiQuoted">quasiQuoted</a></rr-a>
+               <rr-a>
+                  <rr-t>','</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a>
+                  <rr-t>',@'</rr-t><a href="#expr">expr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="testCase">testCase</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'check-expect'</rr-t><a href="#expr">expr</a><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'check-random'</rr-t><a href="#expr">expr</a><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'check-within'</rr-t><a href="#expr">expr</a><a href="#expr">expr</a><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'check-member-of'</rr-t><a href="#expr">expr</a><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'check-satisfied'</rr-t><a href="#expr">expr</a><a href="#name">name</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'check-error'</rr-t><a href="#expr">expr</a><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="libraryRequire">libraryRequire</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'require'</rr-t>
+                  <rr-t>STRING</rr-t>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'require'</rr-t><a href="#name">name</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'require'</rr-t>
+                  <rr-t>'('</rr-t><a href="#name">name</a><rr-t>STRING</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'('</rr-t>
+                           <rr-t>STRING</rr-t>
+                           <rr-t>')'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'require'</rr-t>
+                  <rr-t>'('</rr-t><a href="#name">name</a><rr-t>STRING</rr-t><a href="#pkg">pkg</a><rr-t>')'</rr-t>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pkg">pkg</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>STRING</rr-t>
+                  <rr-t>STRING</rr-t>
+                  <rr-t>NUMBER</rr-t>
+                  <rr-t>NUMBER</rr-t>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="name">name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>SYMBOL</rr-t>
+               <rr-t>NAME</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="SYMBOL">SYMBOL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'’'</rr-t>
+                  <rr-t data-min="1" data-max="1">NAME</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="NAME">NAME</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">[$%&amp;!*+\\^_~]</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">[--:&lt;-Za-z]</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="NUMBER">NUMBER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">INT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">INT</rr-t>
+                  <rr-t data-min="1" data-max="1">'.'</rr-t>
+                  <rr-t data-min="0" data-max="inf">[0-9]</rr-t>
+                  <rr-t data-min="1" data-max="1">[1-9]</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">INT</rr-t>
+                  <rr-t data-min="1" data-max="1">'/'</rr-t>
+                  <rr-t data-min="1" data-max="1">INT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="INT">INT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[1-9]</rr-t>
+                  <rr-t data-min="0" data-max="inf">[0-9]</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'0'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="BOOLEAN">BOOLEAN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'#true'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'#T'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'#t'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'#false'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'#F'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'#f'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="STRING">STRING</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">[ -~]</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CHARACTER">CHARACTER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'#'</rr-t>
+                  <rr-t data-min="1" data-max="1">'\u005C'</rr-t>
+                  <rr-t data-min="1" data-max="1">[A-Za-z0-9]</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'#'</rr-t>
+                  <rr-t data-min="1" data-max="1">'\u005C'</rr-t>
+                  <rr-t data-min="1" data-max="1">'space'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="LANG">LANG</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'#lang'</rr-t>
+                  <rr-t data-min="0" data-max="inf">~('\n'|'\r')</rr-t>
+                  <rr-t data-min="0" data-max="1">'\r'</rr-t>
+                  <rr-t data-min="1" data-max="1">'\n'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="COMMENT">COMMENT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">';'</rr-t>
+                  <rr-t data-min="0" data-max="inf">~('\n'|'\r')</rr-t>
+                  <rr-t data-min="0" data-max="1">'\r'</rr-t>
+                  <rr-t data-min="1" data-max="1">'\n'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="WS">WS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">' '</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'\r'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'\t'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'\u000C'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'\n'</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

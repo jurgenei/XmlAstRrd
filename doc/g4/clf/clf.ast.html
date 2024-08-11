@@ -1,0 +1,250 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../../index.html">Railroad</a> g4/clf/clf</h1>
+      <pre>/*
+BSD License
+
+Copyright (c) 2016, Tom Everett
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. Neither the name of Tom Everett nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
+      <h1>Grammar Decl</h1>
+      <pre>grammar clf;</pre>
+      <h1>Rules</h1>
+      <h2 id="log">log</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="1" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#line">line</a><rr-t>EOL</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#line">line</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="line">line</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#host">host</a><a href="#logname">logname</a><a href="#username">username</a><a href="#datetimetz">datetimetz</a><a href="#request">request</a><a href="#statuscode">statuscode</a><a href="#bytes">bytes</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#referer">referer</a><a href="#useragent">useragent</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="host">host</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+               <rr-t>IP</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="logname">logname</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="username">username</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="datetimetz">datetimetz</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'['</rr-t>
+                  <rr-t>DATE</rr-t>
+                  <rr-t>':'</rr-t>
+                  <rr-t>TIME</rr-t>
+                  <rr-t>TZ</rr-t>
+                  <rr-t>']'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="DATE">DATE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
+                  <rr-t data-min="1" data-max="1">'/'</rr-t>
+                  <rr-t data-min="1" data-max="1">STRING</rr-t>
+                  <rr-t data-min="1" data-max="1">'/'</rr-t>
+                  <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TIME">TIME</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
+                  <rr-t data-min="1" data-max="1">':'</rr-t>
+                  <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
+                  <rr-t data-min="1" data-max="1">':'</rr-t>
+                  <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TZ">TZ</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'-'</rr-t>
+                  <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="referer">referer</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>LITERAL</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="request">request</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>LITERAL</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="useragent">useragent</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>LITERAL</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="statuscode">statuscode</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="bytes">bytes</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="LITERAL">LITERAL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+                  <rr-t data-min="0" data-max="inf">~'"'</rr-t>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="IP">IP</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
+                  <rr-t data-min="1" data-max="1">'.'</rr-t>
+                  <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
+                  <rr-t data-min="1" data-max="1">'.'</rr-t>
+                  <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
+                  <rr-t data-min="1" data-max="1">'.'</rr-t>
+                  <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="STRING">STRING</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">[a-zA-Z0-9();._-]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="EOL">EOL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="0" data-max="1">'\r'</rr-t>
+                  <rr-t data-min="1" data-max="1">'\n'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="WS">WS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[ \t\r\n]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

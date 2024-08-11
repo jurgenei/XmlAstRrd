@@ -1,0 +1,208 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../../index.html">Railroad</a> g4/karel/karel</h1>
+      <pre>/*
+ BSD License
+ 
+ Copyright (c) 2021, Tom Everett All rights reserved.
+ 
+ Redistribution and use in source and binary forms, with or without modification, are permitted
+ provided that the following conditions are met:
+ 
+ 1. Redistributions of source code must retain the above copyright notice, this list of conditions
+ and the following disclaimer. 2. Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the documentation and/or other
+ materials provided with the distribution. 3. Neither the name of Tom Everett nor the names of its
+ contributors may be used to endorse or promote products derived from this software without specific
+ prior written permission.
+ 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+ IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */</pre>
+      <h1>Grammar Decl</h1>
+      <pre>grammar karel;</pre>
+      <h1>Rules</h1>
+      <h2 id="karel">karel</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'BEGINNING-OF-PROGRAM'</rr-t><a href="#definition">definition</a><rr-t>'BEGINNING-OF-EXECUTION'</rr-t><a href="#statement">statement</a><rr-t>'END-OF-EXECUTION'</rr-t>
+                  <rr-t>'END-OF-PROGRAM'</rr-t>
+                  <rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="definition">definition</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'DEFINE'</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>'AS'</rr-t><a href="#statement">statement</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="statement">statement</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#block">block</a><a href="#iteration">iteration</a><a href="#loop">loop</a><a href="#conditional">conditional</a><a href="#instruction">instruction</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="block">block</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'BEGIN'</rr-t><a href="#statement">statement</a><rr-t>'END'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="iteration">iteration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'ITERATE'</rr-t><a href="#number">number</a><rr-t>'TIMES'</rr-t><a href="#statement">statement</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="loop">loop</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'WHILE'</rr-t><a href="#condition">condition</a><rr-t>'DO'</rr-t><a href="#statement">statement</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="conditional">conditional</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'IF'</rr-t><a href="#condition">condition</a><rr-t>'THEN'</rr-t><a href="#statement">statement</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'ELSE'</rr-t><a href="#statement">statement</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="instruction">instruction</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'MOVE'</rr-t>
+               <rr-t>'TURNLEFT'</rr-t>
+               <rr-t>'PICKBEEPER'</rr-t>
+               <rr-t>'PUTBEEPER'</rr-t>
+               <rr-t>'TURNOFF'</rr-t>
+               <rr-t>IDENTIFIER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="condition">condition</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'FRONT-IS-CLEAR'</rr-t>
+               <rr-t>'FRONT-IS-BLOCKED'</rr-t>
+               <rr-t>'LEFT-IS-CLEAR'</rr-t>
+               <rr-t>'LEFT-IS-BLOCKED'</rr-t>
+               <rr-t>'RIGHT-IS-CLEAR'</rr-t>
+               <rr-t>'RIGHT-IS-BLOCKED'</rr-t>
+               <rr-t>'BACK-IS-CLEAR'</rr-t>
+               <rr-t>'BACK-IS-BLOCKED'</rr-t>
+               <rr-t>'NEXT-TO-A-BEEPER'</rr-t>
+               <rr-t>'NOT-NEXT-TO-A-BEEPER'</rr-t>
+               <rr-t>'ANY-BEEPERS-IN-BEEPER-BAG'</rr-t>
+               <rr-t>'NO-BEEPERS-IN-BEEPER-BAG'</rr-t>
+               <rr-t>'FACING-NORTH'</rr-t>
+               <rr-t>'NOT-FACING-NORTH'</rr-t>
+               <rr-t>'FACING-SOUTH'</rr-t>
+               <rr-t>'NOT-FACING-SOUTH'</rr-t>
+               <rr-t>'FACING-EAST'</rr-t>
+               <rr-t>'NOT-FACING-EAST'</rr-t>
+               <rr-t>'FACING-WEST'</rr-t>
+               <rr-t>'NOT-FACING-WEST'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="IDENTIFIER">IDENTIFIER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">LETTER</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">LETTER</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">DIGIT</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="number">number</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>DIGIT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="LETTER">LETTER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[A-Za-z]</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'-'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="DIGIT">DIGIT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[0-9]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="WS">WS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[ \t\r\n]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

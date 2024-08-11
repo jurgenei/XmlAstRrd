@@ -1,0 +1,350 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../../index.html">Railroad</a> g4/romannumerals/romannumerals</h1>
+      <pre>/*
+BSD License
+
+Copyright (c) 2017, Tom Everett
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. Neither the name of Tom Everett nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
+      <pre>/*
+* Essentials of the grammar from here: https://compilers.iecc.com/comparch/article/07-03-118
+*/</pre>
+      <h1>Grammar Decl</h1>
+      <pre>grammar romannumerals;</pre>
+      <h1>Rules</h1>
+      <h2 id="expression">expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#thousands">thousands</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="thousands">thousands</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#thous_part">thous_part</a><a href="#hundreds">hundreds</a></rr-a><a href="#thous_part">thous_part</a><a href="#hundreds">hundreds</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="thous_part">thous_part</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#thous_part">thous_part</a><rr-t>M</rr-t>
+               </rr-a>
+               <rr-t>M</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="hundreds">hundreds</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#hun_part">hun_part</a><a href="#tens">tens</a></rr-a><a href="#hun_part">hun_part</a><a href="#tens">tens</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="hun_part">hun_part</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#hun_rep">hun_rep</a><rr-t>CD</rr-t>
+               <rr-t>D</rr-t>
+               <rr-a>
+                  <rr-t>D</rr-t><a href="#hun_rep">hun_rep</a></rr-a>
+               <rr-t>CM</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="hun_rep">hun_rep</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>C</rr-t>
+               <rr-t>CC</rr-t>
+               <rr-t>CCC</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tens">tens</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#tens_part">tens_part</a><a href="#ones">ones</a></rr-a><a href="#tens_part">tens_part</a><a href="#ones">ones</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tens_part">tens_part</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#tens_rep">tens_rep</a><rr-t>XL</rr-t>
+               <rr-t>L</rr-t>
+               <rr-a>
+                  <rr-t>L</rr-t><a href="#tens_rep">tens_rep</a></rr-a>
+               <rr-t>XC</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tens_rep">tens_rep</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>X</rr-t>
+               <rr-t>XX</rr-t>
+               <rr-t>XXX</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ones">ones</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#ones_rep">ones_rep</a><rr-t>IV</rr-t>
+               <rr-t>V</rr-t>
+               <rr-a>
+                  <rr-t>V</rr-t><a href="#ones_rep">ones_rep</a></rr-a>
+               <rr-t>IX</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ones_rep">ones_rep</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>I</rr-t>
+               <rr-t>II</rr-t>
+               <rr-t>III</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="M">M</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'M'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CD">CD</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'CD'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="D">D</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'D'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CM">CM</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'CM'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="C">C</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'C'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CC">CC</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'CC'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CCC">CCC</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'CCC'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="XL">XL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'XL'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="L">L</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'L'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="XC">XC</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'XC'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="X">X</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'X'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="XX">XX</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'XX'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="XXX">XXX</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'XXX'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="IV">IV</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'IV'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="V">V</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'V'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="IX">IX</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'IX'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="I">I</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'I'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="II">II</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'II'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="III">III</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'III'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="WS">WS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">[ \r\n\t]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../index.html">Railroad</a> yaml/YamlParser</h1>
+      <h1>Grammar Decl</h1>
+      <pre>parser grammar YamlParser;</pre>
+      <h1>Rules</h1>
+      <h2 id="file">file</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>NEWLINE</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-a>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>DOCUMENTSTART</rr-t>
+                                    <rr-t>NEWLINE</rr-t>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a><a href="#document">document</a><rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>DOCUMENTEND</rr-t>
+                                    <rr-t>NEWLINE</rr-t>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a>
+                           <rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>NEWLINE</rr-t>
+                                    <rr-a>
+                                       <rr-o>
+                                          <rr-a>
+                                             <rr-t>DOCUMENTSTART</rr-t>
+                                             <rr-t>NEWLINE</rr-t>
+                                          </rr-a>
+                                       </rr-o>
+                                    </rr-a><a href="#document">document</a><rr-a data-min="0" data-max="1">
+                                       <rr-o>
+                                          <rr-a>
+                                             <rr-t>DOCUMENTEND</rr-t>
+                                             <rr-t>NEWLINE</rr-t>
+                                          </rr-a>
+                                       </rr-o>
+                                    </rr-a>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>NEWLINE</rr-t>
+                  <rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="document">document</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#list">list</a><a href="#mappinglist">mappinglist</a><a href="#flowlist">flowlist</a><a href="#flowmappinglist">flowmappinglist</a><a href="#value">value</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="list">list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="1" data-max="inf">
+                  <rr-o>
+                     <rr-a>
+                        <rr-t>NEWLINE</rr-t><a href="#listitem">listitem</a><rr-t>NEWLINE</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="listitem">listitem</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>ANCHOR</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#value">value</a><rr-a>
+                           <rr-t>NEWLINE</rr-t>
+                           <rr-t>INDENT</rr-t><a href="#list">list</a><rr-t>DEDENT</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>NEWLINE</rr-t>
+                           <rr-t>INDENT</rr-t><a href="#mappinglist">mappinglist</a><rr-t>DEDENT</rr-t>
+                        </rr-a><a href="#flowlist">flowlist</a></rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>ALIAS</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>NEWLINE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="mappinglist">mappinglist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="1" data-max="inf">
+                  <rr-o>
+                     <rr-a>
+                        <rr-t>NEWLINE</rr-t><a href="#mapping">mapping</a><rr-t>NEWLINE</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="key">key</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>STRING_MY</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="value">value</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#value_scalar">value_scalar</a><rr-a>
+                  <rr-t>NEWLINE</rr-t>
+                  <rr-t>INDENT</rr-t><a href="#value_scalar">value_scalar</a><rr-t>NEWLINE</rr-t>
+                  <rr-t>DEDENT</rr-t>
+               </rr-a><a href="#multiline_string">multiline_string</a><a href="#string_literal">string_literal</a><a href="#string_folded">string_folded</a><a href="#string_double_quoted">string_double_quoted</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="value_scalar">value_scalar</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#number">number</a><rr-t>STRING_MY</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="multiline_string">multiline_string</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#value_scalar">value_scalar</a><rr-t>NEWLINE</rr-t>
+                  <rr-t>INDENT</rr-t>
+                  <rr-a data-min="1" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#value_scalar">value_scalar</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>NEWLINE</rr-t><a href="#value_scalar">value_scalar</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a><a href="#multiline_string">multiline_string</a></rr-o>
+                  </rr-a>
+                  <rr-t>NEWLINE</rr-t>
+                  <rr-t>DEDENT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="string_literal">string_literal</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LITERIAL_STR_IND</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>NEWLINE_STR_LITERAL</rr-t>
+                           <rr-t>STRING_MY</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="string_folded">string_folded</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>FOLD_STR_IND</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>NEWLINE_STR_LITERAL</rr-t>
+                           <rr-t>STRING_MY</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="string_double_quoted">string_double_quoted</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>DOUBLE_QUOTE</rr-t>
+                  <rr-t>STRING_MY</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>NEWLINE_STR_QUOTE</rr-t>
+                           <rr-t>STRING_MY</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>DOUBLE_QUOTE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="mapping">mapping</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#key">key</a><rr-t>COLON</rr-t>
+                  <rr-t>NEWLINE</rr-t>
+                  <rr-t>INDENT</rr-t><a href="#mappinglist">mappinglist</a><rr-t>DEDENT</rr-t>
+               </rr-a>
+               <rr-a><a href="#key">key</a><rr-t>COLON</rr-t>
+                  <rr-t>NEWLINE</rr-t>
+                  <rr-t>INDENT</rr-t><a href="#list">list</a><rr-t>DEDENT</rr-t>
+               </rr-a>
+               <rr-a><a href="#key">key</a><rr-t>COLON</rr-t><a href="#flowmappinglist">flowmappinglist</a></rr-a>
+               <rr-a><a href="#key">key</a><rr-t>COLON</rr-t><a href="#value">value</a></rr-a>
+            </rr-o>
+            <pre>/*
+ * flow rules
+ */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="flowlist">flowlist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_BRACK</rr-t><a href="#value">value</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#value">value</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CLOSE_BRACK</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="flowmappinglist">flowmappinglist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_BRACE</rr-t><a href="#mapping">mapping</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#mapping">mapping</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CLOSE_BRACE</rr-t>
+               </rr-a>
+            </rr-o>
+            <pre>/*
+ * parser rules
+ */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="number">number</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#integer">integer</a><rr-t>FLOAT_NUMBER</rr-t>
+               <rr-t>IMAG_NUMBER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="integer">integer</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>DECIMAL_INTEGER</rr-t>
+               <rr-t>OCT_INTEGER</rr-t>
+               <rr-t>HEX_INTEGER</rr-t>
+               <rr-t>BIN_INTEGER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

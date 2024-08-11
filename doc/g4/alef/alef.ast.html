@@ -1,0 +1,1332 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../../index.html">Railroad</a> g4/alef/alef</h1>
+      <pre>/*
+BSD License
+
+Copyright (c) 2020, Tom Everett
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. Neither the name of Tom Everett nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
+      <h1>Grammar Decl</h1>
+      <pre>grammar alef;</pre>
+      <h1>Rules</h1>
+      <h2 id="program">program</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#decllist">decllist</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="decllist">decllist</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#decl">decl</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="decl">decl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#tname">tname</a><a href="#vardecllist">vardecllist</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a><a href="#tname">tname</a><a href="#vardecl">vardecl</a><rr-t>'('</rr-t><a href="#arglist">arglist</a><rr-t>')'</rr-t><a href="#block">block</a></rr-a>
+               <rr-a><a href="#tname">tname</a><a href="#adtfunc">adtfunc</a><rr-t>'('</rr-t><a href="#arglist">arglist</a><rr-t>')'</rr-t><a href="#block">block</a></rr-a>
+               <rr-a><a href="#tname">tname</a><a href="#vardecl">vardecl</a><rr-t>'('</rr-t><a href="#arglist">arglist</a><rr-t>')'</rr-t>
+                  <rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a><a href="#typespec">typespec</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TYPEDEF</rr-t><a href="#ztname">ztname</a><a href="#vardecl">vardecl</a><a href="#zargs">zargs</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TYPEDEF</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>';'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="zargs">zargs</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#arglist">arglist</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ztname">ztname</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#tname">tname</a><rr-t>AGGR</rr-t>
+               <rr-t>ADT</rr-t>
+               <rr-t>UNION</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="adtfunc">adtfunc</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#typename">typename</a><rr-t>'.'</rr-t><a href="#name">name</a></rr-a>
+               <rr-a><a href="#indsp">indsp</a><a href="#typename">typename</a><rr-t>'.'</rr-t><a href="#name">name</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typespec">typespec</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>AGGR</rr-t><a href="#ztag">ztag</a><rr-t>'{'</rr-t><a href="#memberlist">memberlist</a><rr-t>'}'</rr-t><a href="#ztag">ztag</a></rr-a>
+               <rr-a>
+                  <rr-t>UNION</rr-t><a href="#ztag">ztag</a><rr-t>'{'</rr-t><a href="#memberlist">memberlist</a><rr-t>'}'</rr-t><a href="#ztag">ztag</a></rr-a>
+               <rr-a>
+                  <rr-t>ADT</rr-t><a href="#ztag">ztag</a><a href="#zpolytype">zpolytype</a><rr-t>'{'</rr-t><a href="#memberlist">memberlist</a><rr-t>'}'</rr-t><a href="#ztag">ztag</a></rr-a>
+               <rr-a>
+                  <rr-t>ENUM</rr-t><a href="#ztag">ztag</a><rr-t>'{'</rr-t><a href="#setlist">setlist</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ztag">ztag</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#name">name</a><a href="#typename">typename</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="zpolytype">zpolytype</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#polytype">polytype</a><rr-t>']'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="polytype">polytype</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#name">name</a><rr-a><a href="#name">name</a><rr-t>','</rr-t><a href="#polytype">polytype</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="setlist">setlist</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#sname">sname</a><rr-a><a href="#setlist">setlist</a><rr-t>','</rr-t><a href="#setlist">setlist</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sname">sname</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#name">name</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#expr_">expr_</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="name">name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="memberlist">memberlist</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#decl">decl</a><rr-a><a href="#memberlist">memberlist</a><a href="#decl">decl</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="vardecllist">vardecllist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#ivardecl">ivardecl</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#ivardecl">ivardecl</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ivardecl">ivardecl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#vardecl">vardecl</a><a href="#zinit">zinit</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="zinit">zinit</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'='</rr-t><a href="#zelist">zelist</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="zelist">zelist</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#zexpr">zexpr</a><rr-a>
+                  <rr-t>'['</rr-t><a href="#expr_">expr_</a><rr-t>']'</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a>
+                  <rr-t>'.'</rr-t><a href="#stag">stag</a><a href="#expr_">expr_</a></rr-a>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#zelist">zelist</a><rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#expr_">expr_</a><rr-t>']'</rr-t>
+                  <rr-t>'{'</rr-t><a href="#zelist">zelist</a><rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a><a href="#zelist">zelist</a><rr-t>','</rr-t><a href="#zelist">zelist</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="vardecl">vardecl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>IDENTIFIER</rr-t><a href="#arrayspec">arrayspec</a></rr-a>
+               <rr-a><a href="#indsp">indsp</a><rr-t>IDENTIFIER</rr-t><a href="#arrayspec">arrayspec</a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#indsp">indsp</a><rr-t>IDENTIFIER</rr-t><a href="#arrayspec">arrayspec</a><rr-t>')'</rr-t>
+                  <rr-t>'('</rr-t><a href="#arglist">arglist</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a><a href="#indsp">indsp</a><rr-t>'('</rr-t><a href="#indsp">indsp</a><rr-t>IDENTIFIER</rr-t><a href="#arrayspec">arrayspec</a><rr-t>')'</rr-t>
+                  <rr-t>'('</rr-t><a href="#arglist">arglist</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="arrayspec">arrayspec</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="1" data-max="inf">
+                  <rr-o>
+                     <rr-a>
+                        <rr-t>'['</rr-t><a href="#zexpr">zexpr</a><rr-t>']'</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="indsp">indsp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'*'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="arglist">arglist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#arglistp">arglistp</a><rr-t>','</rr-t><a href="#arg">arg</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="arglistp">arglistp</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#arg">arg</a><rr-a>
+                  <rr-t>'*'</rr-t><a href="#xtname">xtname</a></rr-a>
+               <rr-a>
+                  <rr-t>'.'</rr-t><a href="#xtname">xtname</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="arg">arg</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#xtname">xtname</a><rr-a><a href="#xtname">xtname</a><a href="#indsp">indsp</a><a href="#arrayspec">arrayspec</a></rr-a>
+               <rr-a><a href="#xtname">xtname</a><rr-t>'('</rr-t><a href="#indsp">indsp</a><rr-t>')'</rr-t>
+                  <rr-t>'('</rr-t><a href="#arglist">arglist</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a><a href="#xtname">xtname</a><a href="#indsp">indsp</a><rr-t>'('</rr-t><a href="#indsp">indsp</a><rr-t>')'</rr-t>
+                  <rr-t>'('</rr-t><a href="#arglist">arglist</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TUPLE</rr-t><a href="#tuplearg">tuplearg</a></rr-a>
+               <rr-a><a href="#xtname">xtname</a><a href="#vardecl">vardecl</a></rr-a>
+               <rr-a>
+                  <rr-t>'.'</rr-t>
+                  <rr-t>'.'</rr-t>
+                  <rr-t>'.'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tuplearg">tuplearg</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#tname">tname</a><rr-a><a href="#tname">tname</a><rr-t>'('</rr-t><a href="#indsp">indsp</a><rr-t>')'</rr-t>
+                  <rr-t>'('</rr-t><a href="#arglist">arglist</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a><a href="#tname">tname</a><a href="#vardecl">vardecl</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="autolist">autolist</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#autodecl">autodecl</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="autodecl">autodecl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#xtname">xtname</a><a href="#vardecllist">vardecllist</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TUPLE</rr-t><a href="#tname">tname</a><a href="#vardecllist">vardecllist</a><rr-t>';'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="block">block</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#autolist">autolist</a><a href="#slist">slist</a><rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'!'</rr-t>
+                  <rr-t>'{'</rr-t><a href="#autolist">autolist</a><a href="#slist">slist</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="slist">slist</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#stmnt">stmnt</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tbody">tbody</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#ctlist">ctlist</a><rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'!'</rr-t>
+                  <rr-t>'{'</rr-t><a href="#clist">clist</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ctlist">ctlist</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#tcase">tcase</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tcase">tcase</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>CASE</rr-t><a href="#typecast">typecast</a><rr-t>':'</rr-t><a href="#slist">slist</a></rr-a>
+               <rr-a>
+                  <rr-t>DEFAULT</rr-t>
+                  <rr-t>':'</rr-t><a href="#slist">slist</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="cbody">cbody</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#clist">clist</a><rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'!'</rr-t>
+                  <rr-t>'{'</rr-t><a href="#clist">clist</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="clist">clist</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#case_">case_</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="case_">case_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>CASE</rr-t><a href="#expr_">expr_</a><rr-t>':'</rr-t><a href="#slist">slist</a></rr-a>
+               <rr-a>
+                  <rr-t>DEFAULT</rr-t>
+                  <rr-t>':'</rr-t><a href="#slist">slist</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="rbody">rbody</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#stmnt">stmnt</a><rr-a>
+                  <rr-t>IDENTIFIER</rr-t><a href="#block">block</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="zlab">zlab</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="stmnt">stmnt</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#nlstmnt">nlstmnt</a><rr-a>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>':'</rr-t><a href="#stmnt">stmnt</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="info">info</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>','</rr-t>
+                  <rr-t>STRING_CONST</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="nlstmnt">nlstmnt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#zexpr">zexpr</a><rr-t>';'</rr-t>
+               </rr-a><a href="#block">block</a><rr-a>
+                  <rr-t>CHECK</rr-t><a href="#expr_">expr_</a><a href="#info">info</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>ALLOC</rr-t><a href="#elist">elist</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>UNALLOC</rr-t><a href="#elist">elist</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>RESCUE</rr-t><a href="#rbody">rbody</a></rr-a>
+               <rr-a>
+                  <rr-t>RAISE</rr-t><a href="#zlab">zlab</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>GOTO</rr-t>
+                  <rr-t>IDENTIFIER</rr-t>
+                  <rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>PROC</rr-t><a href="#elist">elist</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TASK</rr-t><a href="#elist">elist</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>BECOME</rr-t><a href="#expr_">expr_</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>ALT</rr-t><a href="#cbody">cbody</a></rr-a>
+               <rr-a>
+                  <rr-t>RETURN</rr-t><a href="#zexpr">zexpr</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>FOR</rr-t>
+                  <rr-t>'('</rr-t><a href="#zexpr">zexpr</a><rr-t>';'</rr-t><a href="#zexpr">zexpr</a><rr-t>';'</rr-t><a href="#zexpr">zexpr</a><rr-t>')'</rr-t><a href="#stmnt">stmnt</a></rr-a>
+               <rr-a>
+                  <rr-t>WHILE</rr-t>
+                  <rr-t>'('</rr-t><a href="#expr_">expr_</a><rr-t>')'</rr-t><a href="#stmnt">stmnt</a></rr-a>
+               <rr-a>
+                  <rr-t>DO</rr-t><a href="#stmnt">stmnt</a><rr-t>WHILE</rr-t>
+                  <rr-t>'('</rr-t><a href="#expr_">expr_</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>IF</rr-t>
+                  <rr-t>'('</rr-t><a href="#expr_">expr_</a><rr-t>')'</rr-t><a href="#stmnt">stmnt</a></rr-a>
+               <rr-a>
+                  <rr-t>IF</rr-t>
+                  <rr-t>'('</rr-t><a href="#expr_">expr_</a><rr-t>')'</rr-t><a href="#stmnt">stmnt</a><rr-t>ELSE</rr-t><a href="#stmnt">stmnt</a></rr-a>
+               <rr-a>
+                  <rr-t>PAR</rr-t><a href="#block">block</a></rr-a>
+               <rr-a>
+                  <rr-t>SWITCH</rr-t><a href="#expr_">expr_</a><a href="#cbody">cbody</a></rr-a>
+               <rr-a>
+                  <rr-t>TYPEOF</rr-t><a href="#expr_">expr_</a><a href="#tbody">tbody</a></rr-a>
+               <rr-a>
+                  <rr-t>CONTINUE</rr-t><a href="#zconst">zconst</a><rr-t>';'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>BREAK</rr-t><a href="#zconst">zconst</a><rr-t>';'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="zconst">zconst</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>CONSTANT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="zexpr">zexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expr_">expr_</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expr_">expr_</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#castexpr">castexpr</a><rr-a><a href="#expr_">expr_</a><rr-t>'*'</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'/'</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'%'</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'+'</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'-'</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'&gt;&gt;'</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'&lt;&lt;'</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'&lt;'</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'&gt;'</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'&lt;='</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'&gt;='</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'=='</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'!='</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'&amp;'</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'^'</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'|'</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'&amp;&amp;'</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'||'</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'='</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>':='</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'&lt;-'</rr-t>
+                  <rr-t>'='</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'+='</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'-='</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'*='</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'/='</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'%='</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'&gt;&gt;='</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'&lt;&lt;='</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'&amp;='</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'|='</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'^='</rr-t><a href="#expr_">expr_</a></rr-a>
+               <rr-a><a href="#expr_">expr_</a><rr-t>'::'</rr-t><a href="#expr_">expr_</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="castexpr">castexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#monexpr">monexpr</a><rr-a>
+                  <rr-t>'('</rr-t><a href="#typecast">typecast</a><rr-t>')'</rr-t><a href="#castexpr">castexpr</a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>ALLOC</rr-t><a href="#typecast">typecast</a><rr-t>')'</rr-t><a href="#castexpr">castexpr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typecast">typecast</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#xtname">xtname</a><rr-a><a href="#xtname">xtname</a><a href="#indsp">indsp</a></rr-a>
+               <rr-a><a href="#xtname">xtname</a><rr-t>'('</rr-t><a href="#indsp">indsp</a><rr-t>')'</rr-t>
+                  <rr-t>'('</rr-t><a href="#arglist">arglist</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TUPLE</rr-t><a href="#tname">tname</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="monexpr">monexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#term_">term_</a><rr-a>
+                  <rr-t>'*'</rr-t><a href="#castexpr">castexpr</a></rr-a>
+               <rr-a>
+                  <rr-t>'&amp;'</rr-t><a href="#castexpr">castexpr</a></rr-a>
+               <rr-a>
+                  <rr-t>'+'</rr-t><a href="#castexpr">castexpr</a></rr-a>
+               <rr-a>
+                  <rr-t>'-'</rr-t><a href="#castexpr">castexpr</a></rr-a>
+               <rr-a>
+                  <rr-t>'--'</rr-t><a href="#castexpr">castexpr</a></rr-a>
+               <rr-a>
+                  <rr-t>ZEROX</rr-t><a href="#castexpr">castexpr</a></rr-a>
+               <rr-a>
+                  <rr-t>'++'</rr-t><a href="#castexpr">castexpr</a></rr-a>
+               <rr-a>
+                  <rr-t>'!'</rr-t><a href="#castexpr">castexpr</a></rr-a>
+               <rr-a>
+                  <rr-t>'~'</rr-t><a href="#castexpr">castexpr</a></rr-a>
+               <rr-a>
+                  <rr-t>SIZEOF</rr-t><a href="#monexpr">monexpr</a></rr-a>
+               <rr-a>
+                  <rr-t>'&lt;-'</rr-t><a href="#castexpr">castexpr</a></rr-a>
+               <rr-a>
+                  <rr-t>'?'</rr-t><a href="#castexpr">castexpr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ztelist">ztelist</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#telist">telist</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="telist">telist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#tcomp">tcomp</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#tcomp">tcomp</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tcomp">tcomp</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expr_">expr_</a><rr-a>
+                  <rr-t>'{'</rr-t><a href="#ztelist">ztelist</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="term_">term_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#telist">telist</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>SIZEOF</rr-t>
+                  <rr-t>'('</rr-t><a href="#typecast">typecast</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a><a href="#term_">term_</a><rr-t>'('</rr-t><a href="#zarlist">zarlist</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a><a href="#term_">term_</a><rr-t>'['</rr-t><a href="#expr_">expr_</a><rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a><a href="#term_">term_</a><rr-t>'.'</rr-t><a href="#stag">stag</a></rr-a>
+               <rr-a>
+                  <rr-t>'.'</rr-t><a href="#typename">typename</a><rr-t>'.'</rr-t><a href="#stag">stag</a></rr-a>
+               <rr-a><a href="#term_">term_</a><rr-t>'-&gt;'</rr-t><a href="#stag">stag</a></rr-a>
+               <rr-a><a href="#term_">term_</a><rr-t>'--'</rr-t>
+               </rr-a>
+               <rr-a><a href="#term_">term_</a><rr-t>'++'</rr-t>
+               </rr-a>
+               <rr-a><a href="#term_">term_</a><rr-t>'?'</rr-t>
+               </rr-a><a href="#name">name</a><rr-a>
+                  <rr-t>'.'</rr-t>
+                  <rr-t>'.'</rr-t>
+                  <rr-t>'.'</rr-t>
+               </rr-a>
+               <rr-t>ARITHMETIC_CONST</rr-t>
+               <rr-t>NIL</rr-t>
+               <rr-t>CONSTANT</rr-t><a href="#enum_member">enum_member</a><rr-t>STRING_CONST</rr-t>
+               <rr-a>
+                  <rr-t>'$'</rr-t>
+                  <rr-t>STRING_CONST</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="stag">stag</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t><a href="#typename">typename</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="zarlist">zarlist</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#elist">elist</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="elist">elist</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expr_">expr_</a><rr-a><a href="#elist">elist</a><rr-t>','</rr-t><a href="#expr_">expr_</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tlist">tlist</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#typecast">typecast</a><rr-a><a href="#typecast">typecast</a><rr-t>','</rr-t><a href="#tlist">tlist</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tname">tname</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#sclass">sclass</a><a href="#xtname">xtname</a></rr-a>
+               <rr-a><a href="#sclass">sclass</a><rr-t>TUPLE</rr-t>
+                  <rr-t>'('</rr-t><a href="#tlist">tlist</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a><a href="#sclass">sclass</a><rr-t>'('</rr-t><a href="#tlist">tlist</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="variant">variant</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#typecast">typecast</a><rr-a><a href="#typecast">typecast</a><rr-t>','</rr-t><a href="#variant">variant</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="xtname">xtname</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>INT</rr-t>
+               <rr-t>UINT</rr-t>
+               <rr-t>SINT</rr-t>
+               <rr-t>USINT</rr-t>
+               <rr-t>BYTE</rr-t>
+               <rr-t>FLOAT</rr-t>
+               <rr-t>VOID</rr-t><a href="#typename">typename</a><rr-a><a href="#typename">typename</a><rr-t>'['</rr-t><a href="#variant">variant</a><rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>CHAN</rr-t>
+                  <rr-t>'('</rr-t><a href="#variant">variant</a><rr-t>')'</rr-t><a href="#bufdim">bufdim</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="bufdim">bufdim</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#expr_">expr_</a><rr-t>']'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sclass">sclass</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>EXTERN</rr-t>
+               <rr-t>INTERN</rr-t>
+               <rr-t>PRIVATE</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typename">typename</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="enum_member">enum_member</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ADT">ADT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'adt'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="AGGR">AGGR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'aggr'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ALLOC">ALLOC</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'alloc'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ALT">ALT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'alt'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="BECOME">BECOME</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'become'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="BREAK">BREAK</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'break'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="BYTE">BYTE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'byte'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CASE">CASE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'case'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CHAN">CHAN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'chan'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CHECK">CHECK</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'check'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CONTINUE">CONTINUE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'continue'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="DEFAULT">DEFAULT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'default'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="DO">DO</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'do'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ELSE">ELSE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'else'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ENUM">ENUM</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'enum'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="EXTERN">EXTERN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'extern'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="FLOAT">FLOAT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'float'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="FOR">FOR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'for'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="GOTO">GOTO</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'goto'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="IF">IF</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'if'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="INT">INT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'int'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="INTERN">INTERN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'intern'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="LINT">LINT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'lint'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="NIL">NIL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'nil'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="PAR">PAR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'par'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="PROC">PROC</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'proc'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="RAISE">RAISE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'raise'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="RESCUE">RESCUE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'rescue'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="RETURN">RETURN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'return'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="SINT">SINT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'sint'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="SIZEOF">SIZEOF</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'sizeof'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="SWITCH">SWITCH</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'switch'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TASK">TASK</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'task'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TUPLE">TUPLE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'tuple'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TYPEDEF">TYPEDEF</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'typedef'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TYPEOF">TYPEOF</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'typeof'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="UINT">UINT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'uint'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ULINT">ULINT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'ulint'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="UNALLOC">UNALLOC</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'unalloc'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="UNION">UNION</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'union'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="USINT">USINT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'usint'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="VOID">VOID</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'void'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="WHILE">WHILE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'while'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ZEROX">ZEROX</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'zerox'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="PRIVATE">PRIVATE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'private'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="IDENTIFIER">IDENTIFIER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[a-zA-Z_]</rr-t>
+                  <rr-t data-min="0" data-max="inf">[a-zA-Z_0-9]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="STRING_CONST">STRING_CONST</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+                  <rr-t data-min="0" data-max="inf">~'"'</rr-t>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CONSTANT">CONSTANT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\''</rr-t>
+                  <rr-t data-min="0" data-max="inf">~'\''</rr-t>
+                  <rr-t data-min="1" data-max="1">'\''</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ARITHMETIC_CONST">ARITHMETIC_CONST</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">DIGIT</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'.'</rr-t>
+                        <rr-t data-min="0" data-max="inf">DIGIT</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'e'</rr-t>
+                        <rr-t data-min="1" data-max="inf">DIGIT</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="DIGIT">DIGIT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[0-9]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="WS">WS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">[ \r\n\t]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

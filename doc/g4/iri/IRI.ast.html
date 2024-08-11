@@ -1,0 +1,1448 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../../index.html">Railroad</a> g4/iri/IRI</h1>
+      <pre>/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2013-2014 by Bart Kiers
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * Project      : An IRI ANTLR 4 grammar and parser.
+ * Developed by : Bart Kiers, bart@big-o.nl
+ * Also see     : https://github.com/bkiers/iri-parser
+ */</pre>
+      <h1>Grammar Decl</h1>
+      <pre>grammar IRI;
+
+<pre>/*
+ * Parser rules
+ */</pre>
+      </pre>
+      <h1>Rules</h1>
+      <h2 id="parse">parse</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#iri">iri</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="iri">iri</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#scheme">scheme</a><rr-t>':'</rr-t><a href="#ihier_part">ihier_part</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'?'</rr-t><a href="#iquery">iquery</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'#'</rr-t><a href="#ifragment">ifragment</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ihier_part">ihier_part</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'//'</rr-t><a href="#iauthority">iauthority</a><a href="#ipath_abempty">ipath_abempty</a></rr-a><a href="#ipath_absolute">ipath_absolute</a><a href="#ipath_rootless">ipath_rootless</a><a href="#ipath_empty">ipath_empty</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="iri_reference">iri_reference</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#iri">iri</a><a href="#irelative_ref">irelative_ref</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="absolute_iri">absolute_iri</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#scheme">scheme</a><rr-t>':'</rr-t><a href="#ihier_part">ihier_part</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'?'</rr-t><a href="#iquery">iquery</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="irelative_ref">irelative_ref</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#irelative_part">irelative_part</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'?'</rr-t><a href="#iquery">iquery</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'#'</rr-t><a href="#ifragment">ifragment</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="irelative_part">irelative_part</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'//'</rr-t><a href="#iauthority">iauthority</a><a href="#ipath_abempty">ipath_abempty</a></rr-a><a href="#ipath_absolute">ipath_absolute</a><a href="#ipath_noscheme">ipath_noscheme</a><a href="#ipath_empty">ipath_empty</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="iauthority">iauthority</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#iuserinfo">iuserinfo</a><rr-t>'@'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#ihost">ihost</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#port">port</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="iuserinfo">iuserinfo</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="0" data-max="inf">
+                  <rr-o><a href="#iunreserved">iunreserved</a><a href="#pct_encoded">pct_encoded</a><a href="#sub_delims">sub_delims</a><rr-t>':'</rr-t>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ihost">ihost</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#ip_literal">ip_literal</a><a href="#ip_v4_address">ip_v4_address</a><a href="#ireg_name">ireg_name</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ireg_name">ireg_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="0" data-max="inf">
+                  <rr-o><a href="#iunreserved">iunreserved</a><a href="#pct_encoded">pct_encoded</a><a href="#sub_delims">sub_delims</a></rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ipath">ipath</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#ipath_abempty">ipath_abempty</a><a href="#ipath_absolute">ipath_absolute</a><a href="#ipath_noscheme">ipath_noscheme</a><a href="#ipath_rootless">ipath_rootless</a><a href="#ipath_empty">ipath_empty</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ipath_abempty">ipath_abempty</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="0" data-max="inf">
+                  <rr-o>
+                     <rr-a>
+                        <rr-t>'/'</rr-t><a href="#isegment">isegment</a></rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ipath_absolute">ipath_absolute</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'/'</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#isegment_nz">isegment_nz</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>'/'</rr-t><a href="#isegment">isegment</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ipath_noscheme">ipath_noscheme</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#isegment_nz_nc">isegment_nz_nc</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'/'</rr-t><a href="#isegment">isegment</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ipath_rootless">ipath_rootless</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#isegment_nz">isegment_nz</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'/'</rr-t><a href="#isegment">isegment</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ipath_empty">ipath_empty</h2>
+      <p>
+         <rr-rr>
+            <pre>/* nothing */</pre>
+            <rr-o></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="isegment">isegment</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#ipchar">ipchar</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="isegment_nz">isegment_nz</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#ipchar">ipchar</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="isegment_nz_nc">isegment_nz_nc</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="1" data-max="inf">
+                  <rr-o><a href="#iunreserved">iunreserved</a><a href="#pct_encoded">pct_encoded</a><a href="#sub_delims">sub_delims</a><rr-t>'@'</rr-t>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ipchar">ipchar</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#iunreserved">iunreserved</a><a href="#pct_encoded">pct_encoded</a><a href="#sub_delims">sub_delims</a><rr-a>
+                  <rr-o>
+                     <rr-t>':'</rr-t>
+                     <rr-t>'@'</rr-t>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="iquery">iquery</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="0" data-max="inf">
+                  <rr-o><a href="#ipchar">ipchar</a><rr-a>
+                        <rr-o>
+                           <rr-t>IPRIVATE</rr-t>
+                           <rr-t>'/'</rr-t>
+                           <rr-t>'?'</rr-t>
+                        </rr-o>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ifragment">ifragment</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="0" data-max="inf">
+                  <rr-o><a href="#ipchar">ipchar</a><rr-a>
+                        <rr-o>
+                           <rr-t>'/'</rr-t>
+                           <rr-t>'?'</rr-t>
+                        </rr-o>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="iunreserved">iunreserved</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#alpha">alpha</a><a href="#digit">digit</a><rr-a>
+                  <rr-o>
+                     <rr-t>'-'</rr-t>
+                     <rr-t>'.'</rr-t>
+                     <rr-t>'_'</rr-t>
+                     <rr-t>'~'</rr-t>
+                     <rr-t>UCSCHAR</rr-t>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="scheme">scheme</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#alpha">alpha</a><rr-a data-min="0" data-max="inf">
+                     <rr-o><a href="#alpha">alpha</a><a href="#digit">digit</a><rr-a>
+                           <rr-o>
+                              <rr-t>'+'</rr-t>
+                              <rr-t>'-'</rr-t>
+                              <rr-t>'.'</rr-t>
+                           </rr-o>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="port">port</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#digit">digit</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ip_literal">ip_literal</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'['</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#ip_v6_address">ip_v6_address</a><a href="#ip_v_future">ip_v_future</a></rr-o>
+                  </rr-a>
+                  <rr-t>']'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ip_v_future">ip_v_future</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>V</rr-t><a href="#hexdig">hexdig</a><rr-t>'.'</rr-t>
+                  <rr-a data-min="1" data-max="inf">
+                     <rr-o><a href="#unreserved">unreserved</a><a href="#sub_delims">sub_delims</a><rr-t>':'</rr-t>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ip_v6_address">ip_v6_address</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#h16">h16</a><rr-t>':'</rr-t><a href="#h16">h16</a><rr-t>':'</rr-t><a href="#h16">h16</a><rr-t>':'</rr-t><a href="#h16">h16</a><rr-t>':'</rr-t><a href="#h16">h16</a><rr-t>':'</rr-t><a href="#h16">h16</a><rr-t>':'</rr-t><a href="#ls32">ls32</a></rr-a>
+               <rr-a>
+                  <rr-t>'::'</rr-t><a href="#h16">h16</a><rr-t>':'</rr-t><a href="#h16">h16</a><rr-t>':'</rr-t><a href="#h16">h16</a><rr-t>':'</rr-t><a href="#h16">h16</a><rr-t>':'</rr-t><a href="#h16">h16</a><rr-t>':'</rr-t><a href="#ls32">ls32</a></rr-a>
+               <rr-a><a href="#h16">h16</a><rr-t>'::'</rr-t><a href="#h16">h16</a><rr-t>':'</rr-t><a href="#h16">h16</a><rr-t>':'</rr-t><a href="#h16">h16</a><rr-t>':'</rr-t><a href="#h16">h16</a><rr-t>':'</rr-t><a href="#ls32">ls32</a></rr-a>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a><a href="#h16">h16</a><rr-t>':'</rr-t>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a><a href="#h16">h16</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'::'</rr-t><a href="#h16">h16</a><rr-t>':'</rr-t><a href="#h16">h16</a><rr-t>':'</rr-t><a href="#h16">h16</a><rr-t>':'</rr-t><a href="#ls32">ls32</a></rr-a>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-a data-min="0" data-max="1">
+                                       <rr-o>
+                                          <rr-a><a href="#h16">h16</a><rr-t>':'</rr-t>
+                                          </rr-a>
+                                       </rr-o>
+                                    </rr-a><a href="#h16">h16</a><rr-t>':'</rr-t>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a><a href="#h16">h16</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'::'</rr-t><a href="#h16">h16</a><rr-t>':'</rr-t><a href="#h16">h16</a><rr-t>':'</rr-t><a href="#ls32">ls32</a></rr-a>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-a data-min="0" data-max="1">
+                                       <rr-o>
+                                          <rr-a>
+                                             <rr-a data-min="0" data-max="1">
+                                                <rr-o>
+                                                   <rr-a><a href="#h16">h16</a><rr-t>':'</rr-t>
+                                                   </rr-a>
+                                                </rr-o>
+                                             </rr-a><a href="#h16">h16</a><rr-t>':'</rr-t>
+                                          </rr-a>
+                                       </rr-o>
+                                    </rr-a><a href="#h16">h16</a><rr-t>':'</rr-t>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a><a href="#h16">h16</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'::'</rr-t><a href="#h16">h16</a><rr-t>':'</rr-t><a href="#ls32">ls32</a></rr-a>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-a data-min="0" data-max="1">
+                                       <rr-o>
+                                          <rr-a>
+                                             <rr-a data-min="0" data-max="1">
+                                                <rr-o>
+                                                   <rr-a>
+                                                      <rr-a data-min="0" data-max="1">
+                                                         <rr-o>
+                                                            <rr-a><a href="#h16">h16</a><rr-t>':'</rr-t>
+                                                            </rr-a>
+                                                         </rr-o>
+                                                      </rr-a><a href="#h16">h16</a><rr-t>':'</rr-t>
+                                                   </rr-a>
+                                                </rr-o>
+                                             </rr-a><a href="#h16">h16</a><rr-t>':'</rr-t>
+                                          </rr-a>
+                                       </rr-o>
+                                    </rr-a><a href="#h16">h16</a><rr-t>':'</rr-t>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a><a href="#h16">h16</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'::'</rr-t><a href="#ls32">ls32</a></rr-a>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-a data-min="0" data-max="1">
+                                       <rr-o>
+                                          <rr-a>
+                                             <rr-a data-min="0" data-max="1">
+                                                <rr-o>
+                                                   <rr-a>
+                                                      <rr-a data-min="0" data-max="1">
+                                                         <rr-o>
+                                                            <rr-a>
+                                                               <rr-a data-min="0" data-max="1">
+                                                                  <rr-o>
+                                                                     <rr-a><a href="#h16">h16</a><rr-t>':'</rr-t>
+                                                                     </rr-a>
+                                                                  </rr-o>
+                                                               </rr-a><a href="#h16">h16</a><rr-t>':'</rr-t>
+                                                            </rr-a>
+                                                         </rr-o>
+                                                      </rr-a><a href="#h16">h16</a><rr-t>':'</rr-t>
+                                                   </rr-a>
+                                                </rr-o>
+                                             </rr-a><a href="#h16">h16</a><rr-t>':'</rr-t>
+                                          </rr-a>
+                                       </rr-o>
+                                    </rr-a><a href="#h16">h16</a><rr-t>':'</rr-t>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a><a href="#h16">h16</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'::'</rr-t><a href="#h16">h16</a></rr-a>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-a data-min="0" data-max="1">
+                                       <rr-o>
+                                          <rr-a>
+                                             <rr-a data-min="0" data-max="1">
+                                                <rr-o>
+                                                   <rr-a>
+                                                      <rr-a data-min="0" data-max="1">
+                                                         <rr-o>
+                                                            <rr-a>
+                                                               <rr-a data-min="0" data-max="1">
+                                                                  <rr-o>
+                                                                     <rr-a>
+                                                                        <rr-a data-min="0" data-max="1">
+                                                                           <rr-o>
+                                                                              <rr-a><a href="#h16">h16</a><rr-t>':'</rr-t>
+                                                                              </rr-a>
+                                                                           </rr-o>
+                                                                        </rr-a><a href="#h16">h16</a><rr-t>':'</rr-t>
+                                                                     </rr-a>
+                                                                  </rr-o>
+                                                               </rr-a><a href="#h16">h16</a><rr-t>':'</rr-t>
+                                                            </rr-a>
+                                                         </rr-o>
+                                                      </rr-a><a href="#h16">h16</a><rr-t>':'</rr-t>
+                                                   </rr-a>
+                                                </rr-o>
+                                             </rr-a><a href="#h16">h16</a><rr-t>':'</rr-t>
+                                          </rr-a>
+                                       </rr-o>
+                                    </rr-a><a href="#h16">h16</a><rr-t>':'</rr-t>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a><a href="#h16">h16</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'::'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="h16">h16</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#hexdig">hexdig</a><a href="#hexdig">hexdig</a><a href="#hexdig">hexdig</a><a href="#hexdig">hexdig</a></rr-a>
+               <rr-a><a href="#hexdig">hexdig</a><a href="#hexdig">hexdig</a><a href="#hexdig">hexdig</a></rr-a>
+               <rr-a><a href="#hexdig">hexdig</a><a href="#hexdig">hexdig</a></rr-a><a href="#hexdig">hexdig</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ls32">ls32</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#h16">h16</a><rr-t>':'</rr-t><a href="#h16">h16</a></rr-a><a href="#ip_v4_address">ip_v4_address</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ip_v4_address">ip_v4_address</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#dec_octet">dec_octet</a><rr-t>'.'</rr-t><a href="#dec_octet">dec_octet</a><rr-t>'.'</rr-t><a href="#dec_octet">dec_octet</a><rr-t>'.'</rr-t><a href="#dec_octet">dec_octet</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="dec_octet">dec_octet</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#digit">digit</a><rr-a><a href="#non_zero_digit">non_zero_digit</a><a href="#digit">digit</a></rr-a>
+               <rr-a>
+                  <rr-t>D1</rr-t><a href="#digit">digit</a><a href="#digit">digit</a></rr-a>
+               <rr-a>
+                  <rr-t>D2</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>D0</rr-t>
+                        <rr-t>D1</rr-t>
+                        <rr-t>D2</rr-t>
+                        <rr-t>D3</rr-t>
+                        <rr-t>D4</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#digit">digit</a></rr-a>
+               <rr-a>
+                  <rr-t>D2</rr-t>
+                  <rr-t>D5</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>D0</rr-t>
+                        <rr-t>D1</rr-t>
+                        <rr-t>D2</rr-t>
+                        <rr-t>D3</rr-t>
+                        <rr-t>D4</rr-t>
+                        <rr-t>D5</rr-t>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pct_encoded">pct_encoded</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'%'</rr-t><a href="#hexdig">hexdig</a><a href="#hexdig">hexdig</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="unreserved">unreserved</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#alpha">alpha</a><a href="#digit">digit</a><rr-a>
+                  <rr-o>
+                     <rr-t>'-'</rr-t>
+                     <rr-t>'.'</rr-t>
+                     <rr-t>'_'</rr-t>
+                     <rr-t>'~'</rr-t>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="reserved">reserved</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#gen_delims">gen_delims</a><a href="#sub_delims">sub_delims</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="gen_delims">gen_delims</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>':'</rr-t>
+               <rr-t>'/'</rr-t>
+               <rr-t>'?'</rr-t>
+               <rr-t>'#'</rr-t>
+               <rr-t>'['</rr-t>
+               <rr-t>']'</rr-t>
+               <rr-t>'@'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sub_delims">sub_delims</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'!'</rr-t>
+               <rr-t>'$'</rr-t>
+               <rr-t>'&amp;'</rr-t>
+               <rr-t>'\''</rr-t>
+               <rr-t>'('</rr-t>
+               <rr-t>')'</rr-t>
+               <rr-t>'*'</rr-t>
+               <rr-t>'+'</rr-t>
+               <rr-t>','</rr-t>
+               <rr-t>';'</rr-t>
+               <rr-t>'='</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="alpha">alpha</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>A</rr-t>
+               <rr-t>B</rr-t>
+               <rr-t>C</rr-t>
+               <rr-t>D</rr-t>
+               <rr-t>E</rr-t>
+               <rr-t>F</rr-t>
+               <rr-t>G</rr-t>
+               <rr-t>H</rr-t>
+               <rr-t>I</rr-t>
+               <rr-t>J</rr-t>
+               <rr-t>K</rr-t>
+               <rr-t>L</rr-t>
+               <rr-t>M</rr-t>
+               <rr-t>N</rr-t>
+               <rr-t>O</rr-t>
+               <rr-t>P</rr-t>
+               <rr-t>Q</rr-t>
+               <rr-t>R</rr-t>
+               <rr-t>S</rr-t>
+               <rr-t>T</rr-t>
+               <rr-t>U</rr-t>
+               <rr-t>V</rr-t>
+               <rr-t>W</rr-t>
+               <rr-t>X</rr-t>
+               <rr-t>Y</rr-t>
+               <rr-t>Z</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="hexdig">hexdig</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#digit">digit</a><rr-a>
+                  <rr-o>
+                     <rr-t>A</rr-t>
+                     <rr-t>B</rr-t>
+                     <rr-t>C</rr-t>
+                     <rr-t>D</rr-t>
+                     <rr-t>E</rr-t>
+                     <rr-t>F</rr-t>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="digit">digit</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>D0</rr-t><a href="#non_zero_digit">non_zero_digit</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="non_zero_digit">non_zero_digit</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>D1</rr-t>
+               <rr-t>D2</rr-t>
+               <rr-t>D3</rr-t>
+               <rr-t>D4</rr-t>
+               <rr-t>D5</rr-t>
+               <rr-t>D6</rr-t>
+               <rr-t>D7</rr-t>
+               <rr-t>D8</rr-t>
+               <rr-t>D9</rr-t>
+            </rr-o>
+            <pre>/*
+ * Lexer rules
+ */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="UCSCHAR">UCSCHAR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u00A0'..'\uD7FF'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uF900'..'\uFDCF'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uFDF0'..'\uFFEF'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u{10000}'..'\u{1FFFD}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u{20000}'..'\u{2FFFD}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u{30000}'..'\u{3FFFD}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u{40000}'..'\u{4FFFD}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u{50000}'..'\u{5FFFD}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u{60000}'..'\u{6FFFD}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u{70000}'..'\u{7FFFD}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u{80000}'..'\u{8FFFD}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u{90000}'..'\u{9FFFD}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u{A0000}'..'\u{AFFFD}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u{B0000}'..'\u{BFFFD}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u{C0000}'..'\u{CFFFD}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u{D0000}'..'\u{DFFFD}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u{E1000}'..'\u{EFFFD}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="IPRIVATE">IPRIVATE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\uE000'..'\uF8FF'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u{F0000}'..'\u{FFFFD}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u{100000}'..'\u{10FFFD}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="D0">D0</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'0'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="D1">D1</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'1'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="D2">D2</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'2'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="D3">D3</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'3'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="D4">D4</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'4'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="D5">D5</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'5'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="D6">D6</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'6'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="D7">D7</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'7'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="D8">D8</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'8'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="D9">D9</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'9'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="A">A</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[aA]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="B">B</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[bB]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="C">C</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[cC]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="D">D</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[dD]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="E">E</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[eE]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="F">F</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[fF]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="G">G</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[gG]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="H">H</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[hH]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="I">I</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[iI]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="J">J</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[jJ]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="K">K</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[kK]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="L">L</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[lL]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="M">M</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[mM]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="N">N</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[nN]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="O">O</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[oO]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="P">P</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[pP]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="Q">Q</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[qQ]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="R">R</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[rR]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="S">S</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[sS]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="T">T</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[tT]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="U">U</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[uU]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="V">V</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[vV]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="W">W</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[wW]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="X">X</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[xX]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="Y">Y</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[yY]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="Z">Z</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[zZ]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="COL2">COL2</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'::'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="COL">COL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">':'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="DOT">DOT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'.'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="PERCENT">PERCENT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'%'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="HYPHEN">HYPHEN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'-'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TILDE">TILDE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'~'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="USCORE">USCORE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'_'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="EXCL">EXCL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'!'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="DOLLAR">DOLLAR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'$'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="AMP">AMP</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&amp;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="SQUOTE">SQUOTE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\''</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="OPAREN">OPAREN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'('</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CPAREN">CPAREN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="STAR">STAR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'*'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="PLUS">PLUS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'+'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="COMMA">COMMA</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">','</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="SCOL">SCOL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">';'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="EQUALS">EQUALS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'='</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="FSLASH2">FSLASH2</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'//'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="FSLASH">FSLASH</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'/'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="QMARK">QMARK</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'?'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="HASH">HASH</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'#'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="OBRACK">OBRACK</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'['</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CBRACK">CBRACK</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">']'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="AT">AT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'@'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

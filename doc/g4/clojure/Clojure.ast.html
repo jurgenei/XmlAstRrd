@@ -1,0 +1,728 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../../index.html">Railroad</a> g4/clojure/Clojure</h1>
+      <pre>/* Reworked for grammar specificity by Reid Mckenzie. Did a bunch of
+   work so that rather than reading "a bunch of crap in parens" some
+   syntactic information is preserved and recovered. Dec. 14 2014.
+
+   Converted to ANTLR 4 by Terence Parr. Unsure of provenance. I see
+   it commited by matthias.koester for clojure-eclipse project on
+   Oct 5, 2009:
+
+   https://code.google.com/p/clojure-eclipse/
+
+   Seems to me Laurent Petit had a version of this. I also see
+   Jingguo Yao submitting a link to a now-dead github project on
+   Jan 1, 2011.
+
+   https://github.com/laurentpetit/ccw/tree/master/clojure-antlr-grammar
+
+   Regardless, there are some issues perhaps related to "sugar";
+   I've tried to fix them.
+
+   This parses https://github.com/weavejester/compojure project.
+
+   I also note this is hardly a grammar; more like "match a bunch of
+   crap in parens" but I guess that is LISP for you ;)
+ */</pre>
+      <h1>Grammar Decl</h1>
+      <pre>grammar Clojure;</pre>
+      <h1>Rules</h1>
+      <h2 id="file_">file_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#form">form</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="form">form</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#literal">literal</a><a href="#list_">list_</a><a href="#vector">vector</a><a href="#map_">map_</a><a href="#reader_macro">reader_macro</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="forms">forms</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#form">form</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="list_">list_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#forms">forms</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="vector">vector</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#forms">forms</a><rr-t>']'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="map_">map_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'{'</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#form">form</a><a href="#form">form</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="set_">set_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'#{'</rr-t><a href="#forms">forms</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="reader_macro">reader_macro</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#lambda_">lambda_</a><a href="#meta_data">meta_data</a><a href="#regex">regex</a><a href="#var_quote">var_quote</a><a href="#host_expr">host_expr</a><a href="#set_">set_</a><a href="#tag">tag</a><a href="#discard">discard</a><a href="#dispatch">dispatch</a><a href="#deref">deref</a><a href="#quote">quote</a><a href="#backtick">backtick</a><a href="#unquote">unquote</a><a href="#unquote_splicing">unquote_splicing</a><a href="#gensym">gensym</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="quote">quote</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'\''</rr-t><a href="#form">form</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="backtick">backtick</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'`'</rr-t><a href="#form">form</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="unquote">unquote</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'~'</rr-t><a href="#form">form</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="unquote_splicing">unquote_splicing</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'~@'</rr-t><a href="#form">form</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tag">tag</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'^'</rr-t><a href="#form">form</a><a href="#form">form</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="deref">deref</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'@'</rr-t><a href="#form">form</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="gensym">gensym</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SYMBOL</rr-t>
+                  <rr-t>'#'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lambda_">lambda_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'#('</rr-t><a href="#form">form</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="meta_data">meta_data</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'#^'</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-a><a href="#map_">map_</a><a href="#form">form</a></rr-a><a href="#form">form</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="var_quote">var_quote</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'#\''</rr-t><a href="#symbol">symbol</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="host_expr">host_expr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'#+'</rr-t><a href="#form">form</a><a href="#form">form</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="discard">discard</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'#_'</rr-t><a href="#form">form</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="dispatch">dispatch</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'#'</rr-t><a href="#symbol">symbol</a><a href="#form">form</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="regex">regex</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'#'</rr-t><a href="#string_">string_</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="literal">literal</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#string_">string_</a><a href="#number">number</a><a href="#character">character</a><a href="#nil_">nil_</a><rr-t>BOOLEAN</rr-t><a href="#keyword">keyword</a><a href="#symbol">symbol</a><a href="#param_name">param_name</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="string_">string_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="hex_">hex_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>HEX</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="bin_">bin_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>BIN</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="bign">bign</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>BIGN</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="number">number</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>FLOAT</rr-t><a href="#hex_">hex_</a><a href="#bin_">bin_</a><a href="#bign">bign</a><rr-t>LONG</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="character">character</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#named_char">named_char</a><a href="#u_hex_quad">u_hex_quad</a><a href="#any_char">any_char</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="named_char">named_char</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>CHAR_NAMED</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="any_char">any_char</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>CHAR_ANY</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="u_hex_quad">u_hex_quad</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>CHAR_U</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="nil_">nil_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>NIL</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="keyword">keyword</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#macro_keyword">macro_keyword</a><a href="#simple_keyword">simple_keyword</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="simple_keyword">simple_keyword</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>':'</rr-t><a href="#symbol">symbol</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macro_keyword">macro_keyword</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>':'</rr-t>
+                  <rr-t>':'</rr-t><a href="#symbol">symbol</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="symbol">symbol</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#ns_symbol">ns_symbol</a><a href="#simple_sym">simple_sym</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="simple_sym">simple_sym</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>SYMBOL</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ns_symbol">ns_symbol</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>NS_SYMBOL</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="param_name">param_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>PARAM_NAME</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="STRING">STRING</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">~'"'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'\\'</rr-t>
+                        <rr-t data-min="1" data-max="1">'"'</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="FLOAT">FLOAT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="0" data-max="1">'-'</rr-t>
+                  <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
+                  <rr-t data-min="1" data-max="1">FLOAT_TAIL</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="0" data-max="1">'-'</rr-t>
+                  <rr-t data-min="1" data-max="1">'Infinity'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="0" data-max="1">'-'</rr-t>
+                  <rr-t data-min="1" data-max="1">'NaN'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="FLOAT_TAIL">FLOAT_TAIL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">FLOAT_DECIMAL</rr-t>
+                  <rr-t data-min="1" data-max="1">FLOAT_EXP</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">FLOAT_DECIMAL</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">FLOAT_EXP</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="FLOAT_DECIMAL">FLOAT_DECIMAL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'.'</rr-t>
+                  <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="FLOAT_EXP">FLOAT_EXP</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[eE]</rr-t>
+                  <rr-t data-min="0" data-max="1">'-'</rr-t>
+                  <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="HEXD">HEXD</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[0-9a-fA-F]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="HEX">HEX</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'0'</rr-t>
+                  <rr-t data-min="1" data-max="1">[xX]</rr-t>
+                  <rr-t data-min="1" data-max="inf">HEXD</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="BIN">BIN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'0'</rr-t>
+                  <rr-t data-min="1" data-max="1">[bB]</rr-t>
+                  <rr-t data-min="1" data-max="inf">[10]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="LONG">LONG</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="0" data-max="1">'-'</rr-t>
+                  <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
+                  <rr-t data-min="0" data-max="1">[lL]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="BIGN">BIGN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="0" data-max="1">'-'</rr-t>
+                  <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
+                  <rr-t data-min="1" data-max="1">[nN]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CHAR_U">CHAR_U</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\\'</rr-t>
+                  <rr-t data-min="1" data-max="1">'u'</rr-t>
+                  <rr-t data-min="1" data-max="1">[0-9D-Fd-f]</rr-t>
+                  <rr-t data-min="1" data-max="1">HEXD</rr-t>
+                  <rr-t data-min="1" data-max="1">HEXD</rr-t>
+                  <rr-t data-min="1" data-max="1">HEXD</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CHAR_NAMED">CHAR_NAMED</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\\'</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'newline'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'return'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'space'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'tab'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'formfeed'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'backspace'</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CHAR_ANY">CHAR_ANY</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\\'</rr-t>
+                  <rr-t data-min="1" data-max="1">.</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="NIL">NIL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'nil'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="BOOLEAN">BOOLEAN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'true'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'false'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="SYMBOL">SYMBOL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'.'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'/'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">NAME</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="NS_SYMBOL">NS_SYMBOL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">NAME</rr-t>
+                  <rr-t data-min="1" data-max="1">'/'</rr-t>
+                  <rr-t data-min="1" data-max="1">SYMBOL</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="PARAM_NAME">PARAM_NAME</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'%'</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'1'..'9'</rr-t>
+                        <rr-t data-min="0" data-max="inf">'0'..'9'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'&amp;'</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="NAME">NAME</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">SYMBOL_HEAD</rr-t>
+                  <rr-t data-min="0" data-max="inf">SYMBOL_REST</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">':'</rr-t>
+                        <rr-t data-min="1" data-max="inf">SYMBOL_REST</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="SYMBOL_HEAD">SYMBOL_HEAD</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">~('0'..'9'|'^'|'`'|'\''|'"'|'#'|'~'|'@'|':'|'/'|'%'|'('|')'|'['|']'|'{'|'}'|[ \n\r\t,])</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="SYMBOL_REST">SYMBOL_REST</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">SYMBOL_HEAD</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'0'..'9'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'.'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="WS">WS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[ \n\r\t,]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="COMMENT">COMMENT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">';'</rr-t>
+                  <rr-t data-min="0" data-max="inf">~[\r\n]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TRASH">TRASH</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">WS</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">COMMENT</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

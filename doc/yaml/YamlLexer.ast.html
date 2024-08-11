@@ -1,0 +1,918 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../index.html">Railroad</a> yaml/YamlLexer</h1>
+      <h1>Grammar Decl</h1>
+      <pre>lexer grammar YamlLexer;
+
+// All comments that start with "///" are copy-pasted from
+// The Python Language Reference: https://docs.python.org/3.3/reference/grammar.html</pre>
+      <h1>Rules</h1>
+      <h2 id="NEWLINE">NEWLINE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">SPACES</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-o>
+                           <rr-a>
+                              <rr-t data-min="0" data-max="1">'\r'</rr-t>
+                              <rr-t data-min="1" data-max="1">'\n'</rr-t>
+                           </rr-a>
+                           <rr-a>
+                              <rr-t data-min="1" data-max="1">'\r'</rr-t>
+                           </rr-a>
+                        </rr-o>
+                        <rr-t data-min="0" data-max="1">SPACES</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="BYTES_LITERAL">BYTES_LITERAL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[bB]</rr-t>
+                  <rr-t data-min="0" data-max="1">[rR]</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">SHORT_BYTES</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">LONG_BYTES</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="DECIMAL_INTEGER">DECIMAL_INTEGER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">NON_ZERO_DIGIT</rr-t>
+                  <rr-t data-min="0" data-max="inf">DIGIT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">'0'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="OCT_INTEGER">OCT_INTEGER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'0'</rr-t>
+                  <rr-t data-min="1" data-max="1">[oO]</rr-t>
+                  <rr-t data-min="1" data-max="inf">OCT_DIGIT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="HEX_INTEGER">HEX_INTEGER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'0'</rr-t>
+                  <rr-t data-min="1" data-max="1">[xX]</rr-t>
+                  <rr-t data-min="1" data-max="inf">HEX_DIGIT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="BIN_INTEGER">BIN_INTEGER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'0'</rr-t>
+                  <rr-t data-min="1" data-max="1">[bB]</rr-t>
+                  <rr-t data-min="1" data-max="inf">BIN_DIGIT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="FLOAT_NUMBER">FLOAT_NUMBER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">POINT_FLOAT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">EXPONENT_FLOAT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="IMAG_NUMBER">IMAG_NUMBER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">FLOAT_NUMBER</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">INT_PART</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-t data-min="1" data-max="1">[jJ]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="MINUS">MINUS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'-'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="DOCUMENTSTART">DOCUMENTSTART</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'---'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="DOCUMENTEND">DOCUMENTEND</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'...'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="AMPERSAND">AMPERSAND</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&amp;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="STAR">STAR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'*'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="OPEN_PAREN">OPEN_PAREN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'('</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CLOSE_PAREN">CLOSE_PAREN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="COMMA">COMMA</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">','</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="COLON">COLON</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">':'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="OPEN_BRACK">OPEN_BRACK</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'['</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CLOSE_BRACK">CLOSE_BRACK</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">']'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="OPEN_BRACE">OPEN_BRACE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'{'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CLOSE_BRACE">CLOSE_BRACE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="LITERIAL_STR_IND">LITERIAL_STR_IND</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'|'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="FOLD_STR_IND">FOLD_STR_IND</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&gt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="DOUBLE_QUOTE">DOUBLE_QUOTE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ANCHOR">ANCHOR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">AMPERSAND</rr-t>
+                  <rr-t data-min="1" data-max="1">NAME</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ALIAS">ALIAS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">STAR</rr-t>
+                  <rr-t data-min="1" data-max="1">NAME</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="NAME">NAME</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">[A-Za-z0-9]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="STRING_MY">STRING_MY</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">STRING_MY_START</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">~(' '|'\r'|'\n'|'"'|':')</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-o>
+                           <rr-a>
+                              <rr-t data-min="1" data-max="1">':'</rr-t>
+                              <rr-t data-min="1" data-max="1">~[ \r\n]</rr-t>
+                           </rr-a>
+                        </rr-o>
+                     </rr-a>
+                     <rr-a>
+                        <rr-o>
+                           <rr-a>
+                              <rr-t data-min="1" data-max="inf">' '</rr-t>
+                              <rr-t data-min="1" data-max="1">~[ :#\r\n]</rr-t>
+                           </rr-a>
+                        </rr-o>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="STRING_MY_START">STRING_MY_START</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">~('-'|' '|'\r'|'\n'|'"'|':'|'#'|'['|'{'|'&amp;'|'*'|'|')</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">':'</rr-t>
+                        <rr-t data-min="1" data-max="1">~[ \r\n]</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'-'</rr-t>
+                        <rr-t data-min="1" data-max="1">~[ \-\r\n]</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'--'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'---'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="SKIP1">SKIP1</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">SPACES</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">COMMENT</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">LINE_JOINING</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="UNKNOWN_CHAR">UNKNOWN_CHAR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">.</rr-t>
+               </rr-a>
+            </rr-o>
+            <pre>/*
+ * fragments
+ */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="NON_ZERO_DIGIT">NON_ZERO_DIGIT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[1-9]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="DIGIT">DIGIT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[0-9]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="OCT_DIGIT">OCT_DIGIT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[0-7]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="HEX_DIGIT">HEX_DIGIT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[0-9a-fA-F]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="BIN_DIGIT">BIN_DIGIT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[01]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="POINT_FLOAT">POINT_FLOAT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="0" data-max="1">INT_PART</rr-t>
+                  <rr-t data-min="1" data-max="1">FRACTION</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">INT_PART</rr-t>
+                  <rr-t data-min="1" data-max="1">'.'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="EXPONENT_FLOAT">EXPONENT_FLOAT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">INT_PART</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">POINT_FLOAT</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-t data-min="1" data-max="1">EXPONENT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="INT_PART">INT_PART</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">DIGIT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="FRACTION">FRACTION</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'.'</rr-t>
+                  <rr-t data-min="1" data-max="inf">DIGIT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="EXPONENT">EXPONENT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[eE]</rr-t>
+                  <rr-t data-min="0" data-max="1">[+-]</rr-t>
+                  <rr-t data-min="1" data-max="inf">DIGIT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="SHORT_BYTES">SHORT_BYTES</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\''</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">SHORT_BYTES_CHAR_NO_SINGLE_QUOTE</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">BYTES_ESCAPE_SEQ</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-t data-min="1" data-max="1">'\''</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">SHORT_BYTES_CHAR_NO_DOUBLE_QUOTE</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">BYTES_ESCAPE_SEQ</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="LONG_BYTES">LONG_BYTES</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\'\'\''</rr-t>
+                  <rr-t data-min="1" data-max="1">LONG_BYTES_ITEM</rr-t>
+                  <rr-t data-min="1" data-max="1">'\'\'\''</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'"""'</rr-t>
+                  <rr-t data-min="1" data-max="1">LONG_BYTES_ITEM</rr-t>
+                  <rr-t data-min="1" data-max="1">'"""'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="LONG_BYTES_ITEM">LONG_BYTES_ITEM</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">LONG_BYTES_CHAR</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">BYTES_ESCAPE_SEQ</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="SHORT_BYTES_CHAR_NO_SINGLE_QUOTE">SHORT_BYTES_CHAR_NO_SINGLE_QUOTE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[\u0000-\u0009]</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[\u000B-\u000C]</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[\u000E-\u0026]</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[\u0028-\u005B]</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[\u005D-\u007F]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="SHORT_BYTES_CHAR_NO_DOUBLE_QUOTE">SHORT_BYTES_CHAR_NO_DOUBLE_QUOTE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[\u0000-\u0009]</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[\u000B-\u000C]</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[\u000E-\u0021]</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[\u0023-\u005B]</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[\u005D-\u007F]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="LONG_BYTES_CHAR">LONG_BYTES_CHAR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[\u0000-\u005B]</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[\u005D-\u007F]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="BYTES_ESCAPE_SEQ">BYTES_ESCAPE_SEQ</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\\'</rr-t>
+                  <rr-t data-min="1" data-max="1">[\u0000-\u007F]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="SPACES">SPACES</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">[ \t]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="COMMENT">COMMENT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'#'</rr-t>
+                  <rr-t data-min="0" data-max="inf">~[\r\n]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="LINE_JOINING">LINE_JOINING</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\\'</rr-t>
+                  <rr-t data-min="0" data-max="1">SPACES</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="0" data-max="1">'\r'</rr-t>
+                        <rr-t data-min="1" data-max="1">'\n'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'\r'</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <rr-o>
+         <rr-a>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">NON_ZERO_DIGIT</rr-t>
+                  <rr-t data-min="0" data-max="inf">DIGIT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">'0'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">'0'</rr-t>
+            <rr-t data-min="1" data-max="1">[oO]</rr-t>
+            <rr-t data-min="1" data-max="inf">OCT_DIGIT</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">'0'</rr-t>
+            <rr-t data-min="1" data-max="1">[xX]</rr-t>
+            <rr-t data-min="1" data-max="inf">HEX_DIGIT</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">'0'</rr-t>
+            <rr-t data-min="1" data-max="1">[bB]</rr-t>
+            <rr-t data-min="1" data-max="inf">BIN_DIGIT</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">POINT_FLOAT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">EXPONENT_FLOAT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">FLOAT_NUMBER</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">INT_PART</rr-t>
+               </rr-a>
+            </rr-o>
+            <rr-t data-min="1" data-max="1">[jJ]</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">STRING_MY_START_2</rr-t>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">~(' '|'\r'|'\n'|'"'|':'|'['|']'|','|'{'|'}')</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">':'</rr-t>
+                        <rr-t data-min="1" data-max="1">~[ \r\n]</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="inf">' '</rr-t>
+                        <rr-t data-min="1" data-max="1">~(' '|':'|'#'|'\r'|'\n'|'['|']'|','|'{'|'}')</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">~('-'|' '|'\r'|'\n'|'"'|':'|'#'|'['|']'|','|'{'|'}')</rr-t>
+         </rr-a>
+         <rr-a>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">':'</rr-t>
+                  <rr-t data-min="1" data-max="1">~[ \r\n]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-a>
+         <rr-a>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'-'</rr-t>
+                  <rr-t data-min="1" data-max="1">~[ \r\n]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">','</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">':'</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">SPACES</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">COMMENT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">LINE_JOINING</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="0" data-max="1">'\r'</rr-t>
+                        <rr-t data-min="1" data-max="1">'\n'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'\r'</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">']'</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">'}'</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="0" data-max="1">'\r'</rr-t>
+                  <rr-t data-min="1" data-max="1">'\n'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\r'</rr-t>
+               </rr-a>
+            </rr-o>
+            <rr-t data-min="0" data-max="inf">[ \t]</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="0" data-max="inf">~('\r'|'\n')</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">~["\r\n\\]</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\\\\'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="0" data-max="1">'\r'</rr-t>
+                  <rr-t data-min="1" data-max="1">'\n'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\r'</rr-t>
+               </rr-a>
+            </rr-o>
+            <rr-t data-min="0" data-max="inf">[ \t]</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">'"'</rr-t>
+         </rr-a>
+      </rr-o>
+   </body>
+</html>

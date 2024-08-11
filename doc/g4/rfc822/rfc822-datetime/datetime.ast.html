@@ -1,0 +1,222 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../../../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../../../index.html">Railroad</a> g4/rfc822/rfc822-datetime/datetime</h1>
+      <pre>/*
+BSD License
+Copyright (c) 2013, Tom Everett
+All rights reserved.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. Neither the name of Tom Everett nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
+      <h1>Grammar Decl</h1>
+      <pre>grammar datetime;</pre>
+      <h1>Rules</h1>
+      <h2 id="date_time">date_time</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#day">day</a><rr-t>','</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#date">date</a><a href="#time">time</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="day">day</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'Mon'</rr-t>
+               <rr-t>'Tue'</rr-t>
+               <rr-t>'Wed'</rr-t>
+               <rr-t>'Thu'</rr-t>
+               <rr-t>'Fri'</rr-t>
+               <rr-t>'Sat'</rr-t>
+               <rr-t>'Sun'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="date">date</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#two_digit">two_digit</a><a href="#month">month</a><a href="#two_digit">two_digit</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="month">month</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'Jan'</rr-t>
+               <rr-t>'Feb'</rr-t>
+               <rr-t>'Mar'</rr-t>
+               <rr-t>'Apr'</rr-t>
+               <rr-t>'May'</rr-t>
+               <rr-t>'Jun'</rr-t>
+               <rr-t>'Jul'</rr-t>
+               <rr-t>'Aug'</rr-t>
+               <rr-t>'Sep'</rr-t>
+               <rr-t>'Oct'</rr-t>
+               <rr-t>'Nov'</rr-t>
+               <rr-t>'Dec'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="time">time</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#hour">hour</a><a href="#zone">zone</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="hour">hour</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#two_digit">two_digit</a><rr-t>':'</rr-t><a href="#two_digit">two_digit</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#two_digit">two_digit</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="zone">zone</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'UT'</rr-t>
+               <rr-t>'GMT'</rr-t>
+               <rr-t>'EST'</rr-t>
+               <rr-t>'EDT'</rr-t>
+               <rr-t>'CST'</rr-t>
+               <rr-t>'CDT'</rr-t>
+               <rr-t>'MST'</rr-t>
+               <rr-t>'MDT'</rr-t>
+               <rr-t>'PST'</rr-t>
+               <rr-t>'PDT'</rr-t>
+               <rr-t>ALPHA</rr-t>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-a>
+                           <rr-o>
+                              <rr-t>'+'</rr-t>
+                              <rr-t>'-'</rr-t>
+                           </rr-o>
+                        </rr-a><a href="#four_digit">four_digit</a></rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="two_digit">two_digit</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#alphanumeric">alphanumeric</a><a href="#alphanumeric">alphanumeric</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="four_digit">four_digit</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#alphanumeric">alphanumeric</a><a href="#alphanumeric">alphanumeric</a><a href="#alphanumeric">alphanumeric</a><a href="#alphanumeric">alphanumeric</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="alphanumeric">alphanumeric</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>ALPHA</rr-t>
+               <rr-t>DIGIT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CHAR">CHAR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[\u0000-\u007F]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ALPHA">ALPHA</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[a-zA-Z]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="DIGIT">DIGIT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[0-9]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="NOTALPHANUMERIC">NOTALPHANUMERIC</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">~[a-zA-Z0-9]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="WS">WS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[ \r\n\t]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

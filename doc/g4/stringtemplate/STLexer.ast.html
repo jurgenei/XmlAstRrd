@@ -1,0 +1,333 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../../index.html">Railroad</a> g4/stringtemplate/STLexer</h1>
+      <pre>/* [The "BSD license"]
+ * Copyright (c) 2011-2014 Terence Parr
+ * Copyright (c) 2015 Gerald Rosenberg
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 	 1. Redistributions of source code must retain the above copyright
+ *	 	notice, this list of conditions and the following disclaimer.
+ *   2. Redistributions in binary form must reproduce the above copyright
+ *		notice, this list of conditions and the following disclaimer in the
+ *		documentation and/or other materials provided with the distribution.
+ *	 3. The name of the author may not be used to endorse or promote products
+ *		derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */</pre>
+      <pre>/*	Antlr grammar for StringTemplate v4.
+ *
+ *	Modified 2015.06.16 gbr
+ *	-- update for compatibility with Antlr v4.5
+ *	-- use imported standard fragments
+ */</pre>
+      <h1>Grammar Decl</h1>
+      <pre>lexer grammar STLexer;</pre>
+      <h1>Rules</h1>
+      <h2 id="DOC_COMMENT">DOC_COMMENT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">DocComment</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="BLOCK_COMMENT">BLOCK_COMMENT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">BlockComment</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="LINE_COMMENT">LINE_COMMENT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">LineComment</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TMPL_COMMENT">TMPL_COMMENT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">TmplComment</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="HORZ_WS">HORZ_WS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">Hws</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="VERT_WS">VERT_WS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">Vws</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ESCAPE">ESCAPE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">.</rr-t>
+                  <rr-t data-min="1" data-max="1">EscSeq</rr-t>
+                  <rr-t data-min="1" data-max="1">.</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="LDELIM">LDELIM</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">.</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="RBRACE">RBRACE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">RBrace</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TEXT">TEXT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">.</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="inf">Hws</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="inf">Vws</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">LBrace</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">.</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">DQuoteLiteral</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">'if'</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">'elseif'</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">'else'</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">'endif'</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">'super'</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">'@end'</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">True_</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">False_</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">At</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">Ellipsis</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">Dot</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">Comma</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">Colon</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">Semi</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">And</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">Or</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">LParen</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">RParen</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">LBrack</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">RBrack</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">Equal</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">Bang</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">.</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="inf">Hws</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="inf">Vws</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">NameStartChar</rr-t>
+            <rr-t data-min="0" data-max="inf">NameChar</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">Comma</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">Pipe</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">LTmplMark</rr-t>
+            <rr-t data-min="1" data-max="1">.</rr-t>
+            <rr-t data-min="1" data-max="1">RTmplMark</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">.</rr-t>
+            <rr-t data-min="1" data-max="1">Bang</rr-t>
+         </rr-a>
+      </rr-o>
+      <rr-o>
+         <rr-a>
+            <rr-t data-min="1" data-max="1">Bang</rr-t>
+            <rr-t data-min="1" data-max="1">.</rr-t>
+         </rr-a>
+      </rr-o>
+   </body>
+</html>

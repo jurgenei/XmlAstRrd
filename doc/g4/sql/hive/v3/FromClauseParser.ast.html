@@ -1,0 +1,491 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../../../../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../../../../index.html">Railroad</a> g4/sql/hive/v3/FromClauseParser</h1>
+      <h1>Grammar Decl</h1>
+      <pre>parser grammar FromClauseParser;
+
+//-----------------------------------------------------------------------------------</pre>
+      <h1>Rules</h1>
+      <h2 id="tableAllColumns">tableAllColumns</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>STAR</rr-t>
+               <rr-a><a href="#tableName">tableName</a><rr-t>DOT</rr-t>
+                  <rr-t>STAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tableOrColumn">tableOrColumn</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#identifier">identifier</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expressionList">expressionList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#expression">expression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="aliasList">aliasList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#identifier">identifier</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#identifier">identifier</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="fromClause">fromClause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_FROM</rr-t><a href="#fromSource">fromSource</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="fromSource">fromSource</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#uniqueJoinToken">uniqueJoinToken</a><a href="#uniqueJoinSource">uniqueJoinSource</a><rr-a data-min="1" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#uniqueJoinSource">uniqueJoinSource</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a><a href="#joinSource">joinSource</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="atomjoinSource">atomjoinSource</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#tableSource">tableSource</a><a href="#lateralView">lateralView</a></rr-a>
+               <rr-a><a href="#virtualTableSource">virtualTableSource</a><a href="#lateralView">lateralView</a></rr-a>
+               <rr-a><a href="#subQuerySource">subQuerySource</a><a href="#lateralView">lateralView</a></rr-a>
+               <rr-a><a href="#partitionedTableFunction">partitionedTableFunction</a><a href="#lateralView">lateralView</a></rr-a>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#joinSource">joinSource</a><rr-t>RPAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="joinSource">joinSource</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#atomjoinSource">atomjoinSource</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#joinToken">joinToken</a><a href="#joinSourcePart">joinSourcePart</a><rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>KW_ON</rr-t><a href="#expression">expression</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>KW_USING</rr-t><a href="#columnParenthesesList">columnParenthesesList</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="joinSourcePart">joinSourcePart</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o><a href="#tableSource">tableSource</a><a href="#virtualTableSource">virtualTableSource</a><a href="#subQuerySource">subQuerySource</a><a href="#partitionedTableFunction">partitionedTableFunction</a></rr-o>
+                  </rr-a><a href="#lateralView">lateralView</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="uniqueJoinSource">uniqueJoinSource</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_PRESERVE</rr-t><a href="#uniqueJoinTableSource">uniqueJoinTableSource</a><a href="#uniqueJoinExpr">uniqueJoinExpr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="uniqueJoinExpr">uniqueJoinExpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#expressionList">expressionList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="uniqueJoinToken">uniqueJoinToken</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>KW_UNIQUEJOIN</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="joinToken">joinToken</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>KW_JOIN</rr-t>
+               <rr-a>
+                  <rr-t>KW_INNER</rr-t>
+                  <rr-t>KW_JOIN</rr-t>
+               </rr-a>
+               <rr-t>COMMA</rr-t>
+               <rr-a>
+                  <rr-t>KW_CROSS</rr-t>
+                  <rr-t>KW_JOIN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_LEFT</rr-t>
+                  <rr-t>KW_OUTER</rr-t>
+                  <rr-t>KW_JOIN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_RIGHT</rr-t>
+                  <rr-t>KW_OUTER</rr-t>
+                  <rr-t>KW_JOIN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_FULL</rr-t>
+                  <rr-t>KW_OUTER</rr-t>
+                  <rr-t>KW_JOIN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_LEFT</rr-t>
+                  <rr-t>KW_SEMI</rr-t>
+                  <rr-t>KW_JOIN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lateralView">lateralView</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_LATERAL</rr-t>
+                  <rr-t>KW_VIEW</rr-t>
+                  <rr-t>KW_OUTER</rr-t><a href="#function_">function_</a><a href="#tableAlias">tableAlias</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>KW_AS</rr-t><a href="#identifier">identifier</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#identifier">identifier</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>COMMA</rr-t>
+                  <rr-t>KW_LATERAL</rr-t>
+                  <rr-t>KW_VIEW</rr-t><a href="#function_">function_</a><a href="#tableAlias">tableAlias</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>KW_AS</rr-t><a href="#identifier">identifier</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#identifier">identifier</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>COMMA</rr-t>
+                  <rr-t>KW_LATERAL</rr-t>
+                  <rr-t>KW_TABLE</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#valuesClause">valuesClause</a><rr-t>RPAREN</rr-t>
+                  <rr-t>KW_AS</rr-t><a href="#tableAlias">tableAlias</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>LPAREN</rr-t><a href="#identifier">identifier</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#identifier">identifier</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                           <rr-t>RPAREN</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tableAlias">tableAlias</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#identifier">identifier</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tableBucketSample">tableBucketSample</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_TABLESAMPLE</rr-t>
+                  <rr-t>LPAREN</rr-t>
+                  <rr-t>KW_BUCKET</rr-t>
+                  <rr-t>Number</rr-t>
+                  <rr-t>KW_OUT</rr-t>
+                  <rr-t>KW_OF</rr-t>
+                  <rr-t>Number</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>KW_ON</rr-t><a href="#expression">expression</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#expression">expression</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>RPAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="splitSample">splitSample</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_TABLESAMPLE</rr-t>
+                  <rr-t>LPAREN</rr-t>
+                  <rr-t>Number</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>KW_PERCENT</rr-t>
+                        <rr-t>KW_ROWS</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>RPAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_TABLESAMPLE</rr-t>
+                  <rr-t>LPAREN</rr-t>
+                  <rr-t>ByteLengthLiteral</rr-t>
+                  <rr-t>RPAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tableSample">tableSample</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#tableBucketSample">tableBucketSample</a><a href="#splitSample">splitSample</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tableSource">tableSource</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#tableName">tableName</a><a href="#tableProperties">tableProperties</a><a href="#tableSample">tableSample</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>KW_AS</rr-t><a href="#identifier">identifier</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="uniqueJoinTableSource">uniqueJoinTableSource</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#tableName">tableName</a><a href="#tableSample">tableSample</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>KW_AS</rr-t><a href="#identifier">identifier</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tableName">tableName</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#identifier">identifier</a><rr-t>DOT</rr-t><a href="#identifier">identifier</a></rr-a><a href="#identifier">identifier</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="viewName">viewName</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#identifier">identifier</a><rr-t>DOT</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#identifier">identifier</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="subQuerySource">subQuerySource</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#queryStatementExpression">queryStatementExpression</a><rr-t>RPAREN</rr-t>
+                  <rr-t>KW_AS</rr-t><a href="#identifier">identifier</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="partitioningSpec">partitioningSpec</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#partitionByClause">partitionByClause</a><a href="#orderByClause">orderByClause</a></rr-a><a href="#orderByClause">orderByClause</a><rr-a><a href="#distributeByClause">distributeByClause</a><a href="#sortByClause">sortByClause</a></rr-a><a href="#sortByClause">sortByClause</a><a href="#clusterByClause">clusterByClause</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="partitionTableFunctionSource">partitionTableFunctionSource</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#subQuerySource">subQuerySource</a><a href="#tableSource">tableSource</a><a href="#partitionedTableFunction">partitionedTableFunction</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="partitionedTableFunction">partitionedTableFunction</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#identifier">identifier</a><rr-t>LPAREN</rr-t>
+                  <rr-t>KW_ON</rr-t><a href="#partitionTableFunctionSource">partitionTableFunctionSource</a><a href="#partitioningSpec">partitioningSpec</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>Identifier</rr-t>
+                           <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+                           <rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t>
+                                    <rr-t>Identifier</rr-t>
+                                    <rr-t>LPAREN</rr-t><a href="#expression">expression</a><rr-t>RPAREN</rr-t>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>RPAREN</rr-t><a href="#identifier">identifier</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="whereClause">whereClause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_WHERE</rr-t><a href="#searchCondition">searchCondition</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="searchCondition">searchCondition</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expression">expression</a></rr-o>
+            <pre>/*
+VALUES(1),(2) means 2 rows, 1 column each.
+VALUES(1,2),(3,4) means 2 rows, 2 columns each.
+VALUES(1,2,3) means 1 row, 3 columns
+*/</pre>
+         </rr-rr>
+      </p>
+      <h2 id="valuesClause">valuesClause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_VALUES</rr-t><a href="#valuesTableConstructor">valuesTableConstructor</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="valuesTableConstructor">valuesTableConstructor</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#valueRowConstructor">valueRowConstructor</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#valueRowConstructor">valueRowConstructor</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="valueRowConstructor">valueRowConstructor</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expressionsInParenthesis">expressionsInParenthesis</a></rr-o>
+            <pre>/*
+This represents a clause like this:
+TABLE(VALUES(1,2),(2,3)) as VirtTable(col1,col2)
+*/</pre>
+         </rr-rr>
+      </p>
+      <h2 id="virtualTableSource">virtualTableSource</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_TABLE</rr-t>
+                  <rr-t>LPAREN</rr-t><a href="#valuesClause">valuesClause</a><rr-t>RPAREN</rr-t>
+                  <rr-t>KW_AS</rr-t><a href="#tableAlias">tableAlias</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>LPAREN</rr-t><a href="#identifier">identifier</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#identifier">identifier</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>RPAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

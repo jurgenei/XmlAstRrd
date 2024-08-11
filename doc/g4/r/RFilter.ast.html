@@ -1,0 +1,193 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../../index.html">Railroad</a> g4/r/RFilter</h1>
+      <pre>/*
+ [The "BSD licence"]
+ Copyright (c) 2013 Terence Parr
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+ 3. The name of the author may not be used to endorse or promote products
+    derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
+      <h1>Grammar Decl</h1>
+      <pre>parser grammar RFilter;</pre>
+      <h1>Rules</h1>
+      <h2 id="stream">stream</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o><a href="#elem">elem</a><rr-t>NL</rr-t>
+                        <rr-t>';'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="eat">eat</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="1" data-max="inf">
+                  <rr-o>
+                     <rr-a>
+                        <rr-t>NL</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="elem">elem</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#op">op</a><a href="#eat">eat</a></rr-a><a href="#atom">atom</a><rr-a>
+                  <rr-t>'{'</rr-t><a href="#eat">eat</a><rr-a data-min="0" data-max="inf">
+                     <rr-o><a href="#elem">elem</a><rr-t>NL</rr-t>
+                        <rr-t>';'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o><a href="#elem">elem</a><a href="#eat">eat</a></rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o><a href="#elem">elem</a><a href="#eat">eat</a></rr-o>
+                  </rr-a>
+                  <rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'[['</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o><a href="#elem">elem</a><a href="#eat">eat</a></rr-o>
+                  </rr-a>
+                  <rr-t>']'</rr-t>
+                  <rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'function'</rr-t><a href="#eat">eat</a><rr-t>'('</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o><a href="#elem">elem</a><a href="#eat">eat</a></rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t><a href="#eat">eat</a></rr-a>
+               <rr-a>
+                  <rr-t>'for'</rr-t><a href="#eat">eat</a><rr-t>'('</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o><a href="#elem">elem</a><a href="#eat">eat</a></rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t><a href="#eat">eat</a></rr-a>
+               <rr-a>
+                  <rr-t>'while'</rr-t><a href="#eat">eat</a><rr-t>'('</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o><a href="#elem">elem</a><a href="#eat">eat</a></rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t><a href="#eat">eat</a></rr-a>
+               <rr-a>
+                  <rr-t>'if'</rr-t><a href="#eat">eat</a><rr-t>'('</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o><a href="#elem">elem</a><a href="#eat">eat</a></rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t><a href="#eat">eat</a></rr-a>
+               <rr-a>
+                  <rr-t>'else'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="atom">atom</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'next'</rr-t>
+               <rr-t>'break'</rr-t>
+               <rr-t>ID</rr-t>
+               <rr-t>STRING</rr-t>
+               <rr-t>HEX</rr-t>
+               <rr-t>INT</rr-t>
+               <rr-t>FLOAT</rr-t>
+               <rr-t>COMPLEX</rr-t>
+               <rr-t>'NULL'</rr-t>
+               <rr-t>'NA'</rr-t>
+               <rr-t>'Inf'</rr-t>
+               <rr-t>'NaN'</rr-t>
+               <rr-t>'TRUE'</rr-t>
+               <rr-t>'FALSE'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="op">op</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'+'</rr-t>
+               <rr-t>'-'</rr-t>
+               <rr-t>'*'</rr-t>
+               <rr-t>'/'</rr-t>
+               <rr-t>'^'</rr-t>
+               <rr-t>'&lt;'</rr-t>
+               <rr-t>'&lt;='</rr-t>
+               <rr-t>'&gt;='</rr-t>
+               <rr-t>'&gt;'</rr-t>
+               <rr-t>'=='</rr-t>
+               <rr-t>'!='</rr-t>
+               <rr-t>'&amp;'</rr-t>
+               <rr-t>'&amp;&amp;'</rr-t>
+               <rr-t>USER_OP</rr-t>
+               <rr-t>'repeat'</rr-t>
+               <rr-t>'in'</rr-t>
+               <rr-t>'?'</rr-t>
+               <rr-t>'!'</rr-t>
+               <rr-t>'='</rr-t>
+               <rr-t>':'</rr-t>
+               <rr-t>'~'</rr-t>
+               <rr-t>'$'</rr-t>
+               <rr-t>'@'</rr-t>
+               <rr-t>'&lt;-'</rr-t>
+               <rr-t>'-&gt;'</rr-t>
+               <rr-t>'='</rr-t>
+               <rr-t>'::'</rr-t>
+               <rr-t>':::'</rr-t>
+               <rr-t>','</rr-t>
+               <rr-t>'...'</rr-t>
+               <rr-t>'||'</rr-t>
+               <rr-t>'|'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

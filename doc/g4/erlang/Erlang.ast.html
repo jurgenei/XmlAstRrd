@@ -1,0 +1,1701 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../../index.html">Railroad</a> g4/erlang/Erlang</h1>
+      <pre>/*
+ [The "BSD licence"]
+ Copyright (c) 2013 Terence Parr
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+ 3. The name of the author may not be used to endorse or promote products
+    derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+*/</pre>
+      <h1>Grammar Decl</h1>
+      <pre>grammar Erlang;</pre>
+      <h1>Rules</h1>
+      <h2 id="forms">forms</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#form">form</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="form">form</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o><a href="#attribute">attribute</a><a href="#function_">function_</a></rr-o>
+                  </rr-a>
+                  <rr-t>'.'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="DIGIT">DIGIT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[0-9]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="LOWERCASE">LOWERCASE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[a-z]</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u00df'..'\u00f6'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u00f8'..'\u00ff'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="UPPERCASE">UPPERCASE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[A-Z]</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u00c0'..'\u00d6'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\u00d8'..'\u00de'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tokAtom">tokAtom</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TokAtom</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TokAtom">TokAtom</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">LOWERCASE</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">DIGIT</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">LOWERCASE</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">UPPERCASE</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'_'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'@'</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\''</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'\\'</rr-t>
+                        <rr-o>
+                           <rr-a>
+                              <rr-t data-min="1" data-max="1">~'\\'</rr-t>
+                           </rr-a>
+                           <rr-a>
+                              <rr-t data-min="1" data-max="1">'\\'</rr-t>
+                           </rr-a>
+                        </rr-o>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">~[\\']</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-t data-min="1" data-max="1">'\''</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tokVar">tokVar</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TokVar</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TokVar">TokVar</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">UPPERCASE</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'_'</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">DIGIT</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">LOWERCASE</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">UPPERCASE</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'_'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'@'</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tokFloat">tokFloat</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TokFloat</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TokFloat">TokFloat</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="0" data-max="1">'-'</rr-t>
+                  <rr-t data-min="1" data-max="inf">DIGIT</rr-t>
+                  <rr-t data-min="1" data-max="1">'.'</rr-t>
+                  <rr-t data-min="1" data-max="inf">DIGIT</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">[Ee]</rr-t>
+                        <rr-t data-min="0" data-max="1">[+-]</rr-t>
+                        <rr-t data-min="1" data-max="inf">DIGIT</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tokInteger">tokInteger</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TokInteger</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TokInteger">TokInteger</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="0" data-max="1">'-'</rr-t>
+                  <rr-t data-min="1" data-max="inf">DIGIT</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'#'</rr-t>
+                        <rr-o>
+                           <rr-a>
+                              <rr-t data-min="1" data-max="1">DIGIT</rr-t>
+                           </rr-a>
+                           <rr-a>
+                              <rr-t data-min="1" data-max="1">[a-zA-Z]</rr-t>
+                           </rr-a>
+                        </rr-o>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tokChar">tokChar</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TokChar</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TokChar">TokChar</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'$'</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="0" data-max="1">'\\'</rr-t>
+                        <rr-t data-min="1" data-max="1">~[\r\n]</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'\\'</rr-t>
+                        <rr-t data-min="1" data-max="1">DIGIT</rr-t>
+                        <rr-t data-min="1" data-max="1">DIGIT</rr-t>
+                        <rr-t data-min="1" data-max="1">DIGIT</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tokString">tokString</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TokString</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TokString">TokString</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'\\'</rr-t>
+                        <rr-o>
+                           <rr-a>
+                              <rr-t data-min="1" data-max="1">~'\\'</rr-t>
+                           </rr-a>
+                           <rr-a>
+                              <rr-t data-min="1" data-max="1">'\\'</rr-t>
+                           </rr-a>
+                        </rr-o>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">~[\\"]</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="AttrName">AttrName</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'-'</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'spec'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'callback'</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="Comment">Comment</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'%'</rr-t>
+                  <rr-t data-min="0" data-max="inf">~[\r\n]</rr-t>
+                  <rr-t data-min="0" data-max="1">'\r'</rr-t>
+                  <rr-t data-min="1" data-max="1">'\n'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="WS">WS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">[\u0000-\u0020\u0080-\u00a0]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="attribute">attribute</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'-'</rr-t><a href="#tokAtom">tokAtom</a><a href="#attrVal">attrVal</a></rr-a>
+               <rr-a>
+                  <rr-t>'-'</rr-t><a href="#tokAtom">tokAtom</a><a href="#typedAttrVal">typedAttrVal</a></rr-a>
+               <rr-a>
+                  <rr-t>'-'</rr-t><a href="#tokAtom">tokAtom</a><rr-t>'('</rr-t><a href="#typedAttrVal">typedAttrVal</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>AttrName</rr-t><a href="#typeSpec">typeSpec</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeSpec">typeSpec</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#specFun">specFun</a><a href="#typeSigs">typeSigs</a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#specFun">specFun</a><a href="#typeSigs">typeSigs</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="specFun">specFun</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#tokAtom">tokAtom</a><rr-a><a href="#tokAtom">tokAtom</a><rr-t>':'</rr-t><a href="#tokAtom">tokAtom</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typedAttrVal">typedAttrVal</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expr">expr</a><rr-t>','</rr-t><a href="#typedRecordFields">typedRecordFields</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>'::'</rr-t><a href="#topType">topType</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typedRecordFields">typedRecordFields</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#typedExprs">typedExprs</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typedExprs">typedExprs</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#typedExpr">typedExpr</a><rr-a><a href="#typedExpr">typedExpr</a><rr-t>','</rr-t><a href="#typedExprs">typedExprs</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>','</rr-t><a href="#typedExprs">typedExprs</a></rr-a>
+               <rr-a><a href="#typedExpr">typedExpr</a><rr-t>','</rr-t><a href="#exprs">exprs</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typedExpr">typedExpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expr">expr</a><rr-t>'::'</rr-t><a href="#topType">topType</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeSigs">typeSigs</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#typeSig">typeSig</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>';'</rr-t><a href="#typeSig">typeSig</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeSig">typeSig</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#funType">funType</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'when'</rr-t><a href="#typeGuards">typeGuards</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeGuards">typeGuards</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#typeGuard">typeGuard</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#typeGuard">typeGuard</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeGuard">typeGuard</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#tokAtom">tokAtom</a><rr-t>'('</rr-t><a href="#topTypes">topTypes</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a><a href="#tokVar">tokVar</a><rr-t>'::'</rr-t><a href="#topType">topType</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="topTypes">topTypes</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#topType">topType</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#topType">topType</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="topType">topType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#tokVar">tokVar</a><rr-t>'::'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#topType100">topType100</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="topType100">topType100</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#type200">type200</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'|'</rr-t><a href="#topType100">topType100</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="type200">type200</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#type300">type300</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'..'</rr-t><a href="#type300">type300</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="type300">type300</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#type300">type300</a><a href="#addOp">addOp</a><a href="#type400">type400</a></rr-a><a href="#type400">type400</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="type400">type400</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#type400">type400</a><a href="#multOp">multOp</a><a href="#type500">type500</a></rr-a><a href="#type500">type500</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="type500">type500</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#prefixOp">prefixOp</a><a href="#type_">type_</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="type_">type_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#topType">topType</a><rr-t>')'</rr-t>
+               </rr-a><a href="#tokVar">tokVar</a><a href="#tokAtom">tokAtom</a><rr-a><a href="#tokAtom">tokAtom</a><rr-t>'('</rr-t>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a><a href="#tokAtom">tokAtom</a><rr-t>'('</rr-t><a href="#topTypes">topTypes</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a><a href="#tokAtom">tokAtom</a><rr-t>':'</rr-t><a href="#tokAtom">tokAtom</a><rr-t>'('</rr-t>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a><a href="#tokAtom">tokAtom</a><rr-t>':'</rr-t><a href="#tokAtom">tokAtom</a><rr-t>'('</rr-t><a href="#topTypes">topTypes</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t>
+                  <rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#topType">topType</a><rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#topType">topType</a><rr-t>','</rr-t>
+                  <rr-t>'...'</rr-t>
+                  <rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'#'</rr-t>
+                  <rr-t>'{'</rr-t>
+                  <rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'#'</rr-t>
+                  <rr-t>'{'</rr-t><a href="#mapPairTypes">mapPairTypes</a><rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'{'</rr-t>
+                  <rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#topTypes">topTypes</a><rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'#'</rr-t><a href="#tokAtom">tokAtom</a><rr-t>'{'</rr-t>
+                  <rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'#'</rr-t><a href="#tokAtom">tokAtom</a><rr-t>'{'</rr-t><a href="#fieldTypes">fieldTypes</a><rr-t>'}'</rr-t>
+               </rr-a><a href="#binaryType">binaryType</a><a href="#tokInteger">tokInteger</a><a href="#tokChar">tokChar</a><rr-a>
+                  <rr-t>'fun'</rr-t>
+                  <rr-t>'('</rr-t>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'fun'</rr-t>
+                  <rr-t>'('</rr-t><a href="#funType100">funType100</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="funType100">funType100</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'...'</rr-t>
+                  <rr-t>')'</rr-t>
+                  <rr-t>'-&gt;'</rr-t><a href="#topType">topType</a></rr-a><a href="#funType">funType</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="funType">funType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o><a href="#topTypes">topTypes</a></rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t>
+                  <rr-t>'-&gt;'</rr-t><a href="#topType">topType</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="mapPairTypes">mapPairTypes</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#mapPairType">mapPairType</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#mapPairType">mapPairType</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="mapPairType">mapPairType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#topType">topType</a><rr-a>
+                     <rr-o>
+                        <rr-t>'=&gt;'</rr-t>
+                        <rr-t>':='</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#topType">topType</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="fieldTypes">fieldTypes</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#fieldType">fieldType</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#fieldType">fieldType</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="fieldType">fieldType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#tokAtom">tokAtom</a><rr-t>'::'</rr-t><a href="#topType">topType</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="binaryType">binaryType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'&lt;&lt;'</rr-t>
+                  <rr-t>'&gt;&gt;'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'&lt;&lt;'</rr-t><a href="#binBaseType">binBaseType</a><rr-t>'&gt;&gt;'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'&lt;&lt;'</rr-t><a href="#binUnitType">binUnitType</a><rr-t>'&gt;&gt;'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'&lt;&lt;'</rr-t><a href="#binBaseType">binBaseType</a><rr-t>','</rr-t><a href="#binUnitType">binUnitType</a><rr-t>'&gt;&gt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="binBaseType">binBaseType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#tokVar">tokVar</a><rr-t>':'</rr-t><a href="#type_">type_</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="binUnitType">binUnitType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#tokVar">tokVar</a><rr-t>':'</rr-t><a href="#tokVar">tokVar</a><rr-t>'*'</rr-t><a href="#type_">type_</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="attrVal">attrVal</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expr">expr</a><rr-a>
+                  <rr-t>'('</rr-t><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>','</rr-t><a href="#exprs">exprs</a></rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#expr">expr</a><rr-t>','</rr-t><a href="#exprs">exprs</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="function_">function_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#functionClause">functionClause</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>';'</rr-t><a href="#functionClause">functionClause</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functionClause">functionClause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#tokAtom">tokAtom</a><a href="#clauseArgs">clauseArgs</a><a href="#clauseGuard">clauseGuard</a><a href="#clauseBody">clauseBody</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="clauseArgs">clauseArgs</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#patArgumentList">patArgumentList</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="clauseGuard">clauseGuard</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="0" data-max="1">
+                  <rr-o>
+                     <rr-a>
+                        <rr-t>'when'</rr-t><a href="#guard_">guard_</a></rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="clauseBody">clauseBody</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'-&gt;'</rr-t><a href="#exprs">exprs</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expr">expr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'catch'</rr-t><a href="#expr">expr</a></rr-a><a href="#expr100">expr100</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expr100">expr100</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expr150">expr150</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a>
+                              <rr-o>
+                                 <rr-t>'='</rr-t>
+                                 <rr-t>'!'</rr-t>
+                              </rr-o>
+                           </rr-a><a href="#expr150">expr150</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expr150">expr150</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expr160">expr160</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'orelse'</rr-t><a href="#expr160">expr160</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expr160">expr160</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expr200">expr200</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'andalso'</rr-t><a href="#expr200">expr200</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expr200">expr200</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expr300">expr300</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#compOp">compOp</a><a href="#expr300">expr300</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expr300">expr300</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expr400">expr400</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#listOp">listOp</a><a href="#expr400">expr400</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expr400">expr400</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expr500">expr500</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#addOp">addOp</a><a href="#expr500">expr500</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expr500">expr500</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expr600">expr600</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#multOp">multOp</a><a href="#expr600">expr600</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expr600">expr600</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#prefixOp">prefixOp</a><a href="#expr600">expr600</a></rr-a><a href="#expr650">expr650</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expr650">expr650</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#mapExpr">mapExpr</a><a href="#expr700">expr700</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expr700">expr700</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#functionCall">functionCall</a><a href="#recordExpr">recordExpr</a><a href="#expr800">expr800</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expr800">expr800</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#exprMax">exprMax</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#exprMax">exprMax</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="exprMax">exprMax</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#tokVar">tokVar</a><a href="#atomic">atomic</a><a href="#list_">list_</a><a href="#binary">binary</a><a href="#listComprehension">listComprehension</a><a href="#binaryComprehension">binaryComprehension</a><a href="#tuple_">tuple_</a><rr-a>
+                  <rr-t>'('</rr-t><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'begin'</rr-t><a href="#exprs">exprs</a><rr-t>'end'</rr-t>
+               </rr-a><a href="#ifExpr">ifExpr</a><a href="#caseExpr">caseExpr</a><a href="#receiveExpr">receiveExpr</a><a href="#funExpr">funExpr</a><a href="#tryExpr">tryExpr</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="patExpr">patExpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#patExpr200">patExpr200</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#patExpr">patExpr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="patExpr200">patExpr200</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#patExpr300">patExpr300</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#compOp">compOp</a><a href="#patExpr300">patExpr300</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="patExpr300">patExpr300</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#patExpr400">patExpr400</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#listOp">listOp</a><a href="#patExpr300">patExpr300</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="patExpr400">patExpr400</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#patExpr400">patExpr400</a><a href="#addOp">addOp</a><a href="#patExpr500">patExpr500</a></rr-a><a href="#patExpr500">patExpr500</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="patExpr500">patExpr500</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#patExpr500">patExpr500</a><a href="#multOp">multOp</a><a href="#patExpr600">patExpr600</a></rr-a><a href="#patExpr600">patExpr600</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="patExpr600">patExpr600</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#prefixOp">prefixOp</a><a href="#patExpr600">patExpr600</a></rr-a><a href="#patExpr650">patExpr650</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="patExpr650">patExpr650</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#mapPatExpr">mapPatExpr</a><a href="#patExpr700">patExpr700</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="patExpr700">patExpr700</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#recordPatExpr">recordPatExpr</a><a href="#patExpr800">patExpr800</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="patExpr800">patExpr800</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#patExprMax">patExprMax</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="patExprMax">patExprMax</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#tokVar">tokVar</a><a href="#atomic">atomic</a><a href="#list_">list_</a><a href="#binary">binary</a><a href="#tuple_">tuple_</a><rr-a>
+                  <rr-t>'('</rr-t><a href="#patExpr">patExpr</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="mapPatExpr">mapPatExpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#patExprMax">patExprMax</a><rr-t>'#'</rr-t><a href="#mapTuple">mapTuple</a></rr-a>
+               <rr-a><a href="#mapPatExpr">mapPatExpr</a><rr-t>'#'</rr-t><a href="#mapTuple">mapTuple</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="recordPatExpr">recordPatExpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'#'</rr-t><a href="#tokAtom">tokAtom</a><rr-a>
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'.'</rr-t><a href="#tokAtom">tokAtom</a></rr-a><a href="#recordTuple">recordTuple</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="list_">list_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'['</rr-t>
+                  <rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#expr">expr</a><a href="#tail">tail</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tail">tail</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>']'</rr-t>
+               <rr-a>
+                  <rr-t>'|'</rr-t><a href="#expr">expr</a><rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>','</rr-t><a href="#expr">expr</a><a href="#tail">tail</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="binary">binary</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'&lt;&lt;'</rr-t>
+                  <rr-t>'&gt;&gt;'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'&lt;&lt;'</rr-t><a href="#binElements">binElements</a><rr-t>'&gt;&gt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="binElements">binElements</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#binElement">binElement</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#binElement">binElement</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="binElement">binElement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#bitExpr">bitExpr</a><a href="#optBitSizeExpr">optBitSizeExpr</a><a href="#optBitTypeList">optBitTypeList</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="bitExpr">bitExpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#prefixOp">prefixOp</a><a href="#exprMax">exprMax</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="optBitSizeExpr">optBitSizeExpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="0" data-max="1">
+                  <rr-o>
+                     <rr-a>
+                        <rr-t>':'</rr-t><a href="#bitSizeExpr">bitSizeExpr</a></rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="optBitTypeList">optBitTypeList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="0" data-max="1">
+                  <rr-o>
+                     <rr-a>
+                        <rr-t>'/'</rr-t><a href="#bitTypeList">bitTypeList</a></rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="bitTypeList">bitTypeList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#bitType">bitType</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'-'</rr-t><a href="#bitType">bitType</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="bitType">bitType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#tokAtom">tokAtom</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>':'</rr-t><a href="#tokInteger">tokInteger</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="bitSizeExpr">bitSizeExpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#exprMax">exprMax</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="listComprehension">listComprehension</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#expr">expr</a><rr-t>'||'</rr-t><a href="#lcExprs">lcExprs</a><rr-t>']'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="binaryComprehension">binaryComprehension</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'&lt;&lt;'</rr-t><a href="#exprMax">exprMax</a><rr-t>'||'</rr-t><a href="#lcExprs">lcExprs</a><rr-t>'&gt;&gt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lcExprs">lcExprs</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#lcExpr">lcExpr</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#lcExpr">lcExpr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lcExpr">lcExpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expr">expr</a><rr-a><a href="#expr">expr</a><rr-t>'&lt;-'</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#binary">binary</a><rr-t>'&lt;='</rr-t><a href="#expr">expr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tuple_">tuple_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#exprs">exprs</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="mapExpr">mapExpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#exprMax">exprMax</a><rr-t>'#'</rr-t><a href="#mapTuple">mapTuple</a></rr-a>
+               <rr-a><a href="#mapExpr">mapExpr</a><rr-t>'#'</rr-t><a href="#mapTuple">mapTuple</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="mapTuple">mapTuple</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'{'</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#mapField">mapField</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>','</rr-t><a href="#mapField">mapField</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="mapField">mapField</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#mapFieldAssoc">mapFieldAssoc</a><a href="#mapFieldExact">mapFieldExact</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="mapFieldAssoc">mapFieldAssoc</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#mapKey">mapKey</a><rr-t>'=&gt;'</rr-t><a href="#expr">expr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="mapFieldExact">mapFieldExact</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#mapKey">mapKey</a><rr-t>':='</rr-t><a href="#expr">expr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="mapKey">mapKey</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expr">expr</a></rr-o>
+            <pre>/* struct : tokAtom tuple ; */</pre>
+            <pre>/* N.B. This is called from expr700.
+   N.B. Field names are returned as the complete object, even if they are
+   always atoms for the moment, this might change in the future.           */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="recordExpr">recordExpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#exprMax">exprMax</a><rr-t>'#'</rr-t><a href="#tokAtom">tokAtom</a><rr-a>
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'.'</rr-t><a href="#tokAtom">tokAtom</a></rr-a><a href="#recordTuple">recordTuple</a></rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a><a href="#recordExpr">recordExpr</a><rr-t>'#'</rr-t><a href="#tokAtom">tokAtom</a><rr-a>
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'.'</rr-t><a href="#tokAtom">tokAtom</a></rr-a><a href="#recordTuple">recordTuple</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="recordTuple">recordTuple</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#recordFields">recordFields</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="recordFields">recordFields</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#recordField">recordField</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#recordField">recordField</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="recordField">recordField</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o><a href="#tokVar">tokVar</a><a href="#tokAtom">tokAtom</a></rr-o>
+                  </rr-a>
+                  <rr-t>'='</rr-t><a href="#expr">expr</a></rr-a>
+            </rr-o>
+            <pre>/* N.B. This is called from expr700. */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="functionCall">functionCall</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expr800">expr800</a><a href="#argumentList">argumentList</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ifExpr">ifExpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'if'</rr-t><a href="#ifClauses">ifClauses</a><rr-t>'end'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ifClauses">ifClauses</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#ifClause">ifClause</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>';'</rr-t><a href="#ifClause">ifClause</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ifClause">ifClause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#guard_">guard_</a><a href="#clauseBody">clauseBody</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="caseExpr">caseExpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'case'</rr-t><a href="#expr">expr</a><rr-t>'of'</rr-t><a href="#crClauses">crClauses</a><rr-t>'end'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="crClauses">crClauses</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#crClause">crClause</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>';'</rr-t><a href="#crClause">crClause</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="crClause">crClause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expr">expr</a><a href="#clauseGuard">clauseGuard</a><a href="#clauseBody">clauseBody</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="receiveExpr">receiveExpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'receive'</rr-t><a href="#crClauses">crClauses</a><rr-t>'end'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'receive'</rr-t>
+                  <rr-t>'after'</rr-t><a href="#expr">expr</a><a href="#clauseBody">clauseBody</a><rr-t>'end'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'receive'</rr-t><a href="#crClauses">crClauses</a><rr-t>'after'</rr-t><a href="#expr">expr</a><a href="#clauseBody">clauseBody</a><rr-t>'end'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="funExpr">funExpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'fun'</rr-t><a href="#tokAtom">tokAtom</a><rr-t>'/'</rr-t><a href="#tokInteger">tokInteger</a></rr-a>
+               <rr-a>
+                  <rr-t>'fun'</rr-t><a href="#atomOrVar">atomOrVar</a><rr-t>':'</rr-t><a href="#atomOrVar">atomOrVar</a><rr-t>'/'</rr-t><a href="#integerOrVar">integerOrVar</a></rr-a>
+               <rr-a>
+                  <rr-t>'fun'</rr-t><a href="#funClauses">funClauses</a><rr-t>'end'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="atomOrVar">atomOrVar</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#tokAtom">tokAtom</a><a href="#tokVar">tokVar</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="integerOrVar">integerOrVar</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#tokInteger">tokInteger</a><a href="#tokVar">tokVar</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="funClauses">funClauses</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#funClause">funClause</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>';'</rr-t><a href="#funClause">funClause</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="funClause">funClause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#patArgumentList">patArgumentList</a><a href="#clauseGuard">clauseGuard</a><a href="#clauseBody">clauseBody</a></rr-a>
+               <rr-a><a href="#tokVar">tokVar</a><a href="#patArgumentList">patArgumentList</a><a href="#clauseGuard">clauseGuard</a><a href="#clauseBody">clauseBody</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tryExpr">tryExpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'try'</rr-t><a href="#exprs">exprs</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'of'</rr-t><a href="#crClauses">crClauses</a></rr-a>
+                     </rr-o>
+                  </rr-a><a href="#tryCatch">tryCatch</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tryCatch">tryCatch</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'catch'</rr-t><a href="#tryClauses">tryClauses</a><rr-t>'end'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'catch'</rr-t><a href="#tryClauses">tryClauses</a><rr-t>'after'</rr-t><a href="#exprs">exprs</a><rr-t>'end'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'after'</rr-t><a href="#exprs">exprs</a><rr-t>'end'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tryClauses">tryClauses</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#tryClause">tryClause</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>';'</rr-t><a href="#tryClause">tryClause</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tryClause">tryClause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expr">expr</a><a href="#clauseGuard">clauseGuard</a><a href="#clauseBody">clauseBody</a></rr-a>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#atomOrVar">atomOrVar</a><rr-t>':'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#patExpr">patExpr</a><a href="#tryOptStackTrace">tryOptStackTrace</a><a href="#clauseGuard">clauseGuard</a><a href="#clauseBody">clauseBody</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tryOptStackTrace">tryOptStackTrace</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="0" data-max="1">
+                  <rr-o>
+                     <rr-a>
+                        <rr-t>':'</rr-t><a href="#tokVar">tokVar</a></rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="argumentList">argumentList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#exprs">exprs</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="patArgumentList">patArgumentList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#patExprs">patExprs</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="exprs">exprs</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#expr">expr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="patExprs">patExprs</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#patExpr">patExpr</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#patExpr">patExpr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="guard_">guard_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#exprs">exprs</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>';'</rr-t><a href="#exprs">exprs</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="atomic">atomic</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#tokChar">tokChar</a><a href="#tokInteger">tokInteger</a><a href="#tokFloat">tokFloat</a><a href="#tokAtom">tokAtom</a><rr-a data-min="1" data-max="inf">
+                  <rr-o><a href="#tokString">tokString</a></rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="prefixOp">prefixOp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'+'</rr-t>
+               <rr-t>'-'</rr-t>
+               <rr-t>'bnot'</rr-t>
+               <rr-t>'not'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="multOp">multOp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'/'</rr-t>
+               <rr-t>'*'</rr-t>
+               <rr-t>'div'</rr-t>
+               <rr-t>'rem'</rr-t>
+               <rr-t>'band'</rr-t>
+               <rr-t>'and'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="addOp">addOp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'+'</rr-t>
+               <rr-t>'-'</rr-t>
+               <rr-t>'bor'</rr-t>
+               <rr-t>'bxor'</rr-t>
+               <rr-t>'bsl'</rr-t>
+               <rr-t>'bsr'</rr-t>
+               <rr-t>'or'</rr-t>
+               <rr-t>'xor'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="listOp">listOp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'++'</rr-t>
+               <rr-t>'--'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="compOp">compOp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'=='</rr-t>
+               <rr-t>'/='</rr-t>
+               <rr-t>'=&lt;'</rr-t>
+               <rr-t>'&lt;'</rr-t>
+               <rr-t>'&gt;='</rr-t>
+               <rr-t>'&gt;'</rr-t>
+               <rr-t>'=:='</rr-t>
+               <rr-t>'=/='</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

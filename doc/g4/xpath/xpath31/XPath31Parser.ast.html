@@ -1,0 +1,1377 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../../../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../../../index.html">Railroad</a> g4/xpath/xpath31/XPath31Parser</h1>
+      <h1>Grammar Decl</h1>
+      <pre>parser grammar XPath31Parser;</pre>
+      <h1>Rules</h1>
+      <h2 id="xpath">xpath</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expr">expr</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="paramlist">paramlist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#param">param</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#param">param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="param">param</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>DOLLAR</rr-t><a href="#eqname">eqname</a><a href="#typedeclaration">typedeclaration</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functionbody">functionbody</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#enclosedexpr">enclosedexpr</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="enclosedexpr">enclosedexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OC</rr-t><a href="#expr">expr</a><rr-t>CC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expr">expr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#exprsingle">exprsingle</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#exprsingle">exprsingle</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="exprsingle">exprsingle</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#forexpr">forexpr</a><a href="#letexpr">letexpr</a><a href="#quantifiedexpr">quantifiedexpr</a><a href="#ifexpr">ifexpr</a><a href="#orexpr">orexpr</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="forexpr">forexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#simpleforclause">simpleforclause</a><rr-t>KW_RETURN</rr-t><a href="#exprsingle">exprsingle</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="simpleforclause">simpleforclause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_FOR</rr-t><a href="#simpleforbinding">simpleforbinding</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#simpleforbinding">simpleforbinding</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="simpleforbinding">simpleforbinding</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>DOLLAR</rr-t><a href="#varname">varname</a><rr-t>KW_IN</rr-t><a href="#exprsingle">exprsingle</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="letexpr">letexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#simpleletclause">simpleletclause</a><rr-t>KW_RETURN</rr-t><a href="#exprsingle">exprsingle</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="simpleletclause">simpleletclause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_LET</rr-t><a href="#simpleletbinding">simpleletbinding</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#simpleletbinding">simpleletbinding</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="simpleletbinding">simpleletbinding</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>DOLLAR</rr-t><a href="#varname">varname</a><rr-t>CEQ</rr-t><a href="#exprsingle">exprsingle</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="quantifiedexpr">quantifiedexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>KW_SOME</rr-t>
+                        <rr-t>KW_EVERY</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>DOLLAR</rr-t><a href="#varname">varname</a><rr-t>KW_IN</rr-t><a href="#exprsingle">exprsingle</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t>
+                           <rr-t>DOLLAR</rr-t><a href="#varname">varname</a><rr-t>KW_IN</rr-t><a href="#exprsingle">exprsingle</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>KW_SATISFIES</rr-t><a href="#exprsingle">exprsingle</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ifexpr">ifexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_IF</rr-t>
+                  <rr-t>OP</rr-t><a href="#expr">expr</a><rr-t>CP</rr-t>
+                  <rr-t>KW_THEN</rr-t><a href="#exprsingle">exprsingle</a><rr-t>KW_ELSE</rr-t><a href="#exprsingle">exprsingle</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="orexpr">orexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#andexpr">andexpr</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>KW_OR</rr-t><a href="#andexpr">andexpr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="andexpr">andexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#comparisonexpr">comparisonexpr</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>KW_AND</rr-t><a href="#comparisonexpr">comparisonexpr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="comparisonexpr">comparisonexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#stringconcatexpr">stringconcatexpr</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a>
+                              <rr-o><a href="#valuecomp">valuecomp</a><a href="#generalcomp">generalcomp</a><a href="#nodecomp">nodecomp</a></rr-o>
+                           </rr-a><a href="#stringconcatexpr">stringconcatexpr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="stringconcatexpr">stringconcatexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#rangeexpr">rangeexpr</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>PP</rr-t><a href="#rangeexpr">rangeexpr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="rangeexpr">rangeexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#additiveexpr">additiveexpr</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>KW_TO</rr-t><a href="#additiveexpr">additiveexpr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="additiveexpr">additiveexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#multiplicativeexpr">multiplicativeexpr</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a>
+                              <rr-o>
+                                 <rr-t>PLUS</rr-t>
+                                 <rr-t>MINUS</rr-t>
+                              </rr-o>
+                           </rr-a><a href="#multiplicativeexpr">multiplicativeexpr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="multiplicativeexpr">multiplicativeexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#unionexpr">unionexpr</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a>
+                              <rr-o>
+                                 <rr-t>STAR</rr-t>
+                                 <rr-t>KW_DIV</rr-t>
+                                 <rr-t>KW_IDIV</rr-t>
+                                 <rr-t>KW_MOD</rr-t>
+                              </rr-o>
+                           </rr-a><a href="#unionexpr">unionexpr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="unionexpr">unionexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#intersectexceptexpr">intersectexceptexpr</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a>
+                              <rr-o>
+                                 <rr-t>KW_UNION</rr-t>
+                                 <rr-t>P</rr-t>
+                              </rr-o>
+                           </rr-a><a href="#intersectexceptexpr">intersectexceptexpr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="intersectexceptexpr">intersectexceptexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#instanceofexpr">instanceofexpr</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a>
+                              <rr-o>
+                                 <rr-t>KW_INTERSECT</rr-t>
+                                 <rr-t>KW_EXCEPT</rr-t>
+                              </rr-o>
+                           </rr-a><a href="#instanceofexpr">instanceofexpr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="instanceofexpr">instanceofexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#treatexpr">treatexpr</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>KW_INSTANCE</rr-t>
+                           <rr-t>KW_OF</rr-t><a href="#sequencetype">sequencetype</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="treatexpr">treatexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#castableexpr">castableexpr</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>KW_TREAT</rr-t>
+                           <rr-t>KW_AS</rr-t><a href="#sequencetype">sequencetype</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="castableexpr">castableexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#castexpr">castexpr</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>KW_CASTABLE</rr-t>
+                           <rr-t>KW_AS</rr-t><a href="#singletype">singletype</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="castexpr">castexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#arrowexpr">arrowexpr</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>KW_CAST</rr-t>
+                           <rr-t>KW_AS</rr-t><a href="#singletype">singletype</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="arrowexpr">arrowexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#unaryexpr">unaryexpr</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>EG</rr-t><a href="#arrowfunctionspecifier">arrowfunctionspecifier</a><a href="#argumentlist">argumentlist</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="unaryexpr">unaryexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-t>MINUS</rr-t>
+                        <rr-t>PLUS</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#valueexpr">valueexpr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="valueexpr">valueexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#simplemapexpr">simplemapexpr</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="generalcomp">generalcomp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>EQ</rr-t>
+               <rr-t>NE</rr-t>
+               <rr-t>LT</rr-t>
+               <rr-t>LE</rr-t>
+               <rr-t>GT</rr-t>
+               <rr-t>GE</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="valuecomp">valuecomp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>KW_EQ</rr-t>
+               <rr-t>KW_NE</rr-t>
+               <rr-t>KW_LT</rr-t>
+               <rr-t>KW_LE</rr-t>
+               <rr-t>KW_GT</rr-t>
+               <rr-t>KW_GE</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="nodecomp">nodecomp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>KW_IS</rr-t>
+               <rr-t>LL</rr-t>
+               <rr-t>GG</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="simplemapexpr">simplemapexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#pathexpr">pathexpr</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>BANG</rr-t><a href="#pathexpr">pathexpr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pathexpr">pathexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SLASH</rr-t><a href="#relativepathexpr">relativepathexpr</a></rr-a>
+               <rr-a>
+                  <rr-t>SS</rr-t><a href="#relativepathexpr">relativepathexpr</a></rr-a><a href="#relativepathexpr">relativepathexpr</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="relativepathexpr">relativepathexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#stepexpr">stepexpr</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a>
+                              <rr-o>
+                                 <rr-t>SLASH</rr-t>
+                                 <rr-t>SS</rr-t>
+                              </rr-o>
+                           </rr-a><a href="#stepexpr">stepexpr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="stepexpr">stepexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#postfixexpr">postfixexpr</a><a href="#axisstep">axisstep</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="axisstep">axisstep</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o><a href="#reversestep">reversestep</a><a href="#forwardstep">forwardstep</a></rr-o>
+                  </rr-a><a href="#predicatelist">predicatelist</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="forwardstep">forwardstep</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#forwardaxis">forwardaxis</a><a href="#nodetest">nodetest</a></rr-a><a href="#abbrevforwardstep">abbrevforwardstep</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="forwardaxis">forwardaxis</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_CHILD</rr-t>
+                  <rr-t>COLONCOLON</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_DESCENDANT</rr-t>
+                  <rr-t>COLONCOLON</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_ATTRIBUTE</rr-t>
+                  <rr-t>COLONCOLON</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_SELF</rr-t>
+                  <rr-t>COLONCOLON</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_DESCENDANT_OR_SELF</rr-t>
+                  <rr-t>COLONCOLON</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_FOLLOWING_SIBLING</rr-t>
+                  <rr-t>COLONCOLON</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_FOLLOWING</rr-t>
+                  <rr-t>COLONCOLON</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_NAMESPACE</rr-t>
+                  <rr-t>COLONCOLON</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="abbrevforwardstep">abbrevforwardstep</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>AT</rr-t><a href="#nodetest">nodetest</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="reversestep">reversestep</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#reverseaxis">reverseaxis</a><a href="#nodetest">nodetest</a></rr-a><a href="#abbrevreversestep">abbrevreversestep</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="reverseaxis">reverseaxis</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_PARENT</rr-t>
+                  <rr-t>COLONCOLON</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_ANCESTOR</rr-t>
+                  <rr-t>COLONCOLON</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_PRECEDING_SIBLING</rr-t>
+                  <rr-t>COLONCOLON</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_PRECEDING</rr-t>
+                  <rr-t>COLONCOLON</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>KW_ANCESTOR_OR_SELF</rr-t>
+                  <rr-t>COLONCOLON</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="abbrevreversestep">abbrevreversestep</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>DD</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="nodetest">nodetest</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#kindtest">kindtest</a><a href="#nametest">nametest</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="nametest">nametest</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#eqname">eqname</a><a href="#wildcard">wildcard</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="wildcard">wildcard</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>STAR</rr-t>
+               <rr-a>
+                  <rr-t>NCName</rr-t>
+                  <rr-t>CS</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>SC</rr-t>
+                  <rr-t>NCName</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>BracedURILiteral</rr-t>
+                  <rr-t>STAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="postfixexpr">postfixexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#primaryexpr">primaryexpr</a><rr-a data-min="0" data-max="inf">
+                     <rr-o><a href="#predicate">predicate</a><a href="#argumentlist">argumentlist</a><a href="#lookup">lookup</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="argumentlist">argumentlist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OP</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#argument">argument</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#argument">argument</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CP</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="predicatelist">predicatelist</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#predicate">predicate</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="predicate">predicate</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OB</rr-t><a href="#expr">expr</a><rr-t>CB</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lookup">lookup</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>QM</rr-t><a href="#keyspecifier">keyspecifier</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="keyspecifier">keyspecifier</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>NCName</rr-t>
+               <rr-t>IntegerLiteral</rr-t><a href="#parenthesizedexpr">parenthesizedexpr</a><rr-t>STAR</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="arrowfunctionspecifier">arrowfunctionspecifier</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#eqname">eqname</a><a href="#varref">varref</a><a href="#parenthesizedexpr">parenthesizedexpr</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="primaryexpr">primaryexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#literal">literal</a><a href="#varref">varref</a><a href="#parenthesizedexpr">parenthesizedexpr</a><a href="#contextitemexpr">contextitemexpr</a><a href="#functioncall">functioncall</a><a href="#functionitemexpr">functionitemexpr</a><a href="#mapconstructor">mapconstructor</a><a href="#arrayconstructor">arrayconstructor</a><a href="#unarylookup">unarylookup</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="literal">literal</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#numericliteral">numericliteral</a><rr-t>StringLiteral</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="numericliteral">numericliteral</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IntegerLiteral</rr-t>
+               <rr-t>DecimalLiteral</rr-t>
+               <rr-t>DoubleLiteral</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="varref">varref</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>DOLLAR</rr-t><a href="#varname">varname</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="varname">varname</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#eqname">eqname</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="parenthesizedexpr">parenthesizedexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OP</rr-t><a href="#expr">expr</a><rr-t>CP</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="contextitemexpr">contextitemexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>D</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functioncall">functioncall</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#eqname">eqname</a><a href="#argumentlist">argumentlist</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="argument">argument</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#exprsingle">exprsingle</a><a href="#argumentplaceholder">argumentplaceholder</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="argumentplaceholder">argumentplaceholder</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>QM</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functionitemexpr">functionitemexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#namedfunctionref">namedfunctionref</a><a href="#inlinefunctionexpr">inlinefunctionexpr</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="namedfunctionref">namedfunctionref</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#eqname">eqname</a><rr-t>POUND</rr-t>
+                  <rr-t>IntegerLiteral</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="inlinefunctionexpr">inlinefunctionexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_FUNCTION</rr-t>
+                  <rr-t>OP</rr-t><a href="#paramlist">paramlist</a><rr-t>CP</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>KW_AS</rr-t><a href="#sequencetype">sequencetype</a></rr-a>
+                     </rr-o>
+                  </rr-a><a href="#functionbody">functionbody</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="mapconstructor">mapconstructor</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_MAP</rr-t>
+                  <rr-t>OC</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#mapconstructorentry">mapconstructorentry</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#mapconstructorentry">mapconstructorentry</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="mapconstructorentry">mapconstructorentry</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#mapkeyexpr">mapkeyexpr</a><rr-t>COLON</rr-t><a href="#mapvalueexpr">mapvalueexpr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="mapkeyexpr">mapkeyexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#exprsingle">exprsingle</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="mapvalueexpr">mapvalueexpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#exprsingle">exprsingle</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="arrayconstructor">arrayconstructor</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#squarearrayconstructor">squarearrayconstructor</a><a href="#curlyarrayconstructor">curlyarrayconstructor</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="squarearrayconstructor">squarearrayconstructor</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OB</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#exprsingle">exprsingle</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#exprsingle">exprsingle</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CB</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="curlyarrayconstructor">curlyarrayconstructor</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_ARRAY</rr-t><a href="#enclosedexpr">enclosedexpr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="unarylookup">unarylookup</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>QM</rr-t><a href="#keyspecifier">keyspecifier</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="singletype">singletype</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#simpletypename">simpletypename</a><rr-t>QM</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typedeclaration">typedeclaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_AS</rr-t><a href="#sequencetype">sequencetype</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sequencetype">sequencetype</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_EMPTY_SEQUENCE</rr-t>
+                  <rr-t>OP</rr-t>
+                  <rr-t>CP</rr-t>
+               </rr-a>
+               <rr-a><a href="#itemtype">itemtype</a><a href="#occurrenceindicator">occurrenceindicator</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="occurrenceindicator">occurrenceindicator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>QM</rr-t>
+               <rr-t>STAR</rr-t>
+               <rr-t>PLUS</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="itemtype">itemtype</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#kindtest">kindtest</a><rr-a>
+                  <rr-t>KW_ITEM</rr-t>
+                  <rr-t>OP</rr-t>
+                  <rr-t>CP</rr-t>
+               </rr-a><a href="#functiontest">functiontest</a><a href="#maptest">maptest</a><a href="#arraytest">arraytest</a><a href="#atomicoruniontype">atomicoruniontype</a><a href="#parenthesizeditemtype">parenthesizeditemtype</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="atomicoruniontype">atomicoruniontype</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#eqname">eqname</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="kindtest">kindtest</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#documenttest">documenttest</a><a href="#elementtest">elementtest</a><a href="#attributetest">attributetest</a><a href="#schemaelementtest">schemaelementtest</a><a href="#schemaattributetest">schemaattributetest</a><a href="#pitest">pitest</a><a href="#commenttest">commenttest</a><a href="#texttest">texttest</a><a href="#namespacenodetest">namespacenodetest</a><a href="#anykindtest">anykindtest</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="anykindtest">anykindtest</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_NODE</rr-t>
+                  <rr-t>OP</rr-t>
+                  <rr-t>CP</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="documenttest">documenttest</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_DOCUMENT_NODE</rr-t>
+                  <rr-t>OP</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o><a href="#elementtest">elementtest</a><a href="#schemaelementtest">schemaelementtest</a></rr-o>
+                  </rr-a>
+                  <rr-t>CP</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="texttest">texttest</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_TEXT</rr-t>
+                  <rr-t>OP</rr-t>
+                  <rr-t>CP</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="commenttest">commenttest</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_COMMENT</rr-t>
+                  <rr-t>OP</rr-t>
+                  <rr-t>CP</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="namespacenodetest">namespacenodetest</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_NAMESPACE_NODE</rr-t>
+                  <rr-t>OP</rr-t>
+                  <rr-t>CP</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="pitest">pitest</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_PROCESSING_INSTRUCTION</rr-t>
+                  <rr-t>OP</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>NCName</rr-t>
+                        <rr-t>StringLiteral</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CP</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="attributetest">attributetest</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_ATTRIBUTE</rr-t>
+                  <rr-t>OP</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#attribnameorwildcard">attribnameorwildcard</a><rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#typename_">typename_</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CP</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="attribnameorwildcard">attribnameorwildcard</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#attributename">attributename</a><rr-t>STAR</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="schemaattributetest">schemaattributetest</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_SCHEMA_ATTRIBUTE</rr-t>
+                  <rr-t>OP</rr-t><a href="#attributedeclaration">attributedeclaration</a><rr-t>CP</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="attributedeclaration">attributedeclaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#attributename">attributename</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="elementtest">elementtest</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_ELEMENT</rr-t>
+                  <rr-t>OP</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#elementnameorwildcard">elementnameorwildcard</a><rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#typename_">typename_</a><rr-t>QM</rr-t>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CP</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="elementnameorwildcard">elementnameorwildcard</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#elementname">elementname</a><rr-t>STAR</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="schemaelementtest">schemaelementtest</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_SCHEMA_ELEMENT</rr-t>
+                  <rr-t>OP</rr-t><a href="#elementdeclaration">elementdeclaration</a><rr-t>CP</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="elementdeclaration">elementdeclaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#elementname">elementname</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="attributename">attributename</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#eqname">eqname</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="elementname">elementname</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#eqname">eqname</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="simpletypename">simpletypename</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#typename_">typename_</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typename_">typename_</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#eqname">eqname</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functiontest">functiontest</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#anyfunctiontest">anyfunctiontest</a><a href="#typedfunctiontest">typedfunctiontest</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="anyfunctiontest">anyfunctiontest</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_FUNCTION</rr-t>
+                  <rr-t>OP</rr-t>
+                  <rr-t>STAR</rr-t>
+                  <rr-t>CP</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typedfunctiontest">typedfunctiontest</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_FUNCTION</rr-t>
+                  <rr-t>OP</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#sequencetype">sequencetype</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#sequencetype">sequencetype</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CP</rr-t>
+                  <rr-t>KW_AS</rr-t><a href="#sequencetype">sequencetype</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="maptest">maptest</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#anymaptest">anymaptest</a><a href="#typedmaptest">typedmaptest</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="anymaptest">anymaptest</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_MAP</rr-t>
+                  <rr-t>OP</rr-t>
+                  <rr-t>STAR</rr-t>
+                  <rr-t>CP</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typedmaptest">typedmaptest</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_MAP</rr-t>
+                  <rr-t>OP</rr-t><a href="#atomicoruniontype">atomicoruniontype</a><rr-t>COMMA</rr-t><a href="#sequencetype">sequencetype</a><rr-t>CP</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="arraytest">arraytest</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#anyarraytest">anyarraytest</a><a href="#typedarraytest">typedarraytest</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="anyarraytest">anyarraytest</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_ARRAY</rr-t>
+                  <rr-t>OP</rr-t>
+                  <rr-t>STAR</rr-t>
+                  <rr-t>CP</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typedarraytest">typedarraytest</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>KW_ARRAY</rr-t>
+                  <rr-t>OP</rr-t><a href="#sequencetype">sequencetype</a><rr-t>CP</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="parenthesizeditemtype">parenthesizeditemtype</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OP</rr-t><a href="#itemtype">itemtype</a><rr-t>CP</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="eqname">eqname</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>QName</rr-t>
+               <rr-t>URIQualifiedName</rr-t>
+               <rr-t>KW_ANCESTOR</rr-t>
+               <rr-t>KW_ANCESTOR_OR_SELF</rr-t>
+               <rr-t>KW_AND</rr-t>
+               <rr-t>KW_ARRAY</rr-t>
+               <rr-t>KW_AS</rr-t>
+               <rr-t>KW_ATTRIBUTE</rr-t>
+               <rr-t>KW_CAST</rr-t>
+               <rr-t>KW_CASTABLE</rr-t>
+               <rr-t>KW_CHILD</rr-t>
+               <rr-t>KW_COMMENT</rr-t>
+               <rr-t>KW_DESCENDANT</rr-t>
+               <rr-t>KW_DESCENDANT_OR_SELF</rr-t>
+               <rr-t>KW_DIV</rr-t>
+               <rr-t>KW_DOCUMENT_NODE</rr-t>
+               <rr-t>KW_ELEMENT</rr-t>
+               <rr-t>KW_ELSE</rr-t>
+               <rr-t>KW_EMPTY_SEQUENCE</rr-t>
+               <rr-t>KW_EQ</rr-t>
+               <rr-t>KW_EVERY</rr-t>
+               <rr-t>KW_EXCEPT</rr-t>
+               <rr-t>KW_FOLLOWING</rr-t>
+               <rr-t>KW_FOLLOWING_SIBLING</rr-t>
+               <rr-t>KW_FOR</rr-t>
+               <rr-t>KW_FUNCTION</rr-t>
+               <rr-t>KW_GE</rr-t>
+               <rr-t>KW_GT</rr-t>
+               <rr-t>KW_IDIV</rr-t>
+               <rr-t>KW_IF</rr-t>
+               <rr-t>KW_IN</rr-t>
+               <rr-t>KW_INSTANCE</rr-t>
+               <rr-t>KW_INTERSECT</rr-t>
+               <rr-t>KW_IS</rr-t>
+               <rr-t>KW_ITEM</rr-t>
+               <rr-t>KW_LE</rr-t>
+               <rr-t>KW_LET</rr-t>
+               <rr-t>KW_LT</rr-t>
+               <rr-t>KW_MAP</rr-t>
+               <rr-t>KW_MOD</rr-t>
+               <rr-t>KW_NAMESPACE</rr-t>
+               <rr-t>KW_NAMESPACE_NODE</rr-t>
+               <rr-t>KW_NE</rr-t>
+               <rr-t>KW_NODE</rr-t>
+               <rr-t>KW_OF</rr-t>
+               <rr-t>KW_OR</rr-t>
+               <rr-t>KW_PARENT</rr-t>
+               <rr-t>KW_PRECEDING</rr-t>
+               <rr-t>KW_PRECEDING_SIBLING</rr-t>
+               <rr-t>KW_PROCESSING_INSTRUCTION</rr-t>
+               <rr-t>KW_RETURN</rr-t>
+               <rr-t>KW_SATISFIES</rr-t>
+               <rr-t>KW_SCHEMA_ATTRIBUTE</rr-t>
+               <rr-t>KW_SCHEMA_ELEMENT</rr-t>
+               <rr-t>KW_SELF</rr-t>
+               <rr-t>KW_SOME</rr-t>
+               <rr-t>KW_TEXT</rr-t>
+               <rr-t>KW_THEN</rr-t>
+               <rr-t>KW_TREAT</rr-t>
+               <rr-t>KW_UNION</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="auxilary">auxilary</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="1" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#expr">expr</a><rr-t>SEMI</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

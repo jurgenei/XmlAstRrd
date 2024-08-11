@@ -1,0 +1,402 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../../index.html">Railroad</a> g4/velocity/VTLParser</h1>
+      <h1>Grammar Decl</h1>
+      <pre>parser grammar VTLParser;</pre>
+      <h1>Rules</h1>
+      <h2 id="parse">parse</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#block">block</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="block">block</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#atom">atom</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="atom">atom</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TEXT</rr-t>
+               <rr-t>ESCAPED_CHAR</rr-t>
+               <rr-t>ESCAPED_BLOCK</rr-t><a href="#variable">variable</a><a href="#formal">formal</a><a href="#property_or_method">property_or_method</a><a href="#directive">directive</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="formal">formal</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>DOLLAR_OBRACE</rr-t><a href="#formal_property_or_method">formal_property_or_method</a><rr-t>CBRACE</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>DOLLAR_EXCL_OBRACE</rr-t><a href="#formal_property_or_method">formal_property_or_method</a><rr-t>CBRACE</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>DOLLAR_OBRACE</rr-t><a href="#id">id</a><rr-t>CBRACE</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>DOLLAR_EXCL_OBRACE</rr-t><a href="#id">id</a><rr-t>CBRACE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="variable">variable</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>DOLLAR</rr-t><a href="#id">id</a><rr-t>DOT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>DOLLAR_EXCL</rr-t><a href="#id">id</a><rr-t>DOT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>REFERENCE</rr-t>
+                  <rr-t>DOT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="property_or_method">property_or_method</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#variable">variable</a><a href="#property_end">property_end</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="formal_property_or_method">formal_property_or_method</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#id">id</a><a href="#property_end">property_end</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="directive">directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#set_directive">set_directive</a><a href="#if_directive">if_directive</a><a href="#foreach_directive">foreach_directive</a><a href="#break_directive">break_directive</a><a href="#stop_directive">stop_directive</a><a href="#macro_directive">macro_directive</a><a href="#parse_directive">parse_directive</a><a href="#define_directive">define_directive</a><a href="#include_directive">include_directive</a><a href="#evaluate_directive">evaluate_directive</a><a href="#macro_call_directive">macro_call_directive</a><a href="#custom_directive">custom_directive</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="property_end">property_end</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>DOT</rr-t>
+                  <rr-t>ID</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>OBRACK</rr-t><a href="#expression">expression</a><rr-t>CBRACK</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>OPAR</rr-t><a href="#expressions">expressions</a><rr-t>CPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expressions">expressions</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#expression">expression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="set_directive">set_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SET</rr-t><a href="#expression">expression</a><rr-t>ASSIGN</rr-t><a href="#expression">expression</a><rr-t>CPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="if_directive">if_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>IF</rr-t><a href="#expression">expression</a><rr-t>CPAR</rr-t><a href="#block">block</a><a href="#elseif_directive">elseif_directive</a><a href="#else_directive">else_directive</a><a href="#end">end</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="elseif_directive">elseif_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>ELSEIF</rr-t><a href="#expression">expression</a><rr-t>CPAR</rr-t><a href="#block">block</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="else_directive">else_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>ELSE</rr-t><a href="#block">block</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="foreach_directive">foreach_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>FOREACH</rr-t><a href="#variable">variable</a><rr-t>K_IN</rr-t><a href="#expression">expression</a><rr-t>CPAR</rr-t><a href="#block">block</a><a href="#end">end</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="break_directive">break_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>BREAK</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="stop_directive">stop_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>STOP</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="custom_directive">custom_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>ID</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#expression">expression</a><rr-t>CPAR</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#block">block</a><a href="#end">end</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macro_directive">macro_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>MACRO</rr-t><a href="#expression">expression</a><rr-t>CPAR</rr-t><a href="#block">block</a><a href="#end">end</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="parse_directive">parse_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>PARSE</rr-t><a href="#expression">expression</a><rr-t>CPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="define_directive">define_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>DEFINE</rr-t><a href="#expression">expression</a><rr-t>CPAR</rr-t><a href="#block">block</a><a href="#end">end</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="include_directive">include_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>INCLUDE</rr-t><a href="#expressions">expressions</a><rr-t>CPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="evaluate_directive">evaluate_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>EVALUATE</rr-t><a href="#expression">expression</a><rr-t>CPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="macro_call_directive">macro_call_directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>MACRO_ID</rr-t><a href="#expression">expression</a><rr-t>CPAR</rr-t><a href="#block">block</a><a href="#end">end</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="end">end</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>END</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expression">expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>EXCL</rr-t>
+                        <rr-t>K_NOT</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>SUB</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-a>
+                     <rr-o>
+                        <rr-t>MUL</rr-t>
+                        <rr-t>DIV</rr-t>
+                        <rr-t>MOD</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-a>
+                     <rr-o>
+                        <rr-t>ADD</rr-t>
+                        <rr-t>SUB</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-a>
+                     <rr-o>
+                        <rr-t>EQ</rr-t>
+                        <rr-t>NE</rr-t>
+                        <rr-t>K_EQ</rr-t>
+                        <rr-t>K_NE</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-a>
+                     <rr-o>
+                        <rr-t>LT</rr-t>
+                        <rr-t>LE</rr-t>
+                        <rr-t>GT</rr-t>
+                        <rr-t>GE</rr-t>
+                        <rr-t>K_LT</rr-t>
+                        <rr-t>K_LE</rr-t>
+                        <rr-t>K_GT</rr-t>
+                        <rr-t>K_GE</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-a>
+                     <rr-o>
+                        <rr-t>AND</rr-t>
+                        <rr-t>K_AND</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-a>
+                     <rr-o>
+                        <rr-t>OR</rr-t>
+                        <rr-t>K_OR</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>RANGE</rr-t><a href="#expression">expression</a></rr-a><a href="#list">list</a><a href="#map">map</a><a href="#property_or_method">property_or_method</a><a href="#variable">variable</a><a href="#id">id</a><rr-t>STRING</rr-t>
+               <rr-t>INTEGER</rr-t>
+               <rr-t>FLOAT</rr-t>
+               <rr-t>K_NULL</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="list">list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OBRACK</rr-t><a href="#expressions">expressions</a><rr-t>CBRACK</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="map">map</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OBRACE</rr-t><a href="#map_entries">map_entries</a><rr-t>CBRACE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="map_entries">map_entries</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#map_entry">map_entry</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#map_entry">map_entry</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="map_entry">map_entry</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expression">expression</a><rr-t>COLON</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="id">id</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>ID</rr-t>
+               <rr-t>K_LT</rr-t>
+               <rr-t>K_LE</rr-t>
+               <rr-t>K_GT</rr-t>
+               <rr-t>K_GE</rr-t>
+               <rr-t>K_EQ</rr-t>
+               <rr-t>K_NE</rr-t>
+               <rr-t>K_TRUE</rr-t>
+               <rr-t>K_FALSE</rr-t>
+               <rr-t>K_AND</rr-t>
+               <rr-t>K_OR</rr-t>
+               <rr-t>K_NOT</rr-t>
+               <rr-t>K_NULL</rr-t>
+               <rr-t>K_IN</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

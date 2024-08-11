@@ -1,0 +1,822 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../../index.html">Railroad</a> g4/clu/clu</h1>
+      <pre>/*
+ BSD License
+
+ Copyright (c) 2018, Tom Everett All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without modification, are permitted
+ provided that the following conditions are met:
+
+ 1. Redistributions of source code must retain the above copyright notice, this list of conditions
+ and the following disclaimer. 2. Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the documentation and/or other
+ materials provided with the distribution. 3. Neither the name of Tom Everett nor the names of its
+ contributors may be used to endorse or promote products derived from this software without specific
+ prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+ IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */</pre>
+      <h1>Grammar Decl</h1>
+      <pre>grammar clu;</pre>
+      <h1>Rules</h1>
+      <h2 id="module">module</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#equate">equate</a><rr-a>
+                     <rr-o><a href="#procedure">procedure</a><a href="#iterator">iterator</a><a href="#cluster">cluster</a></rr-o>
+                  </rr-a>
+                  <rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="procedure">procedure</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#idn">idn</a><rr-t>'='</rr-t>
+                  <rr-t>'proc'</rr-t><a href="#parms">parms</a><a href="#args">args</a><a href="#returnz">returnz</a><a href="#signals">signals</a><a href="#where_">where_</a><a href="#routine_body">routine_body</a><rr-t>'end'</rr-t><a href="#idn">idn</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="iterator">iterator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#idn">idn</a><rr-t>'='</rr-t>
+                  <rr-t>'iter'</rr-t><a href="#parms">parms</a><a href="#args">args</a><a href="#yields">yields</a><a href="#signals">signals</a><a href="#where_">where_</a><a href="#routine_body">routine_body</a><rr-t>'end'</rr-t><a href="#idn">idn</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="cluster">cluster</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#idn">idn</a><rr-t>'='</rr-t>
+                  <rr-t>'cluster'</rr-t><a href="#parms">parms</a><rr-t>'is'</rr-t><a href="#idn_list">idn_list</a><a href="#where_">where_</a><a href="#cluster_body">cluster_body</a><rr-t>'end'</rr-t><a href="#idn">idn</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="parms">parms</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#param">param</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#param">param</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="param">param</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#idn_list">idn_list</a><rr-t>':'</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>'type'</rr-t><a href="#type_spec">type_spec</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="args">args</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#decl_list">decl_list</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="decl_list">decl_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#decl">decl</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#decl">decl</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="decl">decl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#idn_list">idn_list</a><rr-t>':'</rr-t><a href="#type_spec">type_spec</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="returnz">returnz</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'returns'</rr-t>
+                  <rr-t>'('</rr-t><a href="#type_spec_list">type_spec_list</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="yields">yields</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'yields'</rr-t>
+                  <rr-t>'('</rr-t><a href="#type_spec_list">type_spec_list</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="signals">signals</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'signals'</rr-t>
+                  <rr-t>'('</rr-t><a href="#exception_">exception_</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#exception_">exception_</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="exception_">exception_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#name">name</a><a href="#type_spec_list">type_spec_list</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="type_spec_list">type_spec_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#type_spec">type_spec</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#type_spec">type_spec</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="where_">where_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'where'</rr-t><a href="#restriction">restriction</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#restriction">restriction</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="restriction">restriction</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#idn">idn</a><rr-a>
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'has'</rr-t><a href="#oper_decl_list">oper_decl_list</a></rr-a>
+                        <rr-a>
+                           <rr-t>'in'</rr-t><a href="#type_set">type_set</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="type_set">type_set</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="0" data-max="inf">
+                  <rr-o><a href="#idn">idn</a><rr-a><a href="#idn">idn</a><rr-t>'has'</rr-t><a href="#oper_decl_list">oper_decl_list</a><a href="#equate">equate</a></rr-a>
+                  </rr-o>
+               </rr-a><a href="#idn">idn</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="oper_decl_list">oper_decl_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#oper_decl">oper_decl</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#oper_decl">oper_decl</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="oper_decl">oper_decl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#op_name_list">op_name_list</a><rr-t>':'</rr-t><a href="#type_spec">type_spec</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="op_name_list">op_name_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#op_name">op_name</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#op_name">op_name</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="op_name">op_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#name">name</a><rr-t>'['</rr-t><a href="#constant_list">constant_list</a><rr-t>']'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="constant_list">constant_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#constant">constant</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#constant">constant</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="constant">constant</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expression">expression</a><a href="#type_spec">type_spec</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="routine_body">routine_body</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#equate">equate</a><a href="#own_var">own_var</a><a href="#statement">statement</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="cluster_body">cluster_body</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#equate">equate</a><rr-t>'rep'</rr-t>
+                  <rr-t>'='</rr-t><a href="#type_spec">type_spec</a><a href="#equate">equate</a><a href="#own_var">own_var</a><rr-t>'routine'</rr-t><a href="#routine">routine</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="routine">routine</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#procedure">procedure</a><a href="#iterator">iterator</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="equate">equate</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#idn">idn</a><rr-t>'='</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#constant">constant</a><a href="#type_set">type_set</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="own_var">own_var</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'own'</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#decl">decl</a><rr-a><a href="#idn">idn</a><rr-t>':'</rr-t><a href="#type_spec">type_spec</a><rr-t>':='</rr-t><a href="#expression">expression</a></rr-a>
+                        <rr-a><a href="#decl_list">decl_list</a><rr-t>':='</rr-t><a href="#invocation">invocation</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="type_spec">type_spec</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'null'</rr-t>
+               <rr-t>'bool'</rr-t>
+               <rr-t>'int'</rr-t>
+               <rr-t>'real'</rr-t>
+               <rr-t>'char'</rr-t>
+               <rr-t>'string'</rr-t>
+               <rr-t>'any'</rr-t>
+               <rr-t>'rep'</rr-t>
+               <rr-t>'cvt'</rr-t>
+               <rr-t>'array'</rr-t>
+               <rr-a>
+                  <rr-t>'sequence'</rr-t><a href="#type_spec">type_spec</a></rr-a>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>'record'</rr-t>
+                        <rr-t>'struct'</rr-t>
+                        <rr-t>'oneof'</rr-t>
+                        <rr-t>'variant'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#field_spec_list">field_spec_list</a></rr-a>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>'proctype'</rr-t>
+                        <rr-t>'itertype'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#field_spec_list">field_spec_list</a><a href="#returnz">returnz</a><a href="#signals">signals</a></rr-a>
+               <rr-a><a href="#idn">idn</a><a href="#constant_list">constant_list</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="field_spec_list">field_spec_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#field_spec">field_spec</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#field_spec">field_spec</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="field_spec">field_spec</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#name_list">name_list</a><rr-t>':'</rr-t><a href="#type_spec">type_spec</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="statement">statement</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#decl">decl</a><rr-a><a href="#idn">idn</a><rr-t>':'</rr-t><a href="#type_spec">type_spec</a><rr-t>':='</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#decl_list">decl_list</a><rr-t>':='</rr-t><a href="#invocation">invocation</a></rr-a>
+               <rr-a><a href="#idn_list">idn_list</a><rr-t>':='</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#invocation">invocation</a><a href="#expression_list">expression_list</a></rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a><a href="#primary">primary</a><rr-t>'.'</rr-t><a href="#name">name</a><rr-t>':='</rr-t><a href="#expression">expression</a></rr-a><a href="#invocation">invocation</a><rr-a>
+                  <rr-t>'while'</rr-t><a href="#expression">expression</a><rr-t>'do'</rr-t><a href="#body">body</a><rr-t>'end'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'for'</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o><a href="#decl_list">decl_list</a><a href="#idn_list">idn_list</a></rr-o>
+                  </rr-a>
+                  <rr-t>'in'</rr-t><a href="#invocation">invocation</a><rr-t>'do'</rr-t><a href="#body">body</a><rr-t>'end'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'if'</rr-t><a href="#expression">expression</a><rr-t>'then'</rr-t><a href="#body">body</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'elseif'</rr-t><a href="#expression">expression</a><rr-t>'then'</rr-t><a href="#body">body</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'else'</rr-t><a href="#body">body</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'end'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'tagcase'</rr-t><a href="#expression">expression</a><a href="#tag_arm">tag_arm</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'others'</rr-t>
+                           <rr-t>':'</rr-t><a href="#body">body</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'end'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>'return'</rr-t>
+                        <rr-t>'yield'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expression_list">expression_list</a></rr-a>
+               <rr-a>
+                  <rr-t>'signal'</rr-t><a href="#name">name</a><a href="#expression_list">expression_list</a></rr-a>
+               <rr-a>
+                  <rr-t>'exit'</rr-t><a href="#name">name</a><a href="#expression_list">expression_list</a></rr-a>
+               <rr-t>'break'</rr-t>
+               <rr-a>
+                  <rr-t>'begin'</rr-t><a href="#body">body</a><rr-t>'end'</rr-t>
+               </rr-a>
+               <rr-a><a href="#statement">statement</a><rr-a>
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'resignal'</rr-t><a href="#name_list">name_list</a></rr-a>
+                        <rr-a>
+                           <rr-t>'except'</rr-t><a href="#when_handler">when_handler</a><a href="#others_handler">others_handler</a><rr-t>'end'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tag_arm">tag_arm</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'tag'</rr-t><a href="#name_list">name_list</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'('</rr-t><a href="#idn">idn</a><rr-t>':'</rr-t><a href="#type_spec">type_spec</a><rr-t>')'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>':'</rr-t><a href="#body">body</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="when_handler">when_handler</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'when'</rr-t><a href="#name_list">name_list</a><rr-a>
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'('</rr-t>
+                           <rr-t>'*'</rr-t>
+                           <rr-t>')'</rr-t>
+                        </rr-a><a href="#decl_list">decl_list</a></rr-o>
+                  </rr-a>
+                  <rr-t>':'</rr-t><a href="#body">body</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="others_handler">others_handler</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'others'</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'('</rr-t><a href="#idn">idn</a><rr-t>':'</rr-t><a href="#type_spec">type_spec</a><rr-t>')'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>':'</rr-t><a href="#body">body</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="body">body</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#equate">equate</a><a href="#statement">statement</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expression_list">expression_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#expression">expression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expression">expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#primary">primary</a><rr-a>
+                  <rr-t>'('</rr-t><a href="#expression">expression</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>'~'</rr-t>
+                        <rr-t>'-'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'**'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-a>
+                     <rr-o>
+                        <rr-t>'//'</rr-t>
+                        <rr-t>'/'</rr-t>
+                        <rr-t>'*'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-a>
+                     <rr-o>
+                        <rr-t>'||'</rr-t>
+                        <rr-t>'+'</rr-t>
+                        <rr-t>'-'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-a>
+                     <rr-o>
+                        <rr-t>'&lt;'</rr-t>
+                        <rr-t>'&lt;='</rr-t>
+                        <rr-t>'='</rr-t>
+                        <rr-t>'&gt;='</rr-t>
+                        <rr-t>'&gt;'</rr-t>
+                        <rr-t>'~&lt;'</rr-t>
+                        <rr-t>'~&lt;='</rr-t>
+                        <rr-t>'~='</rr-t>
+                        <rr-t>'~&gt;='</rr-t>
+                        <rr-t>'~&gt;'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-a>
+                     <rr-o>
+                        <rr-t>'&amp;'</rr-t>
+                        <rr-t>'cand'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-a>
+                     <rr-o>
+                        <rr-t>'|'</rr-t>
+                        <rr-t>'cor'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="primary">primary</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'nil'</rr-t>
+               <rr-t>'true'</rr-t>
+               <rr-t>'false'</rr-t><a href="#int_literal">int_literal</a><a href="#real_literal">real_literal</a><a href="#string_literal">string_literal</a><rr-a><a href="#idn">idn</a><a href="#constant_list">constant_list</a></rr-a>
+               <rr-a><a href="#primary">primary</a><rr-a>
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'.'</rr-t><a href="#name">name</a></rr-a><a href="#expression">expression</a><rr-a>
+                           <rr-t>'('</rr-t><a href="#expression_list">expression_list</a><rr-t>')'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a><a href="#type_spec">type_spec</a><rr-t>'$'</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#field_list">field_list</a><rr-a>
+                           <rr-t>'['</rr-t>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a><a href="#expression">expression</a><rr-t>':'</rr-t>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a><a href="#expression_list">expression_list</a><rr-t>']'</rr-t>
+                        </rr-a>
+                        <rr-a><a href="#name">name</a><a href="#constant_list">constant_list</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'force'</rr-t><a href="#type_spec">type_spec</a></rr-a>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>'up'</rr-t>
+                        <rr-t>'down'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'('</rr-t><a href="#expression">expression</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="invocation">invocation</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#primary">primary</a><rr-t>'('</rr-t><a href="#expression_list">expression_list</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="field_list">field_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#field">field</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#field">field</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="field">field</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#name_list">name_list</a><rr-t>':'</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="idn_list">idn_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#idn">idn</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#idn">idn</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="idn">idn</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="name_list">name_list</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#name">name</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#name">name</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="name">name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="int_literal">int_literal</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>INT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="real_literal">real_literal</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>FLOAT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="string_literal">string_literal</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>STRINGLITERAL</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="STRINGLITERAL">STRINGLITERAL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+                  <rr-t data-min="0" data-max="inf">~'"'</rr-t>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="STRING">STRING</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[a-zA-Z]</rr-t>
+                  <rr-t data-min="0" data-max="inf">[a-zA-Z0-9_]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="INT">INT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="FLOAT">FLOAT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
+                  <rr-t data-min="1" data-max="1">'.'</rr-t>
+                  <rr-t data-min="0" data-max="inf">[0-9]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="COMMENT">COMMENT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'%'</rr-t>
+                  <rr-t data-min="0" data-max="inf">~[\r\n]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="WS">WS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">[ \t\r\n]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

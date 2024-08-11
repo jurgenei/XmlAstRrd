@@ -1,0 +1,1351 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../../index.html">Railroad</a> g4/bicep/Bicep</h1>
+      <h1>Grammar Decl</h1>
+      <pre>grammar Bicep;
+
+// program -&gt; statement* EOF</pre>
+      <h1>Rules</h1>
+      <h2 id="program">program</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#statement">statement</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="statement">statement</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#targetScopeDecl">targetScopeDecl</a><a href="#importDecl">importDecl</a><a href="#metadataDecl">metadataDecl</a><a href="#parameterDecl">parameterDecl</a><a href="#typeDecl">typeDecl</a><a href="#variableDecl">variableDecl</a><a href="#resourceDecl">resourceDecl</a><a href="#moduleDecl">moduleDecl</a><a href="#outputDecl">outputDecl</a><rr-t>NL</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="targetScopeDecl">targetScopeDecl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TARGET_SCOPE</rr-t>
+                  <rr-t>ASSIGN</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="importDecl">importDecl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#decorator">decorator</a><rr-t>IMPORT</rr-t><a href="#interpString">interpString</a><a href="#importWithClause">importWithClause</a><a href="#importAsClause">importAsClause</a><rr-t>NL</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="importWithClause">importWithClause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>WITH</rr-t><a href="#object">object</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="importAsClause">importAsClause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>AS</rr-t><a href="#identifier">identifier</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="metadataDecl">metadataDecl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>METADATA</rr-t><a href="#identifier">identifier</a><rr-t>ASSIGN</rr-t><a href="#expression">expression</a><rr-t>NL</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="parameterDecl">parameterDecl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#decorator">decorator</a><rr-t>PARAM</rr-t><a href="#identifier">identifier</a><rr-a>
+                     <rr-o>
+                        <rr-a><a href="#typeExpression">typeExpression</a><a href="#parameterDefaultValue">parameterDefaultValue</a></rr-a>
+                        <rr-a>
+                           <rr-t>RESOURCE</rr-t><a href="#interpString">interpString</a><a href="#parameterDefaultValue">parameterDefaultValue</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>NL</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="parameterDefaultValue">parameterDefaultValue</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>ASSIGN</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeDecl">typeDecl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#decorator">decorator</a><rr-t>TYPE</rr-t><a href="#identifier">identifier</a><rr-t>ASSIGN</rr-t><a href="#typeExpression">typeExpression</a><rr-t>NL</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="variableDecl">variableDecl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#decorator">decorator</a><rr-t>VAR</rr-t><a href="#identifier">identifier</a><rr-t>ASSIGN</rr-t><a href="#expression">expression</a><rr-t>NL</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="resourceDecl">resourceDecl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#decorator">decorator</a><rr-t>RESOURCE</rr-t><a href="#identifier">identifier</a><a href="#interpString">interpString</a><rr-t>EXISTING</rr-t>
+                  <rr-t>ASSIGN</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#ifCondition">ifCondition</a><a href="#object">object</a><a href="#forExpression">forExpression</a></rr-o>
+                  </rr-a>
+                  <rr-t>NL</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="moduleDecl">moduleDecl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#decorator">decorator</a><rr-t>MODULE</rr-t><a href="#identifier">identifier</a><a href="#interpString">interpString</a><rr-t>ASSIGN</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#ifCondition">ifCondition</a><a href="#object">object</a><a href="#forExpression">forExpression</a></rr-o>
+                  </rr-a>
+                  <rr-t>NL</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="outputDecl">outputDecl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#decorator">decorator</a><rr-t>OUTPUT</rr-t><a href="#identifier">identifier</a><rr-a>
+                     <rr-o><a href="#identifier">identifier</a><rr-a>
+                           <rr-t>RESOURCE</rr-t><a href="#interpString">interpString</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>ASSIGN</rr-t><a href="#expression">expression</a><rr-t>NL</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="decorator">decorator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>AT</rr-t><a href="#decoratorExpression">decoratorExpression</a><rr-t>NL</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expression">expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#binaryExpression">binaryExpression</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>QMARK</rr-t><a href="#expression">expression</a><rr-t>COL</rr-t><a href="#expression">expression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="binaryExpression">binaryExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#binaryExpression">binaryExpression</a><rr-a>
+                     <rr-o>
+                        <rr-t>AND</rr-t>
+                        <rr-t>OR</rr-t>
+                        <rr-t>COALESCE</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#equalityExpression">equalityExpression</a></rr-a><a href="#equalityExpression">equalityExpression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="equalityExpression">equalityExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#equalityExpression">equalityExpression</a><rr-a>
+                     <rr-o>
+                        <rr-t>EQ</rr-t>
+                        <rr-t>NEQ</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#relationalExpression">relationalExpression</a></rr-a><a href="#relationalExpression">relationalExpression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="relationalExpression">relationalExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#relationalExpression">relationalExpression</a><rr-a>
+                     <rr-o>
+                        <rr-t>GT</rr-t>
+                        <rr-t>GTE</rr-t>
+                        <rr-t>LT</rr-t>
+                        <rr-t>LTE</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#additiveExpression">additiveExpression</a></rr-a><a href="#additiveExpression">additiveExpression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="additiveExpression">additiveExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#additiveExpression">additiveExpression</a><rr-a>
+                     <rr-o>
+                        <rr-t>ADD</rr-t>
+                        <rr-t>MIN</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#multiplicativeExpression">multiplicativeExpression</a></rr-a><a href="#multiplicativeExpression">multiplicativeExpression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="multiplicativeExpression">multiplicativeExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#multiplicativeExpression">multiplicativeExpression</a><rr-a>
+                     <rr-o>
+                        <rr-t>MUL</rr-t>
+                        <rr-t>DIV</rr-t>
+                        <rr-t>MOD</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#unaryExpression">unaryExpression</a></rr-a><a href="#unaryExpression">unaryExpression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="unaryExpression">unaryExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#memberExpression">memberExpression</a><rr-a><a href="#unaryOperator">unaryOperator</a><a href="#unaryExpression">unaryExpression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="unaryOperator">unaryOperator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>NOT</rr-t>
+               <rr-t>MIN</rr-t>
+               <rr-t>ADD</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="memberExpression">memberExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#memberExpression">memberExpression</a><rr-t>OBRACK</rr-t><a href="#expression">expression</a><rr-t>CBRACK</rr-t>
+               </rr-a>
+               <rr-a><a href="#memberExpression">memberExpression</a><rr-t>DOT</rr-t><a href="#identifier">identifier</a></rr-a>
+               <rr-a><a href="#memberExpression">memberExpression</a><rr-t>DOT</rr-t><a href="#functionCall">functionCall</a></rr-a>
+               <rr-a><a href="#memberExpression">memberExpression</a><rr-t>COL</rr-t><a href="#identifier">identifier</a></rr-a><a href="#primaryExpression">primaryExpression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="primaryExpression">primaryExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#functionCall">functionCall</a><a href="#literalValue">literalValue</a><a href="#interpString">interpString</a><rr-t>MULTILINE_STRING</rr-t><a href="#array">array</a><a href="#forExpression">forExpression</a><a href="#object">object</a><a href="#parenthesizedExpression">parenthesizedExpression</a><a href="#lambdaExpression">lambdaExpression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="decoratorExpression">decoratorExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#functionCall">functionCall</a><rr-a><a href="#memberExpression">memberExpression</a><rr-t>DOT</rr-t><a href="#functionCall">functionCall</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functionCall">functionCall</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#identifier">identifier</a><rr-t>OPAR</rr-t><a href="#argumentList">argumentList</a><rr-t>CPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="argumentList">argumentList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#expression">expression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="parenthesizedExpression">parenthesizedExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPAR</rr-t><a href="#expression">expression</a><rr-t>CPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lambdaExpression">lambdaExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>OPAR</rr-t><a href="#argumentList">argumentList</a><rr-t>CPAR</rr-t>
+                        </rr-a><a href="#identifier">identifier</a></rr-o>
+                  </rr-a>
+                  <rr-t>ARROW</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ifCondition">ifCondition</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>IF</rr-t><a href="#parenthesizedExpression">parenthesizedExpression</a><a href="#object">object</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="forExpression">forExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OBRACK</rr-t>
+                  <rr-t>FOR</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#identifier">identifier</a><a href="#forVariableBlock">forVariableBlock</a></rr-o>
+                  </rr-a>
+                  <rr-t>IN</rr-t><a href="#expression">expression</a><rr-t>COL</rr-t><a href="#forBody">forBody</a><rr-t>CBRACK</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="forVariableBlock">forVariableBlock</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPAR</rr-t><a href="#identifier">identifier</a><rr-t>COMMA</rr-t><a href="#identifier">identifier</a><rr-t>CPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="forBody">forBody</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expression">expression</a><a href="#ifCondition">ifCondition</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="interpString">interpString</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>STRING_LEFT_PIECE</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#expression">expression</a><rr-t>STRING_MIDDLE_PIECE</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#expression">expression</a><rr-t>STRING_RIGHT_PIECE</rr-t>
+               </rr-a>
+               <rr-t>STRING_COMPLETE</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="literalValue">literalValue</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+               <rr-t>TRUE</rr-t>
+               <rr-t>FALSE</rr-t>
+               <rr-t>NULL</rr-t><a href="#identifier">identifier</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="object">object</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OBRACE</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>NL</rr-t>
+                           <rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a><a href="#objectProperty">objectProperty</a><rr-t>NL</rr-t>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CBRACE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="objectProperty">objectProperty</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o><a href="#identifier">identifier</a><a href="#interpString">interpString</a></rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#expression">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="array">array</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OBRACK</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>NL</rr-t><a href="#arrayItem">arrayItem</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CBRACK</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="arrayItem">arrayItem</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expression">expression</a><rr-t>NL</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeExpression">typeExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#singularTypeExpression">singularTypeExpression</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>PIPE</rr-t><a href="#singularTypeExpression">singularTypeExpression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="singularTypeExpression">singularTypeExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#primaryTypeExpression">primaryTypeExpression</a><rr-a><a href="#singularTypeExpression">singularTypeExpression</a><rr-t>OBRACK</rr-t>
+                  <rr-t>CBRACK</rr-t>
+               </rr-a><a href="#parenthesizedTypeExpression">parenthesizedTypeExpression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="primaryTypeExpression">primaryTypeExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#ambientTypeReference">ambientTypeReference</a><a href="#identifier">identifier</a><rr-a><a href="#unaryOperator">unaryOperator</a><a href="#literalValue">literalValue</a></rr-a>
+               <rr-t>STRING_COMPLETE</rr-t>
+               <rr-t>MULTILINE_STRING</rr-t><a href="#objectType">objectType</a><a href="#tupleType">tupleType</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ambientTypeReference">ambientTypeReference</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>STRING</rr-t>
+               <rr-t>INT</rr-t>
+               <rr-t>INT</rr-t>
+               <rr-t>ARRAY</rr-t>
+               <rr-t>OBJECT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="objectType">objectType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OBRACE</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>NL</rr-t>
+                           <rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-a>
+                                       <rr-o><a href="#objectTypeProperty">objectTypeProperty</a><a href="#objectTypeAdditionalPropertiesMatcher">objectTypeAdditionalPropertiesMatcher</a></rr-o>
+                                    </rr-a>
+                                    <rr-t>NL</rr-t>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CBRACE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="objectTypeProperty">objectTypeProperty</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#decorator">decorator</a><rr-a>
+                     <rr-o><a href="#identifier">identifier</a><rr-t>STRING_COMPLETE</rr-t>
+                        <rr-t>MULTILINE_STRING</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COL</rr-t><a href="#typeExpression">typeExpression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="objectTypeAdditionalPropertiesMatcher">objectTypeAdditionalPropertiesMatcher</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#decorator">decorator</a><rr-t>STAR_COL</rr-t><a href="#typeExpression">typeExpression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tupleType">tupleType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OBRACK</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>NL</rr-t><a href="#tupleItem">tupleItem</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CBRACK</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tupleItem">tupleItem</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#decorator">decorator</a><a href="#typeExpression">typeExpression</a><rr-t>NL</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="parenthesizedTypeExpression">parenthesizedTypeExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPAR</rr-t><a href="#typeExpression">typeExpression</a><rr-t>CPAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="identifier">identifier</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+               <rr-t>IMPORT</rr-t>
+               <rr-t>WITH</rr-t>
+               <rr-t>AS</rr-t>
+               <rr-t>METADATA</rr-t>
+               <rr-t>PARAM</rr-t>
+               <rr-t>RESOURCE</rr-t>
+               <rr-t>MODULE</rr-t>
+               <rr-t>OUTPUT</rr-t>
+               <rr-t>EXISTING</rr-t>
+               <rr-t>TYPE</rr-t>
+               <rr-t>VAR</rr-t>
+               <rr-t>IF</rr-t>
+               <rr-t>FOR</rr-t>
+               <rr-t>IN</rr-t>
+               <rr-t>TRUE</rr-t>
+               <rr-t>FALSE</rr-t>
+               <rr-t>NULL</rr-t>
+               <rr-t>TARGET_SCOPE</rr-t>
+               <rr-t>STRING</rr-t>
+               <rr-t>INT</rr-t>
+               <rr-t>BOOL</rr-t>
+               <rr-t>ARRAY</rr-t>
+               <rr-t>OBJECT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="DISABLE_NEXT_LINE_DIAGNOSTIC_DIRECTIVE">DISABLE_NEXT_LINE_DIAGNOSTIC_DIRECTIVE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'#disable-next-line'</rr-t>
+                  <rr-t data-min="1" data-max="inf">~[\r\n]</rr-t>
+                  <rr-t data-min="1" data-max="1">NL</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="SINGLE_LINE_COMMENT">SINGLE_LINE_COMMENT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'//'</rr-t>
+                  <rr-t data-min="0" data-max="inf">~[\r\n]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="MULTI_LINE_COMMENT">MULTI_LINE_COMMENT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'/*'</rr-t>
+                  <rr-t data-min="1" data-max="1">.</rr-t>
+                  <rr-t data-min="1" data-max="1">'*/'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="MULTILINE_STRING">MULTILINE_STRING</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\'\'\''</rr-t>
+                  <rr-t data-min="1" data-max="1">.</rr-t>
+                  <rr-t data-min="1" data-max="1">'\'\'\''</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="STRING_LEFT_PIECE">STRING_LEFT_PIECE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\''</rr-t>
+                  <rr-t data-min="0" data-max="inf">STRINGCHAR</rr-t>
+                  <rr-t data-min="1" data-max="1">'${'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="STRING_MIDDLE_PIECE">STRING_MIDDLE_PIECE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'}'</rr-t>
+                  <rr-t data-min="0" data-max="inf">STRINGCHAR</rr-t>
+                  <rr-t data-min="1" data-max="1">'${'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="STRING_RIGHT_PIECE">STRING_RIGHT_PIECE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'}'</rr-t>
+                  <rr-t data-min="0" data-max="inf">STRINGCHAR</rr-t>
+                  <rr-t data-min="1" data-max="1">'\''</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="STRING_COMPLETE">STRING_COMPLETE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\''</rr-t>
+                  <rr-t data-min="0" data-max="inf">STRINGCHAR</rr-t>
+                  <rr-t data-min="1" data-max="1">'\''</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ARROW">ARROW</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'=&gt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="AT">AT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'@'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="COMMA">COMMA</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">','</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="PIPE">PIPE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'|'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="STAR_COL">STAR_COL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'*:'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="OBRACK">OBRACK</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'['</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CBRACK">CBRACK</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">']'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="OPAR">OPAR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'('</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CPAR">CPAR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="DOT">DOT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'.'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="NOT">NOT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'!'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="MUL">MUL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'*'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="DIV">DIV</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'/'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="MOD">MOD</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'%'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ADD">ADD</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'+'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="MIN">MIN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'-'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="GT">GT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&gt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="GTE">GTE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&gt;='</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="LT">LT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&lt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="LTE">LTE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&lt;='</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="EQ">EQ</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'=='</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="NEQ">NEQ</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'!='</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="AND">AND</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&amp;&amp;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="OR">OR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'OR'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="COALESCE">COALESCE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'??'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="QMARK">QMARK</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'?'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="COL">COL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">':'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ASSIGN">ASSIGN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'='</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="OBRACE">OBRACE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'{'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="CBRACE">CBRACE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="IMPORT">IMPORT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'import'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="WITH">WITH</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'with'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="AS">AS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'as'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="METADATA">METADATA</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'metadata'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="PARAM">PARAM</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'param'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="RESOURCE">RESOURCE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'resource'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="MODULE">MODULE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'module'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="OUTPUT">OUTPUT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'output'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="EXISTING">EXISTING</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'existing'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TYPE">TYPE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'type'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="VAR">VAR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'var'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="IF">IF</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'if'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="FOR">FOR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'for'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="IN">IN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'in'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TRUE">TRUE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'true'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="FALSE">FALSE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'false'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="NULL">NULL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'null'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="TARGET_SCOPE">TARGET_SCOPE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'targetScope'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="STRING">STRING</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'string'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="INT">INT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'int'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="BOOL">BOOL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'bool'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ARRAY">ARRAY</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'array'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="OBJECT">OBJECT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'object'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="IDENTIFIER">IDENTIFIER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[a-zA-Z_]</rr-t>
+                  <rr-t data-min="0" data-max="inf">[a-zA-Z_0-9]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="NUMBER">NUMBER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'.'</rr-t>
+                        <rr-t data-min="1" data-max="inf">[0-9]</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="NL">NL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">[\r\n]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="SPACES">SPACES</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="inf">[ \t]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="UNKNOWN">UNKNOWN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">.</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="STRINGCHAR">STRINGCHAR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">~[\\'\n\r\t$]</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">ESCAPE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ESCAPE">ESCAPE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'\\'</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">[\\'nrt$]</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'u{'</rr-t>
+                        <rr-t data-min="1" data-max="inf">HEX</rr-t>
+                        <rr-t data-min="1" data-max="1">'}'</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="HEX">HEX</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[0-9a-fA-F]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

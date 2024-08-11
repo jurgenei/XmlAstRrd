@@ -1,0 +1,483 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../../index.html">Railroad</a> g4/promql/PromQLParser</h1>
+      <pre>/*
+ [The "BSD licence"]
+ Copyright (c) 2013 Terence Parr
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+ 3. The name of the author may not be used to endorse or promote products
+    derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
+      <h1>Grammar Decl</h1>
+      <pre>parser grammar PromQLParser;</pre>
+      <h1>Rules</h1>
+      <h2 id="expression">expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#vectorOperation">vectorOperation</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="vectorOperation">vectorOperation</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#vectorOperation">vectorOperation</a><a href="#powOp">powOp</a><a href="#vectorOperation">vectorOperation</a></rr-a>
+               <rr-a><a href="#vectorOperation">vectorOperation</a><a href="#subqueryOp">subqueryOp</a></rr-a>
+               <rr-a><a href="#unaryOp">unaryOp</a><a href="#vectorOperation">vectorOperation</a></rr-a>
+               <rr-a><a href="#vectorOperation">vectorOperation</a><a href="#multOp">multOp</a><a href="#vectorOperation">vectorOperation</a></rr-a>
+               <rr-a><a href="#vectorOperation">vectorOperation</a><a href="#addOp">addOp</a><a href="#vectorOperation">vectorOperation</a></rr-a>
+               <rr-a><a href="#vectorOperation">vectorOperation</a><a href="#compareOp">compareOp</a><a href="#vectorOperation">vectorOperation</a></rr-a>
+               <rr-a><a href="#vectorOperation">vectorOperation</a><a href="#andUnlessOp">andUnlessOp</a><a href="#vectorOperation">vectorOperation</a></rr-a>
+               <rr-a><a href="#vectorOperation">vectorOperation</a><a href="#orOp">orOp</a><a href="#vectorOperation">vectorOperation</a></rr-a>
+               <rr-a><a href="#vectorOperation">vectorOperation</a><a href="#vectorMatchOp">vectorMatchOp</a><a href="#vectorOperation">vectorOperation</a></rr-a>
+               <rr-a><a href="#vectorOperation">vectorOperation</a><rr-t>AT</rr-t><a href="#vectorOperation">vectorOperation</a></rr-a><a href="#vector">vector</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="unaryOp">unaryOp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-t>ADD</rr-t>
+                     <rr-t>SUB</rr-t>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="powOp">powOp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>POW</rr-t><a href="#grouping">grouping</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="multOp">multOp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>MULT</rr-t>
+                        <rr-t>DIV</rr-t>
+                        <rr-t>MOD</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#grouping">grouping</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="addOp">addOp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>ADD</rr-t>
+                        <rr-t>SUB</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#grouping">grouping</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="compareOp">compareOp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>DEQ</rr-t>
+                        <rr-t>NE</rr-t>
+                        <rr-t>GT</rr-t>
+                        <rr-t>LT</rr-t>
+                        <rr-t>GE</rr-t>
+                        <rr-t>LE</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>BOOL</rr-t><a href="#grouping">grouping</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="andUnlessOp">andUnlessOp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>AND</rr-t>
+                        <rr-t>UNLESS</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#grouping">grouping</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="orOp">orOp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OR</rr-t><a href="#grouping">grouping</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="vectorMatchOp">vectorMatchOp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>ON</rr-t>
+                        <rr-t>UNLESS</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#grouping">grouping</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="subqueryOp">subqueryOp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SUBQUERY_RANGE</rr-t><a href="#offsetOp">offsetOp</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="offsetOp">offsetOp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OFFSET</rr-t>
+                  <rr-t>DURATION</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="vector">vector</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#function_">function_</a><a href="#aggregation">aggregation</a><a href="#instantSelector">instantSelector</a><a href="#matrixSelector">matrixSelector</a><a href="#offset">offset</a><a href="#literal">literal</a><a href="#parens">parens</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="parens">parens</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LEFT_PAREN</rr-t><a href="#vectorOperation">vectorOperation</a><rr-t>RIGHT_PAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="instantSelector">instantSelector</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>METRIC_NAME</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>LEFT_BRACE</rr-t><a href="#labelMatcherList">labelMatcherList</a><rr-t>RIGHT_BRACE</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LEFT_BRACE</rr-t><a href="#labelMatcherList">labelMatcherList</a><rr-t>RIGHT_BRACE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="labelMatcher">labelMatcher</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#labelName">labelName</a><a href="#labelMatcherOperator">labelMatcherOperator</a><rr-t>STRING</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="labelMatcherOperator">labelMatcherOperator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>EQ</rr-t>
+               <rr-t>NE</rr-t>
+               <rr-t>RE</rr-t>
+               <rr-t>NRE</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="labelMatcherList">labelMatcherList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#labelMatcher">labelMatcher</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#labelMatcher">labelMatcher</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COMMA</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="matrixSelector">matrixSelector</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#instantSelector">instantSelector</a><rr-t>TIME_RANGE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="offset">offset</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#instantSelector">instantSelector</a><rr-t>OFFSET</rr-t>
+                  <rr-t>DURATION</rr-t>
+               </rr-a>
+               <rr-a><a href="#matrixSelector">matrixSelector</a><rr-t>OFFSET</rr-t>
+                  <rr-t>DURATION</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="function_">function_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>FUNCTION</rr-t>
+                  <rr-t>LEFT_PAREN</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#parameter">parameter</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#parameter">parameter</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>RIGHT_PAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="parameter">parameter</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#literal">literal</a><a href="#vectorOperation">vectorOperation</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="parameterList">parameterList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LEFT_PAREN</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#parameter">parameter</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#parameter">parameter</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>RIGHT_PAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="aggregation">aggregation</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>AGGREGATION_OPERATOR</rr-t><a href="#parameterList">parameterList</a></rr-a>
+               <rr-a>
+                  <rr-t>AGGREGATION_OPERATOR</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#by">by</a><a href="#without">without</a></rr-o>
+                  </rr-a><a href="#parameterList">parameterList</a></rr-a>
+               <rr-a>
+                  <rr-t>AGGREGATION_OPERATOR</rr-t><a href="#parameterList">parameterList</a><rr-a>
+                     <rr-o><a href="#by">by</a><a href="#without">without</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="by">by</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>BY</rr-t><a href="#labelNameList">labelNameList</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="without">without</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>WITHOUT</rr-t><a href="#labelNameList">labelNameList</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="grouping">grouping</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o><a href="#on_">on_</a><a href="#ignoring">ignoring</a></rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o><a href="#groupLeft">groupLeft</a><a href="#groupRight">groupRight</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="on_">on_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>ON</rr-t><a href="#labelNameList">labelNameList</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ignoring">ignoring</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>IGNORING</rr-t><a href="#labelNameList">labelNameList</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="groupLeft">groupLeft</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GROUP_LEFT</rr-t><a href="#labelNameList">labelNameList</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="groupRight">groupRight</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GROUP_RIGHT</rr-t><a href="#labelNameList">labelNameList</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="labelName">labelName</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#keyword">keyword</a><rr-t>METRIC_NAME</rr-t>
+               <rr-t>LABEL_NAME</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="labelNameList">labelNameList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LEFT_PAREN</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#labelName">labelName</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#labelName">labelName</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>RIGHT_PAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="keyword">keyword</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>AND</rr-t>
+               <rr-t>OR</rr-t>
+               <rr-t>UNLESS</rr-t>
+               <rr-t>BY</rr-t>
+               <rr-t>WITHOUT</rr-t>
+               <rr-t>ON</rr-t>
+               <rr-t>IGNORING</rr-t>
+               <rr-t>GROUP_LEFT</rr-t>
+               <rr-t>GROUP_RIGHT</rr-t>
+               <rr-t>OFFSET</rr-t>
+               <rr-t>BOOL</rr-t>
+               <rr-t>AGGREGATION_OPERATOR</rr-t>
+               <rr-t>FUNCTION</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="literal">literal</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+               <rr-t>STRING</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

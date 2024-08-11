@@ -1,0 +1,428 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../../index.html">Railroad</a> g4/suokif/SUOKIF</h1>
+      <pre>/*
+ [The "BSD licence"]
+ Copyright (c) 2014 Adam Taylor
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+ 3. The name of the author may not be used to endorse or promote products
+    derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
+      <pre>/*
+   Derived from http://sigmakee.cvs.sourceforge.net/viewvc/sigmakee/sigma/suo-kif.pdf
+ */</pre>
+      <h1>Grammar Decl</h1>
+      <pre>grammar SUOKIF;</pre>
+      <h1>Rules</h1>
+      <h2 id="top_level">top_level</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#sentence">sentence</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="term">term</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>VARIABLE</rr-t>
+               <rr-t>WORD</rr-t>
+               <rr-t>STRING</rr-t><a href="#funterm">funterm</a><rr-t>NUMBER</rr-t><a href="#sentence">sentence</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="argument">argument</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#sentence">sentence</a><a href="#term">term</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="funterm">funterm</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>WORD</rr-t><a href="#argument">argument</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sentence">sentence</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>WORD</rr-t><a href="#equation">equation</a><a href="#relsent">relsent</a><a href="#logsent">logsent</a><a href="#quantsent">quantsent</a><rr-t>VARIABLE</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="equation">equation</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'='</rr-t><a href="#term">term</a><a href="#term">term</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="relsent">relsent</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>WORD</rr-t>
+                        <rr-t>VARIABLE</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#argument">argument</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="logsent">logsent</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>NOT</rr-t><a href="#sentence">sentence</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>AND</rr-t><a href="#sentence">sentence</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>OR</rr-t><a href="#sentence">sentence</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'='</rr-t>
+                  <rr-t>'&gt;'</rr-t><a href="#sentence">sentence</a><a href="#sentence">sentence</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>'&lt;'</rr-t>
+                  <rr-t>'='</rr-t>
+                  <rr-t>'&gt;'</rr-t><a href="#sentence">sentence</a><a href="#sentence">sentence</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="quantsent">quantsent</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>FORALL</rr-t>
+                  <rr-t>'('</rr-t>
+                  <rr-t>VARIABLE</rr-t>
+                  <rr-t>')'</rr-t><a href="#sentence">sentence</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>EXISTS</rr-t>
+                  <rr-t>'('</rr-t>
+                  <rr-t>VARIABLE</rr-t>
+                  <rr-t>')'</rr-t><a href="#sentence">sentence</a><rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="NOT">NOT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'not'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="AND">AND</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'and'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="OR">OR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'or'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="FORALL">FORALL</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'forall'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="EXISTS">EXISTS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'exists'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="UPPER">UPPER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[A-Z]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="LOWER">LOWER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[a-z]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="DIGIT">DIGIT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[0-9]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="INITIALCHAR">INITIALCHAR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">UPPER</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">LOWER</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="WORDCHAR">WORDCHAR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">UPPER</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">LOWER</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">DIGIT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'-'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'_'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="WORD">WORD</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">INITIALCHAR</rr-t>
+                  <rr-t data-min="0" data-max="inf">WORDCHAR</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="STRING">STRING</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+                  <rr-t data-min="0" data-max="inf">~["\\]</rr-t>
+                  <rr-t data-min="1" data-max="1">'"'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="VARIABLE">VARIABLE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'?'</rr-t>
+                  <rr-t data-min="1" data-max="1">WORD</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'@'</rr-t>
+                  <rr-t data-min="1" data-max="1">WORD</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="NUMBER">NUMBER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="0" data-max="1">'-'</rr-t>
+                  <rr-t data-min="1" data-max="inf">DIGIT</rr-t>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'.'</rr-t>
+                        <rr-t data-min="1" data-max="inf">DIGIT</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-t data-min="0" data-max="1">EXPONENT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="EXPONENT">EXPONENT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'e'</rr-t>
+                  <rr-t data-min="0" data-max="1">'-'</rr-t>
+                  <rr-t data-min="1" data-max="inf">DIGIT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="WHITE">WHITE</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[ \t\n\r\u000B]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="COMMENT">COMMENT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">';'</rr-t>
+                  <rr-t data-min="0" data-max="inf">~[\r\n]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="LPAREN">LPAREN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'('</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="RPAREN">RPAREN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ASSIGN">ASSIGN</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'='</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="GT">GT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&gt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="LT">LT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'&lt;'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="QUESTION">QUESTION</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'?'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

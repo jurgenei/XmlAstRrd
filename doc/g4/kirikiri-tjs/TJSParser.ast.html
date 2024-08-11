@@ -1,0 +1,719 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../../index.html">Railroad</a> g4/kirikiri-tjs/TJSParser</h1>
+      <h1>Grammar Decl</h1>
+      <pre>parser grammar TJSParser;</pre>
+      <h1>Rules</h1>
+      <h2 id="program">program</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#statement">statement</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="statement">statement</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#block">block</a><a href="#variableStatement">variableStatement</a><a href="#emptyStatement_">emptyStatement_</a><a href="#classDeclaration">classDeclaration</a><a href="#expressionStatement">expressionStatement</a><a href="#ifStatement">ifStatement</a><a href="#iterationStatement">iterationStatement</a><a href="#continueStatement">continueStatement</a><a href="#breakStatement">breakStatement</a><a href="#returnStatement">returnStatement</a><a href="#withStatement">withStatement</a><a href="#switchStatement">switchStatement</a><a href="#throwStatement">throwStatement</a><a href="#tryStatement">tryStatement</a><a href="#debuggerStatement">debuggerStatement</a><a href="#functionDeclaration">functionDeclaration</a><a href="#propertyDeclaration">propertyDeclaration</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="block">block</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#statement">statement</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="variableStatement">variableStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#varModifier">varModifier</a><a href="#variables">variables</a><a href="#eos">eos</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="variables">variables</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#variable">variable</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#variable">variable</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="variable">variable</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Identifier</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#expression">expression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="emptyStatement_">emptyStatement_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>SemiColon</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expressionStatement">expressionStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expressions">expressions</a><a href="#eos">eos</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ifStatement">ifStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>If</rr-t>
+                  <rr-t>'('</rr-t><a href="#expressions">expressions</a><rr-t>')'</rr-t><a href="#statement">statement</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>Else</rr-t><a href="#statement">statement</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="iterationStatement">iterationStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Do</rr-t><a href="#statement">statement</a><rr-t>While</rr-t>
+                  <rr-t>'('</rr-t><a href="#expressions">expressions</a><rr-t>')'</rr-t><a href="#eos">eos</a></rr-a>
+               <rr-a>
+                  <rr-t>While</rr-t>
+                  <rr-t>'('</rr-t><a href="#expressions">expressions</a><rr-t>')'</rr-t><a href="#statement">statement</a></rr-a>
+               <rr-a>
+                  <rr-t>For</rr-t>
+                  <rr-t>'('</rr-t><a href="#expressions">expressions</a><rr-t>';'</rr-t><a href="#expressions">expressions</a><rr-t>';'</rr-t><a href="#expressions">expressions</a><rr-t>')'</rr-t><a href="#statement">statement</a></rr-a>
+               <rr-a>
+                  <rr-t>For</rr-t>
+                  <rr-t>'('</rr-t><a href="#varModifier">varModifier</a><a href="#variables">variables</a><rr-t>';'</rr-t><a href="#expressions">expressions</a><rr-t>';'</rr-t><a href="#expressions">expressions</a><rr-t>')'</rr-t><a href="#statement">statement</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="varModifier">varModifier</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>Var</rr-t>
+               <rr-t>Const</rr-t>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>Var</rr-t>
+                        <rr-t>Const</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeConverter">typeConverter</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>Int</rr-t>
+                        <rr-t>Real</rr-t>
+                        <rr-t>String</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+               <rr-t>Int</rr-t>
+               <rr-t>Real</rr-t>
+               <rr-t>String</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="continueStatement">continueStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Continue</rr-t><a href="#eos">eos</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="breakStatement">breakStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Break</rr-t><a href="#eos">eos</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="returnStatement">returnStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Return</rr-t><a href="#expressions">expressions</a><a href="#eos">eos</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="withStatement">withStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>With</rr-t>
+                  <rr-t>'('</rr-t><a href="#expressions">expressions</a><rr-t>')'</rr-t><a href="#statement">statement</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="switchStatement">switchStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Switch</rr-t>
+                  <rr-t>'('</rr-t><a href="#expressions">expressions</a><rr-t>')'</rr-t>
+                  <rr-t>'{'</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o><a href="#caseClause">caseClause</a><a href="#defaultClause">defaultClause</a></rr-o>
+                  </rr-a>
+                  <rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="caseClause">caseClause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Case</rr-t><a href="#expressions">expressions</a><rr-t>':'</rr-t><a href="#statement">statement</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="defaultClause">defaultClause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Default</rr-t>
+                  <rr-t>':'</rr-t><a href="#statement">statement</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="throwStatement">throwStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Throw</rr-t><a href="#expressions">expressions</a><a href="#eos">eos</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tryStatement">tryStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Try</rr-t><a href="#block">block</a><rr-t>Catch</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'('</rr-t>
+                           <rr-t>Identifier</rr-t>
+                           <rr-t>')'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#block">block</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="debuggerStatement">debuggerStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Debugger</rr-t><a href="#eos">eos</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functionDeclaration">functionDeclaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Function_</rr-t>
+                  <rr-t>Identifier</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'('</rr-t><a href="#functionParameters">functionParameters</a><rr-t>')'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#block">block</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="anoymousFunctionDeclaration">anoymousFunctionDeclaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Function_</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'('</rr-t><a href="#functionParameters">functionParameters</a><rr-t>')'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#block">block</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="classDeclaration">classDeclaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Class</rr-t>
+                  <rr-t>Identifier</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>Extends</rr-t><a href="#expression">expression</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>','</rr-t><a href="#expression">expression</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#block">block</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="propertyDeclaration">propertyDeclaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Property</rr-t>
+                  <rr-t>Identifier</rr-t>
+                  <rr-t>'{'</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>Getter</rr-t>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>'('</rr-t>
+                                    <rr-t>')'</rr-t>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a><a href="#block">block</a></rr-a>
+                        <rr-a>
+                           <rr-t>Setter</rr-t>
+                           <rr-t>'('</rr-t><a href="#functionParameter">functionParameter</a><rr-t>')'</rr-t><a href="#block">block</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functionParameters">functionParameters</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#functionParameter">functionParameter</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#functionParameter">functionParameter</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functionParameter">functionParameter</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>Identifier</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'='</rr-t><a href="#expression">expression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>Identifier</rr-t>
+                  <rr-t>'*'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="arrayLiteral">arrayLiteral</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#varModifier">varModifier</a><rr-t>'['</rr-t><a href="#arrayElementSeprator">arrayElementSeprator</a><a href="#elementList">elementList</a><a href="#arrayElementSeprator">arrayElementSeprator</a><rr-t>']'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="elementList">elementList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#arrayElementSeprator">arrayElementSeprator</a><a href="#expression">expression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="arrayElementSeprator">arrayElementSeprator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>','</rr-t>
+               <rr-t>'=&gt;'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="objectLiteral">objectLiteral</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#varModifier">varModifier</a><rr-t>'%['</rr-t><a href="#objectProperty">objectProperty</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#objectProperty">objectProperty</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>','</rr-t>
+                  <rr-t>']'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="objectProperty">objectProperty</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expression">expression</a><rr-a>
+                     <rr-o>
+                        <rr-t>':'</rr-t>
+                        <rr-t>'='</rr-t>
+                        <rr-t>'=&gt;'</rr-t>
+                        <rr-t>','</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expression_// TJS resolve object key in runtime">expression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="arguments">arguments</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#argument">argument</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#argument">argument</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t>
+                  <rr-t>Ellipsis</rr-t>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="argument">argument</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expression">expression</a><rr-t>'*'</rr-t>
+               </rr-a>
+               <rr-t>'*'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expressions">expressions</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expression">expression</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#expression">expression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expression">expression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#anoymousFunctionDeclaration">anoymousFunctionDeclaration</a><rr-a><a href="#expression">expression</a><rr-t>'['</rr-t><a href="#expressions">expressions</a><rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'.'</rr-t><a href="#identifierName">identifierName</a></rr-a>
+               <rr-a>
+                  <rr-t>'.'</rr-t><a href="#identifierName">identifierName</a></rr-a>
+               <rr-a><a href="#expression">expression</a><a href="#arguments">arguments</a></rr-a>
+               <rr-a>
+                  <rr-t>New</rr-t><a href="#expression">expression</a><a href="#arguments">arguments</a></rr-a>
+               <rr-a>
+                  <rr-t>'&amp;'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'*'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'&lt;-&gt;'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'!'</rr-t>
+               </rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>Incontextof</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'++'</rr-t>
+               </rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'--'</rr-t>
+               </rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>Isvalid</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>Delete</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>Isvalid</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>Typeof</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>Instanceof</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>Invalidate</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>In</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'++'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'--'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'+'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'-'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'~'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a>
+                  <rr-t>'!'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-a>
+                     <rr-o>
+                        <rr-t>'*'</rr-t>
+                        <rr-t>'/'</rr-t>
+                        <rr-t>'%'</rr-t>
+                        <rr-t>'\\'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-a>
+                     <rr-o>
+                        <rr-t>'+'</rr-t>
+                        <rr-t>'-'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-a>
+                     <rr-o>
+                        <rr-t>'&lt;&lt;'</rr-t>
+                        <rr-t>'&gt;&gt;'</rr-t>
+                        <rr-t>'&gt;&gt;&gt;'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-a>
+                     <rr-o>
+                        <rr-t>'&lt;'</rr-t>
+                        <rr-t>'&gt;'</rr-t>
+                        <rr-t>'&lt;='</rr-t>
+                        <rr-t>'&gt;='</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-a>
+                     <rr-o>
+                        <rr-t>'=='</rr-t>
+                        <rr-t>'!='</rr-t>
+                        <rr-t>'==='</rr-t>
+                        <rr-t>'!=='</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'&amp;'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'^'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'|'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'&amp;&amp;'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'||'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'?'</rr-t><a href="#expression">expression</a><rr-t>':'</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>'='</rr-t><a href="#expression">expression</a></rr-a>
+               <rr-a><a href="#expression">expression</a><a href="#assignmentOperator">assignmentOperator</a><a href="#expression">expression</a></rr-a>
+               <rr-t>This</rr-t>
+               <rr-t>Identifier</rr-t>
+               <rr-t>Super</rr-t>
+               <rr-a><a href="#typeConverter">typeConverter</a><a href="#expression">expression</a></rr-a><a href="#literal">literal</a><a href="#arrayLiteral">arrayLiteral</a><a href="#objectLiteral">objectLiteral</a><rr-a>
+                  <rr-t>'('</rr-t><a href="#expressions">expressions</a><rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a><a href="#expression">expression</a><rr-t>If</rr-t><a href="#expressions">expressions</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="assignmentOperator">assignmentOperator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'*='</rr-t>
+               <rr-t>'/='</rr-t>
+               <rr-t>'%='</rr-t>
+               <rr-t>'+='</rr-t>
+               <rr-t>'-='</rr-t>
+               <rr-t>'&lt;&lt;='</rr-t>
+               <rr-t>'&gt;&gt;='</rr-t>
+               <rr-t>'&gt;&gt;&gt;='</rr-t>
+               <rr-t>'&amp;='</rr-t>
+               <rr-t>'^='</rr-t>
+               <rr-t>'|='</rr-t>
+               <rr-t>'\\='</rr-t>
+               <rr-t>'&amp;&amp;='</rr-t>
+               <rr-t>'||='</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="literal">literal</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>NullLiteral</rr-t>
+               <rr-t>BooleanLiteral</rr-t>
+               <rr-a data-min="1" data-max="inf">
+                  <rr-o>
+                     <rr-t>StringLiteral</rr-t>
+                     <rr-t>TemplateStringLiteral</rr-t>
+                  </rr-o>
+               </rr-a>
+               <rr-t>OctetLiteral</rr-t>
+               <rr-t>RegularExpressionLiteral</rr-t><a href="#numericLiteral">numericLiteral</a><rr-t>Void</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="numericLiteral">numericLiteral</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>DecimalLiteral</rr-t>
+               <rr-t>HexIntegerLiteral</rr-t>
+               <rr-t>OctalIntegerLiteral</rr-t>
+               <rr-t>OctalIntegerLiteral2</rr-t>
+               <rr-t>BinaryIntegerLiteral</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="identifierName">identifierName</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>Identifier</rr-t><a href="#reservedWord">reservedWord</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="reservedWord">reservedWord</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#keyword">keyword</a><rr-t>NullLiteral</rr-t>
+               <rr-t>BooleanLiteral</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="keyword">keyword</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>Break</rr-t>
+               <rr-t>Do</rr-t>
+               <rr-t>Instanceof</rr-t>
+               <rr-t>Typeof</rr-t>
+               <rr-t>Case</rr-t>
+               <rr-t>Else</rr-t>
+               <rr-t>New</rr-t>
+               <rr-t>Var</rr-t>
+               <rr-t>Catch</rr-t>
+               <rr-t>Finally</rr-t>
+               <rr-t>Return</rr-t>
+               <rr-t>Void</rr-t>
+               <rr-t>Continue</rr-t>
+               <rr-t>For</rr-t>
+               <rr-t>Switch</rr-t>
+               <rr-t>While</rr-t>
+               <rr-t>Debugger</rr-t>
+               <rr-t>Function_</rr-t>
+               <rr-t>This</rr-t>
+               <rr-t>With</rr-t>
+               <rr-t>Default</rr-t>
+               <rr-t>If</rr-t>
+               <rr-t>Throw</rr-t>
+               <rr-t>Delete</rr-t>
+               <rr-t>In</rr-t>
+               <rr-t>Try</rr-t>
+               <rr-t>Class</rr-t>
+               <rr-t>Enum</rr-t>
+               <rr-t>Extends</rr-t>
+               <rr-t>Super</rr-t>
+               <rr-t>Const</rr-t>
+               <rr-t>Export</rr-t>
+               <rr-t>Import</rr-t>
+               <rr-t>Static</rr-t>
+               <rr-t>Incontextof</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="eos">eos</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>SemiColon</rr-t>
+               <rr-t>EOF</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

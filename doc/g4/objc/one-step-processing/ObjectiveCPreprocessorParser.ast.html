@@ -1,0 +1,162 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../../../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../../../index.html">Railroad</a> g4/objc/one-step-processing/ObjectiveCPreprocessorParser</h1>
+      <pre>/*
+Objective-C Preprocessor grammar.
+The MIT License (MIT).
+Copyright (c) 2016-2017, Alex Petuschak (alex@swiftify.io).
+Copyright (c) 2016-2017, Ivan Kochurkin (kvanttt@gmail.com).
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/</pre>
+      <h1>Grammar Decl</h1>
+      <pre>parser grammar ObjectiveCPreprocessorParser;</pre>
+      <h1>Rules</h1>
+      <h2 id="directive">directive</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SHARP</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>DIRECTIVE_IMPORT</rr-t>
+                        <rr-t>DIRECTIVE_INCLUDE</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#directiveText">directiveText</a></rr-a>
+               <rr-a>
+                  <rr-t>SHARP</rr-t>
+                  <rr-t>DIRECTIVE_IF</rr-t><a href="#preprocessorExpression">preprocessorExpression</a></rr-a>
+               <rr-a>
+                  <rr-t>SHARP</rr-t>
+                  <rr-t>DIRECTIVE_ELIF</rr-t><a href="#preprocessorExpression">preprocessorExpression</a></rr-a>
+               <rr-a>
+                  <rr-t>SHARP</rr-t>
+                  <rr-t>DIRECTIVE_ELSE</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>SHARP</rr-t>
+                  <rr-t>DIRECTIVE_ENDIF</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>SHARP</rr-t>
+                  <rr-t>DIRECTIVE_IFDEF</rr-t>
+                  <rr-t>DIRECTIVE_ID</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>SHARP</rr-t>
+                  <rr-t>DIRECTIVE_IFNDEF</rr-t>
+                  <rr-t>DIRECTIVE_ID</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>SHARP</rr-t>
+                  <rr-t>DIRECTIVE_UNDEF</rr-t>
+                  <rr-t>DIRECTIVE_ID</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>SHARP</rr-t>
+                  <rr-t>DIRECTIVE_PRAGMA</rr-t><a href="#directiveText">directiveText</a></rr-a>
+               <rr-a>
+                  <rr-t>SHARP</rr-t>
+                  <rr-t>DIRECTIVE_ERROR</rr-t><a href="#directiveText">directiveText</a></rr-a>
+               <rr-a>
+                  <rr-t>SHARP</rr-t>
+                  <rr-t>DIRECTIVE_WARNING</rr-t><a href="#directiveText">directiveText</a></rr-a>
+               <rr-a>
+                  <rr-t>SHARP</rr-t>
+                  <rr-t>DIRECTIVE_DEFINE</rr-t>
+                  <rr-t>DIRECTIVE_ID</rr-t><a href="#directiveText">directiveText</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="directiveText">directiveText</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="1" data-max="inf">
+                  <rr-o>
+                     <rr-t>DIRECTIVE_TEXT</rr-t>
+                     <rr-t>DIRECTIVE_TEXT_NEWLINE</rr-t>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="preprocessorExpression">preprocessorExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>DIRECTIVE_TRUE</rr-t>
+               <rr-t>DIRECTIVE_FALSE</rr-t>
+               <rr-t>DIRECTIVE_DECIMAL_LITERAL</rr-t>
+               <rr-t>DIRECTIVE_STRING</rr-t>
+               <rr-a>
+                  <rr-t>DIRECTIVE_ID</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>DIRECTIVE_LP</rr-t><a href="#preprocessorExpression">preprocessorExpression</a><rr-t>DIRECTIVE_RP</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>DIRECTIVE_LP</rr-t><a href="#preprocessorExpression">preprocessorExpression</a><rr-t>DIRECTIVE_RP</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>DIRECTIVE_BANG</rr-t><a href="#preprocessorExpression">preprocessorExpression</a></rr-a>
+               <rr-a><a href="#preprocessorExpression">preprocessorExpression</a><rr-a>
+                     <rr-o>
+                        <rr-t>DIRECTIVE_EQUAL</rr-t>
+                        <rr-t>DIRECTIVE_NOTEQUAL</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#preprocessorExpression">preprocessorExpression</a></rr-a>
+               <rr-a><a href="#preprocessorExpression">preprocessorExpression</a><rr-t>DIRECTIVE_AND</rr-t><a href="#preprocessorExpression">preprocessorExpression</a></rr-a>
+               <rr-a><a href="#preprocessorExpression">preprocessorExpression</a><rr-t>DIRECTIVE_OR</rr-t><a href="#preprocessorExpression">preprocessorExpression</a></rr-a>
+               <rr-a><a href="#preprocessorExpression">preprocessorExpression</a><rr-a>
+                     <rr-o>
+                        <rr-t>DIRECTIVE_LT</rr-t>
+                        <rr-t>DIRECTIVE_GT</rr-t>
+                        <rr-t>DIRECTIVE_LE</rr-t>
+                        <rr-t>DIRECTIVE_GE</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#preprocessorExpression">preprocessorExpression</a></rr-a>
+               <rr-a>
+                  <rr-t>DIRECTIVE_DEFINED</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>DIRECTIVE_ID</rr-t>
+                        <rr-a>
+                           <rr-t>DIRECTIVE_LP</rr-t>
+                           <rr-t>DIRECTIVE_ID</rr-t>
+                           <rr-t>DIRECTIVE_RP</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

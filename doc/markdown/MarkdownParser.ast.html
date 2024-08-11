@@ -1,0 +1,1439 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../index.html">Railroad</a> markdown/MarkdownParser</h1>
+      <h1>Grammar Decl</h1>
+      <pre>parser grammar MarkdownParser;</pre>
+      <h1>Rules</h1>
+      <h2 id="document">document</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#block">block</a><rr-t>BLANK_LINE</rr-t>
+                  <rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="block">block</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>BLANK_LINE</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#htmlBlockTags___// Match HTML at level block to do not add extra <p&gt; if paragraph contains only HTML.">htmlBlockTags</a><a href="#htmlBlockSelfClosing">htmlBlockSelfClosing</a><a href="#htmlComment">htmlComment</a><a href="#heading">heading</a><a href="#horizontalRule">horizontalRule</a><a href="#blockQuote[0]">blockQuote[0]</a><a href="#references">references</a><rr-a><a href="#orderedList[0]">orderedList[0]</a></rr-a>
+                        <rr-a><a href="#bulletList[0]">bulletList[0]</a></rr-a>
+                        <rr-a><a href="#verbatim[0]___// After lists because deep lists can start with lot of spaces.">verbatim[0]</a></rr-a><a href="#para">para</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+            <pre>/* ******* Block level HTML.   ******* */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="htmlBlockTags">htmlBlockTags</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#htmlBlockInTags">htmlBlockInTags</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-t>SPACE</rr-t>
+                        <rr-t>TAB</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>NEWLINE</rr-t>
+                        <rr-t>LINE_BREAK</rr-t>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="htmlBlockSelfClosing">htmlBlockSelfClosing</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#htmlBlockInSelfClosing">htmlBlockInSelfClosing</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-t>SPACE</rr-t>
+                        <rr-t>TAB</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>NEWLINE</rr-t>
+                        <rr-t>LINE_BREAK</rr-t>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+            <pre>/* ******* Heading.   ******* */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="heading">heading</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#setextHeading">setextHeading</a><a href="#atxHeading">atxHeading</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="setextHeading">setextHeading</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#setextHeading1">setextHeading1</a><a href="#setextHeading2">setextHeading2</a></rr-o>
+            <pre>/* Should verify ~NEWLINE after each inline.   */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="setextHeading1">setextHeading1</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="1" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#inline">inline</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>NEWLINE</rr-t>
+                  <rr-t>SETEXT_BOTTOM_1</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="setextHeading2">setextHeading2</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="1" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#inline">inline</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>NEWLINE</rr-t>
+                  <rr-t>SETEXT_BOTTOM_2</rr-t>
+               </rr-a>
+            </rr-o>
+            <pre>/* DOC: at first I used (SPACECHAR SHARP* SPACECHAR)? but this way the inline+?
+ * consume all input until NEWLINE. With the current code it works.
+ * The compilation of the parser shows a warning.
+ */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="atxHeading">atxHeading</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>ATX_START</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>SPACE</rr-t>
+                        <rr-t>TAB</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#inline">inline</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a data-min="0" data-max="inf">
+                           <rr-o>
+                              <rr-t>SPACE</rr-t>
+                              <rr-t>TAB</rr-t>
+                           </rr-o>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>SHARP</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>SPACE</rr-t>
+                        <rr-t>TAB</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>NEWLINE</rr-t>
+                        <rr-t>LINE_BREAK</rr-t>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="rawLine">rawLine</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o></rr-o>
+                  </rr-a>
+                  <rr-t>NEWLINE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="nonIndentSpace">nonIndentSpace</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SPACE</rr-t>
+                  <rr-t>SPACE</rr-t>
+                  <rr-t>SPACE</rr-t>
+               </rr-a>
+            </rr-o>
+            <pre>/* The dingus webapp consider also " &gt; " and varying number of spaces. TODO.
+ * This could be also resolved with a specific mode into the lexer.
+ * I did not understand the BlockQuoteRaw rule of the PEG grammar.
+ */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="blockQuote">blockQuote</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="1" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#blockQuoteBlankLine">blockQuoteBlankLine</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-t>SPACE</rr-t>
+                                 <rr-t>TAB</rr-t>
+                              </rr-o>
+                           </rr-a>
+                           <rr-t>CLOSE_ANGLE_BRACKET</rr-t>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-t>SPACE</rr-t>
+                                 <rr-t>TAB</rr-t>
+                              </rr-o>
+                           </rr-a><a href="#rawLine">rawLine</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="blockQuoteBlankLine">blockQuoteBlankLine</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>BLANK_LINE</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="verbatim">verbatim</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="1" data-max="inf">
+                  <rr-o>
+                     <rr-a><a href="#verbatimBlankLine">verbatimBlankLine</a><a href="#rawLine">rawLine</a></rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="verbatimBlankLine">verbatimBlankLine</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>BLANK_LINE</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="horizontalRule">horizontalRule</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#nonIndentSpace">nonIndentSpace</a><rr-a>
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>EMPH</rr-t>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-t>SPACE</rr-t>
+                                 <rr-t>TAB</rr-t>
+                              </rr-o>
+                           </rr-a>
+                           <rr-t>EMPH</rr-t>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-t>SPACE</rr-t>
+                                 <rr-t>TAB</rr-t>
+                              </rr-o>
+                           </rr-a>
+                           <rr-t>EMPH</rr-t>
+                           <rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-a data-min="0" data-max="1">
+                                       <rr-o>
+                                          <rr-t>SPACE</rr-t>
+                                          <rr-t>TAB</rr-t>
+                                       </rr-o>
+                                    </rr-a>
+                                    <rr-t>EMPH</rr-t>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>MINUS</rr-t>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-t>SPACE</rr-t>
+                                 <rr-t>TAB</rr-t>
+                              </rr-o>
+                           </rr-a>
+                           <rr-t>MINUS</rr-t>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-t>SPACE</rr-t>
+                                 <rr-t>TAB</rr-t>
+                              </rr-o>
+                           </rr-a>
+                           <rr-t>MINUS</rr-t>
+                           <rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-a data-min="0" data-max="1">
+                                       <rr-o>
+                                          <rr-t>SPACE</rr-t>
+                                          <rr-t>TAB</rr-t>
+                                       </rr-o>
+                                    </rr-a>
+                                    <rr-t>MINUS</rr-t>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>UNDERSCORE</rr-t>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-t>SPACE</rr-t>
+                                 <rr-t>TAB</rr-t>
+                              </rr-o>
+                           </rr-a>
+                           <rr-t>UNDERSCORE</rr-t>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-t>SPACE</rr-t>
+                                 <rr-t>TAB</rr-t>
+                              </rr-o>
+                           </rr-a>
+                           <rr-t>UNDERSCORE</rr-t>
+                           <rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-a data-min="0" data-max="1">
+                                       <rr-o>
+                                          <rr-t>SPACE</rr-t>
+                                          <rr-t>TAB</rr-t>
+                                       </rr-o>
+                                    </rr-a>
+                                    <rr-t>UNDERSCORE</rr-t>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>NEWLINE</rr-t>
+               </rr-a>
+               <rr-t>SETEXT_BOTTOM_2</rr-t>
+            </rr-o>
+            <pre>/* ******* References.   ******* */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="references">references</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="1" data-max="inf">
+                  <rr-o><a href="#reference">reference</a></rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="reference">reference</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#nonIndentSpace">nonIndentSpace</a><a href="#referenceLabel">referenceLabel</a><rr-t>COLON</rr-t>
+                  <rr-a data-min="1" data-max="inf">
+                     <rr-o>
+                        <rr-t>SPACE</rr-t>
+                        <rr-t>TAB</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#referenceUrl">referenceUrl</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a>
+                              <rr-o>
+                                 <rr-a data-min="1" data-max="inf">
+                                    <rr-o>
+                                       <rr-t>SPACE</rr-t>
+                                       <rr-t>TAB</rr-t>
+                                    </rr-o>
+                                 </rr-a>
+                                 <rr-a>
+                                    <rr-a data-min="0" data-max="inf">
+                                       <rr-o>
+                                          <rr-t>SPACE</rr-t>
+                                          <rr-t>TAB</rr-t>
+                                       </rr-o>
+                                    </rr-a>
+                                    <rr-t>NEWLINE</rr-t>
+                                    <rr-a data-min="0" data-max="inf">
+                                       <rr-o>
+                                          <rr-t>SPACE</rr-t>
+                                          <rr-t>TAB</rr-t>
+                                       </rr-o>
+                                    </rr-a>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a><a href="#referenceTitle">referenceTitle</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-t>SPACE</rr-t>
+                        <rr-t>TAB</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>NEWLINE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="referenceLabel">referenceLabel</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_SB</rr-t><a href="#referenceId">referenceId</a><rr-t>CLOSE_SB</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="referenceId">referenceId</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="1" data-max="inf">
+                  <rr-o></rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="referenceUrl">referenceUrl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_ANGLE_BRACKET</rr-t>
+                  <rr-t>CLOSE_ANGLE_BRACKET</rr-t>
+               </rr-a>
+               <rr-a data-min="1" data-max="inf">
+                  <rr-o></rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="referenceTitle">referenceTitle</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#referenceTitleSingle">referenceTitleSingle</a><a href="#referenceTitleDouble">referenceTitleDouble</a><a href="#referenceTitleParens">referenceTitleParens</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="referenceTitleSingle">referenceTitleSingle</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SINGLE_QUOTE</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o></rr-o>
+                  </rr-a>
+                  <rr-t>SINGLE_QUOTE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="referenceTitleDouble">referenceTitleDouble</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>DOUBLE_QUOTE</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o></rr-o>
+                  </rr-a>
+                  <rr-t>DOUBLE_QUOTE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="referenceTitleParens">referenceTitleParens</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_PAREN</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o></rr-o>
+                  </rr-a>
+                  <rr-t>CLOSE_PAREN</rr-t>
+               </rr-a>
+            </rr-o>
+            <pre>/* ******* Lists.   ******* */</pre>
+            <pre>/* Ordered or bullet lists are very similar, they differ only with respect to the first item that
+ * when is an ordered one render the whole list ordered. Same happens when the first item is bullet.
+ * Due to the tree hierarchy we use rules with a level parameter, levels start from 0.
+ */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="orderedList">orderedList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="1" data-max="inf">
+                  <rr-o>
+                     <rr-a><a href="#orderedListItem[_level]">orderedListItem[_level]</a></rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="bulletList">bulletList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="1" data-max="inf">
+                  <rr-o>
+                     <rr-a><a href="#bulletListItem[_level]">bulletListItem[_level]</a></rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="orderedListItem">orderedListItem</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>BLANK_LINE</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-t>SPACE</rr-t>
+                        <rr-t>TAB</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>DIGIT</rr-t>
+                  <rr-t>PERIOD</rr-t>
+                  <rr-a data-min="1" data-max="inf">
+                     <rr-o>
+                        <rr-t>SPACE</rr-t>
+                        <rr-t>TAB</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#inlineListItem[_level]n_________// After the begin we can have a sublist without blank lines or a blank line with list, para or verbatim.">inlineListItem[_level]</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a>
+                              <rr-o><a href="#orderedList[_level+1]">orderedList[_level+1]</a><a href="#bulletList[_level+1]">bulletList[_level+1]</a></rr-o>
+                           </rr-a>
+                        </rr-a>
+                        <rr-a data-min="1" data-max="inf">
+                           <rr-o>
+                              <rr-a><a href="#listItemBlankLine">listItemBlankLine</a><rr-a>
+                                    <rr-o>
+                                       <rr-a><a href="#verbatim[_level+1]">verbatim[_level+1]</a></rr-a>
+                                       <rr-a>
+                                          <rr-a>
+                                             <rr-o><a href="#orderedList[_level+1]">orderedList[_level+1]</a><a href="#bulletList[_level+1]">bulletList[_level+1]</a></rr-o>
+                                          </rr-a>
+                                       </rr-a>
+                                       <rr-a><a href="#blockQuote[_level+1]">blockQuote[_level+1]</a></rr-a>
+                                       <rr-a>
+                                          <rr-a data-min="0" data-max="inf">
+                                             <rr-o>
+                                                <rr-t>SPACE</rr-t>
+                                                <rr-t>TAB</rr-t>
+                                             </rr-o>
+                                          </rr-a><a href="#inlineListItem[_level]">inlineListItem[_level]</a></rr-a>
+                                    </rr-o>
+                                 </rr-a>
+                              </rr-a>
+                           </rr-o>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="bulletListItem">bulletListItem</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>BLANK_LINE</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-t>SPACE</rr-t>
+                        <rr-t>TAB</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>PLUS</rr-t>
+                        <rr-t>MINUS</rr-t>
+                        <rr-t>EMPH</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="1" data-max="inf">
+                     <rr-o>
+                        <rr-t>SPACE</rr-t>
+                        <rr-t>TAB</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#inlineListItem[_level]n_________// After the begin we can have a sublist without blank lines or a blank line with list, para or verbatim.">inlineListItem[_level]</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a>
+                              <rr-o><a href="#orderedList[_level+1]">orderedList[_level+1]</a><a href="#bulletList[_level+1]">bulletList[_level+1]</a></rr-o>
+                           </rr-a>
+                        </rr-a>
+                        <rr-a data-min="1" data-max="inf">
+                           <rr-o>
+                              <rr-a><a href="#listItemBlankLine">listItemBlankLine</a><rr-a>
+                                    <rr-o>
+                                       <rr-a><a href="#verbatim[_level+1]">verbatim[_level+1]</a></rr-a>
+                                       <rr-a>
+                                          <rr-a>
+                                             <rr-o><a href="#orderedList[_level+1]">orderedList[_level+1]</a><a href="#bulletList[_level+1]">bulletList[_level+1]</a></rr-o>
+                                          </rr-a>
+                                       </rr-a>
+                                       <rr-a><a href="#blockQuote[_level+1]">blockQuote[_level+1]</a></rr-a>
+                                       <rr-a>
+                                          <rr-a data-min="0" data-max="inf">
+                                             <rr-o>
+                                                <rr-t>SPACE</rr-t>
+                                                <rr-t>TAB</rr-t>
+                                             </rr-o>
+                                          </rr-a><a href="#inlineListItem[_level]">inlineListItem[_level]</a></rr-a>
+                                    </rr-o>
+                                 </rr-a>
+                              </rr-a>
+                           </rr-o>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="inlineListItem">inlineListItem</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="1" data-max="inf">
+                  <rr-o>
+                     <rr-a><a href="#inline">inline</a></rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="listItemBlankLine">listItemBlankLine</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>BLANK_LINE</rr-t>
+            </rr-o>
+            <pre>/*
+ * A paragraph is one or more span elements (strings, links, strong, ecc) separated by one or more blank lines.
+ * http://daringfireball.net/projects/markdown/syntax#p
+ *
+ * Due to the implemented strategy a paragraph is a set of spans floating into areas of single chars.
+ * That means that strings are not present because they don't have ending token.
+ * The last NEWLINE is to do not match last new line as the paragraph content.
+ * The EOF is to match last paragraph not terminating with NEWLINE 
+ */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="para">para</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#nonIndentSpace">nonIndentSpace</a><a href="#inline">inline</a><rr-t>NEWLINE</rr-t>
+               </rr-a>
+            </rr-o>
+            <pre>/* ******* In line content.   ******* */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="inline">inline</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#span___// Max priority, single char matching should be choosed only when span fails.">span</a><rr-t>HEX_CHAR</rr-t>
+               <rr-t>NORMAL_CHAR</rr-t>
+               <rr-t>DIGIT</rr-t>
+               <rr-t>NEWLINE</rr-t>
+               <rr-t>LINE_BREAK</rr-t>
+               <rr-t>SPACE</rr-t>
+               <rr-t>TAB</rr-t>
+               <rr-t>SPECIAL_CHAR</rr-t>
+               <rr-t>EMPH</rr-t>
+               <rr-t>UNDERSCORE</rr-t>
+               <rr-t>COLON</rr-t>
+               <rr-t>SEMI_COLON</rr-t>
+               <rr-t>SLASH</rr-t>
+               <rr-t>PERIOD</rr-t>
+               <rr-t>OPEN_ANGLE_BRACKET</rr-t>
+               <rr-t>CLOSE_ANGLE_BRACKET</rr-t>
+               <rr-t>OPEN_PAREN</rr-t>
+               <rr-t>CLOSE_PAREN</rr-t>
+               <rr-t>EXCLAMATION_MARK</rr-t>
+               <rr-t>SHARP</rr-t>
+               <rr-t>OPEN_SB</rr-t>
+               <rr-t>CLOSE_SB</rr-t>
+               <rr-t>AMPERSAND</rr-t>
+               <rr-t>BACKSLASH</rr-t>
+               <rr-t>SINGLE_QUOTE</rr-t>
+               <rr-t>DOUBLE_QUOTE</rr-t>
+               <rr-t>BACKTICK</rr-t>
+               <rr-t>PLUS</rr-t>
+               <rr-t>MINUS</rr-t>
+               <rr-t>OPEN_CURLY</rr-t>
+               <rr-t>CLOSE_CURLY</rr-t>
+               <rr-t>D</rr-t>
+               <rr-t>I</rr-t>
+               <rr-t>V</rr-t>
+               <rr-t>S</rr-t>
+               <rr-t>P</rr-t>
+               <rr-t>A</rr-t>
+               <rr-t>N</rr-t>
+               <rr-t>H</rr-t>
+               <rr-t>R</rr-t>
+               <rr-t>AT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="span">span</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#strong">strong</a><a href="#emph">emph</a><a href="#image">image</a><a href="#link">link</a><a href="#code">code</a><a href="#htmlBlockInTags">htmlBlockInTags</a><a href="#htmlBlockInSelfClosing">htmlBlockInSelfClosing</a><a href="#autolink">autolink</a><a href="#entity">entity</a><a href="#escapedChar">escapedChar</a></rr-o>
+            <pre>/* Here I use an (inline)+? non greedy otherwise when emph is used together with bullet list and emph match
+ * also a subsequent bullet item.
+ */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="emph">emph</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#emphStar">emphStar</a><a href="#emphUl">emphUl</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="emphStar">emphStar</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>EMPH</rr-t><a href="#inline">inline</a><rr-t>EMPH</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="emphUl">emphUl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>UNDERSCORE</rr-t>
+                  <rr-a data-min="1" data-max="inf">
+                     <rr-o><a href="#inline">inline</a></rr-o>
+                  </rr-a>
+                  <rr-t>UNDERSCORE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="strong">strong</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#strongStar">strongStar</a><a href="#strongUl">strongUl</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="strongStar">strongStar</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>EMPH</rr-t>
+                  <rr-t>EMPH</rr-t><a href="#inline">inline</a><rr-t>EMPH</rr-t>
+                  <rr-t>EMPH</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="strongUl">strongUl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>UNDERSCORE</rr-t>
+                  <rr-t>UNDERSCORE</rr-t>
+                  <rr-a data-min="1" data-max="inf">
+                     <rr-o><a href="#inline">inline</a></rr-o>
+                  </rr-a>
+                  <rr-t>UNDERSCORE</rr-t>
+                  <rr-t>UNDERSCORE</rr-t>
+               </rr-a>
+            </rr-o>
+            <pre>/* ******* Image and link.   ******* */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="image">image</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>EXCLAMATION_MARK</rr-t><a href="#imageLink">imageLink</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="imageLink">imageLink</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#imageAlt">imageAlt</a><rr-a>
+                     <rr-o><a href="#explicitImageLink">explicitImageLink</a><a href="#referenceImageLink">referenceImageLink</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="explicitImageLink">explicitImageLink</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_PAREN</rr-t><a href="#linkUrl">linkUrl</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a data-min="1" data-max="inf">
+                              <rr-o>
+                                 <rr-t>SPACE</rr-t>
+                                 <rr-t>TAB</rr-t>
+                              </rr-o>
+                           </rr-a><a href="#linkTitle">linkTitle</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CLOSE_PAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="imageAlt">imageAlt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_SB</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o></rr-o>
+                  </rr-a>
+                  <rr-t>CLOSE_SB</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="referenceImageLink">referenceImageLink</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_SB</rr-t><a href="#referenceId">referenceId</a><rr-t>CLOSE_SB</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="link">link</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#linkContent">linkContent</a><rr-a data-min="0" data-max="1">
+                     <rr-o><a href="#explicitLink">explicitLink</a><a href="#referenceLink">referenceLink</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="linkContent">linkContent</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_SB</rr-t><a href="#inline">inline</a><rr-t>CLOSE_SB</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="explicitLink">explicitLink</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_PAREN</rr-t><a href="#linkUrl">linkUrl</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a data-min="1" data-max="inf">
+                              <rr-o>
+                                 <rr-t>SPACE</rr-t>
+                                 <rr-t>TAB</rr-t>
+                              </rr-o>
+                           </rr-a><a href="#linkTitle">linkTitle</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-t>SPACE</rr-t>
+                        <rr-t>TAB</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CLOSE_PAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="linkUrl">linkUrl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="1" data-max="inf">
+                  <rr-o></rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="linkTitle">linkTitle</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#linkTitleSingle">linkTitleSingle</a><a href="#linkTitleDouble">linkTitleDouble</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="linkTitleSingle">linkTitleSingle</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SINGLE_QUOTE</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o></rr-o>
+                  </rr-a>
+                  <rr-t>SINGLE_QUOTE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="linkTitleDouble">linkTitleDouble</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>DOUBLE_QUOTE</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o></rr-o>
+                  </rr-a>
+                  <rr-t>DOUBLE_QUOTE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="referenceLink">referenceLink</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>SPACE</rr-t>
+                        <rr-t>TAB</rr-t>
+                        <rr-t>NEWLINE</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>OPEN_SB</rr-t><a href="#referenceId">referenceId</a><rr-t>CLOSE_SB</rr-t>
+               </rr-a>
+            </rr-o>
+            <pre>/* ******* Entity.   ******* */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="entity">entity</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>AMPERSAND</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SHARP</rr-t><a href="#hexEntityName">hexEntityName</a></rr-a>
+                        <rr-a>
+                           <rr-t>SHARP</rr-t><a href="#decEntityName">decEntityName</a></rr-a><a href="#charEntityName">charEntityName</a></rr-o>
+                  </rr-a>
+                  <rr-t>SEMI_COLON</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="hexEntityName">hexEntityName</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="1" data-max="inf">
+                  <rr-o>
+                     <rr-t>HEX_CHAR</rr-t>
+                     <rr-t>D</rr-t>
+                     <rr-t>A</rr-t>
+                     <rr-t>DIGIT</rr-t>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="decEntityName">decEntityName</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>DIGIT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="charEntityName">charEntityName</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="1" data-max="inf">
+                  <rr-o>
+                     <rr-t>HEX_CHAR</rr-t>
+                     <rr-t>NORMAL_CHAR</rr-t>
+                     <rr-t>D</rr-t>
+                     <rr-t>I</rr-t>
+                     <rr-t>V</rr-t>
+                     <rr-t>S</rr-t>
+                     <rr-t>P</rr-t>
+                     <rr-t>A</rr-t>
+                     <rr-t>N</rr-t>
+                     <rr-t>H</rr-t>
+                     <rr-t>R</rr-t>
+                     <rr-t>DIGIT</rr-t>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+            <pre>/* ******* Escaped char.   ******* */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="escapedChar">escapedChar</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>BACKSLASH</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>MINUS</rr-t>
+                        <rr-t>BACKSLASH</rr-t>
+                        <rr-t>PERIOD</rr-t>
+                        <rr-t>BACKTICK</rr-t>
+                        <rr-t>EMPH</rr-t>
+                        <rr-t>UNDERSCORE</rr-t>
+                        <rr-t>EXCLAMATION_MARK</rr-t>
+                        <rr-t>PLUS</rr-t>
+                        <rr-t>OPEN_PAREN</rr-t>
+                        <rr-t>CLOSE_PAREN</rr-t>
+                        <rr-t>SHARP</rr-t>
+                        <rr-t>OPEN_PAREN</rr-t>
+                        <rr-t>CLOSE_PAREN</rr-t>
+                        <rr-t>OPEN_CURLY</rr-t>
+                        <rr-t>CLOSE_CURLY</rr-t>
+                        <rr-t>OPEN_SB</rr-t>
+                        <rr-t>CLOSE_SB</rr-t>
+                        <rr-t>OPEN_ANGLE_BRACKET</rr-t>
+                        <rr-t>CLOSE_ANGLE_BRACKET</rr-t>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+            <pre>/* ******* Code.   ******* */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="code">code</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#spaceBacktickCode">spaceBacktickCode</a><a href="#doubleBacktickCode">doubleBacktickCode</a><a href="#backtickCode">backtickCode</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="backtickCode">backtickCode</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>BACKTICK</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>BACKTICK</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="doubleBacktickCode">doubleBacktickCode</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>BACKTICK</rr-t>
+                  <rr-t>BACKTICK</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>BACKTICK</rr-t>
+                  <rr-t>BACKTICK</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="spaceBacktickCode">spaceBacktickCode</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>BACKTICK</rr-t>
+                  <rr-t>BACKTICK</rr-t>
+                  <rr-t>SPACE</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>SPACE</rr-t>
+                  <rr-t>BACKTICK</rr-t>
+                  <rr-t>BACKTICK</rr-t>
+               </rr-a>
+            </rr-o>
+            <pre>/* ******* HTML.   ******* */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="attributeName">attributeName</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="1" data-max="inf">
+                  <rr-o>
+                     <rr-t>NORMAL_CHAR</rr-t>
+                     <rr-t>HEX_CHAR</rr-t>
+                     <rr-t>D</rr-t>
+                     <rr-t>I</rr-t>
+                     <rr-t>V</rr-t>
+                     <rr-t>S</rr-t>
+                     <rr-t>P</rr-t>
+                     <rr-t>A</rr-t>
+                     <rr-t>N</rr-t>
+                     <rr-t>H</rr-t>
+                     <rr-t>R</rr-t>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="htmlAttributeS">htmlAttributeS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#attributeName">attributeName</a><rr-t>EQUAL</rr-t>
+                  <rr-t>SINGLE_QUOTE</rr-t>
+                  <rr-t>SINGLE_QUOTE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="htmlAttributeD">htmlAttributeD</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#attributeName">attributeName</a><rr-t>EQUAL</rr-t>
+                  <rr-t>DOUBLE_QUOTE</rr-t>
+                  <rr-t>DOUBLE_QUOTE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="htmlBlockOpenDiv">htmlBlockOpenDiv</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_ANGLE_BRACKET</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>V</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a data-min="1" data-max="inf">
+                              <rr-o>
+                                 <rr-t>SPACE</rr-t>
+                                 <rr-t>TAB</rr-t>
+                              </rr-o>
+                           </rr-a>
+                           <rr-a>
+                              <rr-o><a href="#htmlAttributeS">htmlAttributeS</a><a href="#htmlAttributeD">htmlAttributeD</a></rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-t>SPACE</rr-t>
+                        <rr-t>TAB</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CLOSE_ANGLE_BRACKET</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="htmlBlockCloseDiv">htmlBlockCloseDiv</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_ANGLE_BRACKET</rr-t>
+                  <rr-t>SLASH</rr-t>
+                  <rr-t>D</rr-t>
+                  <rr-t>I</rr-t>
+                  <rr-t>V</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-t>SPACE</rr-t>
+                        <rr-t>TAB</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CLOSE_ANGLE_BRACKET</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="htmlBlockDiv">htmlBlockDiv</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#htmlBlockOpenDiv">htmlBlockOpenDiv</a><rr-a>
+                     <rr-o><a href="#htmlBlockDiv">htmlBlockDiv</a></rr-o>
+                  </rr-a><a href="#htmlBlockCloseDiv">htmlBlockCloseDiv</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="htmlBlockOpenSpan">htmlBlockOpenSpan</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_ANGLE_BRACKET</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a data-min="1" data-max="inf">
+                              <rr-o>
+                                 <rr-t>SPACE</rr-t>
+                                 <rr-t>TAB</rr-t>
+                              </rr-o>
+                           </rr-a>
+                           <rr-a>
+                              <rr-o><a href="#htmlAttributeS">htmlAttributeS</a><a href="#htmlAttributeD">htmlAttributeD</a></rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-t>SPACE</rr-t>
+                        <rr-t>TAB</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CLOSE_ANGLE_BRACKET</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="htmlBlockCloseSpan">htmlBlockCloseSpan</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_ANGLE_BRACKET</rr-t>
+                  <rr-t>SLASH</rr-t>
+                  <rr-t>S</rr-t>
+                  <rr-t>P</rr-t>
+                  <rr-t>A</rr-t>
+                  <rr-t>N</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-t>SPACE</rr-t>
+                        <rr-t>TAB</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CLOSE_ANGLE_BRACKET</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="htmlBlockSpan">htmlBlockSpan</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#htmlBlockOpenSpan">htmlBlockOpenSpan</a><rr-a>
+                     <rr-o><a href="#htmlBlockSpan">htmlBlockSpan</a></rr-o>
+                  </rr-a><a href="#htmlBlockCloseSpan">htmlBlockCloseSpan</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="htmlBlockHr">htmlBlockHr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_ANGLE_BRACKET</rr-t>
+                  <rr-t>H</rr-t>
+                  <rr-t>R</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a data-min="1" data-max="inf">
+                              <rr-o>
+                                 <rr-t>SPACE</rr-t>
+                                 <rr-t>TAB</rr-t>
+                              </rr-o>
+                           </rr-a>
+                           <rr-a>
+                              <rr-o><a href="#htmlAttributeS">htmlAttributeS</a><a href="#htmlAttributeD">htmlAttributeD</a></rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-t>SPACE</rr-t>
+                        <rr-t>TAB</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>SLASH</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-t>SPACE</rr-t>
+                        <rr-t>TAB</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CLOSE_ANGLE_BRACKET</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="htmlBlockInTags">htmlBlockInTags</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#htmlBlockDiv">htmlBlockDiv</a><a href="#htmlBlockSpan">htmlBlockSpan</a><a href="#htmlBlockHr">htmlBlockHr</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="htmlBlockInSelfClosing">htmlBlockInSelfClosing</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_ANGLE_BRACKET</rr-t><a href="#attributeName">attributeName</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a data-min="1" data-max="inf">
+                              <rr-o>
+                                 <rr-t>SPACE</rr-t>
+                                 <rr-t>TAB</rr-t>
+                              </rr-o>
+                           </rr-a>
+                           <rr-a>
+                              <rr-o><a href="#htmlAttributeS">htmlAttributeS</a><a href="#htmlAttributeD">htmlAttributeD</a></rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-t>SPACE</rr-t>
+                        <rr-t>TAB</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>SLASH</rr-t>
+                  <rr-t>CLOSE_ANGLE_BRACKET</rr-t>
+               </rr-a>
+            </rr-o>
+            <pre>/* ******* HTML comment.   ******* */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="htmlComment">htmlComment</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>HTML_COMMENT_OPEN</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>MINUS</rr-t>
+                  <rr-t>CLOSE_ANGLE_BRACKET</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-t>SPACE</rr-t>
+                        <rr-t>TAB</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>NEWLINE</rr-t>
+                        <rr-t>LINE_BREAK</rr-t>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+            <pre>/* ******* Autolinks.   ******* */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="autolink">autolink</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_ANGLE_BRACKET</rr-t>
+                  <rr-a data-min="1" data-max="inf">
+                     <rr-o></rr-o>
+                  </rr-a>
+                  <rr-t>CLOSE_ANGLE_BRACKET</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

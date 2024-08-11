@@ -1,0 +1,2560 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../../index.html">Railroad</a> g4/dart2/Dart2Parser</h1>
+      <pre>/* Generated Mon, Jun 13, 2022 8:11:58 AM EST
+ *
+ * Copyright (c) 2022, 2023 Ken Domino
+ * Copyright (c) 2017, the Dart project authors.  Please see the AUTHORS file
+ * for details. All rights reserved. Use of this source code is governed by a
+ * BSD-style license that can be found in the LICENSE file.
+ *
+ * This grammar is generated from the CFG contained in:
+ * https://github.com/dart-lang/language/blob/70eb85cf9a6606a9da0de824a5d55fd06de1287f/specification/dartLangSpec.tex
+ *
+ * The bash script used to scrape and the refactor the gramamr is here:
+ * https://github.com/kaby76/ScrapeDartSpec/blob/master/refactor.sh
+ *
+ * Note: the CFG in the Specification is in development, and is for approximately
+ * Dart version 2.15. The Specification is not up-to-date vis-a-vis the actual
+ * compiler code, located here:
+ * https://github.com/dart-lang/sdk/tree/main/pkg/_fe_analyzer_shared/lib/src/parser
+ * Some of the refactorings that are applied are to bring the code into a working
+ * Antlr4 parser. Other refactorings replace some of the rules in the Spec because
+ * the Spec is incorrect, or incomplete.
+ *
+ * This grammar has been checked against a large subset (~370 Dart files) of the Dart SDK:
+ * https://github.com/dart-lang/sdk/tree/main/sdk/lib
+ * A copy of the SDK is provided in the examples for regression testing.
+ */</pre>
+      <h1>Grammar Decl</h1>
+      <pre>parser grammar Dart2Parser;</pre>
+      <h1>Rules</h1>
+      <h2 id="additiveExpression">additiveExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#multiplicativeExpression">multiplicativeExpression</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#additiveOperator">additiveOperator</a><a href="#multiplicativeExpression">multiplicativeExpression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>SUPER_</rr-t>
+                  <rr-a data-min="1" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#additiveOperator">additiveOperator</a><a href="#multiplicativeExpression">multiplicativeExpression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="additiveOperator">additiveOperator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>PL</rr-t>
+               <rr-t>MINUS</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="argumentList">argumentList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#namedArgument">namedArgument</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>C</rr-t><a href="#namedArgument">namedArgument</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a><a href="#expressionList">expressionList</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>C</rr-t><a href="#namedArgument">namedArgument</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="argumentPart">argumentPart</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#typeArguments">typeArguments</a><a href="#arguments">arguments</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="arguments">arguments</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OP</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#argumentList">argumentList</a><rr-t>C</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CP</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="asOperator">asOperator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>AS_</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="assertion">assertion</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>ASSERT_</rr-t>
+                  <rr-t>OP</rr-t><a href="#expr">expr</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>C</rr-t><a href="#expr">expr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>CP</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="assertStatement">assertStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#assertion">assertion</a><rr-t>SC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="assignableExpression">assignableExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#primary">primary</a><a href="#assignableSelectorPart">assignableSelectorPart</a></rr-a>
+               <rr-a>
+                  <rr-t>SUPER_</rr-t><a href="#unconditionalAssignableSelector">unconditionalAssignableSelector</a></rr-a><a href="#identifier">identifier</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="assignableSelector">assignableSelector</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#unconditionalAssignableSelector">unconditionalAssignableSelector</a><rr-a>
+                  <rr-t>QUD</rr-t><a href="#identifier">identifier</a></rr-a>
+               <rr-a>
+                  <rr-t>QU</rr-t>
+                  <rr-t>OB</rr-t><a href="#expr">expr</a><rr-t>CB</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="assignableSelectorPart">assignableSelectorPart</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#selector">selector</a><a href="#assignableSelector">assignableSelector</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="assignmentOperator">assignmentOperator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>EQ</rr-t><a href="#compoundAssignmentOperator">compoundAssignmentOperator</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="awaitExpression">awaitExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>AWAIT_</rr-t><a href="#unaryExpression">unaryExpression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="binaryOperator">binaryOperator</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#multiplicativeOperator">multiplicativeOperator</a><a href="#additiveOperator">additiveOperator</a><a href="#shiftOperator">shiftOperator</a><a href="#relationalOperator">relationalOperator</a><rr-t>EE</rr-t><a href="#bitwiseOperator">bitwiseOperator</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="bitwiseAndExpression">bitwiseAndExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#shiftExpression">shiftExpression</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>A</rr-t><a href="#shiftExpression">shiftExpression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>SUPER_</rr-t>
+                  <rr-a data-min="1" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>A</rr-t><a href="#shiftExpression">shiftExpression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="bitwiseOperator">bitwiseOperator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>A</rr-t>
+               <rr-t>CIR</rr-t>
+               <rr-t>P</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="bitwiseOrExpression">bitwiseOrExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#bitwiseXorExpression">bitwiseXorExpression</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>P</rr-t><a href="#bitwiseXorExpression">bitwiseXorExpression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>SUPER_</rr-t>
+                  <rr-a data-min="1" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>P</rr-t><a href="#bitwiseXorExpression">bitwiseXorExpression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="bitwiseXorExpression">bitwiseXorExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#bitwiseAndExpression">bitwiseAndExpression</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>CIR</rr-t><a href="#bitwiseAndExpression">bitwiseAndExpression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>SUPER_</rr-t>
+                  <rr-a data-min="1" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>CIR</rr-t><a href="#bitwiseAndExpression">bitwiseAndExpression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="block">block</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OBC</rr-t><a href="#statements">statements</a><rr-t>CBC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="booleanLiteral">booleanLiteral</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>TRUE_</rr-t>
+               <rr-t>FALSE_</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="breakStatement">breakStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>BREAK_</rr-t><a href="#identifier">identifier</a><rr-t>SC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="cascade">cascade</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#cascade">cascade</a><rr-t>DD</rr-t><a href="#cascadeSection">cascadeSection</a></rr-a>
+               <rr-a><a href="#conditionalExpression">conditionalExpression</a><rr-a>
+                     <rr-o>
+                        <rr-t>QUDD</rr-t>
+                        <rr-t>DD</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#cascadeSection">cascadeSection</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="cascadeAssignment">cascadeAssignment</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#assignmentOperator">assignmentOperator</a><a href="#expressionWithoutCascade">expressionWithoutCascade</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="cascadeSection">cascadeSection</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#cascadeSelector">cascadeSelector</a><a href="#cascadeSectionTail">cascadeSectionTail</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="cascadeSectionTail">cascadeSectionTail</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#cascadeAssignment">cascadeAssignment</a><rr-a><a href="#selector">selector</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#assignableSelector">assignableSelector</a><a href="#cascadeAssignment">cascadeAssignment</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="cascadeSelector">cascadeSelector</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OB</rr-t><a href="#expr">expr</a><rr-t>CB</rr-t>
+               </rr-a><a href="#identifier">identifier</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="catchPart">catchPart</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>CATCH_</rr-t>
+                  <rr-t>OP</rr-t><a href="#identifier">identifier</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>C</rr-t><a href="#identifier">identifier</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CP</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="classDeclaration">classDeclaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>ABSTRACT_</rr-t>
+                  <rr-t>CLASS_</rr-t><a href="#typeIdentifier">typeIdentifier</a><a href="#typeParameters">typeParameters</a><a href="#superclass">superclass</a><a href="#interfaces">interfaces</a><rr-t>OBC</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#metadata">metadata</a><a href="#classMemberDeclaration">classMemberDeclaration</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CBC</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>ABSTRACT_</rr-t>
+                  <rr-t>CLASS_</rr-t><a href="#mixinApplicationClass">mixinApplicationClass</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="classMemberDeclaration">classMemberDeclaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#declaration">declaration</a><rr-t>SC</rr-t>
+               </rr-a>
+               <rr-a><a href="#methodSignature">methodSignature</a><a href="#functionBody">functionBody</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="combinator">combinator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SHOW_</rr-t><a href="#identifierList">identifierList</a></rr-a>
+               <rr-a>
+                  <rr-t>HIDE_</rr-t><a href="#identifierList">identifierList</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="compilationUnit">compilationUnit</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o><a href="#libraryDeclaration">libraryDeclaration</a><a href="#partDeclaration">partDeclaration</a><a href="#expr">expr</a><a href="#statement">statement</a></rr-o>
+                  </rr-a>
+                  <rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="compoundAssignmentOperator">compoundAssignmentOperator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>STE</rr-t>
+               <rr-t>SE</rr-t>
+               <rr-t>SQSE</rr-t>
+               <rr-t>PE</rr-t>
+               <rr-t>PLE</rr-t>
+               <rr-t>ME</rr-t>
+               <rr-t>LTLTE</rr-t>
+               <rr-a>
+                  <rr-t>GT</rr-t>
+                  <rr-t>GT</rr-t>
+                  <rr-t>GT</rr-t>
+                  <rr-t>EQ</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>GT</rr-t>
+                  <rr-t>GT</rr-t>
+                  <rr-t>EQ</rr-t>
+               </rr-a>
+               <rr-t>AE</rr-t>
+               <rr-t>CIRE</rr-t>
+               <rr-t>POE</rr-t>
+               <rr-t>QUQUEQ</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="conditionalExpression">conditionalExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#ifNullExpression">ifNullExpression</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>QU</rr-t><a href="#expressionWithoutCascade">expressionWithoutCascade</a><rr-t>CO</rr-t><a href="#expressionWithoutCascade">expressionWithoutCascade</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="configurableUri">configurableUri</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#uri">uri</a><a href="#configurationUri">configurationUri</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="configurationUri">configurationUri</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>IF_</rr-t>
+                  <rr-t>OP</rr-t><a href="#uriTest">uriTest</a><rr-t>CP</rr-t><a href="#uri">uri</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="constantConstructorSignature">constantConstructorSignature</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>CONST_</rr-t><a href="#constructorName">constructorName</a><a href="#formalParameterList">formalParameterList</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="constObjectExpression">constObjectExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>CONST_</rr-t><a href="#constructorDesignation">constructorDesignation</a><a href="#arguments">arguments</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="constructorDesignation">constructorDesignation</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#typeIdentifier">typeIdentifier</a><a href="#qualifiedName">qualifiedName</a><rr-a><a href="#typeName">typeName</a><a href="#typeArguments">typeArguments</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>D</rr-t><a href="#identifier">identifier</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="constructorInvocation">constructorInvocation</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#typeName">typeName</a><a href="#typeArguments">typeArguments</a><rr-t>D</rr-t><a href="#identifier">identifier</a><a href="#arguments">arguments</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="constructorName">constructorName</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#typeIdentifier">typeIdentifier</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>D</rr-t><a href="#identifier">identifier</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="constructorSignature">constructorSignature</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#constructorName">constructorName</a><a href="#formalParameterList">formalParameterList</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="continueStatement">continueStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>CONTINUE_</rr-t><a href="#identifier">identifier</a><rr-t>SC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="declaration">declaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>ABSTRACT_</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>EXTERNAL_</rr-t><a href="#factoryConstructorSignature">factoryConstructorSignature</a></rr-a>
+                        <rr-a>
+                           <rr-t>EXTERNAL_</rr-t><a href="#constantConstructorSignature">constantConstructorSignature</a></rr-a>
+                        <rr-a>
+                           <rr-t>EXTERNAL_</rr-t><a href="#constructorSignature">constructorSignature</a></rr-a>
+                        <rr-a>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>EXTERNAL_</rr-t>
+                                    <rr-t>STATIC_</rr-t>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a><a href="#getterSignature">getterSignature</a></rr-a>
+                        <rr-a>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>EXTERNAL_</rr-t>
+                                    <rr-t>STATIC_</rr-t>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a><a href="#setterSignature">setterSignature</a></rr-a>
+                        <rr-a>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>EXTERNAL_</rr-t>
+                                    <rr-t>STATIC_</rr-t>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a><a href="#functionSignature">functionSignature</a></rr-a>
+                        <rr-a>
+                           <rr-t>EXTERNAL_</rr-t><a href="#operatorSignature">operatorSignature</a></rr-a>
+                        <rr-a>
+                           <rr-t>STATIC_</rr-t>
+                           <rr-t>CONST_</rr-t><a href="#type">type</a><a href="#staticFinalDeclarationList">staticFinalDeclarationList</a></rr-a>
+                        <rr-a>
+                           <rr-t>STATIC_</rr-t>
+                           <rr-t>FINAL_</rr-t><a href="#type">type</a><a href="#staticFinalDeclarationList">staticFinalDeclarationList</a></rr-a>
+                        <rr-a>
+                           <rr-t>STATIC_</rr-t>
+                           <rr-t>LATE_</rr-t>
+                           <rr-t>FINAL_</rr-t><a href="#type">type</a><a href="#initializedIdentifierList">initializedIdentifierList</a></rr-a>
+                        <rr-a>
+                           <rr-t>STATIC_</rr-t>
+                           <rr-t>LATE_</rr-t><a href="#varOrType">varOrType</a><a href="#initializedIdentifierList">initializedIdentifierList</a></rr-a>
+                        <rr-a>
+                           <rr-t>COVARIANT_</rr-t>
+                           <rr-t>LATE_</rr-t>
+                           <rr-t>FINAL_</rr-t><a href="#type">type</a><a href="#identifierList">identifierList</a></rr-a>
+                        <rr-a>
+                           <rr-t>COVARIANT_</rr-t>
+                           <rr-t>LATE_</rr-t><a href="#varOrType">varOrType</a><a href="#initializedIdentifierList">initializedIdentifierList</a></rr-a>
+                        <rr-a>
+                           <rr-t>LATE_</rr-t>
+                           <rr-t>FINAL_</rr-t><a href="#type">type</a><a href="#initializedIdentifierList">initializedIdentifierList</a></rr-a>
+                        <rr-a>
+                           <rr-t>LATE_</rr-t><a href="#varOrType">varOrType</a><a href="#initializedIdentifierList">initializedIdentifierList</a></rr-a><a href="#redirectingFactoryConstructorSignature">redirectingFactoryConstructorSignature</a><rr-a><a href="#constantConstructorSignature">constantConstructorSignature</a><rr-a data-min="0" data-max="1">
+                              <rr-o><a href="#redirection">redirection</a><a href="#initializers">initializers</a></rr-o>
+                           </rr-a>
+                        </rr-a>
+                        <rr-a><a href="#constructorSignature">constructorSignature</a><rr-a data-min="0" data-max="1">
+                              <rr-o><a href="#redirection">redirection</a><a href="#initializers">initializers</a></rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="declaredIdentifier">declaredIdentifier</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>COVARIANT_</rr-t><a href="#finalConstVarOrType">finalConstVarOrType</a><a href="#identifier">identifier</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="defaultCase">defaultCase</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#label">label</a><rr-t>DEFAULT_</rr-t>
+                  <rr-t>CO</rr-t><a href="#statements">statements</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="defaultFormalParameter">defaultFormalParameter</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#normalFormalParameter">normalFormalParameter</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>EQ</rr-t><a href="#expr">expr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="defaultNamedParameter">defaultNamedParameter</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#metadata">metadata</a><rr-t>REQUIRED_</rr-t><a href="#normalFormalParameterNoMetadata">normalFormalParameterNoMetadata</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a>
+                              <rr-o>
+                                 <rr-t>EQ</rr-t>
+                                 <rr-t>CO</rr-t>
+                              </rr-o>
+                           </rr-a><a href="#expr">expr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="doStatement">doStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>DO_</rr-t><a href="#statement">statement</a><rr-t>WHILE_</rr-t>
+                  <rr-t>OP</rr-t><a href="#expr">expr</a><rr-t>CP</rr-t>
+                  <rr-t>SC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="dottedIdentifierList">dottedIdentifierList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#identifier">identifier</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>D</rr-t><a href="#identifier">identifier</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="element">element</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expressionElement">expressionElement</a><a href="#mapElement">mapElement</a><a href="#spreadElement">spreadElement</a><a href="#ifElement">ifElement</a><a href="#forElement">forElement</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="elements">elements</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#element">element</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>C</rr-t><a href="#element">element</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>C</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="enumEntry">enumEntry</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#metadata">metadata</a><a href="#identifier">identifier</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="enumType">enumType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>ENUM_</rr-t><a href="#identifier">identifier</a><rr-t>OBC</rr-t><a href="#enumEntry">enumEntry</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>C</rr-t><a href="#enumEntry">enumEntry</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>CBC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="equalityExpression">equalityExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#relationalExpression">relationalExpression</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#equalityOperator">equalityOperator</a><a href="#relationalExpression">relationalExpression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>SUPER_</rr-t><a href="#equalityOperator">equalityOperator</a><a href="#relationalExpression">relationalExpression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="equalityOperator">equalityOperator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>EE</rr-t>
+               <rr-t>NE</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expr">expr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#assignableExpression">assignableExpression</a><a href="#assignmentOperator">assignmentOperator</a><a href="#expr">expr</a></rr-a><a href="#conditionalExpression">conditionalExpression</a><a href="#cascade">cascade</a><a href="#throwExpression">throwExpression</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expressionElement">expressionElement</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#expr">expr</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expressionList">expressionList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>C</rr-t><a href="#expr">expr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expressionStatement">expressionStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expr">expr</a><rr-t>SC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expressionWithoutCascade">expressionWithoutCascade</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#assignableExpression">assignableExpression</a><a href="#assignmentOperator">assignmentOperator</a><a href="#expressionWithoutCascade">expressionWithoutCascade</a></rr-a><a href="#conditionalExpression">conditionalExpression</a><a href="#throwExpressionWithoutCascade">throwExpressionWithoutCascade</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="extensionDeclaration">extensionDeclaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>EXTENSION_</rr-t><a href="#identifier">identifier</a><a href="#typeParameters">typeParameters</a><rr-t>ON_</rr-t><a href="#type">type</a><rr-t>OBC</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#metadata">metadata</a><a href="#classMemberDeclaration">classMemberDeclaration</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CBC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="factoryConstructorSignature">factoryConstructorSignature</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>CONST_</rr-t>
+                  <rr-t>FACTORY_</rr-t><a href="#constructorName">constructorName</a><a href="#formalParameterList">formalParameterList</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="fieldFormalParameter">fieldFormalParameter</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#finalConstVarOrType">finalConstVarOrType</a><rr-t>THIS_</rr-t>
+                  <rr-t>D</rr-t><a href="#identifier">identifier</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#formalParameterPart">formalParameterPart</a><rr-t>QU</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="fieldInitializer">fieldInitializer</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>THIS_</rr-t>
+                           <rr-t>D</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#identifier">identifier</a><rr-t>EQ</rr-t><a href="#initializerExpression">initializerExpression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="finalConstVarOrType">finalConstVarOrType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LATE_</rr-t>
+                  <rr-t>FINAL_</rr-t><a href="#type">type</a></rr-a>
+               <rr-a>
+                  <rr-t>CONST_</rr-t><a href="#type">type</a></rr-a>
+               <rr-a>
+                  <rr-t>LATE_</rr-t><a href="#varOrType">varOrType</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="finallyPart">finallyPart</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>FINALLY_</rr-t><a href="#block">block</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="forElement">forElement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>AWAIT_</rr-t>
+                  <rr-t>FOR_</rr-t>
+                  <rr-t>OP</rr-t><a href="#forLoopParts">forLoopParts</a><rr-t>CP</rr-t><a href="#element">element</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="forInitializerStatement">forInitializerStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#localVariableDeclaration">localVariableDeclaration</a><rr-a><a href="#expr">expr</a><rr-t>SC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="forLoopParts">forLoopParts</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#forInitializerStatement">forInitializerStatement</a><a href="#expr">expr</a><rr-t>SC</rr-t><a href="#expressionList">expressionList</a></rr-a>
+               <rr-a><a href="#metadata">metadata</a><a href="#declaredIdentifier">declaredIdentifier</a><rr-t>IN_</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#identifier">identifier</a><rr-t>IN_</rr-t><a href="#expr">expr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="formalParameterList">formalParameterList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OP</rr-t>
+                  <rr-t>CP</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>OP</rr-t><a href="#normalFormalParameters">normalFormalParameters</a><rr-t>C</rr-t>
+                  <rr-t>CP</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>OP</rr-t><a href="#normalFormalParameters">normalFormalParameters</a><rr-t>C</rr-t><a href="#optionalOrNamedFormalParameters">optionalOrNamedFormalParameters</a><rr-t>CP</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>OP</rr-t><a href="#optionalOrNamedFormalParameters">optionalOrNamedFormalParameters</a><rr-t>CP</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="formalParameterPart">formalParameterPart</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#typeParameters">typeParameters</a><a href="#formalParameterList">formalParameterList</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="forStatement">forStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>AWAIT_</rr-t>
+                  <rr-t>FOR_</rr-t>
+                  <rr-t>OP</rr-t><a href="#forLoopParts">forLoopParts</a><rr-t>CP</rr-t><a href="#statement">statement</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functionBody">functionBody</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>NATIVE_</rr-t><a href="#stringLiteral">stringLiteral</a><rr-t>SC</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>ASYNC_</rr-t>
+                  <rr-t>EG</rr-t><a href="#expr">expr</a><rr-t>SC</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>ASYNC_</rr-t>
+                           <rr-t>ST</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>SYNC_</rr-t>
+                           <rr-t>ST</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#block">block</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functionExpression">functionExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#formalParameterPart">formalParameterPart</a><a href="#functionExpressionBody">functionExpressionBody</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functionExpressionBody">functionExpressionBody</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>ASYNC_</rr-t>
+                  <rr-t>EG</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>ASYNC_</rr-t>
+                           <rr-t>ST</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>SYNC_</rr-t>
+                           <rr-t>ST</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#block">block</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functionFormalParameter">functionFormalParameter</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>COVARIANT_</rr-t><a href="#type">type</a><a href="#identifier">identifier</a><a href="#formalParameterPart">formalParameterPart</a><rr-t>QU</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functionPrefix">functionPrefix</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#type">type</a><a href="#identifier">identifier</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functionSignature">functionSignature</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#type">type</a><a href="#identifier">identifier</a><a href="#formalParameterPart">formalParameterPart</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functionType">functionType</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#functionTypeTails">functionTypeTails</a><rr-a><a href="#typeNotFunction">typeNotFunction</a><a href="#functionTypeTails">functionTypeTails</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functionTypeAlias">functionTypeAlias</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#functionPrefix">functionPrefix</a><a href="#formalParameterPart">formalParameterPart</a><rr-t>SC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functionTypeTail">functionTypeTail</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>FUNCTION_</rr-t><a href="#typeParameters">typeParameters</a><a href="#parameterTypeList">parameterTypeList</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="functionTypeTails">functionTypeTails</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#functionTypeTail">functionTypeTail</a><rr-t>QU</rr-t><a href="#functionTypeTails">functionTypeTails</a></rr-a><a href="#functionTypeTail">functionTypeTail</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="getterSignature">getterSignature</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#type">type</a><rr-t>GET_</rr-t><a href="#identifier">identifier</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="identifier">identifier</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+               <rr-t>ABSTRACT_</rr-t>
+               <rr-t>AS_</rr-t>
+               <rr-t>COVARIANT_</rr-t>
+               <rr-t>DEFERRED_</rr-t>
+               <rr-t>DYNAMIC_</rr-t>
+               <rr-t>EXPORT_</rr-t>
+               <rr-t>EXTERNAL_</rr-t>
+               <rr-t>EXTENSION_</rr-t>
+               <rr-t>FACTORY_</rr-t>
+               <rr-t>FUNCTION_</rr-t>
+               <rr-t>GET_</rr-t>
+               <rr-t>IMPLEMENTS_</rr-t>
+               <rr-t>IMPORT_</rr-t>
+               <rr-t>INTERFACE_</rr-t>
+               <rr-t>LATE_</rr-t>
+               <rr-t>LIBRARY_</rr-t>
+               <rr-t>MIXIN_</rr-t>
+               <rr-t>OPERATOR_</rr-t>
+               <rr-t>PART_</rr-t>
+               <rr-t>REQUIRED_</rr-t>
+               <rr-t>SET_</rr-t>
+               <rr-t>STATIC_</rr-t>
+               <rr-t>TYPEDEF_</rr-t>
+               <rr-t>FUNCTION_</rr-t>
+               <rr-t>ASYNC_</rr-t>
+               <rr-t>HIDE_</rr-t>
+               <rr-t>OF_</rr-t>
+               <rr-t>ON_</rr-t>
+               <rr-t>SHOW_</rr-t>
+               <rr-t>SYNC_</rr-t>
+               <rr-t>AWAIT_</rr-t>
+               <rr-t>YIELD_</rr-t>
+               <rr-t>DYNAMIC_</rr-t>
+               <rr-t>NATIVE_</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="identifierList">identifierList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#identifier">identifier</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>C</rr-t><a href="#identifier">identifier</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ifElement">ifElement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>IF_</rr-t>
+                  <rr-t>OP</rr-t><a href="#expr">expr</a><rr-t>CP</rr-t><a href="#element">element</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>ELSE_</rr-t><a href="#element">element</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ifNullExpression">ifNullExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#logicalOrExpression">logicalOrExpression</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>QUQU</rr-t><a href="#logicalOrExpression">logicalOrExpression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ifStatement">ifStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>IF_</rr-t>
+                  <rr-t>OP</rr-t><a href="#expr">expr</a><rr-t>CP</rr-t><a href="#statement">statement</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>ELSE_</rr-t><a href="#statement">statement</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="importOrExport">importOrExport</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#libraryImport">libraryImport</a><a href="#libraryExport">libraryExport</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="importSpecification">importSpecification</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>IMPORT_</rr-t><a href="#configurableUri">configurableUri</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>DEFERRED_</rr-t>
+                           <rr-t>AS_</rr-t><a href="#identifier">identifier</a></rr-a>
+                     </rr-o>
+                  </rr-a><a href="#combinator">combinator</a><rr-t>SC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="incrementOperator">incrementOperator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>PLPL</rr-t>
+               <rr-t>MM</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="initializedIdentifier">initializedIdentifier</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#identifier">identifier</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>EQ</rr-t><a href="#expr">expr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="initializedIdentifierList">initializedIdentifierList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#initializedIdentifier">initializedIdentifier</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>C</rr-t><a href="#initializedIdentifier">initializedIdentifier</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="initializedVariableDeclaration">initializedVariableDeclaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#declaredIdentifier">declaredIdentifier</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>EQ</rr-t><a href="#expr">expr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>C</rr-t><a href="#initializedIdentifier">initializedIdentifier</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="initializerExpression">initializerExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#conditionalExpression">conditionalExpression</a><a href="#cascade">cascade</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="initializerListEntry">initializerListEntry</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SUPER_</rr-t><a href="#arguments">arguments</a></rr-a>
+               <rr-a>
+                  <rr-t>SUPER_</rr-t>
+                  <rr-t>D</rr-t><a href="#identifier">identifier</a><a href="#arguments">arguments</a></rr-a><a href="#fieldInitializer">fieldInitializer</a><a href="#assertion">assertion</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="initializers">initializers</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>CO</rr-t><a href="#initializerListEntry">initializerListEntry</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>C</rr-t><a href="#initializerListEntry">initializerListEntry</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="interfaces">interfaces</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>IMPLEMENTS_</rr-t><a href="#typeNotVoidList">typeNotVoidList</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="isOperator">isOperator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>IS_</rr-t>
+                  <rr-t>NOT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="label">label</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#identifier">identifier</a><rr-t>CO</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="letExpression">letExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LET_</rr-t><a href="#staticFinalDeclarationList">staticFinalDeclarationList</a><rr-t>IN_</rr-t><a href="#expr">expr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="libraryDeclaration">libraryDeclaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#libraryName">libraryName</a><a href="#importOrExport">importOrExport</a><a href="#partDirective">partDirective</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#metadata">metadata</a><a href="#topLevelDeclaration">topLevelDeclaration</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="libraryExport">libraryExport</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#metadata">metadata</a><rr-t>EXPORT_</rr-t><a href="#configurableUri">configurableUri</a><a href="#combinator">combinator</a><rr-t>SC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="libraryImport">libraryImport</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#metadata">metadata</a><a href="#importSpecification">importSpecification</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="libraryName">libraryName</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#metadata">metadata</a><rr-t>LIBRARY_</rr-t><a href="#dottedIdentifierList">dottedIdentifierList</a><rr-t>SC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="listLiteral">listLiteral</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>CONST_</rr-t><a href="#typeArguments">typeArguments</a><rr-t>OB</rr-t><a href="#elements">elements</a><rr-t>CB</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="literal">literal</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#nullLiteral">nullLiteral</a><a href="#booleanLiteral">booleanLiteral</a><a href="#numericLiteral">numericLiteral</a><a href="#stringLiteral">stringLiteral</a><a href="#symbolLiteral">symbolLiteral</a><a href="#listLiteral">listLiteral</a><a href="#setOrMapLiteral">setOrMapLiteral</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="localFunctionDeclaration">localFunctionDeclaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#metadata">metadata</a><a href="#functionSignature">functionSignature</a><a href="#functionBody">functionBody</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="localVariableDeclaration">localVariableDeclaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#metadata">metadata</a><a href="#initializedVariableDeclaration">initializedVariableDeclaration</a><rr-t>SC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="logicalAndExpression">logicalAndExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#equalityExpression">equalityExpression</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>AA</rr-t><a href="#equalityExpression">equalityExpression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="logicalOrExpression">logicalOrExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#logicalAndExpression">logicalAndExpression</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>PP</rr-t><a href="#logicalAndExpression">logicalAndExpression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="mapElement">mapElement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expr">expr</a><rr-t>CO</rr-t><a href="#expr">expr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="metadata">metadata</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="0" data-max="inf">
+                  <rr-o>
+                     <rr-a>
+                        <rr-t>AT</rr-t><a href="#metadatum">metadatum</a></rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="metadatum">metadatum</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#identifier">identifier</a><a href="#qualifiedName">qualifiedName</a><rr-a><a href="#constructorDesignation">constructorDesignation</a><a href="#arguments">arguments</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="methodSignature">methodSignature</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#constructorSignature">constructorSignature</a><a href="#initializers">initializers</a></rr-a><a href="#factoryConstructorSignature">factoryConstructorSignature</a><rr-a>
+                  <rr-t>STATIC_</rr-t><a href="#functionSignature">functionSignature</a></rr-a>
+               <rr-a>
+                  <rr-t>STATIC_</rr-t><a href="#getterSignature">getterSignature</a></rr-a>
+               <rr-a>
+                  <rr-t>STATIC_</rr-t><a href="#setterSignature">setterSignature</a></rr-a><a href="#operatorSignature">operatorSignature</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="minusOperator">minusOperator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>MINUS</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="mixinApplication">mixinApplication</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#typeNotVoid">typeNotVoid</a><a href="#mixins">mixins</a><a href="#interfaces">interfaces</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="mixinApplicationClass">mixinApplicationClass</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#identifier">identifier</a><a href="#typeParameters">typeParameters</a><rr-t>EQ</rr-t><a href="#mixinApplication">mixinApplication</a><rr-t>SC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="mixinDeclaration">mixinDeclaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>MIXIN_</rr-t><a href="#typeIdentifier">typeIdentifier</a><a href="#typeParameters">typeParameters</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>ON_</rr-t><a href="#typeNotVoidList">typeNotVoidList</a></rr-a>
+                     </rr-o>
+                  </rr-a><a href="#interfaces">interfaces</a><rr-t>OBC</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#metadata">metadata</a><a href="#classMemberDeclaration">classMemberDeclaration</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>CBC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="mixins">mixins</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>WITH_</rr-t><a href="#typeNotVoidList">typeNotVoidList</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="multilineString">multilineString</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>MultiLineString</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="multiplicativeExpression">multiplicativeExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#unaryExpression">unaryExpression</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#multiplicativeOperator">multiplicativeOperator</a><a href="#unaryExpression">unaryExpression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>SUPER_</rr-t>
+                  <rr-a data-min="1" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#multiplicativeOperator">multiplicativeOperator</a><a href="#unaryExpression">unaryExpression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="multiplicativeOperator">multiplicativeOperator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>ST</rr-t>
+               <rr-t>SL</rr-t>
+               <rr-t>PC</rr-t>
+               <rr-t>SQS</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="namedArgument">namedArgument</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#label">label</a><a href="#expr">expr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="namedFormalParameters">namedFormalParameters</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OBC</rr-t><a href="#defaultNamedParameter">defaultNamedParameter</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>C</rr-t><a href="#defaultNamedParameter">defaultNamedParameter</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>CBC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="namedParameterType">namedParameterType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#metadata">metadata</a><rr-t>REQUIRED_</rr-t><a href="#typedIdentifier">typedIdentifier</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="namedParameterTypes">namedParameterTypes</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OBC</rr-t><a href="#namedParameterType">namedParameterType</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>C</rr-t><a href="#namedParameterType">namedParameterType</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>CBC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="negationOperator">negationOperator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>NOT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="newExpression">newExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>NEW_</rr-t><a href="#constructorDesignation">constructorDesignation</a><a href="#arguments">arguments</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="nonLabelledStatement">nonLabelledStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#block">block</a><a href="#localVariableDeclaration">localVariableDeclaration</a><a href="#forStatement">forStatement</a><a href="#whileStatement">whileStatement</a><a href="#doStatement">doStatement</a><a href="#switchStatement">switchStatement</a><a href="#ifStatement">ifStatement</a><a href="#rethrowStatement">rethrowStatement</a><a href="#tryStatement">tryStatement</a><a href="#breakStatement">breakStatement</a><a href="#continueStatement">continueStatement</a><a href="#returnStatement">returnStatement</a><a href="#yieldStatement">yieldStatement</a><a href="#yieldEachStatement">yieldEachStatement</a><a href="#expressionStatement">expressionStatement</a><a href="#assertStatement">assertStatement</a><a href="#localFunctionDeclaration">localFunctionDeclaration</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="normalFormalParameter">normalFormalParameter</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#metadata">metadata</a><a href="#normalFormalParameterNoMetadata">normalFormalParameterNoMetadata</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="normalFormalParameterNoMetadata">normalFormalParameterNoMetadata</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#functionFormalParameter">functionFormalParameter</a><a href="#fieldFormalParameter">fieldFormalParameter</a><a href="#simpleFormalParameter">simpleFormalParameter</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="normalFormalParameters">normalFormalParameters</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#normalFormalParameter">normalFormalParameter</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>C</rr-t><a href="#normalFormalParameter">normalFormalParameter</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="normalParameterType">normalParameterType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#metadata">metadata</a><a href="#typedIdentifier">typedIdentifier</a></rr-a>
+               <rr-a><a href="#metadata">metadata</a><a href="#type">type</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="normalParameterTypes">normalParameterTypes</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#normalParameterType">normalParameterType</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>C</rr-t><a href="#normalParameterType">normalParameterType</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="nullLiteral">nullLiteral</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>NULL_</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="numericLiteral">numericLiteral</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>NUMBER</rr-t>
+               <rr-t>HEX_NUMBER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="onPart">onPart</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#catchPart">catchPart</a><a href="#block">block</a></rr-a>
+               <rr-a>
+                  <rr-t>ON_</rr-t><a href="#typeNotVoid">typeNotVoid</a><a href="#catchPart">catchPart</a><a href="#block">block</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="operator">operator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>SQUIG</rr-t><a href="#binaryOperator">binaryOperator</a><rr-a>
+                  <rr-t>OB</rr-t>
+                  <rr-t>CB</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>OB</rr-t>
+                  <rr-t>CB</rr-t>
+                  <rr-t>EQ</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="operatorSignature">operatorSignature</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#type">type</a><rr-t>OPERATOR_</rr-t><a href="#operator">operator</a><a href="#formalParameterList">formalParameterList</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="optionalOrNamedFormalParameters">optionalOrNamedFormalParameters</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#optionalPositionalFormalParameters">optionalPositionalFormalParameters</a><a href="#namedFormalParameters">namedFormalParameters</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="optionalParameterTypes">optionalParameterTypes</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#optionalPositionalParameterTypes">optionalPositionalParameterTypes</a><a href="#namedParameterTypes">namedParameterTypes</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="optionalPositionalFormalParameters">optionalPositionalFormalParameters</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OB</rr-t><a href="#defaultFormalParameter">defaultFormalParameter</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>C</rr-t><a href="#defaultFormalParameter">defaultFormalParameter</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>C</rr-t>
+                  <rr-t>CB</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="optionalPositionalParameterTypes">optionalPositionalParameterTypes</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OB</rr-t><a href="#normalParameterTypes">normalParameterTypes</a><rr-t>C</rr-t>
+                  <rr-t>CB</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="parameterTypeList">parameterTypeList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OP</rr-t>
+                  <rr-t>CP</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>OP</rr-t><a href="#normalParameterTypes">normalParameterTypes</a><rr-t>C</rr-t><a href="#optionalParameterTypes">optionalParameterTypes</a><rr-t>CP</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>OP</rr-t><a href="#normalParameterTypes">normalParameterTypes</a><rr-t>C</rr-t>
+                  <rr-t>CP</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>OP</rr-t><a href="#optionalParameterTypes">optionalParameterTypes</a><rr-t>CP</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="partDeclaration">partDeclaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#partHeader">partHeader</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#metadata">metadata</a><a href="#topLevelDeclaration">topLevelDeclaration</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="partDirective">partDirective</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#metadata">metadata</a><rr-t>PART_</rr-t><a href="#uri">uri</a><rr-t>SC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="partHeader">partHeader</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#metadata">metadata</a><rr-t>PART_</rr-t>
+                  <rr-t>OF_</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#dottedIdentifierList">dottedIdentifierList</a><a href="#uri">uri</a></rr-o>
+                  </rr-a>
+                  <rr-t>SC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="postfixExpression">postfixExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#assignableExpression">assignableExpression</a><a href="#postfixOperator">postfixOperator</a></rr-a>
+               <rr-a><a href="#primary">primary</a><a href="#selector">selector</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="postfixOperator">postfixOperator</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#incrementOperator">incrementOperator</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="prefixOperator">prefixOperator</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#minusOperator">minusOperator</a><a href="#negationOperator">negationOperator</a><a href="#tildeOperator">tildeOperator</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="primary">primary</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#thisExpression">thisExpression</a><rr-a>
+                  <rr-t>SUPER_</rr-t><a href="#unconditionalAssignableSelector">unconditionalAssignableSelector</a></rr-a>
+               <rr-a>
+                  <rr-t>SUPER_</rr-t><a href="#argumentPart">argumentPart</a></rr-a><a href="#functionExpression">functionExpression</a><a href="#literal">literal</a><a href="#identifier">identifier</a><a href="#newExpression">newExpression</a><a href="#constObjectExpression">constObjectExpression</a><a href="#constructorInvocation">constructorInvocation</a><rr-a>
+                  <rr-t>OP</rr-t><a href="#expr">expr</a><rr-t>CP</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="qualifiedName">qualifiedName</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#typeIdentifier">typeIdentifier</a><rr-t>D</rr-t><a href="#identifier">identifier</a></rr-a>
+               <rr-a><a href="#typeIdentifier">typeIdentifier</a><rr-t>D</rr-t><a href="#typeIdentifier">typeIdentifier</a><rr-t>D</rr-t><a href="#identifier">identifier</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="redirectingFactoryConstructorSignature">redirectingFactoryConstructorSignature</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>CONST_</rr-t>
+                  <rr-t>FACTORY_</rr-t><a href="#constructorName">constructorName</a><a href="#formalParameterList">formalParameterList</a><rr-t>EQ</rr-t><a href="#constructorDesignation">constructorDesignation</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="redirection">redirection</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>CO</rr-t>
+                  <rr-t>THIS_</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>D</rr-t><a href="#identifier">identifier</a></rr-a>
+                     </rr-o>
+                  </rr-a><a href="#arguments">arguments</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="relationalExpression">relationalExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#bitwiseOrExpression">bitwiseOrExpression</a><rr-a data-min="0" data-max="1">
+                     <rr-o><a href="#typeTest">typeTest</a><a href="#typeCast">typeCast</a><rr-a><a href="#relationalOperator">relationalOperator</a><a href="#bitwiseOrExpression">bitwiseOrExpression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>SUPER_</rr-t><a href="#relationalOperator">relationalOperator</a><a href="#bitwiseOrExpression">bitwiseOrExpression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="relationalOperator">relationalOperator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>GT</rr-t>
+                  <rr-t>EQ</rr-t>
+               </rr-a>
+               <rr-t>GT</rr-t>
+               <rr-t>LTE</rr-t>
+               <rr-t>LT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="reserved_word">reserved_word</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>ASSERT_</rr-t>
+               <rr-t>BREAK_</rr-t>
+               <rr-t>CASE_</rr-t>
+               <rr-t>CATCH_</rr-t>
+               <rr-t>CLASS_</rr-t>
+               <rr-t>CONST_</rr-t>
+               <rr-t>CONTINUE_</rr-t>
+               <rr-t>DEFAULT_</rr-t>
+               <rr-t>DO_</rr-t>
+               <rr-t>ELSE_</rr-t>
+               <rr-t>ENUM_</rr-t>
+               <rr-t>EXTENDS_</rr-t>
+               <rr-t>FALSE_</rr-t>
+               <rr-t>FINAL_</rr-t>
+               <rr-t>FINALLY_</rr-t>
+               <rr-t>FOR_</rr-t>
+               <rr-t>IF_</rr-t>
+               <rr-t>IN_</rr-t>
+               <rr-t>IS_</rr-t>
+               <rr-t>NEW_</rr-t>
+               <rr-t>NULL_</rr-t>
+               <rr-t>RETHROW_</rr-t>
+               <rr-t>RETURN_</rr-t>
+               <rr-t>SUPER_</rr-t>
+               <rr-t>SWITCH_</rr-t>
+               <rr-t>THIS_</rr-t>
+               <rr-t>THROW_</rr-t>
+               <rr-t>TRUE_</rr-t>
+               <rr-t>TRY_</rr-t>
+               <rr-t>VAR_</rr-t>
+               <rr-t>VOID_</rr-t>
+               <rr-t>WHILE_</rr-t>
+               <rr-t>WITH_</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="rethrowStatement">rethrowStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>RETHROW_</rr-t>
+                  <rr-t>SC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="returnStatement">returnStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>RETURN_</rr-t><a href="#expr">expr</a><rr-t>SC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="selector">selector</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>NOT</rr-t><a href="#assignableSelector">assignableSelector</a><a href="#argumentPart">argumentPart</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="setOrMapLiteral">setOrMapLiteral</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>CONST_</rr-t><a href="#typeArguments">typeArguments</a><rr-t>OBC</rr-t><a href="#elements">elements</a><rr-t>CBC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="setterSignature">setterSignature</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#type">type</a><rr-t>SET_</rr-t><a href="#identifier">identifier</a><a href="#formalParameterList">formalParameterList</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="shiftExpression">shiftExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#additiveExpression">additiveExpression</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#shiftOperator">shiftOperator</a><a href="#additiveExpression">additiveExpression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>SUPER_</rr-t>
+                  <rr-a data-min="1" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#shiftOperator">shiftOperator</a><a href="#additiveExpression">additiveExpression</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="shiftOperator">shiftOperator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>LTLT</rr-t>
+               <rr-a>
+                  <rr-t>GT</rr-t>
+                  <rr-t>GT</rr-t>
+                  <rr-t>GT</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>GT</rr-t>
+                  <rr-t>GT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="simpleFormalParameter">simpleFormalParameter</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#declaredIdentifier">declaredIdentifier</a><rr-a>
+                  <rr-t>COVARIANT_</rr-t><a href="#identifier">identifier</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="singleLineString">singleLineString</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>SingleLineString</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="spreadElement">spreadElement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>DDD</rr-t>
+                        <rr-t>DDDQ</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expr">expr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="statement">statement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#label">label</a><a href="#nonLabelledStatement">nonLabelledStatement</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="statements">statements</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#statement">statement</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="staticFinalDeclaration">staticFinalDeclaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#identifier">identifier</a><rr-t>EQ</rr-t><a href="#expr">expr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="staticFinalDeclarationList">staticFinalDeclarationList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#staticFinalDeclaration">staticFinalDeclaration</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>C</rr-t><a href="#staticFinalDeclaration">staticFinalDeclaration</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="stringLiteral">stringLiteral</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="1" data-max="inf">
+                  <rr-o><a href="#multilineString">multilineString</a><a href="#singleLineString">singleLineString</a></rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="superclass">superclass</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>EXTENDS_</rr-t><a href="#typeNotVoid">typeNotVoid</a><a href="#mixins">mixins</a></rr-a><a href="#mixins">mixins</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="switchCase">switchCase</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#label">label</a><rr-t>CASE_</rr-t><a href="#expr">expr</a><rr-t>CO</rr-t><a href="#statements">statements</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="switchStatement">switchStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>SWITCH_</rr-t>
+                  <rr-t>OP</rr-t><a href="#expr">expr</a><rr-t>CP</rr-t>
+                  <rr-t>OBC</rr-t><a href="#switchCase">switchCase</a><a href="#defaultCase">defaultCase</a><rr-t>CBC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="symbolLiteral">symbolLiteral</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>PO</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-a><a href="#identifier">identifier</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>D</rr-t><a href="#identifier">identifier</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a><a href="#operator">operator</a><rr-t>VOID_</rr-t>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="thisExpression">thisExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>THIS_</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="throwExpression">throwExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>THROW_</rr-t><a href="#expr">expr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="throwExpressionWithoutCascade">throwExpressionWithoutCascade</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>THROW_</rr-t><a href="#expressionWithoutCascade">expressionWithoutCascade</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tildeOperator">tildeOperator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>SQUIG</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="topLevelDeclaration">topLevelDeclaration</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#classDeclaration">classDeclaration</a><a href="#mixinDeclaration">mixinDeclaration</a><a href="#extensionDeclaration">extensionDeclaration</a><a href="#enumType">enumType</a><a href="#typeAlias">typeAlias</a><rr-a>
+                  <rr-t>EXTERNAL_</rr-t><a href="#functionSignature">functionSignature</a><rr-t>SC</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>EXTERNAL_</rr-t><a href="#getterSignature">getterSignature</a><rr-t>SC</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>EXTERNAL_</rr-t><a href="#setterSignature">setterSignature</a><rr-t>SC</rr-t>
+               </rr-a>
+               <rr-a><a href="#functionSignature">functionSignature</a><a href="#functionBody">functionBody</a></rr-a>
+               <rr-a><a href="#getterSignature">getterSignature</a><a href="#functionBody">functionBody</a></rr-a>
+               <rr-a><a href="#setterSignature">setterSignature</a><a href="#functionBody">functionBody</a></rr-a>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>FINAL_</rr-t>
+                        <rr-t>CONST_</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#type">type</a><a href="#staticFinalDeclarationList">staticFinalDeclarationList</a><rr-t>SC</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LATE_</rr-t>
+                  <rr-t>FINAL_</rr-t><a href="#type">type</a><a href="#initializedIdentifierList">initializedIdentifierList</a><rr-t>SC</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LATE_</rr-t><a href="#varOrType">varOrType</a><a href="#initializedIdentifierList">initializedIdentifierList</a><rr-t>SC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tryStatement">tryStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TRY_</rr-t><a href="#block">block</a><rr-a>
+                     <rr-o>
+                        <rr-a><a href="#onPart">onPart</a><a href="#finallyPart">finallyPart</a></rr-a><a href="#finallyPart">finallyPart</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="type">type</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#functionType">functionType</a><rr-t>QU</rr-t>
+               </rr-a><a href="#typeNotFunction">typeNotFunction</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeAlias">typeAlias</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TYPEDEF_</rr-t><a href="#typeIdentifier">typeIdentifier</a><a href="#typeParameters">typeParameters</a><rr-t>EQ</rr-t><a href="#type">type</a><rr-t>SC</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>TYPEDEF_</rr-t><a href="#functionTypeAlias">functionTypeAlias</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeArguments">typeArguments</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LT</rr-t><a href="#typeList">typeList</a><rr-t>GT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeCast">typeCast</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#asOperator">asOperator</a><a href="#typeNotVoid">typeNotVoid</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typedIdentifier">typedIdentifier</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#type">type</a><a href="#identifier">identifier</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeIdentifier">typeIdentifier</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+               <rr-t>ASYNC_</rr-t>
+               <rr-t>HIDE_</rr-t>
+               <rr-t>OF_</rr-t>
+               <rr-t>ON_</rr-t>
+               <rr-t>SHOW_</rr-t>
+               <rr-t>SYNC_</rr-t>
+               <rr-t>AWAIT_</rr-t>
+               <rr-t>YIELD_</rr-t>
+               <rr-t>DYNAMIC_</rr-t>
+               <rr-t>NATIVE_</rr-t>
+               <rr-t>FUNCTION_</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeList">typeList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#type">type</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>C</rr-t><a href="#type">type</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeName">typeName</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#typeIdentifier">typeIdentifier</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>D</rr-t><a href="#typeIdentifier">typeIdentifier</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeNotFunction">typeNotFunction</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>VOID_</rr-t><a href="#typeNotVoidNotFunction">typeNotVoidNotFunction</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeNotVoid">typeNotVoid</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#functionType">functionType</a><rr-t>QU</rr-t>
+               </rr-a><a href="#typeNotVoidNotFunction">typeNotVoidNotFunction</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeNotVoidList">typeNotVoidList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#typeNotVoid">typeNotVoid</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>C</rr-t><a href="#typeNotVoid">typeNotVoid</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeNotVoidNotFunction">typeNotVoidNotFunction</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#typeName">typeName</a><a href="#typeArguments">typeArguments</a><rr-t>QU</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>FUNCTION_</rr-t>
+                  <rr-t>QU</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeNotVoidNotFunctionList">typeNotVoidNotFunctionList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#typeNotVoidNotFunction">typeNotVoidNotFunction</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>C</rr-t><a href="#typeNotVoidNotFunction">typeNotVoidNotFunction</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeParameter">typeParameter</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#metadata">metadata</a><a href="#identifier">identifier</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>EXTENDS_</rr-t><a href="#typeNotVoid">typeNotVoid</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeParameters">typeParameters</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LT</rr-t><a href="#typeParameter">typeParameter</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>C</rr-t><a href="#typeParameter">typeParameter</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>GT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typeTest">typeTest</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#isOperator">isOperator</a><a href="#typeNotVoid">typeNotVoid</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="unaryExpression">unaryExpression</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#prefixOperator">prefixOperator</a><a href="#unaryExpression">unaryExpression</a></rr-a><a href="#awaitExpression">awaitExpression</a><a href="#postfixExpression">postfixExpression</a><rr-a>
+                  <rr-a>
+                     <rr-o><a href="#minusOperator">minusOperator</a><a href="#tildeOperator">tildeOperator</a></rr-o>
+                  </rr-a>
+                  <rr-t>SUPER_</rr-t>
+               </rr-a>
+               <rr-a><a href="#incrementOperator">incrementOperator</a><a href="#assignableExpression">assignableExpression</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="unconditionalAssignableSelector">unconditionalAssignableSelector</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OB</rr-t><a href="#expr">expr</a><rr-t>CB</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>D</rr-t><a href="#identifier">identifier</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="uri">uri</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#stringLiteral">stringLiteral</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="uriTest">uriTest</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#dottedIdentifierList">dottedIdentifierList</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>EE</rr-t><a href="#stringLiteral">stringLiteral</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="varOrType">varOrType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>VAR_</rr-t><a href="#type">type</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="whileStatement">whileStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>WHILE_</rr-t>
+                  <rr-t>OP</rr-t><a href="#expr">expr</a><rr-t>CP</rr-t><a href="#statement">statement</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="yieldEachStatement">yieldEachStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>YIELD_</rr-t>
+                  <rr-t>ST</rr-t><a href="#expr">expr</a><rr-t>SC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="yieldStatement">yieldStatement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>YIELD_</rr-t><a href="#expr">expr</a><rr-t>SC</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

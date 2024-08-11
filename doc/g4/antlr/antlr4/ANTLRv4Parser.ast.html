@@ -1,0 +1,749 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../../../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../../../index.html">Railroad</a> g4/antlr/antlr4/ANTLRv4Parser</h1>
+      <pre>/*
+ * [The "BSD license"]
+ *  Copyright (c) 2012-2014 Terence Parr
+ *  Copyright (c) 2012-2014 Sam Harwell
+ *  Copyright (c) 2015 Gerald Rosenberg
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *  2. Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *  3. The name of the author may not be used to endorse or promote products
+ *     derived from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ *  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ *  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ *  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */</pre>
+      <pre>/*	A grammar for ANTLR v4 written in ANTLR v4.
+ *
+ *	Modified 2015.06.16 gbr
+ *	-- update for compatibility with Antlr v4.5
+ *	-- add mode for channels
+ *	-- moved members to LexerAdaptor
+ * 	-- move fragments to imports
+ */</pre>
+      <h1>Grammar Decl</h1>
+      <pre>parser grammar ANTLRv4Parser;</pre>
+      <h1>Rules</h1>
+      <h2 id="grammarSpec">grammarSpec</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#grammarDecl">grammarDecl</a><a href="#prequelConstruct">prequelConstruct</a><a href="#rules">rules</a><a href="#modeSpec">modeSpec</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="grammarDecl">grammarDecl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#grammarType">grammarType</a><a href="#identifier">identifier</a><rr-t>SEMI</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="grammarType">grammarType</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LEXER</rr-t>
+                  <rr-t>GRAMMAR</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>PARSER</rr-t>
+                  <rr-t>GRAMMAR</rr-t>
+               </rr-a>
+               <rr-t>GRAMMAR</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="prequelConstruct">prequelConstruct</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#optionsSpec">optionsSpec</a><a href="#delegateGrammars">delegateGrammars</a><a href="#tokensSpec">tokensSpec</a><a href="#channelsSpec">channelsSpec</a><a href="#action_">action_</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="optionsSpec">optionsSpec</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPTIONS</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#option">option</a><rr-t>SEMI</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>RBRACE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="option">option</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#identifier">identifier</a><rr-t>ASSIGN</rr-t><a href="#optionValue">optionValue</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="optionValue">optionValue</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#identifier">identifier</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>DOT</rr-t><a href="#identifier">identifier</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-t>STRING_LITERAL</rr-t><a href="#actionBlock">actionBlock</a><rr-t>INT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="delegateGrammars">delegateGrammars</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>IMPORT</rr-t><a href="#delegateGrammar">delegateGrammar</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#delegateGrammar">delegateGrammar</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>SEMI</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="delegateGrammar">delegateGrammar</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#identifier">identifier</a><rr-t>ASSIGN</rr-t><a href="#identifier">identifier</a></rr-a><a href="#identifier">identifier</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="tokensSpec">tokensSpec</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOKENS</rr-t><a href="#idList">idList</a><rr-t>RBRACE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="channelsSpec">channelsSpec</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>CHANNELS</rr-t><a href="#idList">idList</a><rr-t>RBRACE</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="idList">idList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#identifier">identifier</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#identifier">identifier</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COMMA</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="action_">action_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>AT</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#actionScopeName">actionScopeName</a><rr-t>COLONCOLON</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#identifier">identifier</a><a href="#actionBlock">actionBlock</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="actionScopeName">actionScopeName</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#identifier">identifier</a><rr-t>LEXER</rr-t>
+               <rr-t>PARSER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="actionBlock">actionBlock</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>BEGIN_ACTION</rr-t>
+                  <rr-t>ACTION_CONTENT</rr-t>
+                  <rr-t>END_ACTION</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="argActionBlock">argActionBlock</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>BEGIN_ARGUMENT</rr-t>
+                  <rr-t>ARGUMENT_CONTENT</rr-t>
+                  <rr-t>END_ARGUMENT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="modeSpec">modeSpec</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>MODE</rr-t><a href="#identifier">identifier</a><rr-t>SEMI</rr-t><a href="#lexerRuleSpec">lexerRuleSpec</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="rules">rules</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#ruleSpec">ruleSpec</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ruleSpec">ruleSpec</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#parserRuleSpec">parserRuleSpec</a><a href="#lexerRuleSpec">lexerRuleSpec</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="parserRuleSpec">parserRuleSpec</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#ruleModifiers">ruleModifiers</a><rr-t>RULE_REF</rr-t><a href="#argActionBlock">argActionBlock</a><a href="#ruleReturns">ruleReturns</a><a href="#throwsSpec">throwsSpec</a><a href="#localsSpec">localsSpec</a><a href="#rulePrequel">rulePrequel</a><rr-t>COLON</rr-t><a href="#ruleBlock">ruleBlock</a><rr-t>SEMI</rr-t><a href="#exceptionGroup">exceptionGroup</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="exceptionGroup">exceptionGroup</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#exceptionHandler">exceptionHandler</a><a href="#finallyClause">finallyClause</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="exceptionHandler">exceptionHandler</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>CATCH</rr-t><a href="#argActionBlock">argActionBlock</a><a href="#actionBlock">actionBlock</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="finallyClause">finallyClause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>FINALLY</rr-t><a href="#actionBlock">actionBlock</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="rulePrequel">rulePrequel</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#optionsSpec">optionsSpec</a><a href="#ruleAction">ruleAction</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ruleReturns">ruleReturns</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>RETURNS</rr-t><a href="#argActionBlock">argActionBlock</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="throwsSpec">throwsSpec</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>THROWS</rr-t><a href="#identifier">identifier</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#identifier">identifier</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="localsSpec">localsSpec</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LOCALS</rr-t><a href="#argActionBlock">argActionBlock</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ruleAction">ruleAction</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>AT</rr-t><a href="#identifier">identifier</a><a href="#actionBlock">actionBlock</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ruleModifiers">ruleModifiers</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#ruleModifier">ruleModifier</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ruleModifier">ruleModifier</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>PUBLIC</rr-t>
+               <rr-t>PRIVATE</rr-t>
+               <rr-t>PROTECTED</rr-t>
+               <rr-t>FRAGMENT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ruleBlock">ruleBlock</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#ruleAltList">ruleAltList</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ruleAltList">ruleAltList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#labeledAlt">labeledAlt</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>OR</rr-t><a href="#labeledAlt">labeledAlt</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="labeledAlt">labeledAlt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#alternative">alternative</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>POUND</rr-t><a href="#identifier">identifier</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lexerRuleSpec">lexerRuleSpec</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>FRAGMENT</rr-t>
+                  <rr-t>TOKEN_REF</rr-t><a href="#optionsSpec">optionsSpec</a><rr-t>COLON</rr-t><a href="#lexerRuleBlock">lexerRuleBlock</a><rr-t>SEMI</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lexerRuleBlock">lexerRuleBlock</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#lexerAltList">lexerAltList</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lexerAltList">lexerAltList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#lexerAlt">lexerAlt</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>OR</rr-t><a href="#lexerAlt">lexerAlt</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lexerAlt">lexerAlt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#lexerElements">lexerElements</a><a href="#lexerCommands">lexerCommands</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lexerElements">lexerElements</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#lexerElement">lexerElement</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lexerElement">lexerElement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#lexerAtom">lexerAtom</a><a href="#ebnfSuffix">ebnfSuffix</a></rr-a>
+               <rr-a><a href="#lexerBlock">lexerBlock</a><a href="#ebnfSuffix">ebnfSuffix</a></rr-a>
+               <rr-a><a href="#actionBlock">actionBlock</a><rr-t>QUESTION</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lexerBlock">lexerBlock</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#lexerAltList">lexerAltList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lexerCommands">lexerCommands</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>RARROW</rr-t><a href="#lexerCommand">lexerCommand</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#lexerCommand">lexerCommand</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lexerCommand">lexerCommand</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#lexerCommandName">lexerCommandName</a><rr-t>LPAREN</rr-t><a href="#lexerCommandExpr">lexerCommandExpr</a><rr-t>RPAREN</rr-t>
+               </rr-a><a href="#lexerCommandName">lexerCommandName</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lexerCommandName">lexerCommandName</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#identifier">identifier</a><rr-t>MODE</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lexerCommandExpr">lexerCommandExpr</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#identifier">identifier</a><rr-t>INT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="altList">altList</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#alternative">alternative</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>OR</rr-t><a href="#alternative">alternative</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="alternative">alternative</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#elementOptions">elementOptions</a><a href="#element">element</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="element">element</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#labeledElement">labeledElement</a><rr-a>
+                     <rr-o><a href="#ebnfSuffix">ebnfSuffix</a></rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a><a href="#atom">atom</a><rr-a>
+                     <rr-o><a href="#ebnfSuffix">ebnfSuffix</a></rr-o>
+                  </rr-a>
+               </rr-a><a href="#ebnf">ebnf</a><rr-a><a href="#actionBlock">actionBlock</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>QUESTION</rr-t><a href="#predicateOptions">predicateOptions</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="predicateOptions">predicateOptions</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LT</rr-t><a href="#predicateOption">predicateOption</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#predicateOption">predicateOption</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>GT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="predicateOption">predicateOption</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#elementOption">elementOption</a><rr-a><a href="#identifier">identifier</a><rr-t>ASSIGN</rr-t><a href="#actionBlock">actionBlock</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="labeledElement">labeledElement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#identifier">identifier</a><rr-a>
+                     <rr-o>
+                        <rr-t>ASSIGN</rr-t>
+                        <rr-t>PLUS_ASSIGN</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a>
+                     <rr-o><a href="#atom">atom</a><a href="#block">block</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ebnf">ebnf</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#block">block</a><a href="#blockSuffix">blockSuffix</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="blockSuffix">blockSuffix</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#ebnfSuffix">ebnfSuffix</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ebnfSuffix">ebnfSuffix</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>QUESTION</rr-t>
+                  <rr-t>QUESTION</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>STAR</rr-t>
+                  <rr-t>QUESTION</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>PLUS</rr-t>
+                  <rr-t>QUESTION</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="lexerAtom">lexerAtom</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#characterRange">characterRange</a><a href="#terminalDef">terminalDef</a><a href="#notSet">notSet</a><rr-t>LEXER_CHAR_SET</rr-t>
+               <rr-a>
+                  <rr-t>DOT</rr-t><a href="#elementOptions">elementOptions</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="atom">atom</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#terminalDef">terminalDef</a><a href="#ruleref">ruleref</a><a href="#notSet">notSet</a><rr-a>
+                  <rr-t>DOT</rr-t><a href="#elementOptions">elementOptions</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="notSet">notSet</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>NOT</rr-t><a href="#setElement">setElement</a></rr-a>
+               <rr-a>
+                  <rr-t>NOT</rr-t><a href="#blockSet">blockSet</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="blockSet">blockSet</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t><a href="#setElement">setElement</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>OR</rr-t><a href="#setElement">setElement</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>RPAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="setElement">setElement</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOKEN_REF</rr-t><a href="#elementOptions">elementOptions</a></rr-a>
+               <rr-a>
+                  <rr-t>STRING_LITERAL</rr-t><a href="#elementOptions">elementOptions</a></rr-a><a href="#characterRange">characterRange</a><rr-t>LEXER_CHAR_SET</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="block">block</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LPAREN</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#optionsSpec">optionsSpec</a><a href="#ruleAction">ruleAction</a><rr-t>COLON</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#altList">altList</a><rr-t>RPAREN</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="ruleref">ruleref</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>RULE_REF</rr-t><a href="#argActionBlock">argActionBlock</a><a href="#elementOptions">elementOptions</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="characterRange">characterRange</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>STRING_LITERAL</rr-t>
+                  <rr-t>RANGE</rr-t>
+                  <rr-t>STRING_LITERAL</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="terminalDef">terminalDef</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>TOKEN_REF</rr-t><a href="#elementOptions">elementOptions</a></rr-a>
+               <rr-a>
+                  <rr-t>STRING_LITERAL</rr-t><a href="#elementOptions">elementOptions</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="elementOptions">elementOptions</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>LT</rr-t><a href="#elementOption">elementOption</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#elementOption">elementOption</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>GT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="elementOption">elementOption</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#identifier">identifier</a><rr-a><a href="#identifier">identifier</a><rr-t>ASSIGN</rr-t>
+                  <rr-a>
+                     <rr-o><a href="#identifier">identifier</a><rr-t>STRING_LITERAL</rr-t>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="identifier">identifier</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>RULE_REF</rr-t>
+               <rr-t>TOKEN_REF</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

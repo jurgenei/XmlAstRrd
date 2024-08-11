@@ -1,0 +1,568 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../../index.html">Railroad</a> g4/alloy/alloy</h1>
+      <pre>/*
+ [The "BSD licence"]
+ Copyright (c) 2020 Tom Everett
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+ 3. The name of the author may not be used to endorse or promote products
+    derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</pre>
+      <h1>Grammar Decl</h1>
+      <pre>grammar alloy;</pre>
+      <h1>Rules</h1>
+      <h2 id="alloyModule">alloyModule</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#moduleDecl">moduleDecl</a><a href="#import_">import_</a><a href="#paragraph">paragraph</a><rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="moduleDecl">moduleDecl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'module'</rr-t><a href="#qualName">qualName</a><a href="#name">name</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#name">name</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="import_">import_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'open'</rr-t><a href="#qualName">qualName</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#qualName">qualName</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'as'</rr-t><a href="#name">name</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="paragraph">paragraph</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#sigDecl">sigDecl</a><a href="#factDecl">factDecl</a><a href="#predDecl">predDecl</a><a href="#funDecl">funDecl</a><a href="#assertDecl">assertDecl</a><a href="#cmdDecl">cmdDecl</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sigDecl">sigDecl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'abstract'</rr-t><a href="#mult">mult</a><rr-t>'sig'</rr-t><a href="#name">name</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#name">name</a></rr-a>
+                     </rr-o>
+                  </rr-a><a href="#sigExt">sigExt</a><rr-t>'{'</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#decl">decl</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>','</rr-t><a href="#decl">decl</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'}'</rr-t><a href="#block">block</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sigExt">sigExt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'extends'</rr-t><a href="#qualName">qualName</a></rr-a>
+               <rr-a>
+                  <rr-t>'in'</rr-t><a href="#qualName">qualName</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'+'</rr-t><a href="#qualName">qualName</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="mult">mult</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'lone'</rr-t>
+               <rr-t>'some'</rr-t>
+               <rr-t>'one'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="decl">decl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'disj'</rr-t><a href="#name">name</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#name">name</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>':'</rr-t>
+                  <rr-t>'disj'</rr-t><a href="#expr">expr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="factDecl">factDecl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'fact'</rr-t><a href="#name">name</a><a href="#block">block</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="predDecl">predDecl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'pred'</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#qualName">qualName</a><rr-t>'.'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#name">name</a><a href="#paraDecls">paraDecls</a><a href="#block">block</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="funDecl">funDecl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'fun'</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#qualName">qualName</a><rr-t>'.'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#name">name</a><a href="#paraDecls">paraDecls</a><rr-t>':'</rr-t><a href="#expr">expr</a><rr-t>'{'</rr-t><a href="#expr">expr</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="paraDecls">paraDecls</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#decl">decl</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#decl">decl</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>')'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'['</rr-t><a href="#decl">decl</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#decl">decl</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>']'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="assertDecl">assertDecl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'assert'</rr-t><a href="#name">name</a><a href="#block">block</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="cmdDecl">cmdDecl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#name">name</a><rr-t>':'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'run'</rr-t>
+                        <rr-t>'check'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a>
+                     <rr-o><a href="#qualName">qualName</a><a href="#block">block</a></rr-o>
+                  </rr-a><a href="#scope">scope</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="scope">scope</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'for'</rr-t><a href="#number">number</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>'but'</rr-t><a href="#typescope">typescope</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>','</rr-t><a href="#typescope">typescope</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'for'</rr-t><a href="#typescope">typescope</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#typescope">typescope</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typescope">typescope</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'exactly'</rr-t><a href="#number">number</a><a href="#qualName">qualName</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expr">expr</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#const_">const_</a><a href="#qualName">qualName</a><rr-a>
+                  <rr-t>'@'</rr-t><a href="#name">name</a></rr-a>
+               <rr-t>'this'</rr-t>
+               <rr-a><a href="#unOp">unOp</a><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><a href="#binOp">binOp</a><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><a href="#arrowOp">arrowOp</a><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>'['</rr-t>
+                  <rr-a data-min="1" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#expr">expr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>']'</rr-t>
+               </rr-a>
+               <rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'!'</rr-t>
+                        <rr-t>'not'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#compareOp">compareOp</a><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-t>'=&gt;'</rr-t>
+                        <rr-t>'implies'</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expr">expr</a><rr-t>'else'</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a>
+                  <rr-t>'let'</rr-t><a href="#letDecl">letDecl</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#letDecl">letDecl</a></rr-a>
+                     </rr-o>
+                  </rr-a><a href="#blockOrBar">blockOrBar</a></rr-a>
+               <rr-a><a href="#quant">quant</a><a href="#decl">decl</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#decl">decl</a></rr-a>
+                     </rr-o>
+                  </rr-a><a href="#blockOrBar">blockOrBar</a></rr-a>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#decl">decl</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>','</rr-t><a href="#decl">decl</a></rr-a>
+                     </rr-o>
+                  </rr-a><a href="#blockOrBar">blockOrBar</a><rr-t>'}'</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>'('</rr-t><a href="#expr">expr</a><rr-t>')'</rr-t>
+               </rr-a><a href="#block">block</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="const_">const_</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'-'</rr-t><a href="#number">number</a></rr-a>
+               <rr-t>'none'</rr-t>
+               <rr-t>'univ'</rr-t>
+               <rr-t>'iden'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="unOp">unOp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'!'</rr-t>
+               <rr-t>'not'</rr-t>
+               <rr-t>'no'</rr-t><a href="#mult">mult</a><rr-t>'set'</rr-t>
+               <rr-t>'#'</rr-t>
+               <rr-t>'~'</rr-t>
+               <rr-t>'*'</rr-t>
+               <rr-t>'^'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="binOp">binOp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'||'</rr-t>
+               <rr-t>'or'</rr-t>
+               <rr-t>'&amp;&amp;'</rr-t>
+               <rr-t>'and'</rr-t>
+               <rr-t>'&lt;=&gt;'</rr-t>
+               <rr-t>'iff'</rr-t>
+               <rr-t>'=&gt;'</rr-t>
+               <rr-t>'implies'</rr-t>
+               <rr-t>'&amp;'</rr-t>
+               <rr-t>'+'</rr-t>
+               <rr-t>'-'</rr-t>
+               <rr-t>'++'</rr-t>
+               <rr-t>'&lt;:'</rr-t>
+               <rr-t>':&gt;'</rr-t>
+               <rr-t>'.'</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="arrowOp">arrowOp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o><a href="#mult">mult</a><rr-t>'set'</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>'-&gt;'</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o><a href="#mult">mult</a><rr-t>'set'</rr-t>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="compareOp">compareOp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'in'</rr-t>
+               <rr-t>'='</rr-t>
+               <rr-t>'&lt;'</rr-t>
+               <rr-t>'&gt;'</rr-t>
+               <rr-t>'=&lt;'</rr-t>
+               <rr-t>'&gt;='</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="letDecl">letDecl</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#name">name</a><rr-t>'='</rr-t><a href="#expr">expr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="block">block</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'{'</rr-t><a href="#expr">expr</a><rr-t>'}'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="blockOrBar">blockOrBar</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#block">block</a><rr-a>
+                  <rr-t>BAR</rr-t><a href="#expr">expr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="quant">quant</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>'all'</rr-t>
+               <rr-t>'no'</rr-t>
+               <rr-t>'sum'</rr-t><a href="#mult">mult</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="qualName">qualName</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>'this/'</rr-t>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a><a href="#name">name</a><rr-t>'/'</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#name">name</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="name">name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>IDENTIFIER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="number">number</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>DIGIT</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="BAR">BAR</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'|'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="DIGIT">DIGIT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'0'..'9'</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="IDENTIFIER">IDENTIFIER</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'a'..'z'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'A'..'Z'</rr-t>
+                     </rr-a>
+                  </rr-o>
+                  <rr-o>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'a'..'z'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'A'..'Z'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'0'..'9'</rr-t>
+                     </rr-a>
+                     <rr-a>
+                        <rr-t data-min="1" data-max="1">'_'</rr-t>
+                     </rr-a>
+                  </rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="COMMENT">COMMENT</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">'//'</rr-t>
+                  <rr-t data-min="0" data-max="inf">~[\r\n]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="WS">WS</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t data-min="1" data-max="1">[ \t\r\n]</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>

@@ -1,0 +1,1117 @@
+<!DOCTYPE HTML>
+<html xmlns:c="urn:xmlast:comment" xmlns:f="urn:xmlast:function" xmlns:g="urn:xmlast:grammar" xmlns:t="urn:xmlast:token" class="rr-root">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" type="text/css" href="../../../railroad.css">
+   </head>
+   <body>
+      <h1><a href="../../../index.html">Railroad</a> g4/python/python/PythonParser</h1>
+      <pre>/*
+Python grammar.
+The MIT License (MIT).
+Copyright (c) 2014, Bart Kiers, bart@big-o.nl
+Copyright (c) 2019, Dmitriy Litovchenko, Dmitry.Litovchenko1@yandex.ru, Positive Technologies
+Copyright (c) 2019, Nikita Subbotin, sub.nik.and@gmail.com, Positive Technologies
+Copyright (c) 2019, Ivan Kochurkin, kvanttt@gmail.com, Positive Technologies
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/</pre>
+      <h1>Grammar Decl</h1>
+      <pre>parser grammar PythonParser;
+
+// Insert here @header for C++ parser.</pre>
+      <h1>Rules</h1>
+      <h2 id="root">root</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o><a href="#single_input">single_input</a><a href="#file_input">file_input</a><a href="#eval_input">eval_input</a></rr-o>
+                  </rr-a>
+                  <rr-t>EOF</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="single_input">single_input</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>LINE_BREAK</rr-t><a href="#simple_stmt">simple_stmt</a><rr-a><a href="#compound_stmt">compound_stmt</a><rr-t>LINE_BREAK</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="file_input">file_input</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a data-min="1" data-max="inf">
+                  <rr-o>
+                     <rr-t>LINE_BREAK</rr-t><a href="#stmt">stmt</a></rr-o>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="eval_input">eval_input</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#testlist">testlist</a><rr-t>LINE_BREAK</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="stmt">stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#simple_stmt">simple_stmt</a><a href="#compound_stmt">compound_stmt</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="compound_stmt">compound_stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>IF</rr-t><a href="#test">test</a><rr-t>COLON</rr-t><a href="#suite">suite</a><a href="#elif_clause">elif_clause</a><a href="#else_clause">else_clause</a></rr-a>
+               <rr-a>
+                  <rr-t>WHILE</rr-t><a href="#test">test</a><rr-t>COLON</rr-t><a href="#suite">suite</a><a href="#else_clause">else_clause</a></rr-a>
+               <rr-a>
+                  <rr-t>ASYNC</rr-t>
+                  <rr-t>FOR</rr-t><a href="#exprlist">exprlist</a><rr-t>IN</rr-t><a href="#testlist">testlist</a><rr-t>COLON</rr-t><a href="#suite">suite</a><a href="#else_clause">else_clause</a></rr-a>
+               <rr-a>
+                  <rr-t>TRY</rr-t>
+                  <rr-t>COLON</rr-t><a href="#suite">suite</a><rr-a>
+                     <rr-o>
+                        <rr-a><a href="#except_clause">except_clause</a><a href="#else_clause">else_clause</a><a href="#finally_clause">finally_clause</a></rr-a><a href="#finally_clause">finally_clause</a></rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>ASYNC</rr-t>
+                  <rr-t>WITH</rr-t><a href="#with_item">with_item</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#with_item">with_item</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COLON</rr-t><a href="#suite">suite</a></rr-a>
+               <rr-a><a href="#decorator">decorator</a><rr-a>
+                     <rr-o><a href="#classdef">classdef</a><a href="#funcdef">funcdef</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="suite">suite</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#simple_stmt">simple_stmt</a><rr-a>
+                  <rr-t>LINE_BREAK</rr-t>
+                  <rr-t>INDENT</rr-t><a href="#stmt">stmt</a><rr-t>DEDENT</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="decorator">decorator</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>AT</rr-t><a href="#dotted_name">dotted_name</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>OPEN_PAREN</rr-t><a href="#arglist">arglist</a><rr-t>CLOSE_PAREN</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>LINE_BREAK</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="elif_clause">elif_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>ELIF</rr-t><a href="#test">test</a><rr-t>COLON</rr-t><a href="#suite">suite</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="else_clause">else_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>ELSE</rr-t>
+                  <rr-t>COLON</rr-t><a href="#suite">suite</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="finally_clause">finally_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>FINALLY</rr-t>
+                  <rr-t>COLON</rr-t><a href="#suite">suite</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="with_item">with_item</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#test">test</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>AS</rr-t><a href="#expr">expr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="except_clause">except_clause</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>EXCEPT</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#test">test</a><rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#name">name</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>AS</rr-t><a href="#name">name</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COLON</rr-t><a href="#suite">suite</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="classdef">classdef</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>CLASS</rr-t><a href="#name">name</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>OPEN_PAREN</rr-t><a href="#arglist">arglist</a><rr-t>CLOSE_PAREN</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COLON</rr-t><a href="#suite">suite</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="funcdef">funcdef</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>ASYNC</rr-t>
+                  <rr-t>DEF</rr-t><a href="#name">name</a><rr-t>OPEN_PAREN</rr-t><a href="#typedargslist">typedargslist</a><rr-t>CLOSE_PAREN</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>ARROW</rr-t><a href="#test">test</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COLON</rr-t><a href="#suite">suite</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="typedargslist">typedargslist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#def_parameters">def_parameters</a><rr-t>COMMA</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-a><a href="#args">args</a><rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#def_parameters">def_parameters</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#kwargs">kwargs</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a><a href="#kwargs">kwargs</a></rr-o>
+                  </rr-a>
+                  <rr-t>COMMA</rr-t>
+               </rr-a>
+               <rr-a><a href="#def_parameters">def_parameters</a><rr-t>COMMA</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="args">args</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>STAR</rr-t><a href="#named_parameter">named_parameter</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="kwargs">kwargs</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>POWER</rr-t><a href="#named_parameter">named_parameter</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="def_parameters">def_parameters</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#def_parameter">def_parameter</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#def_parameter">def_parameter</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="def_parameter">def_parameter</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#named_parameter">named_parameter</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>ASSIGN</rr-t><a href="#test">test</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-t>STAR</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="named_parameter">named_parameter</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#name">name</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COLON</rr-t><a href="#test">test</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="simple_stmt">simple_stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#small_stmt">small_stmt</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>SEMI_COLON</rr-t><a href="#small_stmt">small_stmt</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>SEMI_COLON</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>LINE_BREAK</rr-t>
+                        <rr-t>EOF</rr-t>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="small_stmt">small_stmt</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#testlist_star_expr">testlist_star_expr</a><a href="#assign_part">assign_part</a></rr-a>
+               <rr-a>
+                  <rr-t>PRINT</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-a>
+                           <rr-o>
+                              <rr-a><a href="#test">test</a><rr-a data-min="0" data-max="inf">
+                                    <rr-o>
+                                       <rr-a>
+                                          <rr-t>COMMA</rr-t><a href="#test">test</a></rr-a>
+                                    </rr-o>
+                                 </rr-a>
+                                 <rr-t>COMMA</rr-t>
+                              </rr-a>
+                           </rr-o>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>RIGHT_SHIFT</rr-t><a href="#test">test</a><rr-a>
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-a data-min="1" data-max="inf">
+                                       <rr-o>
+                                          <rr-a>
+                                             <rr-t>COMMA</rr-t><a href="#test">test</a></rr-a>
+                                       </rr-o>
+                                    </rr-a>
+                                    <rr-t>COMMA</rr-t>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>DEL</rr-t><a href="#exprlist">exprlist</a></rr-a>
+               <rr-t>PASS</rr-t>
+               <rr-t>BREAK</rr-t>
+               <rr-t>CONTINUE</rr-t>
+               <rr-a>
+                  <rr-t>RETURN</rr-t><a href="#testlist">testlist</a></rr-a>
+               <rr-a>
+                  <rr-t>RAISE</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#test">test</a><rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#test">test</a><rr-a data-min="0" data-max="1">
+                                       <rr-o>
+                                          <rr-a>
+                                             <rr-t>COMMA</rr-t><a href="#test">test</a></rr-a>
+                                       </rr-o>
+                                    </rr-a>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>FROM</rr-t><a href="#test">test</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a><a href="#yield_expr">yield_expr</a><rr-a>
+                  <rr-t>IMPORT</rr-t><a href="#dotted_as_names">dotted_as_names</a></rr-a>
+               <rr-a>
+                  <rr-t>FROM</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-a>
+                           <rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-t>DOT</rr-t>
+                                 <rr-t>ELLIPSIS</rr-t>
+                              </rr-o>
+                           </rr-a><a href="#dotted_name">dotted_name</a></rr-a>
+                        <rr-a data-min="1" data-max="inf">
+                           <rr-o>
+                              <rr-t>DOT</rr-t>
+                              <rr-t>ELLIPSIS</rr-t>
+                           </rr-o>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>IMPORT</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>STAR</rr-t>
+                        <rr-a>
+                           <rr-t>OPEN_PAREN</rr-t><a href="#import_as_names">import_as_names</a><rr-t>CLOSE_PAREN</rr-t>
+                        </rr-a><a href="#import_as_names">import_as_names</a></rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>GLOBAL</rr-t><a href="#name">name</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#name">name</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>EXEC</rr-t><a href="#expr">expr</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>IN</rr-t><a href="#test">test</a><rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#test">test</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>ASSERT</rr-t><a href="#test">test</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#test">test</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>NONLOCAL</rr-t><a href="#name">name</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#name">name</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="testlist_star_expr">testlist_star_expr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="1" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-a>
+                              <rr-o><a href="#test">test</a><a href="#star_expr">star_expr</a></rr-o>
+                           </rr-a>
+                           <rr-t>COMMA</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o><a href="#test">test</a><a href="#star_expr">star_expr</a></rr-o>
+                  </rr-a>
+               </rr-a><a href="#testlist">testlist</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="star_expr">star_expr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>STAR</rr-t><a href="#expr">expr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="assign_part">assign_part</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>ASSIGN</rr-t>
+                  <rr-a>
+                     <rr-o>
+                        <rr-a><a href="#testlist_star_expr">testlist_star_expr</a><rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>ASSIGN</rr-t><a href="#testlist_star_expr">testlist_star_expr</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>ASSIGN</rr-t><a href="#yield_expr">yield_expr</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a><a href="#yield_expr">yield_expr</a></rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>COLON</rr-t><a href="#test">test</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>ASSIGN</rr-t><a href="#testlist">testlist</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>ADD_ASSIGN</rr-t>
+                        <rr-t>SUB_ASSIGN</rr-t>
+                        <rr-t>MULT_ASSIGN</rr-t>
+                        <rr-t>AT_ASSIGN</rr-t>
+                        <rr-t>DIV_ASSIGN</rr-t>
+                        <rr-t>MOD_ASSIGN</rr-t>
+                        <rr-t>AND_ASSIGN</rr-t>
+                        <rr-t>OR_ASSIGN</rr-t>
+                        <rr-t>XOR_ASSIGN</rr-t>
+                        <rr-t>LEFT_SHIFT_ASSIGN</rr-t>
+                        <rr-t>RIGHT_SHIFT_ASSIGN</rr-t>
+                        <rr-t>POWER_ASSIGN</rr-t>
+                        <rr-t>IDIV_ASSIGN</rr-t>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a>
+                     <rr-o><a href="#yield_expr">yield_expr</a><a href="#testlist">testlist</a></rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="exprlist">exprlist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#expr">expr</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#expr">expr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COMMA</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="import_as_names">import_as_names</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#import_as_name">import_as_name</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#import_as_name">import_as_name</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COMMA</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="import_as_name">import_as_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#name">name</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>AS</rr-t><a href="#name">name</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="dotted_as_names">dotted_as_names</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#dotted_as_name">dotted_as_name</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#dotted_as_name">dotted_as_name</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="dotted_as_name">dotted_as_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#dotted_name">dotted_name</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>AS</rr-t><a href="#name">name</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+            <pre>/*
+ * Warning!
+ * According to https://docs.python.org/3/reference/expressions.html#lambda LAMBDA should be followed by
+ * `parameter_list` (in our case it is `typedargslist`)
+ * But that's not true! `typedargslist` may have parameters with type hinting, but that's not permitted in lambda
+ * definition
+ */</pre>
+         </rr-rr>
+      </p>
+      <h2 id="test">test</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#logical_test">logical_test</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>IF</rr-t><a href="#logical_test">logical_test</a><rr-t>ELSE</rr-t><a href="#test">test</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>LAMBDA</rr-t><a href="#varargslist">varargslist</a><rr-t>COLON</rr-t><a href="#test">test</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="varargslist">varargslist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a><a href="#vardef_parameters">vardef_parameters</a><rr-t>COMMA</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-a><a href="#varargs">varargs</a><rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#vardef_parameters">vardef_parameters</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                           <rr-a data-min="0" data-max="1">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t><a href="#varkwargs">varkwargs</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a><a href="#varkwargs">varkwargs</a></rr-o>
+                  </rr-a>
+                  <rr-t>COMMA</rr-t>
+               </rr-a>
+               <rr-a><a href="#vardef_parameters">vardef_parameters</a><rr-t>COMMA</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="vardef_parameters">vardef_parameters</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#vardef_parameter">vardef_parameter</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#vardef_parameter">vardef_parameter</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="vardef_parameter">vardef_parameter</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#name">name</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>ASSIGN</rr-t><a href="#test">test</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-t>STAR</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="varargs">varargs</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>STAR</rr-t><a href="#name">name</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="varkwargs">varkwargs</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>POWER</rr-t><a href="#name">name</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="logical_test">logical_test</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#comparison">comparison</a><rr-a>
+                  <rr-t>NOT</rr-t><a href="#logical_test">logical_test</a></rr-a>
+               <rr-a><a href="#logical_test">logical_test</a><rr-t>AND</rr-t><a href="#logical_test">logical_test</a></rr-a>
+               <rr-a><a href="#logical_test">logical_test</a><rr-t>OR</rr-t><a href="#logical_test">logical_test</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="comparison">comparison</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#comparison">comparison</a><rr-a>
+                     <rr-o>
+                        <rr-t>LESS_THAN</rr-t>
+                        <rr-t>GREATER_THAN</rr-t>
+                        <rr-t>EQUALS</rr-t>
+                        <rr-t>GT_EQ</rr-t>
+                        <rr-t>LT_EQ</rr-t>
+                        <rr-t>NOT_EQ_1</rr-t>
+                        <rr-t>NOT_EQ_2</rr-t>
+                        <rr-a>
+                           <rr-t>NOT</rr-t>
+                           <rr-t>IN</rr-t>
+                        </rr-a>
+                        <rr-a>
+                           <rr-t>IS</rr-t>
+                           <rr-t>NOT</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a><a href="#comparison">comparison</a></rr-a><a href="#expr">expr</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="expr">expr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>AWAIT</rr-t><a href="#atom">atom</a><a href="#trailer">trailer</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>POWER</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>ADD</rr-t>
+                        <rr-t>MINUS</rr-t>
+                        <rr-t>NOT_OP</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-a>
+                     <rr-o>
+                        <rr-t>STAR</rr-t>
+                        <rr-t>DIV</rr-t>
+                        <rr-t>MOD</rr-t>
+                        <rr-t>IDIV</rr-t>
+                        <rr-t>AT</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-a>
+                     <rr-o>
+                        <rr-t>ADD</rr-t>
+                        <rr-t>MINUS</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-a>
+                     <rr-o>
+                        <rr-t>LEFT_SHIFT</rr-t>
+                        <rr-t>RIGHT_SHIFT</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>AND_OP</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>XOR</rr-t><a href="#expr">expr</a></rr-a>
+               <rr-a><a href="#expr">expr</a><rr-t>OR_OP</rr-t><a href="#expr">expr</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="atom">atom</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_PAREN</rr-t>
+                  <rr-a data-min="0" data-max="1">
+                     <rr-o><a href="#yield_expr">yield_expr</a><a href="#testlist_comp">testlist_comp</a></rr-o>
+                  </rr-a>
+                  <rr-t>CLOSE_PAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>OPEN_BRACKET</rr-t><a href="#testlist_comp">testlist_comp</a><rr-t>CLOSE_BRACKET</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>OPEN_BRACE</rr-t><a href="#dictorsetmaker">dictorsetmaker</a><rr-t>CLOSE_BRACE</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>REVERSE_QUOTE</rr-t><a href="#testlist">testlist</a><rr-t>COMMA</rr-t>
+                  <rr-t>REVERSE_QUOTE</rr-t>
+               </rr-a>
+               <rr-t>ELLIPSIS</rr-t><a href="#name">name</a><rr-t>PRINT</rr-t>
+               <rr-t>EXEC</rr-t>
+               <rr-a>
+                  <rr-t>MINUS</rr-t><a href="#number">number</a></rr-a>
+               <rr-t>NONE</rr-t>
+               <rr-t>STRING</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="dictorsetmaker">dictorsetmaker</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-a><a href="#test">test</a><rr-t>COLON</rr-t><a href="#test">test</a></rr-a>
+                        <rr-a>
+                           <rr-t>POWER</rr-t><a href="#expr">expr</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t>
+                           <rr-a>
+                              <rr-o>
+                                 <rr-a><a href="#test">test</a><rr-t>COLON</rr-t><a href="#test">test</a></rr-a>
+                                 <rr-a>
+                                    <rr-t>POWER</rr-t><a href="#expr">expr</a></rr-a>
+                              </rr-o>
+                           </rr-a>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COMMA</rr-t>
+               </rr-a>
+               <rr-a><a href="#test">test</a><rr-t>COLON</rr-t><a href="#test">test</a><a href="#comp_for______________________________________________________// dict_comprehension">comp_for</a></rr-a><a href="#testlist_comp">testlist_comp</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="testlist_comp">testlist_comp</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-a>
+                     <rr-o><a href="#test">test</a><a href="#star_expr">star_expr</a></rr-o>
+                  </rr-a>
+                  <rr-a>
+                     <rr-o><a href="#comp_for">comp_for</a><rr-a>
+                           <rr-a data-min="0" data-max="inf">
+                              <rr-o>
+                                 <rr-a>
+                                    <rr-t>COMMA</rr-t>
+                                    <rr-a>
+                                       <rr-o><a href="#test">test</a><a href="#star_expr">star_expr</a></rr-o>
+                                    </rr-a>
+                                 </rr-a>
+                              </rr-o>
+                           </rr-a>
+                           <rr-t>COMMA</rr-t>
+                        </rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="testlist">testlist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#test">test</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#test">test</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COMMA</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="dotted_name">dotted_name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#dotted_name">dotted_name</a><rr-t>DOT</rr-t><a href="#name">name</a></rr-a><a href="#name">name</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="name">name</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>NAME</rr-t>
+               <rr-t>TRUE</rr-t>
+               <rr-t>FALSE</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="number">number</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#integer">integer</a><rr-t>IMAG_NUMBER</rr-t>
+               <rr-t>FLOAT_NUMBER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="integer">integer</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>DECIMAL_INTEGER</rr-t>
+               <rr-t>OCT_INTEGER</rr-t>
+               <rr-t>HEX_INTEGER</rr-t>
+               <rr-t>BIN_INTEGER</rr-t>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="yield_expr">yield_expr</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>YIELD</rr-t><a href="#yield_arg">yield_arg</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="yield_arg">yield_arg</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>FROM</rr-t><a href="#test">test</a></rr-a><a href="#testlist">testlist</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="trailer">trailer</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>DOT</rr-t><a href="#name">name</a><a href="#arguments">arguments</a></rr-a><a href="#arguments">arguments</a></rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="arguments">arguments</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>OPEN_PAREN</rr-t><a href="#arglist">arglist</a><rr-t>CLOSE_PAREN</rr-t>
+               </rr-a>
+               <rr-a>
+                  <rr-t>OPEN_BRACKET</rr-t><a href="#subscriptlist">subscriptlist</a><rr-t>CLOSE_BRACKET</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="arglist">arglist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#argument">argument</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#argument">argument</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COMMA</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="argument">argument</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#test">test</a><rr-a data-min="0" data-max="1">
+                     <rr-o><a href="#comp_for">comp_for</a><rr-a>
+                           <rr-t>ASSIGN</rr-t><a href="#test">test</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-a>
+                     <rr-o>
+                        <rr-t>POWER</rr-t>
+                        <rr-t>STAR</rr-t>
+                     </rr-o>
+                  </rr-a><a href="#test">test</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="subscriptlist">subscriptlist</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a><a href="#subscript">subscript</a><rr-a data-min="0" data-max="inf">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COMMA</rr-t><a href="#subscript">subscript</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+                  <rr-t>COMMA</rr-t>
+               </rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="subscript">subscript</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-t>ELLIPSIS</rr-t>
+               <rr-a><a href="#test">test</a><rr-a data-min="0" data-max="1">
+                     <rr-o>
+                        <rr-a>
+                           <rr-t>COLON</rr-t><a href="#test">test</a><a href="#sliceop">sliceop</a></rr-a>
+                     </rr-o>
+                  </rr-a>
+               </rr-a>
+               <rr-a>
+                  <rr-t>COLON</rr-t><a href="#test">test</a><a href="#sliceop">sliceop</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="sliceop">sliceop</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>COLON</rr-t><a href="#test">test</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="comp_for">comp_for</h2>
+      <p>
+         <rr-rr>
+            <rr-o>
+               <rr-a>
+                  <rr-t>FOR</rr-t><a href="#exprlist">exprlist</a><rr-t>IN</rr-t><a href="#logical_test">logical_test</a><a href="#comp_iter">comp_iter</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+      <h2 id="comp_iter">comp_iter</h2>
+      <p>
+         <rr-rr>
+            <rr-o><a href="#comp_for">comp_for</a><rr-a>
+                  <rr-t>IF</rr-t><a href="#test">test</a><a href="#comp_iter">comp_iter</a></rr-a>
+            </rr-o>
+         </rr-rr>
+      </p>
+   </body>
+</html>
