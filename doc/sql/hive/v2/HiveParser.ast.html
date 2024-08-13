@@ -7,7 +7,7 @@
    <body>
       <h1><a href="../../../index.html">Railroad</a> sql/hive/v2/HiveParser</h1>
       <h1>Grammar Decl</h1>
-      <pre>parser grammar HiveParser;</pre>
+      <pre>parsergrammarHiveParser;</pre>
       <h1>Rules</h1>
       <h2 id="statements">statements</h2>
       <p>
@@ -3138,10 +3138,6 @@
       <h2 id="queryStatementExpression">queryStatementExpression</h2>
       <p>
          <rr-rr>
-            <pre>/* Would be nice to do this as a gated semantic perdicate
-       But the predicate gets pushed as a lookahead decision.
-       Calling rule doesnot know about topLevel
-    */</pre>
             <rr-o>
                <rr-a><a href="#withClause">withClause</a><a href="#queryStatementExpressionBody">queryStatementExpressionBody</a></rr-a>
             </rr-o>
@@ -3201,12 +3197,6 @@
             <rr-o>
                <rr-a><a href="#fromClause">fromClause</a><a href="#body">body</a></rr-a>
             </rr-o>
-            <pre>/*
-The valuesClause rule below ensures that the parse tree for
-"insert into table FOO values (1,2),(3,4)" looks the same as
-"insert into table FOO select a,b from (values(1,2),(3,4)) as BAR(a,b)" which itself is made to look
-very similar to the tree for "insert into table FOO select a,b from BAR".
-*/</pre>
          </rr-rr>
       </p>
       <h2 id="regularBody">regularBody</h2>
@@ -3340,7 +3330,6 @@ very similar to the tree for "insert into table FOO select a,b from BAR".
                   <rr-t>KW_DELETE</rr-t>
                   <rr-t>KW_FROM</rr-t><a href="#tableName">tableName</a><a href="#whereClause">whereClause</a></rr-a>
             </rr-o>
-            <pre>/*SET &lt;columName&gt; = (3 + col2)*/</pre>
          </rr-rr>
       </p>
       <h2 id="columnAssignmentClause">columnAssignmentClause</h2>
@@ -3349,7 +3338,6 @@ very similar to the tree for "insert into table FOO select a,b from BAR".
             <rr-o>
                <rr-a><a href="#tableOrColumn">tableOrColumn</a><rr-t>EQUAL</rr-t><a href="#expression">expression</a></rr-a>
             </rr-o>
-            <pre>/*SET col1 = 5, col2 = (4 + col4), ...*/</pre>
          </rr-rr>
       </p>
       <h2 id="setColumnsClause">setColumnsClause</h2>
@@ -3365,10 +3353,6 @@ very similar to the tree for "insert into table FOO select a,b from BAR".
                   </rr-a>
                </rr-a>
             </rr-o>
-            <pre>/*
-  UPDATE &lt;table&gt;
-  SET col1 = val1, col2 = val2... WHERE ...
-*/</pre>
          </rr-rr>
       </p>
       <h2 id="updateStatement">updateStatement</h2>
@@ -3378,10 +3362,6 @@ very similar to the tree for "insert into table FOO select a,b from BAR".
                <rr-a>
                   <rr-t>KW_UPDATE</rr-t><a href="#tableName">tableName</a><a href="#setColumnsClause">setColumnsClause</a><a href="#whereClause">whereClause</a></rr-a>
             </rr-o>
-            <pre>/*
-BEGIN user defined transaction boundaries; follows SQL 2003 standard exactly except for addition of
-"setAutoCommitStatement" which is not in the standard doc but is supported by most SQL engines.
-*/</pre>
          </rr-rr>
       </p>
       <h2 id="sqlTransactionStatement">sqlTransactionStatement</h2>
@@ -3441,7 +3421,6 @@ BEGIN user defined transaction boundaries; follows SQL 2003 standard exactly exc
                   <rr-t>KW_ISOLATION</rr-t>
                   <rr-t>KW_LEVEL</rr-t><a href="#levelOfIsolation">levelOfIsolation</a></rr-a>
             </rr-o>
-            <pre>/*READ UNCOMMITTED | READ COMMITTED | REPEATABLE READ | SERIALIZABLE may be supported later*/</pre>
          </rr-rr>
       </p>
       <h2 id="levelOfIsolation">levelOfIsolation</h2>
@@ -3482,9 +3461,6 @@ BEGIN user defined transaction boundaries; follows SQL 2003 standard exactly exc
                   <rr-t>KW_SET</rr-t>
                   <rr-t>KW_AUTOCOMMIT</rr-t><a href="#booleanValueTok">booleanValueTok</a></rr-a>
             </rr-o>
-            <pre>/*
-END user defined transaction boundaries
-*/</pre>
          </rr-rr>
       </p>
       <h2 id="abortTransactionStatement">abortTransactionStatement</h2>
@@ -3497,9 +3473,6 @@ END user defined transaction boundaries
                   <rr-t>Number</rr-t>
                </rr-a>
             </rr-o>
-            <pre>/*
-BEGIN SQL Merge statement
-*/</pre>
          </rr-rr>
       </p>
       <h2 id="mergeStatement">mergeStatement</h2>
@@ -3516,12 +3489,6 @@ BEGIN SQL Merge statement
                   </rr-a>
                   <rr-t>KW_USING</rr-t><a href="#joinSourcePart">joinSourcePart</a><rr-t>KW_ON</rr-t><a href="#expression">expression</a><a href="#whenClauses">whenClauses</a></rr-a>
             </rr-o>
-            <pre>/*
-Allow 0,1 or 2 WHEN MATCHED clauses and 0 or 1 WHEN NOT MATCHED
-Each WHEN clause may have AND &lt;boolean predicate&gt;.
-If 2 WHEN MATCHED clauses are present, 1 must be UPDATE the other DELETE and the 1st one
-must have AND &lt;boolean predicate&gt;
-*/</pre>
          </rr-rr>
       </p>
       <h2 id="whenClauses">whenClauses</h2>
@@ -3585,9 +3552,6 @@ must have AND &lt;boolean predicate&gt;
                   <rr-t>KW_UPDATE</rr-t><a href="#setColumnsClause">setColumnsClause</a></rr-a>
                <rr-t>KW_DELETE</rr-t>
             </rr-o>
-            <pre>/*
-END SQL Merge statement
-*/</pre>
          </rr-rr>
       </p>
       <h2 id="killQueryStatement">killQueryStatement</h2>

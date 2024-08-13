@@ -7,7 +7,7 @@
    <body>
       <h1><a href="../../../index.html">Railroad</a> sql/hive/v4/HiveParser</h1>
       <h1>Grammar Decl</h1>
-      <pre>parser grammar HiveParser;</pre>
+      <pre>parsergrammarHiveParser;</pre>
       <h1>Rules</h1>
       <h2 id="statement">statement</h2>
       <p>
@@ -2675,10 +2675,6 @@
       <h2 id="queryStatementExpression">queryStatementExpression</h2>
       <p>
          <rr-rr>
-            <pre>/* Would be nice to do this as a gated semantic perdicate
-       But the predicate gets pushed as a lookahead decision.
-       Calling rule doesnot know about topLevel
-    */</pre>
             <rr-o>
                <rr-a><a href="#withClause">withClause</a><a href="#queryStatementExpressionBody">queryStatementExpressionBody</a></rr-a>
             </rr-o>
@@ -2741,12 +2737,6 @@
             <rr-o>
                <rr-a><a href="#fromClause">fromClause</a><a href="#body">body</a></rr-a>
             </rr-o>
-            <pre>/*
-The valuesClause rule below ensures that the parse tree for
-"insert into table FOO values (1,2),(3,4)" looks the same as
-"insert into table FOO select a,b from (values(1,2),(3,4)) as BAR(a,b)" which itself is made to look
-very similar to the tree for "insert into table FOO select a,b from BAR".
-*/</pre>
          </rr-rr>
       </p>
       <h2 id="regularBody">regularBody</h2>
@@ -2880,7 +2870,6 @@ very similar to the tree for "insert into table FOO select a,b from BAR".
                   <rr-t>KW_DELETE</rr-t>
                   <rr-t>KW_FROM</rr-t><a href="#tableName">tableName</a><a href="#whereClause">whereClause</a></rr-a>
             </rr-o>
-            <pre>/*SET &lt;columName&gt; = (3 + col2)*/</pre>
          </rr-rr>
       </p>
       <h2 id="columnAssignmentClause">columnAssignmentClause</h2>
@@ -2895,7 +2884,6 @@ very similar to the tree for "insert into table FOO select a,b from BAR".
       <p>
          <rr-rr>
             <rr-o><a href="#defaultValue">defaultValue</a><a href="#precedencePlusExpression">precedencePlusExpression</a></rr-o>
-            <pre>/*SET col1 = 5, col2 = (4 + col4), ...*/</pre>
          </rr-rr>
       </p>
       <h2 id="setColumnsClause">setColumnsClause</h2>
@@ -2911,10 +2899,6 @@ very similar to the tree for "insert into table FOO select a,b from BAR".
                   </rr-a>
                </rr-a>
             </rr-o>
-            <pre>/*
-  UPDATE &lt;table&gt;
-  SET col1 = val1, col2 = val2... WHERE ...
-*/</pre>
          </rr-rr>
       </p>
       <h2 id="updateStatement">updateStatement</h2>
@@ -2924,10 +2908,6 @@ very similar to the tree for "insert into table FOO select a,b from BAR".
                <rr-a>
                   <rr-t>KW_UPDATE</rr-t><a href="#tableName">tableName</a><a href="#setColumnsClause">setColumnsClause</a><a href="#whereClause">whereClause</a></rr-a>
             </rr-o>
-            <pre>/*
-BEGIN user defined transaction boundaries; follows SQL 2003 standard exactly except for addition of
-"setAutoCommitStatement" which is not in the standard doc but is supported by most SQL engines.
-*/</pre>
          </rr-rr>
       </p>
       <h2 id="sqlTransactionStatement">sqlTransactionStatement</h2>
@@ -2988,7 +2968,6 @@ BEGIN user defined transaction boundaries; follows SQL 2003 standard exactly exc
                   <rr-t>KW_ISOLATION</rr-t>
                   <rr-t>KW_LEVEL</rr-t><a href="#levelOfIsolation">levelOfIsolation</a></rr-a>
             </rr-o>
-            <pre>/*READ UNCOMMITTED | READ COMMITTED | REPEATABLE READ | SERIALIZABLE may be supported later*/</pre>
          </rr-rr>
       </p>
       <h2 id="levelOfIsolation">levelOfIsolation</h2>
@@ -3029,9 +3008,6 @@ BEGIN user defined transaction boundaries; follows SQL 2003 standard exactly exc
                   <rr-t>KW_SET</rr-t>
                   <rr-t>KW_AUTOCOMMIT</rr-t><a href="#booleanValueTok">booleanValueTok</a></rr-a>
             </rr-o>
-            <pre>/*
-END user defined transaction boundaries
-*/</pre>
          </rr-rr>
       </p>
       <h2 id="abortTransactionStatement">abortTransactionStatement</h2>
@@ -3056,9 +3032,6 @@ END user defined transaction boundaries
                   <rr-t>Number</rr-t>
                </rr-a>
             </rr-o>
-            <pre>/*
-BEGIN SQL Merge statement
-*/</pre>
          </rr-rr>
       </p>
       <h2 id="mergeStatement">mergeStatement</h2>
@@ -3076,12 +3049,6 @@ BEGIN SQL Merge statement
                   </rr-a>
                   <rr-t>KW_USING</rr-t><a href="#joinSourcePart">joinSourcePart</a><rr-t>KW_ON</rr-t><a href="#expression">expression</a><a href="#whenClauses">whenClauses</a></rr-a>
             </rr-o>
-            <pre>/*
-Allow 0,1 or 2 WHEN MATCHED clauses and 0 or 1 WHEN NOT MATCHED
-Each WHEN clause may have AND &lt;boolean predicate&gt;.
-If 2 WHEN MATCHED clauses are present, 1 must be UPDATE the other DELETE and the 1st one
-must have AND &lt;boolean predicate&gt;
-*/</pre>
          </rr-rr>
       </p>
       <h2 id="whenClauses">whenClauses</h2>
@@ -3144,9 +3111,6 @@ must have AND &lt;boolean predicate&gt;
                   <rr-t>KW_UPDATE</rr-t><a href="#setColumnsClause">setColumnsClause</a></rr-a>
                <rr-t>KW_DELETE</rr-t>
             </rr-o>
-            <pre>/*
-END SQL Merge statement
-*/</pre>
          </rr-rr>
       </p>
       <h2 id="killQueryStatement">killQueryStatement</h2>
@@ -3159,9 +3123,6 @@ END SQL Merge statement
                   <rr-t>StringLiteral</rr-t>
                </rr-a>
             </rr-o>
-            <pre>/*
-BEGIN SHOW COMPACTIONS statement
-*/</pre>
          </rr-rr>
       </p>
       <h2 id="compactionId">compactionId</h2>
@@ -3207,9 +3168,6 @@ BEGIN SHOW COMPACTIONS statement
                   <rr-t>StringLiteral</rr-t>
                </rr-a>
             </rr-o>
-            <pre>/*
-END SHOW COMPACTIONS statement
-*/</pre>
          </rr-rr>
       </p>
       <h2 id="alterStatement">alterStatement</h2>
@@ -4550,10 +4508,6 @@ END SHOW COMPACTIONS statement
                   <rr-t>LPAREN</rr-t><a href="#firstExpressionsWithAlias">firstExpressionsWithAlias</a><rr-t>RPAREN</rr-t>
                </rr-a>
             </rr-o>
-            <pre>/*
-This represents a clause like this:
-TABLE(VALUES(1,2),(2,3)) as VirtTable(col1,col2)
-*/</pre>
          </rr-rr>
       </p>
       <h2 id="virtualTableSource">virtualTableSource</h2>
@@ -4578,10 +4532,6 @@ TABLE(VALUES(1,2),(2,3)) as VirtTable(col1,col2)
                   <rr-t>RPAREN</rr-t>
                </rr-a>
             </rr-o>
-            <pre>/*
-Rules for parsing selectClause
- select a,b,c ...
-*/</pre>
          </rr-rr>
       </p>
       <h2 id="selectClause">selectClause</h2>
@@ -5181,7 +5131,7 @@ Rules for parsing selectClause
                            <rr-t>LPAREN</rr-t><a href="#orderByClause">orderByClause</a><rr-t>RPAREN</rr-t>
                         </rr-a>
                         <rr-a>
-                           <rr-t>RPAREN</rr-t><a href="#null_treatment">null_treatment</a><rr-t>KW_OVER</rr-t><a href="#window_specificationn________// Non-standard null treatment spec: SELECT first_value(b IGNORE NULLS) OVER (<window spec&gt;)">window_specification</a></rr-a>
+                           <rr-t>RPAREN</rr-t><a href="#null_treatment">null_treatment</a><rr-t>KW_OVER</rr-t><a href="#window_specification// Non-standard null treatment spec: SELECT first_value(b IGNORE NULLS) OVER (<window spec&gt;)">window_specification</a></rr-a>
                         <rr-a><a href="#null_treatment">null_treatment</a><rr-t>RPAREN</rr-t>
                            <rr-t>KW_OVER</rr-t><a href="#window_specification">window_specification</a></rr-a>
                         <rr-t>RPAREN</rr-t>
@@ -5209,7 +5159,7 @@ Rules for parsing selectClause
       <h2 id="functionName">functionName</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#functionIdentifier_// Keyword IF is also a function name">functionIdentifier</a><a href="#sql11ReservedKeywordsUsedAsFunctionName">sql11ReservedKeywordsUsedAsFunctionName</a></rr-o>
+            <rr-o><a href="#functionIdentifier// Keyword IF is also a function name">functionIdentifier</a><a href="#sql11ReservedKeywordsUsedAsFunctionName">sql11ReservedKeywordsUsedAsFunctionName</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="castExpression">castExpression</h2>
@@ -6073,7 +6023,7 @@ Rules for parsing selectClause
       <h2 id="principalIdentifier">principalIdentifier</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#id_n____//| QuotedIdentifier">id_</a></rr-o>
+            <rr-o><a href="#id_//| QuotedIdentifier">id_</a></rr-o>
          </rr-rr>
       </p>
       <h2 id="nonReserved">nonReserved</h2>
@@ -6673,10 +6623,6 @@ Rules for parsing selectClause
                <rr-a><a href="#triggerExpression">triggerExpression</a><rr-t>EOF</rr-t>
                </rr-a>
             </rr-o>
-            <pre>/*
-  The rules triggerOrExpression and triggerAndExpression are not being used right now.
-  Only &gt; operator is supported, this should be changed if logic in ExpressionFactory changes.
-*/</pre>
          </rr-rr>
       </p>
       <h2 id="triggerOrExpression">triggerOrExpression</h2>

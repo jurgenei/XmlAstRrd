@@ -6,28 +6,8 @@
    </head>
    <body>
       <h1><a href="../../index.html">Railroad</a> sql/postgresql/PostgreSQLParser</h1>
-      <pre>/*
-PostgreSQL grammar.
-The MIT License (MIT).
-Copyright (c) 2021-2023, Oleksii Kovalov (Oleksii.Kovalov@outlook.com).
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/</pre>
       <h1>Grammar Decl</h1>
-      <pre>parser grammar PostgreSQLParser;</pre>
+      <pre>parsergrammarPostgreSQLParser;</pre>
       <h1>Rules</h1>
       <h2 id="root">root</h2>
       <p>
@@ -4776,8 +4756,7 @@ THE SOFTWARE.
       <h2 id="func_as">func_as</h2>
       <p>
          <rr-rr>
-            <pre>/* |AS 'definition'*/</pre>
-            <rr-o><a href="#sconstn____/*| AS 'obj_file', 'link_symbol'*/">sconst</a><rr-a><a href="#sconst">sconst</a><rr-t>COMMA</rr-t><a href="#sconst">sconst</a></rr-a>
+            <rr-o><a href="#sconst/*| AS 'obj_file', 'link_symbol'*/">sconst</a><rr-a><a href="#sconst">sconst</a><rr-t>COMMA</rr-t><a href="#sconst">sconst</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -7192,14 +7171,6 @@ THE SOFTWARE.
                   <rr-t>HOLD</rr-t>
                </rr-a>
             </rr-o>
-            <pre>/*
-TODO: why select_with_parens alternative is needed at all?
-i guess it because original byson grammar can choose selectstmt(2)-&gt;select_with_parens on only OPEN_PARENT/SELECT kewords at the begining of statement;
-(select * from tab);
-parse can go through selectstmt( )-&gt;select_no_parens(1)-&gt;select_clause(2)-&gt;select_with_parens(1)-&gt;select_no_parens(1)-&gt;select_clause(1)-&gt;simple_select
-instead of           selectstmt(1)-&gt;select_no_parens(1)-&gt;select_clause(2)-&gt;select_with_parens(1)-&gt;select_no_parens(1)-&gt;select_clause(1)-&gt;simple_select
-all standard tests passed on both variants
-*/</pre>
          </rr-rr>
       </p>
       <h2 id="selectstmt">selectstmt</h2>
@@ -8524,67 +8495,12 @@ all standard tests passed on both variants
                <rr-a>
                   <rr-t>ESCAPE</rr-t><a href="#a_expr">a_expr</a></rr-a>
             </rr-o>
-            <pre>/*
-original version of a_expr, for info
- a_expr: c_expr
-        //::	left	PostgreSQL-style typecast
-       | a_expr TYPECAST typename -- 1
-       | a_expr COLLATE any_name -- 2
-       | a_expr AT TIME ZONE a_expr-- 3
-       //right	unary plus, unary minus
-       | (PLUS| MINUS) a_expr -- 4
-        //left	exponentiation
-       | a_expr CARET a_expr -- 5
-        //left	multiplication, division, modulo
-       | a_expr (STAR | SLASH | PERCENT) a_expr -- 6
-        //left	addition, subtraction
-       | a_expr (PLUS | MINUS) a_expr -- 7
-        //left	all other native and user-defined operators
-       | a_expr qual_op a_expr -- 8
-       | qual_op a_expr -- 9
-        //range containment, set membership, string matching BETWEEN IN LIKE ILIKE SIMILAR
-       | a_expr NOT? (LIKE|ILIKE|SIMILAR TO|(BETWEEN SYMMETRIC?)) a_expr opt_escape -- 10
-        //&lt; &gt; = &lt;= &gt;= &lt;&gt;	 	comparison operators
-       | a_expr (LT | GT | EQUAL | LESS_EQUALS | GREATER_EQUALS | NOT_EQUALS) a_expr -- 11
-       //IS ISNULL NOTNULL	 	IS TRUE, IS FALSE, IS NULL, IS DISTINCT FROM, etc
-       | a_expr IS NOT?
-            (
-                NULL_P
-                |TRUE_P
-                |FALSE_P
-                |UNKNOWN
-                |DISTINCT FROM a_expr
-                |OF OPEN_PAREN type_list CLOSE_PAREN
-                |DOCUMENT_P
-                |unicode_normal_form? NORMALIZED
-            ) -- 12
-       | a_expr (ISNULL|NOTNULL) -- 13
-       | row OVERLAPS row -- 14
-       //NOT	right	logical negation
-       | NOT a_expr -- 15
-        //AND	left	logical conjunction
-       | a_expr AND a_expr -- 16
-        //OR	left	logical disjunction
-       | a_expr OR a_expr -- 17
-       | a_expr (LESS_LESS|GREATER_GREATER) a_expr -- 18
-       | a_expr qual_op -- 19
-       | a_expr NOT? IN_P in_expr -- 20
-       | a_expr subquery_Op sub_type (select_with_parens|OPEN_PAREN a_expr CLOSE_PAREN) -- 21
-       | UNIQUE select_with_parens -- 22
-       | DEFAULT -- 23
-;
-*/</pre>
          </rr-rr>
       </p>
       <h2 id="a_expr">a_expr</h2>
       <p>
          <rr-rr>
             <rr-o><a href="#a_expr_qual">a_expr_qual</a></rr-o>
-            <pre>/*23*/</pre>
-            <pre>/*moved to c_expr*/</pre>
-            <pre>/*22*/</pre>
-            <pre>/*moved to c_expr*/</pre>
-            <pre>/*19*/</pre>
          </rr-rr>
       </p>
       <h2 id="a_expr_qual">a_expr_qual</h2>
@@ -8593,7 +8509,6 @@ original version of a_expr, for info
             <rr-o>
                <rr-a><a href="#a_expr_lessless">a_expr_lessless</a><a href="#qual_op">qual_op</a></rr-a>
             </rr-o>
-            <pre>/*18*/</pre>
          </rr-rr>
       </p>
       <h2 id="a_expr_lessless">a_expr_lessless</h2>
@@ -8613,7 +8528,6 @@ original version of a_expr, for info
                   </rr-a>
                </rr-a>
             </rr-o>
-            <pre>/*17*/</pre>
          </rr-rr>
       </p>
       <h2 id="a_expr_or">a_expr_or</h2>
@@ -8628,7 +8542,6 @@ original version of a_expr, for info
                   </rr-a>
                </rr-a>
             </rr-o>
-            <pre>/*16*/</pre>
          </rr-rr>
       </p>
       <h2 id="a_expr_and">a_expr_and</h2>
@@ -8643,7 +8556,6 @@ original version of a_expr, for info
                   </rr-a>
                </rr-a>
             </rr-o>
-            <pre>/*21*/</pre>
          </rr-rr>
       </p>
       <h2 id="a_expr_between">a_expr_between</h2>
@@ -8660,7 +8572,6 @@ original version of a_expr, for info
                   </rr-a>
                </rr-a>
             </rr-o>
-            <pre>/*20*/</pre>
          </rr-rr>
       </p>
       <h2 id="a_expr_in">a_expr_in</h2>
@@ -8676,7 +8587,6 @@ original version of a_expr, for info
                   </rr-a>
                </rr-a>
             </rr-o>
-            <pre>/*15*/</pre>
          </rr-rr>
       </p>
       <h2 id="a_expr_unary_not">a_expr_unary_not</h2>
@@ -8686,9 +8596,6 @@ original version of a_expr, for info
                <rr-a>
                   <rr-t>NOT</rr-t><a href="#a_expr_isnull">a_expr_isnull</a></rr-a>
             </rr-o>
-            <pre>/*14*/</pre>
-            <pre>/*moved to c_expr*/</pre>
-            <pre>/*13*/</pre>
          </rr-rr>
       </p>
       <h2 id="a_expr_isnull">a_expr_isnull</h2>
@@ -8703,7 +8610,6 @@ original version of a_expr, for info
                   </rr-a>
                </rr-a>
             </rr-o>
-            <pre>/*12*/</pre>
          </rr-rr>
       </p>
       <h2 id="a_expr_is_not">a_expr_is_not</h2>
@@ -8738,7 +8644,6 @@ original version of a_expr, for info
                   </rr-a>
                </rr-a>
             </rr-o>
-            <pre>/*11*/</pre>
          </rr-rr>
       </p>
       <h2 id="a_expr_compare">a_expr_compare</h2>
@@ -8763,14 +8668,12 @@ original version of a_expr, for info
                                     <rr-t>OPEN_PAREN</rr-t><a href="#a_expr">a_expr</a><rr-t>CLOSE_PAREN</rr-t>
                                  </rr-a>
                               </rr-o>
-                              <pre>/*21*/</pre>
                            </rr-a>
                         </rr-a>
                      </rr-o>
                   </rr-a>
                </rr-a>
             </rr-o>
-            <pre>/*10*/</pre>
          </rr-rr>
       </p>
       <h2 id="a_expr_like">a_expr_like</h2>
@@ -8795,7 +8698,6 @@ original version of a_expr, for info
                   </rr-a>
                </rr-a>
             </rr-o>
-            <pre>/* 8*/</pre>
          </rr-rr>
       </p>
       <h2 id="a_expr_qual_op">a_expr_qual_op</h2>
@@ -8809,7 +8711,6 @@ original version of a_expr, for info
                   </rr-a>
                </rr-a>
             </rr-o>
-            <pre>/* 9*/</pre>
          </rr-rr>
       </p>
       <h2 id="a_expr_unary_qualop">a_expr_unary_qualop</h2>
@@ -8818,7 +8719,6 @@ original version of a_expr, for info
             <rr-o>
                <rr-a><a href="#qual_op">qual_op</a><a href="#a_expr_add">a_expr_add</a></rr-a>
             </rr-o>
-            <pre>/* 7*/</pre>
          </rr-rr>
       </p>
       <h2 id="a_expr_add">a_expr_add</h2>
@@ -8838,7 +8738,6 @@ original version of a_expr, for info
                   </rr-a>
                </rr-a>
             </rr-o>
-            <pre>/* 6*/</pre>
          </rr-rr>
       </p>
       <h2 id="a_expr_mul">a_expr_mul</h2>
@@ -8859,7 +8758,6 @@ original version of a_expr, for info
                   </rr-a>
                </rr-a>
             </rr-o>
-            <pre>/* 5*/</pre>
          </rr-rr>
       </p>
       <h2 id="a_expr_caret">a_expr_caret</h2>
@@ -8874,7 +8772,6 @@ original version of a_expr, for info
                   </rr-a>
                </rr-a>
             </rr-o>
-            <pre>/* 4*/</pre>
          </rr-rr>
       </p>
       <h2 id="a_expr_unary_sign">a_expr_unary_sign</h2>
@@ -8887,9 +8784,8 @@ original version of a_expr, for info
                         <rr-t>MINUS</rr-t>
                         <rr-t>PLUS</rr-t>
                      </rr-o>
-                  </rr-a><a href="#a_expr_at_time_zone_/* */">a_expr_at_time_zone</a></rr-a>
+                  </rr-a><a href="#a_expr_at_time_zone/* */">a_expr_at_time_zone</a></rr-a>
             </rr-o>
-            <pre>/* 3*/</pre>
          </rr-rr>
       </p>
       <h2 id="a_expr_at_time_zone">a_expr_at_time_zone</h2>
@@ -8906,7 +8802,6 @@ original version of a_expr, for info
                   </rr-a>
                </rr-a>
             </rr-o>
-            <pre>/* 2*/</pre>
          </rr-rr>
       </p>
       <h2 id="a_expr_collate">a_expr_collate</h2>
@@ -8921,7 +8816,6 @@ original version of a_expr, for info
                   </rr-a>
                </rr-a>
             </rr-o>
-            <pre>/* 1*/</pre>
          </rr-rr>
       </p>
       <h2 id="a_expr_typecast">a_expr_typecast</h2>
@@ -8941,29 +8835,29 @@ original version of a_expr, for info
       <h2 id="b_expr">b_expr</h2>
       <p>
          <rr-rr>
-            <rr-o><a href="#c_expr">c_expr</a><rr-a><a href="#b_expr">b_expr</a><rr-t>TYPECAST</rr-t><a href="#typenamen____//right%09unary plus, unary minus">typename</a></rr-a>
+            <rr-o><a href="#c_expr">c_expr</a><rr-a><a href="#b_expr">b_expr</a><rr-t>TYPECAST</rr-t><a href="#typename//right%09unary plus, unary minus">typename</a></rr-a>
                <rr-a>
                   <rr-a>
                      <rr-o>
                         <rr-t>PLUS</rr-t>
                         <rr-t>MINUS</rr-t>
                      </rr-o>
-                  </rr-a><a href="#b_exprn____//^%09left%09exponentiation">b_expr</a></rr-a>
-               <rr-a><a href="#b_expr">b_expr</a><rr-t>CARET</rr-t><a href="#b_exprn____//* / %%09left%09multiplication, division, modulo">b_expr</a></rr-a>
+                  </rr-a><a href="#b_expr//^%09left%09exponentiation">b_expr</a></rr-a>
+               <rr-a><a href="#b_expr">b_expr</a><rr-t>CARET</rr-t><a href="#b_expr//* / %%09left%09multiplication, division, modulo">b_expr</a></rr-a>
                <rr-a><a href="#b_expr">b_expr</a><rr-a>
                      <rr-o>
                         <rr-t>STAR</rr-t>
                         <rr-t>SLASH</rr-t>
                         <rr-t>PERCENT</rr-t>
                      </rr-o>
-                  </rr-a><a href="#b_exprn____//+ -%09left%09addition, subtraction">b_expr</a></rr-a>
+                  </rr-a><a href="#b_expr//+ -%09left%09addition, subtraction">b_expr</a></rr-a>
                <rr-a><a href="#b_expr">b_expr</a><rr-a>
                      <rr-o>
                         <rr-t>PLUS</rr-t>
                         <rr-t>MINUS</rr-t>
                      </rr-o>
-                  </rr-a><a href="#b_exprn____//(any other operator)%09left%09all other native and user-defined operators">b_expr</a></rr-a>
-               <rr-a><a href="#b_expr">b_expr</a><a href="#qual_op">qual_op</a><a href="#b_exprn____//< &gt; = <= &gt;= <&gt;%09 %09comparison operators">b_expr</a></rr-a>
+                  </rr-a><a href="#b_expr//(any other operator)%09left%09all other native and user-defined operators">b_expr</a></rr-a>
+               <rr-a><a href="#b_expr">b_expr</a><a href="#qual_op">qual_op</a><a href="#b_expr//< &gt; = <= &gt;= <&gt;%09 %09comparison operators">b_expr</a></rr-a>
                <rr-a><a href="#b_expr">b_expr</a><rr-a>
                      <rr-o>
                         <rr-t>LT</rr-t>
@@ -8975,7 +8869,7 @@ original version of a_expr, for info
                      </rr-o>
                   </rr-a><a href="#b_expr">b_expr</a></rr-a>
                <rr-a><a href="#qual_op">qual_op</a><a href="#b_expr">b_expr</a></rr-a>
-               <rr-a><a href="#b_expr">b_expr</a><a href="#qual_opn____//S ISNULL NOTNULL%09 %09IS TRUE, IS FALSE, IS NULL, IS DISTINCT FROM, etc">qual_op</a></rr-a>
+               <rr-a><a href="#b_expr">b_expr</a><a href="#qual_op//S ISNULL NOTNULL%09 %09IS TRUE, IS FALSE, IS NULL, IS DISTINCT FROM, etc">qual_op</a></rr-a>
                <rr-a><a href="#b_expr">b_expr</a><rr-t>IS</rr-t>
                   <rr-t>NOT</rr-t>
                   <rr-a>
@@ -9012,10 +8906,9 @@ original version of a_expr, for info
                   <rr-t>GROUPING</rr-t>
                   <rr-t>OPEN_PAREN</rr-t><a href="#expr_list">expr_list</a><rr-t>CLOSE_PAREN</rr-t>
                </rr-a>
-               <pre>/*22*/</pre>
                <rr-a>
                   <rr-t>UNIQUE</rr-t><a href="#select_with_parens">select_with_parens</a></rr-a><a href="#columnref">columnref</a><a href="#aexprconst">aexprconst</a><a href="#plsqlvariablename">plsqlvariablename</a><rr-a>
-                  <rr-t>OPEN_PAREN</rr-t><a href="#a_expr">a_expr</a><rr-t>CLOSE_PAREN</rr-t><a href="#opt_indirection">opt_indirection</a></rr-a><a href="#case_expr">case_expr</a><a href="#func_expr">func_expr</a><rr-a><a href="#select_with_parens">select_with_parens</a><a href="#indirection">indirection</a></rr-a><a href="#explicit_row">explicit_row</a><a href="#implicit_row">implicit_row</a><rr-a><a href="#row">row</a><rr-t>OVERLAPS</rr-t><a href="#row_/* 14*/">row</a></rr-a>
+                  <rr-t>OPEN_PAREN</rr-t><a href="#a_expr">a_expr</a><rr-t>CLOSE_PAREN</rr-t><a href="#opt_indirection">opt_indirection</a></rr-a><a href="#case_expr">case_expr</a><a href="#func_expr">func_expr</a><rr-a><a href="#select_with_parens">select_with_parens</a><a href="#indirection">indirection</a></rr-a><a href="#explicit_row">explicit_row</a><a href="#implicit_row">implicit_row</a><rr-a><a href="#row">row</a><rr-t>OVERLAPS</rr-t><a href="#row/* 14*/">row</a></rr-a>
             </rr-o>
          </rr-rr>
       </p>
@@ -9562,15 +9455,6 @@ original version of a_expr, for info
                   <rr-t>OPEN_PAREN</rr-t><a href="#expr_list">expr_list</a><rr-t>CLOSE_PAREN</rr-t>
                </rr-a>
             </rr-o>
-            <pre>/*
-TODO:
-for some reason v1
-implicit_row: OPEN_PAREN expr_list COMMA a_expr CLOSE_PAREN;
-works better than v2
-implicit_row: OPEN_PAREN expr_list  CLOSE_PAREN;
-while looks like they are almost the same, except v2 requieres at least 2 items in list
-while v1 allows single item in list
-*/</pre>
          </rr-rr>
       </p>
       <h2 id="implicit_row">implicit_row</h2>
@@ -10784,8 +10668,6 @@ while v1 allows single item in list
                <rr-t>TO_DATE</rr-t>
                <rr-t>TO_NUMBER</rr-t>
             </rr-o>
-            <pre>/*PL/SQL GRAMMAR */</pre>
-            <pre>/*PLSQL grammar */</pre>
          </rr-rr>
       </p>
       <h2 id="pl_function">pl_function</h2>
@@ -11522,7 +11404,6 @@ while v1 allows single item in list
             <rr-o>
                <rr-a>
                   <rr-t>EXECUTE</rr-t><a href="#a_expr">a_expr</a><rr-a>
-                     <pre>/*this is silly, but i have to time to find nice way to code */</pre>
                      <rr-o>
                         <rr-a><a href="#opt_execute_into">opt_execute_into</a><a href="#opt_execute_using">opt_execute_using</a></rr-a>
                         <rr-a><a href="#opt_execute_using">opt_execute_using</a><a href="#opt_execute_into">opt_execute_into</a></rr-a>
