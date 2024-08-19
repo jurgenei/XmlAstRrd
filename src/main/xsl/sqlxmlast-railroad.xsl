@@ -54,7 +54,8 @@
                 -->
             </head>
             <body>
-                <h1><a href="{$root}/index.html">Railroad</a> {$filedir}/{replace($filename,'\..*$','')}</h1>      
+                <h1> {$filedir}/{replace($filename,'\..*$','')}</h1>
+                <a href="{$root}/index.html">back to overview</a>
                 <xsl:apply-templates select="node()"/>
             </body>
         </html>
